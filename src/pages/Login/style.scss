@@ -1,0 +1,13 @@
+.login-page {
+  .login-page__wrapper {
+    text-align: center;
+    padding-top: 56px;
+    .login--form {
+      width: 320px;
+      margin: 48px auto 0 auto;
+      .login--submit {
+        margin-top: 32px;
+      }
+    }
+  }
+}

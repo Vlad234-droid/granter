@@ -1,0 +1,28 @@
+.app-welcome {
+  header {
+    border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+    .wrapper {
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .header__logo {
+        display: flex;
+        align-items: center;
+        img {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+        }
+        span {
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 30px;
+          color: #3c4252;
+        }
+      }
+    }
+  }
+}

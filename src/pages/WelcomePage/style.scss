@@ -1,0 +1,35 @@
+.hello-page {
+  .hello-page__wrapper {
+    text-align: center;
+    padding-top: 56px;
+  }
+  .hello-page__description {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 150%;
+    margin: 8px auto 0 auto;
+    max-width: 604px;
+  }
+  .hello-page__steps {
+    margin-top: 72px;
+  }
+  .hello-page__step {
+    .ant-btn {
+      width: 88px;
+    }
+  }
+  .hello-page__steps_slider {
+    margin-top: 40px;
+  }
+}
+
+.hello-page__autocomplete {
+  .ant-select-selection-placeholder {
+    padding-left: 0 !important;
+  }
+  .ant-select-selection-search::before {
+    display: none !important;
+  }
+}

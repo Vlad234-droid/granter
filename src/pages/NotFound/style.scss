@@ -1,0 +1,21 @@
+.not-found.not-found {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  max-width: unset;
+  max-height: unset;
+  align-items: center;
+  justify-content: center;
+
+  .wrapper {
+    display: flex;
+    width: unset;
+    height: unset;
+    max-width: unset;
+    max-height: unset;
+
+    .header {
+      text-align: left;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.not-found.not-found {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  max-width: unset;
+  max-height: unset;
+  align-items: center;
+  justify-content: center; }
+  .not-found.not-found .wrapper {
+    display: flex;
+    width: unset;
+    height: unset;
+    max-width: unset;
+    max-height: unset; }
+    .not-found.not-found .wrapper .header {
+      text-align: left; }

@@ -1,0 +1,11 @@
+.icon-info {
+  &:hover {
+    path {
+      fill: #305ff5;
+    }
+  }
+  path {
+    fill: #c0c4cb;
+    transition: fill 300ms ease;
+  }
+}
