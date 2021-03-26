@@ -100,6 +100,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
                 onSelect={onSelect}
                 onSearch={onSearch}
                 className='hello-page__autocomplete'
+                notFoundContent='Nothing found'
               >
                 <Input.Search placeholder='Enter the name' loading={loader} />
               </AutoComplete>
@@ -144,7 +145,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
         </div>
 
         {/* WHAT IS YOUR REGISTERED COMPANY NAME OR NUMBER? */}
-        <div className='step--wrapper'>          
+        <div className='step--wrapper'>
           <Form
             name='number'
             form={form}
@@ -186,6 +187,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
                 onSelect={onSelect}
                 onSearch={onSearch}
                 className='hello-page__autocomplete'
+                notFoundContent='Nothing found'
               >
                 <Input.Search
                   placeholder='Enter the name'
