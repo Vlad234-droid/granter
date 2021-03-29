@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Form, Carousel, Button, Input, Steps } from "antd";
+import React, { useState, useRef } from "react";
+import { Carousel, Steps } from "antd";
 
 import WelcomeStep1 from "./Step1";
 import WelcomeStep2 from "./Step2";

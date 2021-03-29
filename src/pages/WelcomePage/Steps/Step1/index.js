@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Form, Carousel, Button, Input, AutoComplete } from "antd";
 import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,6 @@ import actions from "../../../../core/actions";
 import "./style.scss";
 
 const { fetchCompanyHouse } = services;
-const { registrationUpdateState } = actions;
 
 const WelcomeStep1 = ({ goNextStep }) => {
   const slider = useRef();

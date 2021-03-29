@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Form, Carousel, Button, Input, Select, Row, Col } from "antd";
+import React from "react";
+import { Form, Button, Input, Row, Col } from "antd";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 import actions from "../../../../core/actions";

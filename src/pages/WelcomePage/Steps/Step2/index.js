@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Form, Carousel, Button, Input, Select } from "antd";
+import { Form, Carousel, Button, Select } from "antd";
 import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,9 +9,6 @@ import services from "../../../../core/services";
 import "./style.scss";
 
 const { fetchAllIndustries } = services;
-const { registrationUpdateState } = actions;
-
-const { Option } = Select;
 
 const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   const [industry, setIndustry] = useState(null);

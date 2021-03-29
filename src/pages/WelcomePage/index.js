@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Steps, Carousel, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Carousel } from "antd";
 import Layout from "../../components/LayoutGuest/Layout";
 
 import WelcomeSteps from "./Steps";
@@ -11,7 +9,6 @@ import RegistrationForm from "./RegistrationForm";
 import "./style.scss";
 
 const WelcomePage = (props) => {
-  const [confirmStep, setConfirmStep] = useState(false);
   const slider = useRef();
 
   return (

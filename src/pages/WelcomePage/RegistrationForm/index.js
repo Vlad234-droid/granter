@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import ReactPasswordStrength from "react-password-strength";
 import { Form, Button, Input, Tooltip } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
@@ -40,7 +40,6 @@ const RegistrationForm = ({ goNextStep }) => {
     });
   };
   const changeCallback = (score, password, isValid) => {
-    console.log(form);
     if (score.password) {
       form.setFieldsValue({
         password: score.password,
@@ -68,11 +67,22 @@ const RegistrationForm = ({ goNextStep }) => {
     // }
   };
 
-  const onFieldsChange = (value) => {};
+  const onFieldsChange = (changedFields, allFields) => {
+    const password = changedFields.filter(
+      (item) => item.name[0] === "password"
+    )[0];
+    if (password) {
+      if (password.errors.length) {
+        setPasswordError(true);
+      } else {
+        setPasswordError(false);
+      }
+    }
+  };
   const onFinishFailed = (value) => {
     //value.errorFields.
-    if (value.errorFields.filter((item) => item.name[0] === "password").length)
-      setPasswordError(true);
+    // if (value.errorFields.filter((item) => item.name[0] === "password").length)
+    //   setPasswordError(true);
   };
 
   return (

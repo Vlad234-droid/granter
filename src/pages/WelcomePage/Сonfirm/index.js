@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Form, Carousel, Button, Input, Row, Col, Card } from "antd";
+import React from "react";
+import { Button, Row, Col, Card } from "antd";
 import { useSelector } from "react-redux";
 
 import "./style.scss";
