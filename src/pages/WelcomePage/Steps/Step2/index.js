@@ -38,7 +38,7 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
 
   return (
     <div className='hello-page__step'>
-      <Carousel ref={slider} dots={false} effect='fade'>
+      <Carousel ref={slider} dots={false} effect='fade' swipe={false}>
         <div className='step--wrapper'>
           <div className='step--label'>Is your company in the industry of</div>
           <div className='step--value'>

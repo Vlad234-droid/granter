@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Carousel, Button, Input, AutoComplete } from "antd";
 import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "underscore";
 
 import services from "../../../../core/services";
 import actions from "../../../../core/actions";
@@ -23,14 +24,13 @@ const WelcomeStep1 = ({ goNextStep }) => {
   const [form] = Form.useForm();
   const { registrationUpdateState } = bindActionCreators(actions, dispatch);
 
-  const onSearch = (searchText) => {
+  const fetchCompanyHouseDelay = _.debounce((searchText) => {
     setCompanyName(null);
     if (searchText.length < 3) {
       setOptions([]);
     } else {
       setLoader(true);
       fetchCompanyHouse(searchText).then((data) => {
-        console.log();
         let results = [];
         if (data.length) {
           results = data.map((item, index) => {
@@ -39,14 +39,21 @@ const WelcomeStep1 = ({ goNextStep }) => {
             return item;
           });
         } else {
-          data.value = data.company_name;
-          results.push(data);
+          if (data.company_name) {
+            data.value = data.company_name;
+            results.push(data);
+          }
         }
+        console.log(results);
 
         setOptions(results);
         setLoader(false);
       });
     }
+  }, 500);
+
+  const onSearch = (searchText) => {
+    fetchCompanyHouseDelay(searchText);
   };
 
   const onSelect = (value, options) => {
@@ -66,7 +73,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
 
   return (
     <div className='hello-page__step'>
-      <Carousel ref={slider} dots={false} effect='fade'>
+      <Carousel ref={slider} dots={false} effect='fade' swipe={false}>
         {/* WHAT IS YOUR COMPANY NAME? */}
         <div className='step--wrapper'>
           <Form
@@ -124,7 +131,8 @@ const WelcomeStep1 = ({ goNextStep }) => {
             <Button
               type='primary'
               onClick={() => {
-                slider.current.goTo(3);
+                //slider.current.goTo(3);
+                goNextStep();
               }}
             >
               Yes
@@ -159,7 +167,8 @@ const WelcomeStep1 = ({ goNextStep }) => {
               };
               registrationUpdateState(companyData);
               setOptions([]);
-              slider.current.goTo(1);
+              //slider.current.goTo(1);
+              goNextStep();
             }}
             // onFinishFailed={onFinishFailed}
           >
@@ -200,7 +209,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
               <Button type='primary' htmlType='submit'>
                 Next
               </Button>
-              <Button
+              {/* <Button
                 type='text'
                 onClick={() => {
                   slider.current.prev();
@@ -209,7 +218,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
                 }}
               >
                 Back
-              </Button>
+              </Button> */}
             </Form.Item>
           </Form>
         </div>

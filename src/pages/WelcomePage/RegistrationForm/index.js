@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPasswordStrength from "react-password-strength";
 import { Form, Button, Input, Tooltip } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const { fetchRegistration } = services;
 const RegistrationForm = ({ goNextStep }) => {
   const [loader, setLoader] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [form] = Form.useForm();
   const state = useSelector((state) => state.registration);
   const history = useHistory();
@@ -38,21 +40,32 @@ const RegistrationForm = ({ goNextStep }) => {
     });
   };
   const changeCallback = (score, password, isValid) => {
+    console.log(form);
     if (score.password) {
       form.setFieldsValue({
         password: score.password,
       });
-    } else {
-      form.setFieldsValue({
-        password: "",
-      });
       form.validateFields(["password"]);
     }
-    if (form.getFieldValue("password").length) {
-      setPasswordError(false);
-    } else {
-      setPasswordError(true);
-    }
+    // if (score.password) {
+    //   if (score.password.length >= 8) {
+    //     form.setFieldsValue({
+    //       password: score.password,
+    //     });
+    //   } else {
+    //     form.validateFields(["password"]);
+    //   }
+    // } else {
+    //   form.setFieldsValue({
+    //     password: "",
+    //   });
+    //   form.validateFields(["password"]);
+    // }
+    // if (form.getFieldValue("password").length >= 8) {
+    //   setPasswordError(false);
+    // } else {
+    //   setPasswordError(true);
+    // }
   };
 
   const onFieldsChange = (value) => {};
@@ -88,9 +101,19 @@ const RegistrationForm = ({ goNextStep }) => {
           <Input placeholder='Enter the email' />
         </Form.Item>
         <div className={`password-controle ${passwordError ? "error" : ""}`}>
+          <button
+            className='password-controle--show'
+            type='button'
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+          >
+            {!showPassword && <EyeInvisibleOutlined />}
+            {showPassword && <EyeOutlined />}
+          </button>
           <ReactPasswordStrength
             className='registration--form-password'
-            minLength={5}
+            minLength={8}
             minScore={2}
             tooShortWord='Too short'
             scoreWords={["Weak", "Okay", "Good", "Strong", "Stronger"]}
@@ -99,6 +122,7 @@ const RegistrationForm = ({ goNextStep }) => {
               autoComplete: "off",
               className: "form-control",
               placeholder: "Enter the password",
+              type: showPassword ? "text" : "password",
             }}
           />
           <div className='password-strength-info'>
@@ -115,7 +139,10 @@ const RegistrationForm = ({ goNextStep }) => {
         </div>
         <Form.Item
           name='password'
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[
+            { min: 8, message: "Password must be at least 8 characters!" },
+            { required: true, message: "Please input your password!" },
+          ]}
         >
           <Input type='password' hidden />
         </Form.Item>

@@ -19,26 +19,32 @@ const WelcomePage = (props) => {
       <div className='hello-page__wrapper'>
         <Carousel
           ref={slider}
+          swipe={false}
           dots={false}
           easing='ease-in-out'
           effect='fade'
           className='hello-page__steps_slider'
         >
           <div>
-            {!confirmStep && (
-              <WelcomeSteps
-                goNextStep={() => {
-                  slider.current.next();
-                  setConfirmStep(true);
-                }}
-              />
-            )}
+            {/* {!confirmStep && (
+              
+            )} */}
+            <WelcomeSteps
+              goNextStep={() => {
+                slider.current.next();
+                // setConfirmStep(true);
+              }}
+            />
           </div>
           <div>
             <WelcomeСonfirm
               goNextStep={() => {
                 slider.current.next();
-                setConfirmStep(false);
+                // setConfirmStep(false);
+              }}
+              goPrevStep={() => {
+                slider.current.prev();
+                // setConfirmStep(false);
               }}
             />
           </div>

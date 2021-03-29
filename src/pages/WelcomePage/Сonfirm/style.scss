@@ -38,5 +38,8 @@
   .welcome__comfirm_submit {
     margin-top: 40px;
     text-align: center;
+    .ant-btn {
+      margin: 0 8px;
+    }
   }
 }

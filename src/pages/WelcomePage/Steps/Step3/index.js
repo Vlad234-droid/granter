@@ -65,7 +65,7 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
                   {
                     required: true,
                     message:
-                      "Please select your approximate internal staffing costs!",
+                      "Please select your approximate subcontracting costs!",
                   },
                 ]}
               >
@@ -74,14 +74,12 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
             </Col>
             <Col className='gutter-row' span={12}>
               <Form.Item
-                label='What are your approximate software costs 
-                per year?'
+                label='What are your approximate software costs per year?'
                 name='software_costs'
                 rules={[
                   {
                     required: true,
-                    message:
-                      "Please select your approximate consumed materials costs!",
+                    message: "Please select your approximate software costs!",
                   },
                 ]}
               >

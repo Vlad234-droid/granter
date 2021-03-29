@@ -40,13 +40,14 @@ const WelcomeSteps = ({ goNextStep }) => {
         <Steps current={currentStep}>
           <Step title='Company' />
           <Step title='Industry' />
-          <Step title='Numbers' />          
+          <Step title='Numbers' />
         </Steps>
       </div>
 
       <Carousel
         afterChange={onChange}
         ref={slider}
+        swipe={false}
         dots={false}
         easing='ease-in-out'
         effect='fade'

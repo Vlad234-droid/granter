@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import "./style.scss";
 
-const Сonfirm = ({ goNextStep }) => {
+const Сonfirm = ({ goNextStep, goPrevStep }) => {
   const state = useSelector((state) => state.registration);
   return (
     <div className='welcome__comfirm'>
@@ -44,6 +44,9 @@ const Сonfirm = ({ goNextStep }) => {
       <div className='welcome__comfirm_submit'>
         <Button type='primary' onClick={goNextStep}>
           Confirm
+        </Button>
+        <Button type='text' onClick={goPrevStep}>
+          Back
         </Button>
       </div>
     </div>
