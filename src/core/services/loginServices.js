@@ -38,10 +38,9 @@ const fetchLogin = (dispatch, loginData) => {
       })
       .then((data) => {
         resolve(data.data);
-        //console.log(data);
-        // const authDate = new Date();
-        // lockr.set("auth-key", data.data.token);
-        // lockr.set("session-token-expiry", authDate);
+        const authDate = new Date();
+        lockr.set("auth-key", data.data.token);
+        lockr.set("session-token-expiry", authDate);
       })
       .catch(() => {
         reject();

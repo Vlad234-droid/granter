@@ -5,11 +5,11 @@ import Header from "../Header";
 
 import "./style.scss";
 
-const LayoutBoard = ({ children, className, isLogged }) => {
+const LayoutBoard = ({ children, className }) => {
   return (
     <div className={`app ${className}`}>
-      <Aside isLogged={isLogged} />
-      <Header isLogged={isLogged} />
+      <Aside />
+      <Header />
       <Layout.Content className='main-content'>
         <div className='wrapper'>{children}</div>
       </Layout.Content>

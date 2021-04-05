@@ -337,3 +337,26 @@ a.ant-btn {
   line-height: 16px;
   color: #ffffff;
 }
+
+.ant-badge {
+  .ant-badge-count {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 16px;
+    color: #ffffff;
+    height: 16px;
+    min-width: 16px;
+    padding: 0 4px;
+  }
+}
+button:not(.ant-btn) {
+  border: none;
+  background: none;
+  outline: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
