@@ -30,7 +30,7 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   };
 
   const onSelect = (value, option) => {
-    setIndustry(option);
+    setIndustry([option]);
   };
 
   return (
@@ -39,11 +39,12 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
         <div className='step--wrapper'>
           <div className='step--label'>Is your company in the industry of</div>
           <div className='step--value'>
-            {state.industry && (
-              <>
-                {state.industry.sic_code} - {state.industry.display_value}
-              </>
-            )}
+            {state.industry.length > 0 &&
+              state.industry.map((item, index) => (
+                <p key={`in-${index}`}>
+                  {item.sic_code} - {item.display_value}
+                </p>
+              ))}
           </div>
           <div className='control-submit'>
             <Button

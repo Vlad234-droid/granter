@@ -1,11 +1,13 @@
-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 232px;
-  height: 60px;
-  border-bottom: 1px solid rgba(192, 196, 203, 0.5);
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
+.dashboard {
+  header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 232px;
+    height: 60px;
+    border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+  }
 }

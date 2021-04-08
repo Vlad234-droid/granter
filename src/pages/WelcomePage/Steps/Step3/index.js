@@ -37,7 +37,11 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
                   },
                 ]}
               >
-                <Input placeholder='Enter the number' type='number' />
+                <Input
+                  placeholder='Enter the number'
+                  type='number'
+                  suffix='£'
+                />
               </Form.Item>
             </Col>
             <Col className='gutter-row' span={12}>
@@ -52,7 +56,11 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
                   },
                 ]}
               >
-                <Input placeholder='Enter the number' type='number' />
+                <Input
+                  placeholder='Enter the number'
+                  type='number'
+                  suffix='£'
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -69,7 +77,11 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
                   },
                 ]}
               >
-                <Input placeholder='Enter the number' type='number' />
+                <Input
+                  placeholder='Enter the number'
+                  type='number'
+                  suffix='£'
+                />
               </Form.Item>
             </Col>
             <Col className='gutter-row' span={12}>
@@ -83,7 +95,11 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
                   },
                 ]}
               >
-                <Input placeholder='Enter the number' type='number' />
+                <Input
+                  placeholder='Enter the number'
+                  type='number'
+                  suffix='£'
+                />
               </Form.Item>
             </Col>
           </Row>

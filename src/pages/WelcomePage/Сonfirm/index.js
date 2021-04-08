@@ -19,8 +19,8 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
         <Row gutter={24}>
           <Col span={8}>
             <Card>
-              <p>St.James Company</p>
-              <span>{state.name}</span>
+              <p>{state.name}</p>
+              <span>Company name</span>
             </Card>
           </Col>
           <Col span={8}>
@@ -31,11 +31,12 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
           </Col>
           <Col span={8}>
             <Card>
-              {state.industry && (
-                <p>
-                  {state.industry.sic_code} - {state.industry.display_value}
-                </p>
-              )}
+              {state.industry.length > 0 &&
+                state.industry.map((item, index) => (
+                  <p key={`ind-${index}`}>
+                    {item.sic_code} - {item.display_value}
+                  </p>
+                ))}
               <span>Industry</span>
             </Card>
           </Col>

@@ -10,7 +10,7 @@ const initialState = {
   name: "",
   number: "",
   email: "",
-  industry: null,
+  industry: [],
   password: "",
   staffing_costs: 0,
   materials_costs: 0,

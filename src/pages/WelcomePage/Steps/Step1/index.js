@@ -63,7 +63,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
     const companyData = {
       name: companyName.company_name,
       number: companyName.company_number,
-      industry: companyName.industry,
+      industry: companyName.industries,
     };
     registrationUpdateState(companyData);
     setOptions([]);
@@ -162,7 +162,7 @@ const WelcomeStep1 = ({ goNextStep }) => {
               const companyData = {
                 name: companyName.company_name,
                 number: companyName.company_number,
-                industry: companyName.industry,
+                industry: companyName.industries,
               };
               registrationUpdateState(companyData);
               setOptions([]);

@@ -13,11 +13,12 @@ const { fetchLogin } = services;
 const LoginPage = (props) => {
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const onFinish = (values) => {
     setLoader(true);
     fetchLogin(dispatch, values)
       .then((data) => {
-        console.log(data);
+        history.push()
         setLoader(false);
       })
       .catch(() => {

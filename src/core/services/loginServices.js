@@ -9,8 +9,6 @@ import { IconWarning } from "../../components/icons";
 const { REACT_APP_API_URL } = process.env;
 
 const fetchLogin = (dispatch, loginData) => {
-  console.log(loginData);
-
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/login`, {
       method: "POST",
