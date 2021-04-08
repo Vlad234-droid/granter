@@ -22,11 +22,15 @@ const RegistrationForm = ({ goNextStep }) => {
   const history = useHistory();
 
   const onFinishName = (value) => {
+    const industryIds = [];
+    state.industry.forEach((item) => {
+      industryIds.push(item.id);
+    });
     const form = {
       name: state.name,
       number: state.number,
       email: value.email,
-      industry_id: state.industry.id,
+      industry_ids: industryIds,
       password: value.password,
       staffing_costs: state.staffing_costs,
       materials_costs: state.materials_costs,
