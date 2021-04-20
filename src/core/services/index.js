@@ -7,8 +7,15 @@ import { IconWarning } from "../../components/icons";
 
 import * as registrationSevices from "./registrationServices";
 import * as loginSevices from "./loginServices";
+import * as userSevices from "./userServices";
+import * as activeClameServices from "./activeClameServices";
 
-const services = { ...registrationSevices, ...loginSevices };
+const services = {
+  ...registrationSevices,
+  ...loginSevices,
+  ...userSevices,
+  ...activeClameServices,
+};
 
 // const fetchLogin = (dispatch) => (loginData, history) => {
 //   let body = {

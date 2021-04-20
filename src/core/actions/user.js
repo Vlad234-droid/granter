@@ -20,4 +20,32 @@ const loginError = (error) => {
   };
 };
 
-export { loginRequested, loginLoaded, loginError };
+const userDataLoaded = (data) => {
+  return {
+    type: "FETCH_USER_DATA_SUCCESS",
+    payload: data,
+  };
+};
+
+const userCompaniesLoaded = (data) => {
+  return {
+    type: "FETCH_USER_COMPANIES_SUCCESS",
+    payload: data,
+  };
+};
+
+const setUserActiveClimeId = (data) => {
+  return {
+    type: "SET-USER-ACTIVE-CLIME-ID",
+    payload: data,
+  };
+};
+
+export {
+  loginRequested,
+  loginLoaded,
+  loginError,
+  userDataLoaded,
+  userCompaniesLoaded,
+  setUserActiveClimeId,
+};

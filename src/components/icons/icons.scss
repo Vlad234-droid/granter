@@ -10,6 +10,19 @@
   }
 }
 
+.icon-warning {
+  &.red {
+    .icon-fill {
+      fill: #f65747;
+      transition: fill 300ms ease;
+    }
+  }
+  .icon-fill {
+    fill: #f9a648;
+    transition: fill 300ms ease;
+  }
+}
+
 .icon-phone {
   // &:hover {
   //   path {

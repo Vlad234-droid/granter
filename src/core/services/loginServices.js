@@ -8,7 +8,8 @@ import { IconWarning } from "../../components/icons";
 
 const { REACT_APP_API_URL } = process.env;
 
-const fetchLogin = (dispatch, loginData) => {
+const fetchLogin = (dispatch, loginData, history) => {
+  const { loginLoaded } = bindActionCreators(actions, dispatch);
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/login`, {
       method: "POST",
@@ -36,9 +37,11 @@ const fetchLogin = (dispatch, loginData) => {
       })
       .then((data) => {
         resolve(data.data);
+        loginLoaded(true);
         const authDate = new Date();
         lockr.set("auth-key", data.data.token);
         lockr.set("session-token-expiry", authDate);
+        history.push("/active-claims/");
       })
       .catch(() => {
         reject();

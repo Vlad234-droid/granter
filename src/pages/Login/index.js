@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Input } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Layout from "../../components/LayoutGuest/Layout";
 
@@ -12,18 +12,11 @@ const { fetchLogin } = services;
 
 const LoginPage = (props) => {
   const [loader, setLoader] = useState(false);
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
   const onFinish = (values) => {
     setLoader(true);
-    fetchLogin(dispatch, values)
-      .then((data) => {
-        history.push()
-        setLoader(false);
-      })
-      .catch(() => {
-        setLoader(false);
-      });
+    fetchLogin(dispatch, values, history);
   };
 
   return (

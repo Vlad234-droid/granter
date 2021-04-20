@@ -38,6 +38,10 @@ const onlyAuthorisedAllowed = () => {
 
 const initialState = {
   isloggedIn: onlyAuthorisedAllowed(),
+  data: null,
+  companies: null,
+  currentCompany: null,
+  activeClaimId: null,
   loader: false,
   error: null,
   success: false,
@@ -48,7 +52,7 @@ const userReducer = (state = initialState, action) => {
     case "FETCH_LOGIN_REQUEST":
       return {
         ...state,
-        isloggedIn: false,
+        //isloggedIn: false,
         loader: true,
         error: null,
         success: false,
@@ -70,6 +74,34 @@ const userReducer = (state = initialState, action) => {
         loader: false,
         error: action.payload,
         success: false,
+      };
+
+    case "FETCH_USER_DATA_SUCCESS":
+      return {
+        ...state,
+        data: action.payload,
+        loader: false,
+        error: null,
+        success: true,
+      };
+
+    case "FETCH_USER_COMPANIES_SUCCESS":
+      return {
+        ...state,
+        companies: action.payload,
+        currentCompany: action.payload[0],
+        loader: false,
+        error: null,
+        success: true,
+      };
+
+    case "SET-USER-ACTIVE-CLIME-ID":
+      return {
+        ...state,
+        activeClaimId: action.payload,
+        loader: false,
+        error: null,
+        success: true,
       };
 
     default:

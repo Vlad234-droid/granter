@@ -7,11 +7,11 @@ import "./style.scss";
 
 const LayoutBoard = ({ children, className }) => {
   return (
-    <div className={`app ${className}`}>
+    <div className={`app-dashboard ${className}`}>
       <Aside />
       <Header />
       <Layout.Content className='main-content'>
-        <div className='wrapper'>{children}</div>
+        <div className='dashboard-wrapper'>{children}</div>
       </Layout.Content>
     </div>
   );
