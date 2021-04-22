@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Tooltip, Skeleton } from "antd";
+import { Tooltip, Skeleton, Drawer } from "antd";
 
 import services from "../../../../core/services";
 
@@ -8,7 +8,7 @@ import UploadFile from "../../../../components/UploadFile";
 import { IconWarning } from "../../../../components/icons";
 import iconScheduled from "../../../../assets/img/icon-scheduled.svg";
 import iconCalendar from "../../../../assets/img/icon-calendar.svg";
-import iconApproved from "../../../../assets/img/icon-approved.svg";
+import arrowLeft from "../../../../assets/img/arrow-left.svg";
 
 import "./style.scss";
 
@@ -16,20 +16,39 @@ const { getIntroductionClaimStep } = services;
 
 const StepIntroduction = () => {
   const [introductionStep, setIntroductionStep] = useState(null);
+  const [detailsShow, setDetailsShow] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
 
   useEffect(() => {
     if (activeClaimId) {
       getIntroductionClaimStep(activeClaimId).then((data) => {
-        setIntroductionStep(data);
-        console.log("getIntroductionClaimStep", data);
+        const res = { ...data };
+        res.documents = data.documents.map((item) => {
+          item.red = false;
+          return item;
+        });
+        setIntroductionStep(res);
+        console.log("getIntroductionClaimStep", res);
       });
     }
   }, [activeClaimId]);
 
+  const onAction = (file) => {
+    const res = { ...introductionStep };
+    res.documents = introductionStep.documents.map((item) => {
+      if (item.id === file.id) item = file;
+      return item;
+    });
+    setIntroductionStep(res);
+  };
+
   return (
     <section className='active-claims__steps_step introduction'>
-      <h2>
+      <h2
+        onClick={() => {
+          setDetailsShow(true);
+        }}
+      >
         <p>
           1<i>/</i>5 Introduction
         </p>
@@ -48,6 +67,7 @@ const StepIntroduction = () => {
               <UploadFile
                 key={`introduction-document-${item.id}`}
                 file={item}
+                onAction={onAction}
               />
             ))}
           </div>
@@ -79,6 +99,70 @@ const StepIntroduction = () => {
               <span className='step-status--bar-detail'>Waiting</span>
             </div>
           </div>
+
+          <Drawer
+            title={
+              <div className='ant-drawer-title-wripper'>
+                <img src={arrowLeft} />
+                <p>
+                  1<i>/</i>5 Introduction
+                </p>
+                <Tooltip title='Required Files' placement='left'>
+                  <span>
+                    <IconWarning />
+                  </span>
+                </Tooltip>
+              </div>
+            }
+            placement='right'
+            width='320px'
+            closable={false}
+            onClose={() => {
+              setDetailsShow(false);
+            }}
+            visible={detailsShow}
+            className='active-claims__step_drawer'
+          >
+            <div className='step-actions'>
+              {introductionStep.documents.map((item) => {
+                return (
+                  <div
+                    className='row'
+                    key={`introduction-document-${item.id}`}
+                    style={
+                      item.red ? { background: "rgba(246, 87, 71, 0.15)" } : {}
+                    }
+                  >
+                    <UploadFile
+                      file={item}
+                      removeButton={true}
+                      onAction={onAction}
+                      onRed={(red) => {
+                        //introductionStep, setIntroductionStep
+                        const res = { ...introductionStep };
+                        res.documents.map((row) => {
+                          if (row.id === item.id) row.red = red;
+                          return row;
+                        });
+                        setIntroductionStep(res);
+                        //item.red = red;
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className='step-status'>
+              <div className='step-status--bar waiting'>
+                <span
+                  className='step-status--bar-fill'
+                  style={{ width: "0%" }}
+                />
+                <span className='step-status--bar-parcent'>0%</span>
+                <span className='step-status--bar-detail'>Waiting</span>
+              </div>
+            </div>
+          </Drawer>
         </>
       )}
     </section>

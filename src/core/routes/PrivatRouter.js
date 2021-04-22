@@ -7,9 +7,8 @@ import services from "../services/";
 const { fetchUserData } = services;
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log(rest.isloggedIn);
   const dispatch = useDispatch();
-  if (rest.isloggedIn) {
+  if (rest.isloggedIn && !rest.userData) {
     fetchUserData(dispatch);
   }
 
@@ -26,6 +25,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 const mapStateToProps = (state) => {
   return {
     isloggedIn: state.user.isloggedIn,
+    userData: state.user.data,
   };
 };
 

@@ -14,7 +14,7 @@ const HeaderCompanies = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchUserCompanies(dispatch);
+    if (!user.companies) fetchUserCompanies(dispatch);
   }, []);
 
   const menu = (

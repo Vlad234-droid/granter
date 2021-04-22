@@ -7,6 +7,7 @@ import WelcomePage from "../../pages/WelcomePage";
 import LoginPage from "../../pages/Login";
 import ActiveClaimsPage from "../../pages/ActiveClaimsPage";
 import FutureClaimsPage from "../../pages/FutureClaimsPage";
+import DocumentPage from "../../pages/DocumentPage";
 
 const routes = () => {
   return (
@@ -16,6 +17,7 @@ const routes = () => {
       <Route exact path='/sign-in/' component={LoginPage} />
       <PrivateRoute exact path='/active-claims/' component={ActiveClaimsPage} />
       <PrivateRoute exact path='/future-claims/' component={FutureClaimsPage} />
+      <PrivateRoute exact path='/document/:id' component={DocumentPage} />
       {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
     </CoreRouter>
   );

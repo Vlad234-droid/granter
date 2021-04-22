@@ -9,12 +9,14 @@ import * as registrationSevices from "./registrationServices";
 import * as loginSevices from "./loginServices";
 import * as userSevices from "./userServices";
 import * as activeClameServices from "./activeClameServices";
+import * as futureCompletedClameServices from "./futureCompletedClameServices.js";
 
 const services = {
   ...registrationSevices,
   ...loginSevices,
   ...userSevices,
   ...activeClameServices,
+  ...futureCompletedClameServices,
 };
 
 // const fetchLogin = (dispatch) => (loginData, history) => {

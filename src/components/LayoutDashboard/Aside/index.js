@@ -52,10 +52,10 @@ export default function Aside() {
           // }}
         >
           <Item key='active'>
-            <Link to='/'>Active Claims</Link>
+            <Link to='/active-claims/'>Active Claims</Link>
           </Item>
           <Item key='future'>
-            <Link to='/'>Future Claims</Link>
+            <Link to='/future-claims/'>Future Claims</Link>
           </Item>
           <Item key='completed'>
             <Link to='/'>Completed Claims</Link>
