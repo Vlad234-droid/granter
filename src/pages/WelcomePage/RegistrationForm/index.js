@@ -5,13 +5,11 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import services from "../../../core/services";
+import { fetchRegistration } from "../../../core/services";
 
 import { IconInfo } from "../../../components/icons";
 
 import "./style.scss";
-
-const { fetchRegistration } = services;
 
 const RegistrationForm = ({ goNextStep }) => {
   const [loader, setLoader] = useState(false);

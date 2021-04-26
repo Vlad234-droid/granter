@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Skeleton, Drawer, Tooltip } from "antd";
-import services from "../../../../core/services";
+import { getFinancialClaimStep } from "../../../../core/services";
 
 import UploadFile from "../../../../components/UploadFile";
 import iconScheduled from "../../../../assets/img/icon-scheduled.svg";
@@ -10,8 +10,6 @@ import iconApproved from "../../../../assets/img/icon-approved.svg";
 import arrowLeft from "../../../../assets/img/arrow-left.svg";
 
 import "./style.scss";
-
-const { getFinancialClaimStep } = services;
 
 const StepFinancial = () => {
   const [financialStep, setFinancialStep] = useState(null);

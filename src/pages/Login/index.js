@@ -4,11 +4,9 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Layout from "../../components/LayoutGuest/Layout";
 
-import services from "../../core/services";
+import { fetchLogin } from "../../core/services";
 
 import "./style.scss";
-
-const { fetchLogin } = services;
 
 const LoginPage = (props) => {
   const [loader, setLoader] = useState(false);

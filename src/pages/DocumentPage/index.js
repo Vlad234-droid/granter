@@ -1,48 +1,77 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FileViewer from "react-file-viewer";
-import { Upload } from "antd";
+
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import { Upload, Select, Button } from "antd";
+
+import DocumentViewer from "../../components/DocumentViewer";
+import Comment from "../../components/Comment";
+import { IconComment } from "../../components/icons";
 
 import iconBack from "../../assets/img/arrow-left.svg";
 import iconDownload from "../../assets/img/icon-download.svg";
 import iconUpload from "../../assets/img/icon-upload-blue.svg";
-//import file from "../../assets/PrivacyPolicy.docx";
+import iconSelectArrow from "../../assets/img/iceon-select-arrow.svg";
+
+import "./style.scss";
 
 const { Dragger } = Upload;
-
-const file =
-  "https://file-examples-com.github.io/uploads/2017/02/file_example_XLSX_50.xlsx";
-const type = "xlsx";
+const { Option } = Select;
 
 const DocumentPage = () => {
-  console.log(file);
-
-  const onGridSort = (e) => {
-    console.log(e);
-  };
-
   return (
     <div className='document-details'>
       <div className='document-details__viewer'>
-        <header>
-          <Link to='/'>
+        <header className='document-details__header'>
+          <Link to='/' className='header--back'>
             <img src={iconBack} alt='' />
             <span>To Dashboard</span>
           </Link>
-          <a href=''>
+          <a href='' className='header--download'>
             <img src={iconDownload} alt='' />
             <span>Download File</span>
           </a>
-          <Dragger>
+          <Dragger
+            className='header--upload'
+            name='file'
+            // customRequest={customRequest}
+            accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+            showUploadList={false}
+          >
             <img src={iconUpload} alt='' />
             <span>Upload New Version</span>
           </Dragger>
         </header>
-        <article className='document-view'>
-          <FileViewer fileType={type} filePath={file} onGridSort={onGridSort} />
+        <article className='document-wrapper'>
+          <DocumentViewer />
         </article>
       </div>
-      <div className='document-details__comments'>TODO Comments</div>
+      <div className='document-details__comments'>
+        <div className='document-details__comments_header'>
+          <div className='header--title'>
+            <IconComment />
+            <span>Comments (4)</span>
+          </div>
+          <Select
+            defaultValue='all'
+            suffixIcon={<img src={iconSelectArrow} alt='' />}
+            dropdownMatchSelectWidth={false}
+          >
+            <Option value='all'>All</Option>
+            <Option value='latest'>Latest</Option>
+          </Select>
+        </div>
+        <div className='document-details__comments_list'>
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
+        </div>
+        <div className='document-details__comments_new'>
+          <Button type='primary'>New Comment</Button>
+        </div>
+      </div>
     </div>
   );
 };

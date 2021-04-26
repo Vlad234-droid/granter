@@ -4,12 +4,10 @@ import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
 
-import services from "../../../../core/services";
+import { fetchCompanyHouse } from "../../../../core/services";
 import actions from "../../../../core/actions";
 
 import "./style.scss";
-
-const { fetchCompanyHouse } = services;
 
 const WelcomeStep1 = ({ goNextStep }) => {
   const slider = useRef();

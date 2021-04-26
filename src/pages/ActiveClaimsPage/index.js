@@ -7,11 +7,9 @@ import Layout from "../../components/LayoutDashboard/Layout";
 import ActiveClaimsCards from "./ActiveClaimsCards";
 import ActiveClaimsSteps from "./ActiveClaimsSteps";
 
-import services from "../../core/services";
+import { getActiveClaimData } from "../../core/services";
 
 import "./style.scss";
-
-const { getActiveClaimData } = services;
 
 const ActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);

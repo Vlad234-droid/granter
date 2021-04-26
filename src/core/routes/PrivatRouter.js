@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import services from "../services/";
-const { fetchUserData } = services;
+import { fetchUserData } from "../services/";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch();

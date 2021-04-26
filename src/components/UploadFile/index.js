@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import lockr from "lockr";
 import { Tooltip, Upload, Dropdown, Button, Spin } from "antd";
-import services from "../../core/services";
+import { setSkipFile, uploadFile, deleteFile } from "../../core/services";
 
 import iconUpload from "../../assets/img/icon-upload.svg";
 import iconUploadRed from "../../assets/img/icon-upload-red.svg";
@@ -14,8 +14,6 @@ import iconComment from "../../assets/img/icon-comment.svg";
 import { IconDeleteFile } from "../icons";
 
 import "./style.scss";
-
-const { setSkipFile, uploadFile, deleteFile } = services;
 
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;

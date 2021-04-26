@@ -19,6 +19,8 @@ const services = {
   ...futureCompletedClameServices,
 };
 
+console.log("services", services);
+
 // const fetchLogin = (dispatch) => (loginData, history) => {
 //   let body = {
 //     email: loginData.email,
@@ -66,3 +68,9 @@ const services = {
 // };
 
 export default services;
+
+export * from "./registrationServices";
+export * from "./loginServices";
+export * from "./userServices";
+export * from "./activeClameServices";
+export * from "./futureCompletedClameServices.js";

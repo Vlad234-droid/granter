@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import services from "../../core/services";
+import { fetchUserCompanies } from "../../core/services";
 
 import { Dropdown, Menu } from "antd";
 import { IconCompany } from "../icons";
 
 import "./style.scss";
-
-const { fetchUserCompanies } = services;
 
 const HeaderCompanies = () => {
   const user = useSelector((state) => state.user);

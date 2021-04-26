@@ -4,11 +4,9 @@ import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 
 import actions from "../../../../core/actions";
-import services from "../../../../core/services";
+import { fetchAllIndustries } from "../../../../core/services";
 
 import "./style.scss";
-
-const { fetchAllIndustries } = services;
 
 const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   const [industry, setIndustry] = useState(null);

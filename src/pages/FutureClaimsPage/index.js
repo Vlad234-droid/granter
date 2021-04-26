@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { Skeleton } from "antd";
 
 import Layout from "../../components/LayoutDashboard/Layout";
-import services from "../../core/services";
+import { getfutureClaimData } from "../../core/services";
 
 import "./style.scss";
 
-const { getfutureClaimData } = services;
 let count = 0;
 
 const FutureClaimsPage = () => {

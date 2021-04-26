@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Tooltip, Skeleton, Drawer } from "antd";
 
-import services from "../../../../core/services";
+import { getIntroductionClaimStep } from "../../../../core/services";
 
 import UploadFile from "../../../../components/UploadFile";
 import { IconWarning } from "../../../../components/icons";
@@ -11,8 +11,6 @@ import iconCalendar from "../../../../assets/img/icon-calendar.svg";
 import arrowLeft from "../../../../assets/img/arrow-left.svg";
 
 import "./style.scss";
-
-const { getIntroductionClaimStep } = services;
 
 const StepIntroduction = () => {
   const [introductionStep, setIntroductionStep] = useState(null);

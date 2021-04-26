@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Tooltip, Skeleton } from "antd";
 
-import services from "../../../../core/services";
+import { getTechnicalClaimStep } from "../../../../core/services";
 
 import UploadFile from "../../../../components/UploadFile";
 import { IconWarning } from "../../../../components/icons";
@@ -11,8 +11,6 @@ import iconCalendar from "../../../../assets/img/icon-calendar.svg";
 import iconApproved from "../../../../assets/img/icon-approved.svg";
 
 import "./style.scss";
-
-const { getTechnicalClaimStep } = services;
 
 const StepTechnical = () => {
   const [technicalStep, setTechnicalStep] = useState(null);
