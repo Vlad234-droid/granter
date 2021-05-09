@@ -71,7 +71,7 @@ const Reply = (comment) => {
             <IconDeleteFile />
           </button>
         </Dropdown>
-        <Checkbox />
+        <Checkbox className='reply-checkbox' />
       </div>
       <div className='comment--message'>
         Please, add the information means a defect, error or bug in the Software

@@ -61,7 +61,7 @@ export default function Aside() {
             <Link to='/'>Completed Claims</Link>
           </Item>
           <Item key='profile' className='profile'>
-            <Link to='/'>Profile</Link>
+            <Link to='/profile/'>Profile</Link>
           </Item>
 
           <SubMenu key='library' title='Documents Library'>

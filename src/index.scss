@@ -251,6 +251,24 @@ a.ant-btn {
   }
 }
 
+.ant-input-password {
+  padding: 0 12px;
+  border-radius: 10px;
+  border-color: #305ff5;
+  .ant-input-suffix {
+    opacity: 0.55;
+  }
+  .ant-input {
+    box-shadow: none !important;
+  }
+  &.ant-input-affix-wrapper-focused {
+    box-shadow: none !important;
+  }
+  &:hover {
+    box-shadow: 0px 4px 12px rgba(48, 95, 245, 0.3);
+  }
+}
+
 .ant-select {
   &.ant-select-show-search {
     .ant-select-selection-placeholder {
@@ -365,6 +383,7 @@ button:not(.ant-btn) {
 }
 
 .ant-checkbox {
+  top: 0.25em;
   &::after {
     display: none;
   }
@@ -378,10 +397,8 @@ button:not(.ant-btn) {
     }
   }
   .ant-checkbox-inner {
-    width: 20px;
-    height: 20px;
-    border-color: #7f8896;
-    border-radius: 50%;
+    border-color: #305ff5;
+    border-radius: 4px;
     &::after {
       width: 5px;
       height: 11px;
@@ -391,12 +408,67 @@ button:not(.ant-btn) {
       left: 50%;
       transform: translate(-50%, -60%) rotate(45deg);
       opacity: 1;
-      border-color: #7f8896;
+      border-color: #fff;
     }
   }
 }
+
+.reply-checkbox {
+  .ant-checkbox {
+    &::after {
+      display: none;
+    }
+    &.ant-checkbox-checked {
+      .ant-checkbox-inner {
+        background-color: #305ff5;
+        border-color: #305ff5 !important;
+        &::after {
+          border-color: #fff;
+        }
+      }
+    }
+    .ant-checkbox-inner {
+      width: 20px;
+      height: 20px;
+      border-color: #7f8896;
+      border-radius: 50%;
+      &::after {
+        width: 5px;
+        height: 11px;
+        display: block;
+        border-width: 1px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%) rotate(45deg);
+        opacity: 1;
+        border-color: #7f8896;
+      }
+    }
+  }
+}
+
 .ant-checkbox-wrapper:hover .ant-checkbox-inner,
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
   border-color: #7f8896;
+}
+
+.ant-input-affix-wrapper {
+  border-color: #305ff5;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #3c4252;
+  &:hover {
+    box-shadow: 0px 4px 12px rgba(48, 95, 245, 0.3) !important;
+  }
+  &.ant-input-affix-wrapper-focused {
+    box-shadow: none !important;
+  }
+  .ant-input {
+    box-shadow: none !important;
+  }
 }

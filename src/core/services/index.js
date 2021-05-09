@@ -5,22 +5,6 @@ import lockr from "lockr";
 import actions from "../actions";
 import { IconWarning } from "../../components/icons";
 
-import * as registrationSevices from "./registrationServices";
-import * as loginSevices from "./loginServices";
-import * as userSevices from "./userServices";
-import * as activeClameServices from "./activeClameServices";
-import * as futureCompletedClameServices from "./futureCompletedClameServices.js";
-
-const services = {
-  ...registrationSevices,
-  ...loginSevices,
-  ...userSevices,
-  ...activeClameServices,
-  ...futureCompletedClameServices,
-};
-
-console.log("services", services);
-
 // const fetchLogin = (dispatch) => (loginData, history) => {
 //   let body = {
 //     email: loginData.email,
@@ -67,10 +51,9 @@ console.log("services", services);
 //     });
 // };
 
-export default services;
-
 export * from "./registrationServices";
 export * from "./loginServices";
 export * from "./userServices";
 export * from "./activeClameServices";
 export * from "./futureCompletedClameServices.js";
+export * from "./documentsServices.js";

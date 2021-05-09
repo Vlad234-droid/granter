@@ -23,13 +23,9 @@ const WelcomePage = (props) => {
           className='hello-page__steps_slider'
         >
           <div>
-            {/* {!confirmStep && (
-              
-            )} */}
             <WelcomeSteps
               goNextStep={() => {
                 slider.current.next();
-                // setConfirmStep(true);
               }}
             />
           </div>
@@ -37,11 +33,9 @@ const WelcomePage = (props) => {
             <WelcomeСonfirm
               goNextStep={() => {
                 slider.current.next();
-                // setConfirmStep(false);
               }}
               goPrevStep={() => {
                 slider.current.prev();
-                // setConfirmStep(false);
               }}
             />
           </div>

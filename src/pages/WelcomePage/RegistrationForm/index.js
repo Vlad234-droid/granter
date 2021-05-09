@@ -48,25 +48,6 @@ const RegistrationForm = ({ goNextStep }) => {
       });
       form.validateFields(["password"]);
     }
-    // if (score.password) {
-    //   if (score.password.length >= 8) {
-    //     form.setFieldsValue({
-    //       password: score.password,
-    //     });
-    //   } else {
-    //     form.validateFields(["password"]);
-    //   }
-    // } else {
-    //   form.setFieldsValue({
-    //     password: "",
-    //   });
-    //   form.validateFields(["password"]);
-    // }
-    // if (form.getFieldValue("password").length >= 8) {
-    //   setPasswordError(false);
-    // } else {
-    //   setPasswordError(true);
-    // }
   };
 
   const onFieldsChange = (changedFields, allFields) => {

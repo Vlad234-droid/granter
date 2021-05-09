@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Checkbox, Input, Collapse, Dropdown, Button } from "antd";
 
 import Reply from "./Reply";
@@ -11,9 +11,14 @@ import "./style.scss";
 
 const { Panel } = Collapse;
 
-const Comment = (comment) => {
+const Comment = ({ comment }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [replyForm, setReplyForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log("comment", comment);
+  }, []);
 
   const onDelete = () => {
     // setLoading(true);
@@ -25,6 +30,19 @@ const Comment = (comment) => {
     // });
   };
 
+  const convertDate = (date) => {
+    function convertDate(inputFormat) {
+      function pad(s) {
+        return s < 10 ? "0" + s : s;
+      }
+      var d = new Date(inputFormat);
+      return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join(
+        "/"
+      );
+    }
+    return convertDate(date);
+  };
+
   return (
     <div className={`comment ${onRemoveDropdown ? "red" : ""}`}>
       <div className='comment__section'>
@@ -34,8 +52,8 @@ const Comment = (comment) => {
               <img src={authorPhoto} alt='' />
             </div>
             <div className='comment--author-info'>
-              <span>Michael Sho </span>
-              <time>20/08/2020</time>
+              <span>{comment.user}</span>
+              <time>{convertDate(comment.updated_at)}</time>
             </div>
           </div>
           <Dropdown
@@ -77,32 +95,34 @@ const Comment = (comment) => {
               <IconDeleteFile />
             </button>
           </Dropdown>
-          <button>
+          <button
+            onClick={(e) => {
+              setReplyForm(true);
+            }}
+          >
             <IconReply />
           </button>
-          <Checkbox />
+          <Checkbox className='reply-checkbox' />
         </div>
-        <div className='comment--message'>
-          Please, add the information means a defect, error or bug in the
-          Software having [an adverse effect] OR [a material adverse effect] on
-          [the appearance, operation, functionality or performance of the
-          Software][, but excluding any defect, error or bug caused by or
-          arising as a result of:
+        <div className='comment--message'>{comment.text}</div>
+      </div>
+      {replyForm && (
+        <div className='comment__reply'>
+          <div className='comment__reply_title'>Reply:</div>
+          <Input.TextArea placeholder='Type to Reply, Enter to Send' />
         </div>
-      </div>
-      <div className='comment__reply'>
-        <div className='comment__reply_title'>Reply:</div>
-        <Input.TextArea placeholder='Type to Reply, Enter to Send' />
-      </div>
-      <Collapse
-        bordered={false}
-        ghost={true}
-        expandIcon={() => <img src={arrow} />}
-      >
-        <Panel header='Replies (2)' key='1'>
-          <Reply />
-        </Panel>
-      </Collapse>
+      )}
+      {comment.replies.length > 0 && (
+        <Collapse
+          bordered={false}
+          ghost={true}
+          expandIcon={() => <img src={arrow} />}
+        >
+          <Panel header={`Replies (${comment.replies.length})`} key='1'>
+            <Reply />
+          </Panel>
+        </Collapse>
+      )}
     </div>
   );
 };

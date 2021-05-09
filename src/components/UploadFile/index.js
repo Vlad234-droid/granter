@@ -14,6 +14,7 @@ import iconComment from "../../assets/img/icon-comment.svg";
 import { IconDeleteFile } from "../icons";
 
 import "./style.scss";
+import { Link } from "react-router-dom";
 
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;
@@ -27,7 +28,6 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const token = lockr.get("auth-key");
 
   const customRequest = (e) => {
-    console.log(e);
     setLoading(true);
     uploadFile(activeClaimId, file.id, e.file).then((data) => {
       onAction(data.document);
@@ -76,7 +76,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
         </div>
         <div className='step-file--title'>
           <img src={iconPdf} alt='' />
-          <span>{file.name}</span>
+          <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
           {removeButton && (
             <Dropdown
               placement='bottomRight'
@@ -140,9 +140,6 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
         name='file'
         customRequest={customRequest}
         accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-        headers={{
-          Authorization: `Bearer ${token}`,
-        }}
         className={`upload-file ${loading ? "loading" : ""} ${
           file.is_skipped === 1 ? "skipped" : ""
         }`}
@@ -153,7 +150,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
         </div>
         <div className='upload-title'>
           <img src={iconUpload} alt='' />
-          <span>{file.name}</span>
+          <span>{file.slug}</span>
         </div>
         {skipButton && (
           <button
