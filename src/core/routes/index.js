@@ -14,6 +14,7 @@ import ChangePasswordPage from "../../pages/ChangePasswordPage";
 import ResetPasswordPage from "../../pages/ResetPasswordPage";
 import CreatePasswordPage from "../../pages/CreatePasswordPage";
 import AddProjectPage from "../../pages/AddProjectPage";
+import DocumentsPage from "../../pages/DocumentsPage";
 
 // TODO Lazy
 // function lazyWithPreload(factory) {
@@ -68,6 +69,7 @@ const routes = () => {
           path='/profile/add-project/'
           component={AddProjectPage}
         />
+        <PrivateRoute exact path='/documents/' component={DocumentsPage} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

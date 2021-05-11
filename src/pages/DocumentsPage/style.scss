@@ -1,0 +1,170 @@
+.dashboard.documents {
+  .main-content {
+    padding: 0;
+    .documents-wrapper {
+      display: flex;
+      flex-grow: 1;
+      .documents__table {
+        flex-grow: 1;
+        .documents__table_head {
+          padding: 32px 24px 20px 32px;
+          display: flex;
+          align-items: center;
+          .show {
+            display: inline-flex;
+            align-items: center;
+            margin-right: auto;
+            span {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 150%;
+              color: #7f8896;
+              margin-right: 16px;
+            }
+            b {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 150%;
+              color: #3c4252;
+            }
+          }
+          .head--download {
+            display: inline-flex;
+            align-items: center;
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 114.9%;
+            color: #305ff5;
+            &.disabled {
+              opacity: 0.4;
+            }
+            .icon-download {
+              margin-right: 8px;
+              .icon-fill {
+                fill: #305ff5;
+              }
+            }
+          }
+          .head--delete {
+            display: inline-flex;
+            align-items: center;
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 114.9%;
+            color: #305ff5;
+            margin-left: 40px;
+            &:disabled {
+              opacity: 0.4;
+            }
+            .icon-delete-file {
+              margin-right: 8px;
+              width: 13px;
+              .icon-fill {
+                fill: #305ff5;
+              }
+            }
+          }
+        }
+        .documents__table_body {
+          table {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            tr {
+              &:nth-child(odd) {
+                background-color: #fff;
+              }
+              &:nth-child(even) {
+                background: #ebf1f6;
+              }
+              td {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                .td-wrapper {
+                  display: flex;
+                  align-items: center;
+                }
+                &.select {
+                  padding-left: 32px;
+                  padding-right: 24px;
+                }
+                &.name {
+                  width: 100%;
+                  font-family: Roboto;
+                  font-style: normal;
+                  font-weight: 500;
+                  font-size: 14px;
+                  line-height: 114.9%;
+                  color: #3c4252;
+                  img {
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 8px;
+                  }
+                }
+                &.actions {
+                  padding-right: 12px;
+                  .icon-delete-file {
+                    width: 13px;
+                  }
+                  button {
+                    width: 24px;
+                    height: 24px;
+                    padding: 0;
+                    margin-left: 8px;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .documents__filter {
+        width: 272px;
+        flex-shrink: 0;
+        background: url("../../assets/img/bg-comments.png") repeat;
+        padding: 29px 24px 32px 24px;
+        .documents__filter_head {
+          display: flex;
+          align-items: center;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: #3c4252;
+          margin-bottom: 40px;
+          .icon-filter {
+            margin-right: 10px;
+          }
+        }
+        .documents__filter_form {
+          section {
+            margin-bottom: 40px;
+            h3 {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: bold;
+              font-size: 16px;
+              line-height: 150%;
+              color: #3c4252;
+              margin-bottom: 8px;
+            }
+            .ant-form-item {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

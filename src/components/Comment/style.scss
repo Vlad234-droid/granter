@@ -92,6 +92,10 @@
   }
   .comment__reply {
     padding: 8px 16px 16px 16px;
+    .ant-skeleton {
+      width: 100% !important;
+      margin: 0 !important;
+    }
     .comment__reply_title {
       font-family: Poppins;
       font-style: normal;

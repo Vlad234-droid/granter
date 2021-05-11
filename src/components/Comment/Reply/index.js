@@ -6,30 +6,40 @@ import authorPhoto from "../../../assets/img/author.png";
 
 import "./style.scss";
 
-const Reply = (comment) => {
+const Reply = ({ reply, onReplyDelete }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  console.log("reply", reply);
+
   const onDelete = () => {
-    // setLoading(true);
-    // setOnRemoveDropdown(false);
-    // deleteFile(activeClaimId, file.id).then((data) => {
-    //   setLoading(false);
-    //   onAction(data.document);
-    //   console.log(data);
-    // });
+    setLoading(true);
+    onReplyDelete(reply.id);
+  };
+
+  const convertDate = (date) => {
+    function convertDate(inputFormat) {
+      function pad(s) {
+        return s < 10 ? "0" + s : s;
+      }
+      var d = new Date(inputFormat);
+      return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join(
+        "/"
+      );
+    }
+    return convertDate(date);
   };
 
   return (
     <div className={`comment__section ${onRemoveDropdown ? "red" : ""}`}>
       <div className='comment--header'>
         <div className='comment--author'>
-          <div className='comment--author-photo'>
+          {/* <div className='comment--author-photo'>
             <img src={authorPhoto} alt='' />
-          </div>
+          </div> */}
           <div className='comment--author-info'>
-            <span>Michael Sho </span>
-            <time>20/08/2020</time>
+            <span>{reply.user}</span>
+            <time>{convertDate(reply.updated_at)}</time>
           </div>
         </div>
         <Dropdown
@@ -43,7 +53,7 @@ const Reply = (comment) => {
           overlay={
             <div className='step-file--title-dropdown'>
               <div className='dropdown-title'>
-                Are you sure you want to delete this Document?
+                Are you sure you want to delete this Reply?
               </div>
               <div className='dropdown-actions'>
                 <Button
@@ -73,13 +83,12 @@ const Reply = (comment) => {
         </Dropdown>
         <Checkbox className='reply-checkbox' />
       </div>
-      <div className='comment--message'>
-        Please, add the information means a defect, error or bug in the Software
-        having [an adverse effect] OR [a material adverse effect] on [the
-        appearance, operation, functionality or performance of the Software][,
-        but excluding any defect, error or bug caused by or arising as a result
-        of:
-      </div>
+      <div
+        className='comment--message'
+        dangerouslySetInnerHTML={{
+          __html: reply.text.replace(/(?:\r\n|\r|\n)/g, "<br>"),
+        }}
+      />
     </div>
   );
 };

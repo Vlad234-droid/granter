@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Checkbox, Input, Collapse, Dropdown, Button } from "antd";
+import { Checkbox, Input, Collapse, Dropdown, Button, Skeleton } from "antd";
 
 import Reply from "./Reply";
 import authorPhoto from "../../assets/img/author.png";
@@ -7,27 +7,25 @@ import arrow from "../../assets/img/icon-arrow-dropdown.svg";
 
 import { IconDeleteFile, IconReply } from "../icons";
 
+import { removeComment } from "../../core/services";
+
 import "./style.scss";
 
 const { Panel } = Collapse;
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [replyForm, setReplyForm] = useState(false);
+  const [replyLoader, setReplyLoader] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("comment", comment);
+    console.log(comment);
   }, []);
 
   const onDelete = () => {
-    // setLoading(true);
-    // setOnRemoveDropdown(false);
-    // deleteFile(activeClaimId, file.id).then((data) => {
-    //   setLoading(false);
-    //   onAction(data.document);
-    //   console.log(data);
-    // });
+    setLoading(true);
+    onCommentDelete(comment.id);
   };
 
   const convertDate = (date) => {
@@ -48,9 +46,9 @@ const Comment = ({ comment }) => {
       <div className='comment__section'>
         <div className='comment--header'>
           <div className='comment--author'>
-            <div className='comment--author-photo'>
+            {/* <div className='comment--author-photo'>
               <img src={authorPhoto} alt='' />
-            </div>
+            </div> */}
             <div className='comment--author-info'>
               <span>{comment.user}</span>
               <time>{convertDate(comment.updated_at)}</time>
@@ -67,7 +65,7 @@ const Comment = ({ comment }) => {
             overlay={
               <div className='step-file--title-dropdown'>
                 <div className='dropdown-title'>
-                  Are you sure you want to delete this Document?
+                  Are you sure you want to delete this Comment?
                 </div>
                 <div className='dropdown-actions'>
                   <Button
@@ -104,12 +102,35 @@ const Comment = ({ comment }) => {
           </button>
           <Checkbox className='reply-checkbox' />
         </div>
-        <div className='comment--message'>{comment.text}</div>
+        <div
+          className='comment--message'
+          escape='false'
+          dangerouslySetInnerHTML={{
+            __html: comment.text.replace(/(?:\r\n|\r|\n)/g, "<br>"),
+          }}
+        />
       </div>
       {replyForm && (
         <div className='comment__reply'>
-          <div className='comment__reply_title'>Reply:</div>
-          <Input.TextArea placeholder='Type to Reply, Enter to Send' />
+          {!replyLoader ? (
+            <>
+              <div className='comment__reply_title'>Reply:</div>
+              <Input.TextArea
+                placeholder='Type to Reply, Enter to Send'
+                onPressEnter={(e) => {
+                  const value = e.currentTarget.value;
+                  if (e.shiftKey || value.trim().length === 0) return;
+                  setReplyLoader(true);
+                  onAddReply(e, comment.id).then(() => {
+                    setReplyForm(false);
+                    setReplyLoader(false);
+                  });
+                }}
+              />
+            </>
+          ) : (
+            <Skeleton active />
+          )}
         </div>
       )}
       {comment.replies.length > 0 && (
@@ -119,7 +140,15 @@ const Comment = ({ comment }) => {
           expandIcon={() => <img src={arrow} />}
         >
           <Panel header={`Replies (${comment.replies.length})`} key='1'>
-            <Reply />
+            {comment.replies.map((item, index) => (
+              <Reply
+                key={`reply-${item.id}`}
+                reply={item}
+                onReplyDelete={(id) => {
+                  onCommentDelete(id);
+                }}
+              />
+            ))}
           </Panel>
         </Collapse>
       )}

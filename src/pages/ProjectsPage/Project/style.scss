@@ -1,0 +1,67 @@
+.projects {
+  .project {
+    display: flex;
+    .project__forms {
+      width: 660px;
+      flex-shrink: 0;
+      .project__forms_title {
+        padding: 24px 32px;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #7f8896;
+        h2 {
+          font-style: normal;
+          font-weight: bold;
+          font-size: 16px;
+          line-height: 24px;
+          color: #3c4252;
+          display: inline-flex;
+          margin-right: 12px;
+        }
+      }
+      .project__form {
+        padding: 24px 40px;
+        margin: 0 40px 32px 30px;
+        background: #ffffff;
+        box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
+        border-radius: 10px;
+        .ant-form-item {
+          margin-bottom: 0;
+        }
+        .project__form_inputs {
+          margin-bottom: 24px;
+        }
+        .project__form_dates {
+          display: flex;
+          justify-content: space-between;
+          .start-dates {
+            width: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-end;
+          }
+          .end-dates {
+            width: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-end;
+          }
+          .months-select {
+            width: 123px;
+          }
+          .years-select {
+            width: 88px;
+            flex-shrink: 0;
+            margin-left: 16px;
+          }
+        }
+      }
+    }
+    .project__docs {
+      background-color: #e8eef2;
+    }
+  }
+}

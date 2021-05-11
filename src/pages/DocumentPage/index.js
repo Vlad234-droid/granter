@@ -15,6 +15,7 @@ import {
   getDocumentComments,
   postNewVersionDocument,
   postNewComment,
+  removeComment,
 } from "../../core/services";
 
 import DocumentViewer from "../../components/DocumentViewer";
@@ -34,24 +35,71 @@ const { Option } = Select;
 const DocumentPage = () => {
   const { id, climeId } = useParams();
   const [commentsList, setCommentsList] = useState(null);
+  const [mode, setMode] = useState("all");
   const [document, setDocument] = useState(null);
   const [documentUploadLoader, setDocumentUploadLoader] = useState(false);
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newCommentForm, setNewCommentForm] = useState(false);
+  const [newCommentLoader, setNewCommentLoader] = useState(false);
 
   useEffect(() => {
     getDocumentComments(climeId, id).then((data) => {
       setCommentsList(data.comments);
       setDocument(data.document);
+      console.log("comments", data.comments);
     });
   }, []);
+
+  const onChangeMode = (e) => {
+    const result = [...commentsList];
+    if (e === "latest") {
+      result.sort((a, b) =>
+        a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0
+      );
+    } else {
+      result.sort((a, b) =>
+        a.updated_at > b.updated_at ? 1 : b.updated_at > a.updated_at ? -1 : 0
+      );
+    }
+    setCommentsList(result);
+    setMode(e);
+  };
 
   const uploadNewDocument = ({ file }) => {
     setDocumentUploadLoader(true);
     postNewVersionDocument(climeId, id, file).then((data) => {
-      console.log(data.document);
       setDocument(data.document);
       setDocumentUploadLoader(false);
+    });
+  };
+
+  const addComment = (e) => {
+    const value = e.currentTarget.value;
+    if (e.shiftKey || value.trim().length === 0) return;
+    setNewCommentLoader(true);
+    postNewComment(climeId, id, value).then((data) => {
+      setCommentsList(data.comment);
+      setNewCommentLoader(false);
+      setNewCommentForm(false);
+    });
+  };
+
+  const addReply = (e, comment_id) => {
+    const value = e.currentTarget.value;
+    return new Promise((resolve, reject) => {
+      postNewComment(climeId, id, value, 1, comment_id).then((data) => {
+        setCommentsList(data.comment);
+        resolve();
+      });
+    });
+  };
+
+  const onCommentDelete = (commentId) => {
+    removeComment(climeId, id, commentId).then((data) => {
+      console.log(data);
+      setCommentsList(data.comments);
+      // setLoading(false);
+      // onAction(data.document);
+      // console.log(data);
     });
   };
 
@@ -64,26 +112,29 @@ const DocumentPage = () => {
             <span>To Dashboard</span>
           </Link>
           {document && (
-            <a href={document.url} className='header--download'>
-              <img src={iconDownload} alt='' />
-              <span>Download File</span>
-            </a>
+            <>
+              <a href={document.url} className='header--download'>
+                <img src={iconDownload} alt='' />
+                <span>Download File</span>
+              </a>
+              <Dragger
+                className='header--upload'
+                disabled={document.status !== 1}
+                name='file'
+                customRequest={uploadNewDocument}
+                accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                showUploadList={false}
+              >
+                {documentUploadLoader && (
+                  <div className='loading'>
+                    <Spin />
+                  </div>
+                )}
+                <img src={iconUpload} alt='' />
+                <span>Upload New Version</span>
+              </Dragger>
+            </>
           )}
-          <Dragger
-            className='header--upload'
-            name='file'
-            customRequest={uploadNewDocument}
-            accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-            showUploadList={false}
-          >
-            {documentUploadLoader && (
-              <div className='loading'>
-                <Spin />
-              </div>
-            )}
-            <img src={iconUpload} alt='' />
-            <span>Upload New Version</span>
-          </Dragger>
         </header>
         <article className='document-wrapper'>
           {document && <DocumentViewer url={document.url} />}
@@ -91,7 +142,7 @@ const DocumentPage = () => {
       </div>
       <div className='document-details__comments'>
         {!commentsList ? (
-          <Skeleton />
+          <Skeleton active />
         ) : (
           <>
             <div className='document-details__comments_header'>
@@ -104,6 +155,7 @@ const DocumentPage = () => {
                   defaultValue='all'
                   suffixIcon={<img src={iconSelectArrow} alt='' />}
                   dropdownMatchSelectWidth={false}
+                  onChange={onChangeMode}
                 >
                   <Option value='all'>All</Option>
                   <Option value='latest'>Latest</Option>
@@ -112,55 +164,44 @@ const DocumentPage = () => {
             </div>
             <div className='document-details__comments_list'>
               {commentsList.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  climeId={climeId}
+                  onCommentDelete={onCommentDelete}
+                  onAddReply={addReply}
+                />
               ))}
+              {newCommentForm && (
+                <div className='new-comment'>
+                  {!newCommentLoader ? (
+                    <>
+                      <label>Comment:</label>
+                      <Input.TextArea
+                        placeholder='Type to Comment, Enter to Send'
+                        onPressEnter={addComment}
+                      />
+                    </>
+                  ) : (
+                    <Skeleton active />
+                  )}
+                </div>
+              )}
             </div>
           </>
         )}
         <div className='document-details__comments_new'>
           <Button
             type='primary'
+            disabled={newCommentForm}
             onClick={(e) => {
-              setIsModalVisible(true);
+              setNewCommentForm(true);
             }}
           >
             New Comment
           </Button>
         </div>
       </div>
-      <Modal
-        title='Basic Modal'
-        visible={isModalVisible}
-        onCancel={() => {
-          setIsModalVisible(false);
-        }}
-      >
-        <Form
-          name='basic'
-          onFinish={(form) => {
-            postNewComment(climeId, id, form.username);
-          }}
-        >
-          <Form.Item
-            label='Username'
-            name='username'
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type='primary' htmlType='submit'>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
     </div>
   );
 };

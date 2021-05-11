@@ -45,6 +45,9 @@
         box-sizing: border-box;
         border-radius: 10px;
         position: relative;
+        &.ant-upload-disabled {
+          opacity: 0.4;
+        }
         .loading {
           position: absolute;
           top: 0;
@@ -122,9 +125,31 @@
       }
     }
     .document-details__comments_list {
-      padding: 16px 24px 0 24px;
+      padding: 16px 24px 100px 24px;
       overflow: auto;
       height: 100%;
+      .new-comment {
+        background: #f7f7fa;
+        border-radius: 10px;
+        padding: 16px;
+        label {
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #3c4252;
+          margin-bottom: 8px;
+          display: block;
+        }
+        .ant-input {
+          height: 140px;
+        }
+        .ant-skeleton {
+          margin: 0;
+          width: 100%;
+        }
+      }
     }
     .document-details__comments_new {
       position: absolute;
@@ -140,6 +165,12 @@
         rgba(235, 239, 243, 0) 0%,
         #eff3f7 80.67%
       );
+      .ant-btn {
+        &:disabled {
+          background-color: #7f8896;
+          box-shadow: none;
+        }
+      }
     }
   }
 }

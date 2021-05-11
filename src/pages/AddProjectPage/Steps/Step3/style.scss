@@ -9,23 +9,3 @@
     }
   }
 }
-
-.ant-input-affix-wrapper {
-  border-color: #305ff5;
-  border-radius: 10px;
-  padding: 0 12px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #3c4252;
-  &:hover {
-    box-shadow: 0px 4px 12px rgba(48, 95, 245, 0.3) !important;
-  }
-  &.ant-input-affix-wrapper-focused {
-    box-shadow: none !important;
-  }
-  .ant-input {
-    box-shadow: none !important;
-  }
-}
