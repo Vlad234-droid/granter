@@ -77,9 +77,22 @@ const DocumentPage = () => {
     if (e.shiftKey || value.trim().length === 0) return;
     setNewCommentLoader(true);
     postNewComment(climeId, id, value).then((data) => {
-      setCommentsList(data.comment);
+      const result = [...data.comment];
+      if (mode === "latest") {
+        result.sort((a, b) =>
+          a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0
+        );
+      }
+      setCommentsList(result);
       setNewCommentLoader(false);
       setNewCommentForm(false);
+      if (mode === "latest") {
+        setTimeout(() => {
+          window.document
+            .querySelector(".document-details__comments_list")
+            .scrollTo(0, 0);
+        }, 100);
+      }
     });
   };
 
@@ -196,6 +209,11 @@ const DocumentPage = () => {
             disabled={newCommentForm}
             onClick={(e) => {
               setNewCommentForm(true);
+              setTimeout(() => {
+                window.document
+                  .querySelector(".document-details__comments_list")
+                  .scrollTo(0, 50000);
+              }, 100);
             }}
           >
             New Comment

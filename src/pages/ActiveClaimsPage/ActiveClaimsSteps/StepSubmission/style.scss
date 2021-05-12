@@ -5,3 +5,11 @@
     border-radius: 10px;
   }
 }
+.step-status--approve {
+  width: 100%;
+  margin-bottom: 24px;
+  &:disabled {
+    background: #c0c4cb !important;
+    box-shadow: none !important;
+  }
+}

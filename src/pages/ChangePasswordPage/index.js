@@ -150,7 +150,8 @@ const ChangePasswordPage = () => {
               </Form.Item>
             </Form>
             <div className='change-password__forgot'>
-              Forgot your password? <Link to=''>Reset a password</Link>
+              Forgot your password?
+              <Link to='/profile/reset-password/'>Reset a password</Link>
             </div>
           </div>
         </div>

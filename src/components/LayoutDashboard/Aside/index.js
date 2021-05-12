@@ -21,15 +21,40 @@ const { SubMenu, Item } = Menu;
 
 export default function Aside() {
   let location = useLocation();
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state.user);
   const history = useHistory();
+  const [currentMenu, setCurrentMenu] = useState("");
+
+  useEffect(() => {
+    switch (true) {
+      case location.pathname.includes("active-claims"):
+        setCurrentMenu("active");
+        break;
+      case location.pathname.includes("future-claims"):
+        setCurrentMenu("future");
+        break;
+      case location.pathname.includes("profile"):
+        setCurrentMenu("profile");
+        break;
+      case location.pathname.includes("clients"):
+        setCurrentMenu("clients");
+        break;
+      // case location.pathname.includes("questions"):
+      //   setCurrentMenu("library-questions");
+      //   setCurrentOpentMenu("library");
+      //   break;
+
+      default:
+        setCurrentMenu("");
+        break;
+    }
+  }, []);
 
   return (
     <aside className='nav-left'>
       <div className='nav__logo'>
-        <Link to='/'>
+        <Link to='/active-claims/'>
           <img src={headerLogo} alt='logo' />
           <span>Granter</span>
         </Link>
@@ -37,7 +62,7 @@ export default function Aside() {
       <div className='nav__scroll'>
         <Menu
           mode='inline'
-          selectedKeys={["active"]}
+          selectedKeys={[currentMenu]}
           //openKeys={[state.navigationLibraryIsOpen]}
           // onOpenChange={(item, key, keyPath, domEvent) => {
           //     const setNavigationLibrary = bindActionCreators(

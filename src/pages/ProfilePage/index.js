@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Skeleton, Checkbox, Upload, Spin, Input, Select } from "antd";
+import { Link } from "react-router-dom";
 
 import Layout from "../../components/LayoutDashboard/Layout";
 import { fetchProfileData } from "../../core/services";
@@ -110,7 +111,7 @@ const ProfilePage = () => {
           <li>
             <div className='label'>Your Password</div>
             <div className='details'>
-              <a href=''>Change password</a>
+              <Link to='/profile/change-password/'>Change password</Link>
             </div>
           </li>
         </ul>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Skeleton } from "antd";
+import { Skeleton, Button } from "antd";
 import services from "../../../../core/services";
 
 import UploadFile from "../../../../components/UploadFile";
@@ -23,6 +23,9 @@ const StepSubmission = () => {
         <div className='step-report-empty'>Final report</div>
       </div>
       <div className='step-status'>
+        <Button type='primary' disabled className='step-status--approve'>
+          Approve
+        </Button>
         <div className='step-status--bar waiting'>
           <span className='step-status--bar-fill' style={{ width: "0%" }} />
           <span className='step-status--bar-parcent'>0%</span>
