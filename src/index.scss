@@ -472,3 +472,9 @@ button:not(.ant-btn) {
     box-shadow: none !important;
   }
 }
+.ant-modal-header {
+  border-bottom: 0px !important;
+}
+.ant-modal-footer {
+  border-top: 0px !important;
+}

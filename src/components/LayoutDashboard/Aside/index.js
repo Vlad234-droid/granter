@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { Menu, Modal, Button } from "antd";
+import ModalAsk from "./ModalAsk/index"
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +26,8 @@ export default function Aside() {
   const state = useSelector((state) => state.user);
   const history = useHistory();
   const [currentMenu, setCurrentMenu] = useState("");
+  const [visibleModal, setVisibleModal] = useState(false)
+
 
   useEffect(() => {
     switch (true) {
@@ -50,6 +53,18 @@ export default function Aside() {
         break;
     }
   }, []);
+
+  const showModal = () => {
+    setVisibleModal(() => true)
+  }
+
+  const handleOk = () => {
+    setVisibleModal(() => false)
+  }
+
+  const handleCancel = () => {
+    setVisibleModal(() => false)
+  }
 
   return (
     <aside className='nav-left'>
@@ -123,7 +138,8 @@ export default function Aside() {
               <span>Your manager</span>
             </div>
           </div>
-          <Button type='primary'>Ask a Question</Button>
+          <Button type='primary' onClick={showModal}>Ask a Question</Button>
+          <ModalAsk visibleModal={visibleModal} handleOk={handleOk} handleCancel={handleCancel}/>
         </div>
       </div>
     </aside>
