@@ -25,7 +25,7 @@ const AddProjectPage = () => {
     <Layout isLogged={false} className='dashboard'>
       <div className='add-project'>
         <div className='add-project__header'>
-          <Link to=''>
+          <Link to='/profile/'>
             <img src={arrowLeft} alt='' />
             <span>To Profile</span>
           </Link>

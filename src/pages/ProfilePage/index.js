@@ -1,177 +1,268 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Skeleton, Checkbox, Upload, Spin, Input, Select } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Skeleton,
+  Checkbox,
+  notification,
+  Spin,
+  Input,
+  Select,
+  Form,
+  Button,
+} from "antd";
 import { Link } from "react-router-dom";
 
 import Layout from "../../components/LayoutDashboard/Layout";
-import { fetchProfileData } from "../../core/services";
+import Company from "./Company";
+
+import {
+  fetchProfileData,
+  postProfileData,
+  fetchUserCompanies,
+} from "../../core/services";
 
 import { IconEditPencil, IconWarning, IconAdd } from "../../components/icons";
-import iconUpload from "../../assets/img/icon-upload.svg";
-import iconSelectArrow from "../../assets/img/iceon-select-arrow.svg";
 
 import "./style.scss";
 
-const { Dragger } = Upload;
-const { Option } = Select;
-
 const ProfilePage = () => {
+  const [userData, setUserData] = useState(null);
   const [editModeGeneral, setEditModeGeneral] = useState(false);
+  const [profileFormLoader, setProfileFormLoader] = useState(false);
+  const [companiesList, setCompaniesList] = useState(null);
+
+  const [profileForm] = Form.useForm();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchProfileData();
+    fetchProfileData().then((data) => {
+      setUserData(data);
+      profileForm.setFieldsValue({
+        name: data.profile.name,
+        team_role: data.profile.team_role,
+        address: data.profile.address,
+        enable_notifications: data.profile.enable_notifications,
+      });
+    });
+    fetchUserCompanies(dispatch).then((data) => {
+      setCompaniesList(data);
+    });
   }, []);
 
+  const onSave = (form) => {
+    setProfileFormLoader(true);
+    postProfileData(form).then((data) => {
+      setUserData(data);
+      setProfileFormLoader(false);
+      setEditModeGeneral(false);
+    });
+  };
+
+  const enableNotificationsChange = (e) => {
+    const form = {
+      enable_notifications: e.target.checked ? 1 : 0,
+    };
+    postProfileData(form).then((data) => {
+      console.log(data);
+    });
+  };
+
+  const updateCompany = (company) => {
+    console.log("company", company);
+    const result = companiesList.map((item) => {
+      if (item.id === company.id) return company;
+      return item;
+    });
+    setCompaniesList(result);
+  };
+
   return (
-    <Layout isLogged={false} className='dashboard profile'>
+    <Layout className='dashboard profile'>
       <div className='profile__general'>
-        <h2>
-          <span>Personal Information</span>
-          <button
-            onClick={(e) => {
-              setEditModeGeneral(true);
-            }}
+        <div className='profile__general_title'>
+          <h2>
+            <span>Personal Information</span>
+            <button
+              onClick={(e) => {
+                setEditModeGeneral(true);
+              }}
+            >
+              <IconEditPencil />
+            </button>
+          </h2>
+          {editModeGeneral && (
+            <Button
+              type='button'
+              loading={profileFormLoader}
+              onClick={(e) => {
+                profileForm.submit();
+              }}
+            >
+              Save
+            </Button>
+          )}
+        </div>
+        {!userData ? (
+          <Skeleton active />
+        ) : (
+          <Form
+            name='profile'
+            form={profileForm}
+            // initialValues={{
+            //   remember: true,
+            // }}
+            onFinish={onSave}
+            // onFinishFailed={onFinishFailed}
           >
-            <IconEditPencil />
-          </button>
-        </h2>
-        <ul className='profile__general_table'>
-          <li>
-            <div className='label'>Full Name</div>
-            <div className='details'>
-              {!editModeGeneral ? (
-                <span>Michael Cormac Newell</span>
-              ) : (
-                <Input value='Michael Cormac Newell' />
-              )}
-            </div>
-          </li>
-          <li>
-            <div className='label'>Team Role</div>
-            <div className='details'>
-              {!editModeGeneral ? (
-                <span>Venture Capitalist</span>
-              ) : (
-                <Select
-                  suffixIcon={<img src={iconSelectArrow} alt='' />}
-                  dropdownMatchSelectWidth={false}
-                  defaultValue='jack'
-                >
-                  <Option value='jack'>Venture Capitalist</Option>
-                  <Option value='lucy'>Venture Capitalist - 2</Option>
-                  <Option value='Yiminghe'>Venture Capitalist - 3</Option>
-                </Select>
-              )}
-              {/* <div className='alert'>
-                <IconWarning />
-                <span>Not Setted</span>
-                <a href=''>Set the Role</a>
-              </div> */}
-            </div>
-          </li>
-          <li>
-            <div className='label'>Registered Address</div>
-            <div className='details'>
-              {!editModeGeneral ? (
-                <span>High St, St Albans AL3 4EL, United Kingdom</span>
-              ) : (
-                <Input value='High St, St Albans AL3 4EL, United Kingdom' />
-              )}
-            </div>
-          </li>
-          <li>
-            <div className='label'>ID Verification status</div>
-            <div className='details'>
-              <div className='alert'>
-                <IconWarning />
-                <span>Not Verified</span>
-                <a href=''>Verify</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className='label'>Your Email</div>
-            <div className='details'>
-              <span>newell@gmail.com</span>
-              <p>
-                <Checkbox>Receive all notifications</Checkbox>
-              </p>
-            </div>
-          </li>
-          <li>
-            <div className='label'>Your Phone Number</div>
-            <div className='details'>
-              {!editModeGeneral ? (
-                <span>+4402078878888</span>
-              ) : (
-                <Input value='+4402078878888' />
-              )}
-            </div>
-          </li>
-          <li>
-            <div className='label'>Your Password</div>
-            <div className='details'>
-              <Link to='/profile/change-password/'>Change password</Link>
-            </div>
-          </li>
-        </ul>
+            <ul className='profile__general_table'>
+              <li>
+                <div className='label'>Full Name</div>
+                <div className='details'>
+                  {!editModeGeneral ? (
+                    <span>{userData.profile.name}</span>
+                  ) : (
+                    <Form.Item
+                      name='name'
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your name!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+                </div>
+              </li>
+              <li>
+                <div className='label'>Team Role</div>
+                <div className='details'>
+                  {!editModeGeneral ? (
+                    <>
+                      {userData.profile.team_role ? (
+                        <span>{userData.profile.team_role}</span>
+                      ) : (
+                        <div className='alert'>
+                          <IconWarning />
+                          <span>Not Setted</span>
+                          <a
+                            href=''
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setEditModeGeneral(true);
+                            }}
+                          >
+                            Set the Role
+                          </a>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Form.Item
+                      name='team_role'
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your Team Role!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+                </div>
+              </li>
+              <li>
+                <div className='label'>Registered Address</div>
+                <div className='details'>
+                  {!editModeGeneral ? (
+                    <span>{userData.profile.address}</span>
+                  ) : (
+                    <Form.Item
+                      name='address'
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your Registered Address!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+                </div>
+              </li>
+              <li>
+                <div className='label'>ID Verification status</div>
+                <div className='details'>
+                  <div className='alert'>
+                    <IconWarning />
+                    <span>Not Verified</span>
+                    <a href=''>Verify</a>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className='label'>Your Email</div>
+                <div className='details'>
+                  <span>{userData.email}</span>
+                  <Form.Item
+                    name='enable_notifications'
+                    valuePropName='checked'
+                  >
+                    <Checkbox onChange={enableNotificationsChange}>
+                      Receive all notifications
+                    </Checkbox>
+                  </Form.Item>
+                </div>
+              </li>
+              <li>
+                <div className='label'>Your Phone Number</div>
+                <div className='details'>
+                  {!editModeGeneral ? (
+                    <span>{userData.profile.phone}</span>
+                  ) : (
+                    <Form.Item
+                      name='phone'
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your Phone Number!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+                </div>
+              </li>
+              <li>
+                <div className='label'>Your Password</div>
+                <div className='details'>
+                  <Link to='/profile/change-password/'>Change password</Link>
+                </div>
+              </li>
+            </ul>
+          </Form>
+        )}
       </div>
       <div className='profile__companies'>
         <h2>
           <span>My Companies</span>
-          <button>
+          <Link to='/profile/add-project/'>
             <IconAdd />
-          </button>
+          </Link>
         </h2>
         <ul className='profile__companies_list'>
-          <li className='profile__company'>
-            <h3>
-              <span>St.James Company</span>
-              <button>
-                <IconEditPencil />
-              </button>
-            </h3>
-            <section className='profile__company_details'>
-              <div className='company--row'>
-                <div className='label'>Number</div>
-                <div className='details'>37687 1287409 989</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>Accountant Email</div>
-                <div className='details'>accountantemail@gmail.com</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>Revenue</div>
-                <div className='details'>£ 300 per year</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>UTR</div>
-                <div className='details'>8767 7366 87</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>SME or RDEC</div>
-                <div className='details'>RDEC</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>Assigned Consultant</div>
-                <div className='details'>Michael, +44 (0)20 7887 8888</div>
-              </div>
-              <div className='company--row'>
-                <div className='label'>Company Logo</div>
-                <div className='details'>
-                  <Dragger>
-                    {/* <div className='upload-loading'>
-                        <Spin />
-                      </div> */}
-                    <div className='upload-title'>
-                      <img src={iconUpload} alt='' />
-                      <span>Upload Logo</span>
-                    </div>
-                  </Dragger>
-                </div>
-              </div>
-            </section>
-          </li>
+          {companiesList &&
+            companiesList.map((item) => (
+              <Company
+                key={`company-${item.id}`}
+                company={item}
+                updateCompany={updateCompany}
+              />
+            ))}
         </ul>
       </div>
     </Layout>

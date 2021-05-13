@@ -5,16 +5,36 @@
       padding: 32px 32px 24px 32px;
       background-color: #fff;
       border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+      .profile__general_title {
+        display: flex;
+        justify-content: space-between;
+        width: 640px;
+        height: 32px;
+        h2 {
+          button {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+          }
+        }
+        .ant-btn {
+          height: 32px;
+        }
+      }
       .profile__general_table {
-        margin: 24px 0 0 0;
+        margin: 16px 0 0 0;
         padding: 0;
         list-style: none;
         width: 640px;
         li {
           display: flex;
           padding: 9px 16px 10px 16px;
+          align-items: center;
           &:nth-child(odd) {
             background: rgba(238, 242, 246, 0.85);
+          }
+          .ant-row {
+            margin-bottom: 0;
           }
           .label {
             width: 180px;
@@ -81,77 +101,10 @@
         list-style: none;
         display: flex;
         flex-wrap: wrap;
-        .profile__company {
-          width: 435px;
-          background: #ffffff;
-          box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
-          border-radius: 10px;
-          h3 {
-            height: 59px;
-            display: flex;
-            align-items: center;
-            font-family: Poppins;
-            font-style: normal;
-            font-weight: bold;
-            font-size: 16px;
-            line-height: 24px;
-            color: #3c4252;
-            padding: 16px;
-            button {
-              width: 22px;
-              height: 22px;
-              margin-left: 8px;
-              cursor: pointer;
-            }
-          }
-          .company--row {
-            display: flex;
-            padding: 9px 16px 10px 16px;
-            &:nth-child(even) {
-              background: rgba(238, 242, 246, 0.85);
-            }
-            .label {
-              width: 180px;
-              flex-shrink: 0;
-              font-family: Roboto;
-              font-style: normal;
-              font-weight: normal;
-              font-size: 14px;
-              line-height: 150%;
-              color: #7f8896;
-            }
-            .details {
-              font-family: Roboto;
-              font-style: normal;
-              font-weight: normal;
-              font-size: 14px;
-              line-height: 150%;
-              color: #3c4252;
-              .ant-upload-drag {
-                background: #ffffff;
-                border: 1px dashed #305ff5;
-                box-sizing: border-box;
-                border-radius: 10px;
-                width: 200px;
-                .ant-upload-btn {
-                  padding: 8px;
-                  .upload-title {
-                    display: flex;
-                    align-items: center;
-                    font-family: Roboto;
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 114.9%;
-                    color: #3c4252;
-                    img {
-                      margin-right: 8px;
-                    }
-                  }
-                }
-              }
-            }
-          }
+        align-items: flex-start;
+        li {
+          margin-right: 16px;
+          margin-bottom: 16px;
         }
       }
     }
@@ -164,7 +117,7 @@
       color: #3c4252;
       display: flex;
       align-items: center;
-      button {
+      a {
         width: 22px;
         height: 22px;
         margin-left: 8px;

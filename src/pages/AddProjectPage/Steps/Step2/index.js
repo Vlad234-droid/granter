@@ -16,8 +16,9 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   const { registrationUpdateState } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
+    console.log("state", state);
     fetchAllIndustries(dispatch);
-    if (!state.industry) slider.current.next();
+    if (state.industry.length === 0) slider.current.next();
   }, []);
 
   const onFinishName = (value) => {

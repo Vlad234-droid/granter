@@ -1,5 +1,6 @@
 .header__company {
   position: relative;
+  max-width: 300px;
   .header__company_selected {
     font-family: Poppins;
     font-style: normal;
@@ -13,6 +14,7 @@
     padding: 0 16px;
     position: relative;
     z-index: 1051;
+    max-width: 100%;
     &.ant-dropdown-open {
       .header__company_dropdown-arrow {
         transform: scale(-1);
@@ -36,6 +38,7 @@
     border-radius: 50%;
     margin-right: 8px;
     transition: all 250ms ease;
+    flex-shrink: 0;
     &.blue {
       background: rgba(48, 95, 245, 0.2);
       .icon-company {
@@ -55,6 +58,9 @@
   }
   .header__company_name {
     transition: all 250ms ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .header__company_dropdown-arrow {
     width: 10px;
@@ -62,6 +68,7 @@
     margin-top: -5px;
     margin-left: 12px;
     transition: all 250ms ease;
+    flex-shrink: 0;
     &::before {
       content: "";
       display: block;
@@ -91,8 +98,9 @@
   }
 }
 .header__company_select-dropdown {
+  width: 100%;
   .ant-dropdown-menu {
-    padding: 54px 8px 12px 8px;
+    padding: 60px 8px 12px 8px;
     box-shadow: 0px 8px 15px rgba(17, 51, 103, 0.15);
     border-radius: 10px;
     transform: translateY(-48px);
@@ -121,6 +129,7 @@
     width: 32px;
     height: 32px;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     border-radius: 50%;

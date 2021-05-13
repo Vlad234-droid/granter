@@ -1,11 +1,37 @@
-import React from "react";
-import { Button, Row, Col, Card } from "antd";
+import React, { useState } from "react";
+import { Button, Row, Col, Card, notification } from "antd";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import { addNewCompany } from "../../../core/services";
 
 import "./style.scss";
 
 const Сonfirm = ({ goNextStep, goPrevStep }) => {
+  const [loader, setLoader] = useState(false);
   const state = useSelector((state) => state.registration);
+  let history = useHistory();
+
+  const addCompany = () => {
+    setLoader(true);
+    const companyData = {
+      name: state.name,
+      number: state.number,
+      industry_ids: state.industry,
+      staffing_costs: state.staffing_costs,
+      materials_costs: state.materials_costs,
+      subcontracting: state.subcontracting_costs,
+      software_costs: state.software_costs,
+    };
+    addNewCompany(companyData).then((data) => {
+      setLoader(false);
+      notification.success({
+        description: "Company was created successfully",
+      });
+      history.push("/profile/");
+    });
+  };
+
   return (
     <div className='welcome__comfirm'>
       <h1>
@@ -43,7 +69,7 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
         </Row>
       </div>
       <div className='welcome__comfirm_submit'>
-        <Button type='primary' onClick={goNextStep}>
+        <Button type='primary' loading={loader} onClick={addCompany}>
           Confirm
         </Button>
         <Button type='text' onClick={goPrevStep}>
