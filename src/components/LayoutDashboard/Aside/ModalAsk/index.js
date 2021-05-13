@@ -93,7 +93,7 @@ const ModalAsk = ({visibleModal, handleCancel}) => {
 							},
 						]}
 					>
-						<TextArea rows={4} style={{width: '85%', margin: '0 auto'}} />
+						<TextArea rows={9} style={{width: '85%', margin: '0 auto'}} />
 					</Form.Item>
 					<div className="checkBox">
 						<h3>Receive answer by:</h3>
@@ -109,7 +109,14 @@ const ModalAsk = ({visibleModal, handleCancel}) => {
 					{checkForPhoneRender()}
 				</div>
 				<div className="wrapper-btn-modal">
-					<Button type="button">Back</Button>
+					<Button
+						type="button"
+						onClick={() => {
+							dispatch(handleCancel());
+						}}
+					>
+						Back
+					</Button>
 					<Button type="primary" htmlType="submit">
 						Ask
 					</Button>
