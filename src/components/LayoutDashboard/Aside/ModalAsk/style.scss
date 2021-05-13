@@ -1,0 +1,50 @@
+.ant-col-14 {
+	max-width: 100% !important;
+}
+.ant-form-item-control-input-content {
+	display: flex;
+}
+.info-img-text-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 200px;
+	align-items: center;
+	img {
+		width: 64px;
+		height: 64px;
+	}
+	b {
+		font-family: Poppins;
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 700;
+		letter-spacing: 0em;
+		text-align: center;
+		width: 55%;
+		color: #3c4252;
+	}
+	p {
+		font-family: Roboto;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		letter-spacing: 0em;
+		text-align: center;
+		color: #3c4252;
+	}
+}
+.checkBox {
+	width: 45%;
+	margin-left: 35px;
+	justify-content: space-evenly;
+	display: flex;
+	height: 30px;
+}
+.wrapper-btn-modal {
+	display: flex;
+	width: 25%;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px auto 0px auto;
+}
