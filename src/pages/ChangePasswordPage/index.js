@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ReactPasswordStrength from "react-password-strength";
+import { useHistory } from "react-router-dom";
 
-import { Skeleton, Checkbox, Tooltip, Button, Input, Form } from "antd";
+import { Skeleton, notification, Tooltip, Button, Input, Form } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 import Layout from "../../components/LayoutDashboard/Layout";
-import { fetchProfileData } from "../../core/services";
+import { fetchChacngePassword } from "../../core/services";
 
 import { IconInfo } from "../../components/icons";
 
@@ -20,9 +21,22 @@ const ChangePasswordPage = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [form] = Form.useForm();
+  const history = useHistory();
 
-  const onFinishName = (value) => {
+  const onFinishName = (values) => {
     setLoader(true);
+    fetchChacngePassword(values)
+      .then((data) => {
+        setLoader(false);
+        console.log("AAaa", data);
+        notification.success({
+          description: data,
+        });
+        history.push("/profile/");
+      })
+      .catch((error) => {
+        setLoader(false);
+      });
   };
 
   const changeCallback = (score, password, isValid) => {
@@ -76,7 +90,7 @@ const ChangePasswordPage = () => {
             >
               <Form.Item
                 label='Current Password'
-                name='current'
+                name='current_password'
                 rules={[
                   {
                     required: true,
@@ -150,7 +164,7 @@ const ChangePasswordPage = () => {
               </Form.Item>
             </Form>
             <div className='change-password__forgot'>
-              Forgot your password?
+              Forgot your password?{" "}
               <Link to='/profile/reset-password/'>Reset a password</Link>
             </div>
           </div>

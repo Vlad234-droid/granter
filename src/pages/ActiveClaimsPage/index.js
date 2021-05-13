@@ -40,7 +40,7 @@ const ActiveClaimsPage = (props) => {
             <div className='active-claims__title'>
               <h2>{activeClaimData.title}</h2>
               <time>
-                {activeClaimData.startDate} – {activeClaimData.endDate}
+                {activeClaimData.start_date} – {activeClaimData.end_date}
               </time>
             </div>
             {!user.email_verified_at ? (

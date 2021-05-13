@@ -1,27 +1,56 @@
 import React, { useEffect } from "react";
+import { bindActionCreators } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserCompanies } from "../../core/services";
+import lockr from "lockr";
 
 import { Dropdown, Menu } from "antd";
 import { IconCompany } from "../icons";
+
+import actions from "../../core/actions";
 
 import "./style.scss";
 
 const HeaderCompanies = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { setUserCurrentCompany } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
-    if (!user.companies) fetchUserCompanies(dispatch);
+    if (!user.companies) {
+      fetchUserCompanies(dispatch).then((data) => {
+        const currentId = lockr.get("current-company-id");
+        if (currentId) {
+          setUserCurrentCompany(
+            data.filter((item) => item.id === currentId)[0]
+          );
+        } else {
+          setUserCurrentCompany(data[0]);
+          lockr.set("current-company-id", data[0].id);
+        }
+      });
+    }
   }, []);
+
+  const companyChange = (id) => {
+    setUserCurrentCompany(user.companies.filter((item) => item.id === id)[0]);
+    console.log();
+  };
 
   const menu = (
     <Menu>
       {user.companies &&
+        user.currentCompany &&
         user.companies.map((item, index) => {
-          if (index > 0) {
+          console.log(user.currentCompany);
+          if (item.id !== user.currentCompany.id) {
             return (
-              <Menu.Item key={`company-${index}`}>
+              <Menu.Item
+                key={`company-${index}`}
+                onClick={() => {
+                  companyChange(item.id);
+                }}
+              >
                 <div className='header__company_icon yellow'>
                   <IconCompany />
                 </div>
@@ -39,6 +68,7 @@ const HeaderCompanies = () => {
           overlay={menu}
           trigger={["click"]}
           overlayClassName='header__company_select-dropdown'
+          placement='bottomLeft'
           getPopupContainer={() =>
             document.querySelector("header .header__company")
           }

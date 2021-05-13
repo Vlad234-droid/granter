@@ -5,7 +5,7 @@ import { Skeleton, Checkbox, Tooltip, Button, Input, Form } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 import Layout from "../../components/LayoutDashboard/Layout";
-import { fetchProfileData } from "../../core/services";
+import { fetchResetPassword } from "../../core/services";
 
 import { IconInfo } from "../../components/icons";
 
@@ -23,6 +23,7 @@ const ResetPasswordPage = () => {
 
   const onFinishName = (value) => {
     setLoader(true);
+    fetchResetPassword();
   };
 
   return (
@@ -59,7 +60,7 @@ const ResetPasswordPage = () => {
                   },
                 ]}
               >
-                <Input.Password placeholder='Enter your email' />
+                <Input placeholder='Enter your email' />
               </Form.Item>
               <Form.Item className='registration--submit'>
                 <Button type='primary' htmlType='submit' loading={loader}>

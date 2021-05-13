@@ -89,7 +89,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         companies: action.payload,
-        currentCompany: action.payload[0],
+        // currentCompany: action.payload[0],
         loader: false,
         error: null,
         success: true,
@@ -102,6 +102,12 @@ const userReducer = (state = initialState, action) => {
         loader: false,
         error: null,
         success: true,
+      };
+
+    case "SET_USER_CURRENT_COMPANY":
+      return {
+        ...state,
+        currentCompany: action.payload,
       };
 
     default:

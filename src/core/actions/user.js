@@ -34,6 +34,13 @@ const userCompaniesLoaded = (data) => {
   };
 };
 
+const setUserCurrentCompany = (data) => {
+  return {
+    type: "SET_USER_CURRENT_COMPANY",
+    payload: data,
+  };
+};
+
 const setUserActiveClimeId = (data) => {
   return {
     type: "SET-USER-ACTIVE-CLIME-ID",
@@ -48,4 +55,5 @@ export {
   userDataLoaded,
   userCompaniesLoaded,
   setUserActiveClimeId,
+  setUserCurrentCompany,
 };
