@@ -42,7 +42,6 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
     deleteFile(activeClaimId, file.id).then((data) => {
       setLoading(false);
       onAction(data.document);
-      console.log(data);
     });
   };
 
@@ -125,7 +124,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
           </div>
           <div className='comments'>
             <img src={iconComment} alt='' />
-            <span>{file.comments}</span>
+            <span>{file.comments_count}</span>
           </div>
         </div>
       </div>
@@ -162,8 +161,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
                 e.preventDefault();
                 e.stopPropagation();
                 setSkipFile(activeClaimId, file.id).then((data) => {
-                  updateFile.is_skipped = 1;
-                  onAction(updateFile);
+                  onAction(data.document);
                 });
               }
               setLoading(false);

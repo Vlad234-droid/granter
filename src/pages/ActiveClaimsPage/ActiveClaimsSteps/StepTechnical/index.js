@@ -18,6 +18,7 @@ const StepTechnical = () => {
 
   useEffect(() => {
     if (activeClaimId) {
+      setTechnicalStep(null);
       getTechnicalClaimStep(activeClaimId).then((data) => {
         setTechnicalStep(data);
         console.log("getTechnicalClaimStep", data);

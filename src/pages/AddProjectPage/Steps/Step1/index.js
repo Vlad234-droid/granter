@@ -41,7 +41,6 @@ const WelcomeStep1 = ({ goNextStep }) => {
             results.push(data);
           }
         }
-        console.log(results);
 
         setOptions(results);
         setLoader(false);

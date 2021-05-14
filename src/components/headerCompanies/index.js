@@ -20,10 +20,15 @@ const HeaderCompanies = () => {
     if (!user.companies) {
       fetchUserCompanies(dispatch).then((data) => {
         const currentId = lockr.get("current-company-id");
+        console.log("currentId", currentId);
         if (currentId) {
-          setUserCurrentCompany(
-            data.filter((item) => item.id === currentId)[0]
-          );
+          if (data.filter((item) => item.id === currentId).length) {
+            setUserCurrentCompany(
+              data.filter((item) => item.id === currentId)[0]
+            );
+          } else {
+            setUserCurrentCompany(data[0]);
+          }
         } else {
           setUserCurrentCompany(data[0]);
           lockr.set("current-company-id", data[0].id);
@@ -34,7 +39,7 @@ const HeaderCompanies = () => {
 
   const companyChange = (id) => {
     setUserCurrentCompany(user.companies.filter((item) => item.id === id)[0]);
-    console.log();
+    lockr.set("current-company-id", id);
   };
 
   const menu = (
@@ -42,7 +47,6 @@ const HeaderCompanies = () => {
       {user.companies &&
         user.currentCompany &&
         user.companies.map((item, index) => {
-          console.log(user.currentCompany);
           if (item.id !== user.currentCompany.id) {
             return (
               <Menu.Item

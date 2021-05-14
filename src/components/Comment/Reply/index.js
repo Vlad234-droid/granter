@@ -10,8 +10,6 @@ const Reply = ({ reply, onReplyDelete }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log("reply", reply);
-
   const onDelete = () => {
     setLoading(true);
     onReplyDelete(reply.id);

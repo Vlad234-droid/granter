@@ -69,7 +69,7 @@ const routes = () => {
           path='/profile/add-project/'
           component={AddProjectPage}
         />
-        <PrivateRoute exact path='/documents/' component={DocumentsPage} />
+        <PrivateRoute exact path='/documents/:step' component={DocumentsPage} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

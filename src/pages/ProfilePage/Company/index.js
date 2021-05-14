@@ -192,8 +192,15 @@ const Company = ({ company, updateCompany }) => {
             </div>
           </div>
           <div className='company--row'>
-            <div className='label'>Assigned Consultant (TODO!!)</div>
-            <div className='details'>Michael, +44 (0)20 7887 8888</div>
+            <div className='label'>Assigned Consultant</div>
+            <div className='details'>
+              {company.manager && (
+                <>
+                  <span className='manager'>{company.manager.name},</span>{" "}
+                  <span className='manager'>{company.manager.phone}</span>
+                </>
+              )}
+            </div>
           </div>
           <div className='company--row'>
             <div className='label'>Company Logo</div>

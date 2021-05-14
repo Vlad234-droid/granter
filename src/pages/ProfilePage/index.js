@@ -42,6 +42,7 @@ const ProfilePage = () => {
         team_role: data.profile.team_role,
         address: data.profile.address,
         enable_notifications: data.profile.enable_notifications,
+        phone: data.profile.phone,
       });
     });
     fetchUserCompanies(dispatch).then((data) => {
@@ -62,13 +63,10 @@ const ProfilePage = () => {
     const form = {
       enable_notifications: e.target.checked ? 1 : 0,
     };
-    postProfileData(form).then((data) => {
-      console.log(data);
-    });
+    postProfileData(form);
   };
 
   const updateCompany = (company) => {
-    console.log("company", company);
     const result = companiesList.map((item) => {
       if (item.id === company.id) return company;
       return item;

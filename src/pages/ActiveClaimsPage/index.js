@@ -18,7 +18,6 @@ const ActiveClaimsPage = (props) => {
 
   useEffect(() => {
     if (user) {
-      console.log("userId", user.id);
       getActiveClaimData(dispatch, user.id).then((data) => {
         const result = {
           ...data,

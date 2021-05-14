@@ -19,10 +19,6 @@ const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
   const [replyLoader, setReplyLoader] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(comment);
-  }, []);
-
   const onDelete = () => {
     setLoading(true);
     onCommentDelete(comment.id);

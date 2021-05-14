@@ -7,7 +7,6 @@ import headerLogo from "../../../assets/img/header-logo.svg";
 import "./style.scss";
 
 const Header = ({ mode }) => {
-  console.log(mode);
   return (
     <header>
       <div className='wrapper'>

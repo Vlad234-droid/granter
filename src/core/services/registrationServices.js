@@ -45,9 +45,6 @@ const fetchCompanyHouse = (q) => {
 
 const fetchRegistration = (form) => {
   let body = form;
-
-  console.log(form);
-
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/register`, {
       method: "POST",

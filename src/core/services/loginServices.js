@@ -21,7 +21,6 @@ const fetchLogin = (dispatch, loginData, history) => {
       body: JSON.stringify(loginData),
     })
       .then((resp) => {
-        console.log(resp);
         if (resp.ok) {
           return resp.json();
         } else {
@@ -36,12 +35,13 @@ const fetchLogin = (dispatch, loginData, history) => {
         }
       })
       .then((data) => {
-        resolve(data.data);
-        loginLoaded(true);
+        lockr.rm("current-company-id");
         const authDate = new Date();
         lockr.set("auth-key", data.data.token);
         lockr.set("session-token-expiry", authDate);
         history.push("/active-claims/");
+        resolve(data.data);
+        loginLoaded(true);
       })
       .catch(() => {
         reject();

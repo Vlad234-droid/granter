@@ -13,13 +13,6 @@ const WelcomeSteps = ({ goNextStep }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const slider = useRef();
 
-  const onFinishName = (value) => {
-    console.log(value);
-  };
-
-  function onChange(a, b, c) {
-    console.log(a, b, c);
-  }
   const contentStyle = {
     height: "160px",
     color: "#364d79",
@@ -45,7 +38,6 @@ const WelcomeSteps = ({ goNextStep }) => {
       </div>
 
       <Carousel
-        afterChange={onChange}
         ref={slider}
         swipe={false}
         dots={false}

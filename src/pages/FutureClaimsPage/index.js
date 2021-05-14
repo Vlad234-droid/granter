@@ -21,7 +21,6 @@ const FutureClaimsPage = () => {
       });
     }
     count++;
-    console.log(count);
   }, [user]);
 
   return (

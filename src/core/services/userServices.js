@@ -39,7 +39,6 @@ const fetchUserData = (dispatch) => {
       }
     })
     .then((data) => {
-      console.log(data);
       userDataLoaded(data.data);
     });
 };

@@ -28,7 +28,6 @@ const ChangePasswordPage = () => {
     fetchChacngePassword(values)
       .then((data) => {
         setLoader(false);
-        console.log("AAaa", data);
         notification.success({
           description: data,
         });

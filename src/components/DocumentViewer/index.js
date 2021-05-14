@@ -13,7 +13,6 @@ const DocumentViewer = ({ url }) => {
     } else {
       setSrc(`https://view.officeapps.live.com/op/embed.aspx?src=${url}`);
     }
-    console.log(url.match(/\.[0-9a-z]+$/i)[0]);
   }, [url]);
 
   return (

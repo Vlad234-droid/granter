@@ -45,7 +45,6 @@ const DocumentPage = () => {
     getDocumentComments(climeId, id).then((data) => {
       setCommentsList(data.comments);
       setDocument(data.document);
-      console.log("comments", data.comments);
     });
   }, []);
 
@@ -108,11 +107,9 @@ const DocumentPage = () => {
 
   const onCommentDelete = (commentId) => {
     removeComment(climeId, id, commentId).then((data) => {
-      console.log(data);
       setCommentsList(data.comments);
       // setLoading(false);
       // onAction(data.document);
-      // console.log(data);
     });
   };
 

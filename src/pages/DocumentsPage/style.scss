@@ -157,10 +157,27 @@
               font-size: 16px;
               line-height: 150%;
               color: #3c4252;
-              margin-bottom: 8px;
+              margin-bottom: 12px;
+            }
+            .ant-form-item-control-input {
+              min-height: auto;
+              margin-bottom: 12px;
+            }
+            .claims--title {
+              display: inline-block;
+              white-space: nowrap;
             }
             .ant-form-item {
               margin-bottom: 0;
+            }
+            .ant-checkbox-group {
+              .ant-checkbox-wrapper {
+                margin: 0 0 16px 0;
+                display: flex;
+                &:last-child {
+                  margin-bottom: 0;
+                }
+              }
             }
           }
         }
