@@ -1,9 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {bindActionCreators} from 'redux';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {Menu, Modal, Button} from 'antd';
+import {Link} from 'react-router-dom';
+import {Menu, Button} from 'antd';
 import ModalAsk from './ModalAsk/index';
 import {
 	BrowserRouter as Router,
@@ -13,6 +11,7 @@ import {
 } from 'react-router-dom';
 import headerLogo from '../../../assets/img/header-logo.svg';
 import AskPhoto from '../../../assets/img/ask-photo.png';
+import {Skeleton} from 'antd';
 
 import {IconPhone, IconMail} from '../../icons';
 import {showModalAction, closeModalAction} from '../../../core/actions/modal';
@@ -24,11 +23,10 @@ const {SubMenu, Item} = Menu;
 const Aside = () => {
 	let location = useLocation();
 	const dispatch = useDispatch();
-	const state = useSelector((state) => state.user);
-	const history = useHistory();
+	const {currentCompany} = useSelector((state) => state.user);
 	const [currentMenu, setCurrentMenu] = useState('');
-	//const [visibleModal, setVisibleModal] = useState(false);
 	const {visibleModal} = useSelector((state) => state.modal);
+	console.log('currentCompany from aside', currentCompany);
 
 	useEffect(() => {
 		switch (true) {
@@ -54,6 +52,10 @@ const Aside = () => {
 				break;
 		}
 	}, []);
+
+	const checkForAvatar = useCallback(() => {
+		if (currentCompany) return currentCompany.manager.avatar;
+	}, [currentCompany]);
 
 	return (
 		<aside className="nav-left">
@@ -110,22 +112,64 @@ const Aside = () => {
 				</Menu>
 				<div className="nav__help">
 					<div className="nav__help_title">Need Help?</div>
-					<a href="tel:+44(0)2078878888">
-						<IconPhone />
-						<span>+44 (0)20 7887 8888</span>
-					</a>
-					<a href="mailto:michael@granter.com">
-						<IconMail />
-						<span>michael@granter.com</span>
-					</a>
+					{!currentCompany ? (
+						<Skeleton active paragraph={{rows: 1}} />
+					) : (
+						<>
+							<a
+								href={`tel:${
+									currentCompany &&
+									currentCompany.manager &&
+									currentCompany.manager.phone &&
+									`${currentCompany.manager.phone}`
+								}`}
+							>
+								<IconPhone />
+								<span>
+									{currentCompany &&
+										currentCompany.manager &&
+										currentCompany.manager.phone &&
+										`${currentCompany.manager.phone}`}
+								</span>
+							</a>
+							<a
+								href={`mailto:${
+									currentCompany &&
+									currentCompany.manager &&
+									currentCompany.manager.phone &&
+									`${currentCompany.manager.email}`
+								}`}
+							>
+								<IconMail />
+								<span>
+									{currentCompany &&
+										currentCompany.manager &&
+										currentCompany.manager.phone &&
+										`${currentCompany.manager.email}`}
+								</span>
+							</a>
+						</>
+					)}
 				</div>
 				<div className="nav__ask">
 					<div className="nav__ask_manager">
-						<img src={AskPhoto} alt="" />
-						<div>
-							<b>Michael</b>
-							<span>Your manager</span>
-						</div>
+						{!currentCompany ? (
+							<Skeleton.Avatar
+								avatar
+								active
+								paragraph={false}
+								avatarShape="circle"
+								size="large"
+							/>
+						) : (
+							<>
+								<img src={checkForAvatar()} alt="photo" />
+								<div>
+									<b>Michael</b>
+									<span>Your manager</span>
+								</div>
+							</>
+						)}
 					</div>
 					<Button
 						type="primary"

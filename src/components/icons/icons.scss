@@ -1,108 +1,113 @@
 .icon-info {
-  &:hover {
-    path {
-      fill: #305ff5;
-    }
-  }
-  path {
-    fill: #c0c4cb;
-    transition: fill 300ms ease;
-  }
+	&:hover {
+		path {
+			fill: #305ff5;
+		}
+	}
+	path {
+		fill: #c0c4cb;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-warning {
-  &.red {
-    .icon-fill {
-      fill: #f65747;
-      transition: fill 300ms ease;
-    }
-  }
-  .icon-fill {
-    fill: #f9a648;
-    transition: fill 300ms ease;
-  }
+	&.red {
+		.icon-fill {
+			fill: #f65747;
+			transition: fill 300ms ease;
+		}
+	}
+	.icon-fill {
+		fill: #f9a648;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-phone {
-  // &:hover {
-  //   path {
-  //     fill: #305ff5;
-  //   }
-  // }
-  .icon-fill {
-    fill: #305ff5;
-    transition: fill 300ms ease;
-  }
+	// &:hover {
+	//   path {
+	//     fill: #305ff5;
+	//   }
+	// }
+	.icon-fill {
+		fill: #305ff5;
+		transition: fill 300ms ease;
+	}
 }
 .icon-mail {
-  // &:hover {
-  //   path {
-  //     fill: #305ff5;
-  //   }
-  // }
-  .icon-fill {
-    fill: #305ff5;
-    transition: fill 300ms ease;
-  }
+	// &:hover {
+	//   path {
+	//     fill: #305ff5;
+	//   }
+	// }
+	.icon-fill {
+		fill: #305ff5;
+		transition: fill 300ms ease;
+	}
 }
 .icon-company {
-  .icon-fill {
-    fill: #305ff5;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #305ff5;
+		transition: fill 300ms ease;
+	}
 }
 .icon-notifications {
-  .icon-fill {
-    fill: #305ff5;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #305ff5;
+		transition: fill 300ms ease;
+		cursor: pointer;
+	}
+	.icon-empty {
+		fill: #c3cff5;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-delete-file {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-comment {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-reply {
-  .icon-fill {
-    fill: #7f8896;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #7f8896;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-edit-pencil {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-add {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-download {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }
 
 .icon-filter {
-  .icon-fill {
-    fill: #3c4252;
-    transition: fill 300ms ease;
-  }
+	.icon-fill {
+		fill: #3c4252;
+		transition: fill 300ms ease;
+	}
 }

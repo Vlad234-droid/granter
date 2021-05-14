@@ -2,6 +2,7 @@ import React from 'react';
 
 export const initialState = {
 	visibleModal: false,
+	isVisibleNotifications: false,
 };
 
 export const modalReducer = (state = initialState, {type, payload}) => {
@@ -15,6 +16,16 @@ export const modalReducer = (state = initialState, {type, payload}) => {
 			return {
 				...state,
 				visibleModal: false,
+			};
+		case 'SHOW_MODAL_NOTIFICATIONS':
+			return {
+				...state,
+				isVisibleNotifications: true,
+			};
+		case 'CLOSE_MODAL_NOTIFICATIONS':
+			return {
+				...state,
+				isVisibleNotifications: false,
 			};
 		default:
 			return {

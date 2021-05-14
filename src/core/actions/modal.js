@@ -1,11 +1,22 @@
-const showModalAction = () => {
-	return {
-		type: 'SHOW_MODAL',
-	};
-};
+const showModalAction = () => ({
+	type: 'SHOW_MODAL',
+});
 
 const closeModalAction = () => ({
 	type: 'CLOSE_MODAL',
 });
 
-export {showModalAction, closeModalAction};
+const showModalNotifications = () => ({
+	type: 'SHOW_MODAL_NOTIFICATIONS',
+});
+
+const closeModalNotifications = () => ({
+	type: 'CLOSE_MODAL_NOTIFICATIONS',
+});
+
+export {
+	showModalAction,
+	closeModalAction,
+	showModalNotifications,
+	closeModalNotifications,
+};
