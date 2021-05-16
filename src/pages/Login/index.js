@@ -14,7 +14,9 @@ const LoginPage = (props) => {
   const dispatch = useDispatch();
   const onFinish = (values) => {
     setLoader(true);
-    fetchLogin(dispatch, values, history);
+    fetchLogin(dispatch, values, history).catch((error) => {
+      setLoader(false);
+    });
   };
 
   return (

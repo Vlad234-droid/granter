@@ -124,14 +124,14 @@ const Aside = () => {
 									`${currentCompany.manager.phone}`
 								}`}
 							>
-								<IconPhone />
+						<IconPhone />
 								<span>
 									{currentCompany &&
 										currentCompany.manager &&
 										currentCompany.manager.phone &&
 										`${currentCompany.manager.phone}`}
 								</span>
-							</a>
+					</a>
 							<a
 								href={`mailto:${
 									currentCompany &&
@@ -140,14 +140,14 @@ const Aside = () => {
 									`${currentCompany.manager.email}`
 								}`}
 							>
-								<IconMail />
+						<IconMail />
 								<span>
 									{currentCompany &&
 										currentCompany.manager &&
 										currentCompany.manager.phone &&
 										`${currentCompany.manager.email}`}
 								</span>
-							</a>
+					</a>
 						</>
 					)}
 				</div>
@@ -164,10 +164,10 @@ const Aside = () => {
 						) : (
 							<>
 								<img src={checkForAvatar()} alt="photo" />
-								<div>
-									<b>Michael</b>
-									<span>Your manager</span>
-								</div>
+						<div>
+							<b>Michael</b>
+							<span>Your manager</span>
+						</div>
 							</>
 						)}
 					</div>

@@ -7,29 +7,29 @@ import headerLogo from '../../../assets/img/header-logo.svg';
 import './style.scss';
 
 const Header = ({mode}) => {
-	return (
-		<header>
+  return (
+    <header>
 			<div className="wrapper">
 				<Link to="/" className="header__logo">
 					<img src={headerLogo} alt="" />
-					<span>Granter</span>
-				</Link>
+          <span>Granter</span>
+        </Link>
 				{mode === 'login' && (
 					<Link to="/" className="header__sign-in ant-btn ant-btn-primary">
-						Sign Up
-					</Link>
-				)}
+            Sign Up
+          </Link>
+        )}
 				{mode === 'registration' && (
-					<Link
+          <Link
 						to="/sign-in/"
 						className="header__sign-in ant-btn ant-btn-primary"
-					>
-						Log In
-					</Link>
-				)}
-			</div>
-		</header>
-	);
+          >
+            Log In
+          </Link>
+        )}
+      </div>
+    </header>
+  );
 };
 
 export default Header;

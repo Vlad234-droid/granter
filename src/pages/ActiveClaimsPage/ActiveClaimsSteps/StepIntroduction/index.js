@@ -15,10 +15,12 @@ import "./style.scss";
 const StepIntroduction = () => {
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
+  const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
 
   useEffect(() => {
     if (activeClaimId) {
+      setIntroductionStep(null);
       getIntroductionClaimStep(activeClaimId).then((data) => {
         const res = { ...data };
         res.documents = data.documents.map((item) => {
@@ -26,7 +28,12 @@ const StepIntroduction = () => {
           return item;
         });
         setIntroductionStep(res);
-        console.log("getIntroductionClaimStep", res);
+        const status = Math.round(
+          (res.documents.filter((item) => item.status === 3).length /
+            res.documents.length) *
+            100
+        );
+        setStatus(status);
       });
     }
   }, [activeClaimId]);
@@ -38,6 +45,12 @@ const StepIntroduction = () => {
       return item;
     });
     setIntroductionStep(res);
+    const status = Math.round(
+      (res.documents.filter((item) => item.status === 3).length /
+        res.documents.length) *
+        100
+    );
+    setStatus(status);
   };
 
   return (
@@ -91,10 +104,25 @@ const StepIntroduction = () => {
               <span>Call is completed</span>
             </div> */}
 
-            <div className='step-status--bar waiting'>
-              <span className='step-status--bar-fill' style={{ width: "0%" }} />
-              <span className='step-status--bar-parcent'>0%</span>
-              <span className='step-status--bar-detail'>Waiting</span>
+            <div className='step-status'>
+              <div
+                className={`step-status--bar ${
+                  status === 100 ? "done" : status > 0 ? "process" : "waiting"
+                }`}
+              >
+                <span
+                  className='step-status--bar-fill'
+                  style={{ width: status + "%" }}
+                />
+                <span className='step-status--bar-parcent'>{status}%</span>
+                <span className='step-status--bar-detail'>
+                  {status === 100
+                    ? "Finished"
+                    : status > 0
+                    ? "In Progress"
+                    : "Waiting"}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -151,13 +179,23 @@ const StepIntroduction = () => {
               })}
             </div>
             <div className='step-status'>
-              <div className='step-status--bar waiting'>
+              <div
+                className={`step-status--bar ${
+                  status === 100 ? "done" : status > 0 ? "process" : "waiting"
+                }`}
+              >
                 <span
                   className='step-status--bar-fill'
-                  style={{ width: "0%" }}
+                  style={{ width: status + "%" }}
                 />
-                <span className='step-status--bar-parcent'>0%</span>
-                <span className='step-status--bar-detail'>Waiting</span>
+                <span className='step-status--bar-parcent'>{status}%</span>
+                <span className='step-status--bar-detail'>
+                  {status === 100
+                    ? "Finished"
+                    : status > 0
+                    ? "In Progress"
+                    : "Waiting"}
+                </span>
               </div>
             </div>
           </Drawer>

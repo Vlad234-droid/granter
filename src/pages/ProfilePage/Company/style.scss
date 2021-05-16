@@ -45,6 +45,10 @@
       &:nth-child(even) {
         background: rgba(238, 242, 246, 0.85);
       }
+      .manager {
+        display: inline-block;
+        white-space: nowrap;
+      }
       .ant-row {
         margin: 0;
       }
