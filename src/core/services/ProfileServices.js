@@ -1,21 +1,21 @@
-import React from "react";
-import actions from "../actions";
-import lockr from "lockr";
-import { bindActionCreators } from "redux";
-import { notification } from "antd";
+import React from 'react';
+import actions from '../actions';
+import lockr from 'lockr';
+import { bindActionCreators } from 'redux';
+import { notification } from 'antd';
 
-import { IconWarning } from "../../components/icons";
+import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
 
 const fetchProfileData = () => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/profile/user`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -25,7 +25,7 @@ const fetchProfileData = () => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -41,7 +41,7 @@ const fetchProfileData = () => {
 };
 
 const postProfileData = (user) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
   for (let i in user) {
@@ -50,9 +50,9 @@ const postProfileData = (user) => {
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/profile/update/user`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -63,7 +63,7 @@ const postProfileData = (user) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -79,7 +79,7 @@ const postProfileData = (user) => {
 };
 
 const postCompanyData = (companyId, companyData) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
   for (let i in companyData) {
@@ -88,9 +88,9 @@ const postCompanyData = (companyId, companyData) => {
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/profile/update/company/${companyId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -101,7 +101,7 @@ const postCompanyData = (companyId, companyData) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -117,16 +117,16 @@ const postCompanyData = (companyId, companyData) => {
 };
 
 const postCompanyLogo = (companyId, logo) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
-  formData.append("logo", logo);
+  formData.append('logo', logo);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/profile/update/company/logo/${companyId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -137,7 +137,7 @@ const postCompanyLogo = (companyId, logo) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -153,12 +153,12 @@ const postCompanyLogo = (companyId, logo) => {
 };
 
 const addNewCompany = (company) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
   const formData = new FormData();
   for (let i in company) {
-    if (i === "industry_ids") {
+    if (i === 'industry_ids') {
       company[i].forEach((el, n) => {
-        formData.append("industry_ids[" + n + "]", el.id);
+        formData.append('industry_ids[' + n + ']', el.id);
       });
     } else {
       formData.append(i, company[i]);
@@ -166,9 +166,9 @@ const addNewCompany = (company) => {
   }
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/profile/company/add`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -179,7 +179,7 @@ const addNewCompany = (company) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -195,16 +195,16 @@ const addNewCompany = (company) => {
 };
 
 const fetchChacngePassword = (company) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
   const formData = new FormData();
   for (let i in company) {
     formData.append(i, company[i]);
   }
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/change-password`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -215,7 +215,7 @@ const fetchChacngePassword = (company) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -231,15 +231,15 @@ const fetchChacngePassword = (company) => {
 };
 
 const fetchResetPassword = (email) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
   const formData = new FormData();
-  formData.append("email", email);
+  formData.append('email', email);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/password/forgot`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -250,7 +250,7 @@ const fetchResetPassword = (email) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });

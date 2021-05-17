@@ -1,7 +1,7 @@
 .nav-left {
   width: 232px;
   height: 100%;
-  background: url("../../../assets/img/aside-bg.png") no-repeat center / cover;
+  background: url('../../../assets/img/aside-bg.png') no-repeat center / cover;
   position: fixed;
   top: 0;
   left: 0;
@@ -34,9 +34,6 @@
     overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
     }
 
     &::-webkit-scrollbar-thumb {
@@ -90,6 +87,33 @@
       }
     }
     .ant-menu-submenu {
+      &.active_subMenu {
+        .ant-menu-submenu-title {
+          border-radius: 10px;
+          background: rgba(48, 95, 245, 0.2);
+          margin: 5px !important;
+          width: 93% !important;
+          padding-left: 18px !important;
+          font-weight: 600 !important;
+          color: #3160f5 !important;
+
+          .ant-menu-submenu-arrow {
+            right: 19px !important;
+            &::before {
+              background: #7f8896;
+              height: 2px;
+              width: 8px;
+              right: 1px;
+            }
+            &::after {
+              background: #7f8896;
+              height: 2px;
+              width: 8px;
+              left: 0;
+            }
+          }
+        }
+      }
       .ant-menu-submenu-title {
         font-family: Poppins;
         font-style: normal;
@@ -99,6 +123,7 @@
         color: #7f8896;
         display: flex;
         align-items: center;
+
         .ant-menu-submenu-arrow {
           right: 37px;
           &::before {
@@ -191,5 +216,9 @@
       width: calc(100% - 16px);
       margin: 30px 8px 0 8px;
     }
+  }
+  .active_test_test {
+    border-radius: 10px !important;
+    background: rgba(48, 95, 245, 0.2) !important;
   }
 }
