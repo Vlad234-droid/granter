@@ -1,25 +1,22 @@
-import React from "react";
-import actions from "../actions";
-import lockr from "lockr";
-import { bindActionCreators } from "redux";
-import { notification } from "antd";
+import React from 'react';
+import actions from '../actions';
+import lockr from 'lockr';
+import { bindActionCreators } from 'redux';
+import { notification } from 'antd';
 
-import { IconWarning } from "../../components/icons";
+import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
 
 const fetchUserData = (dispatch) => {
-  const { loginRequested, userDataLoaded, loginError } = bindActionCreators(
-    actions,
-    dispatch
-  );
-  const token = lockr.get("auth-key");
+  const { loginRequested, userDataLoaded, loginError } = bindActionCreators(actions, dispatch);
+  const token = lockr.get('auth-key');
   loginRequested();
   fetch(`${REACT_APP_API_URL}/user`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       Authorization: `Bearer ${token}`,
     },
   })
@@ -30,7 +27,7 @@ const fetchUserData = (dispatch) => {
         return resp.json().then((json) => {
           loginError(json.message);
           notification.error({
-            className: "error-message",
+            className: 'error-message',
             description: json.message,
             icon: <IconWarning />,
           });
@@ -44,16 +41,15 @@ const fetchUserData = (dispatch) => {
 };
 
 const fetchUserCompanies = (dispatch) => {
-  const { loginRequested, userCompaniesLoaded, loginError } =
-    bindActionCreators(actions, dispatch);
-  const token = lockr.get("auth-key");
+  const { loginRequested, userCompaniesLoaded, loginError } = bindActionCreators(actions, dispatch);
+  const token = lockr.get('auth-key');
   loginRequested();
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/core/companies`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -64,7 +60,7 @@ const fetchUserCompanies = (dispatch) => {
           return resp.json().then((json) => {
             loginError(json.message);
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -80,4 +76,83 @@ const fetchUserCompanies = (dispatch) => {
   });
 };
 
-export { fetchUserData, fetchUserCompanies };
+const fetchResetPassword = (email) => {
+  const token = lockr.get('auth-key');
+  const formData = new FormData();
+  formData.append('email', email);
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/password/forgot`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            // notification.error({
+            //   className: 'error-message',
+            //   description: json.message,
+            //   icon: <IconWarning />,
+            // });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+        //userDataLoaded(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const fetchCreatePassword = (form) => {
+  const token = lockr.get('auth-key');
+
+  const formData = new FormData();
+  for (let i in form) {
+    formData.append(i, form[i]);
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/password/reset-password`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            // notification.error({
+            //   className: 'error-message',
+            //   description: json.message,
+            //   icon: <IconWarning />,
+            // });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+        //userDataLoaded(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export { fetchUserData, fetchUserCompanies, fetchResetPassword, fetchCreatePassword };

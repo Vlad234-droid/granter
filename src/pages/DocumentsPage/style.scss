@@ -10,11 +10,12 @@
           padding: 32px 24px 20px 32px;
           display: flex;
           align-items: center;
+          border-bottom: 1px solid rgba(192, 196, 203, 0.5);
           .show {
             display: inline-flex;
             align-items: center;
             margin-right: auto;
-            span {
+            & > span {
               font-family: Roboto;
               font-style: normal;
               font-weight: normal;
@@ -41,8 +42,11 @@
             font-size: 16px;
             line-height: 114.9%;
             color: #305ff5;
-            &.disabled {
+            transition: opacity 200ms ease;
+            cursor: pointer;
+            &:disabled {
               opacity: 0.4;
+              cursor: default;
             }
             .icon-download {
               margin-right: 8px;
@@ -61,8 +65,11 @@
             line-height: 114.9%;
             color: #305ff5;
             margin-left: 40px;
+            transition: opacity 200ms ease;
+            cursor: pointer;
             &:disabled {
               opacity: 0.4;
+              cursor: default;
             }
             .icon-delete-file {
               margin-right: 8px;
@@ -72,66 +79,60 @@
               }
             }
           }
+          .documents__table_sort {
+            width: 110px;
+            position: relative;
+            &.ant-select-open {
+              .ant-select-arrow {
+                transform: scale(-1);
+                top: 53%;
+              }
+            }
+            .ant-select-arrow {
+              top: 50%;
+              transition: transform 250ms ease;
+            }
+            .ant-select-selector {
+              border: none !important;
+              background: none;
+              box-shadow: none;
+            }
+            .ant-select-item-option.ant-select-item-option-selected {
+              font-weight: normal;
+            }
+          }
         }
         .documents__table_body {
+          .ant-skeleton {
+            padding: 32px;
+          }
+          .documents__table_empty {
+            padding-top: 170px;
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            color: #7f8896;
+            text-align: center;
+            img {
+              filter: grayscale(1);
+              opacity: 0.4;
+              width: 48px;
+              margin-bottom: 16px;
+            }
+          }
           table {
             width: 100%;
             padding: 0;
             margin: 0;
-            tr {
-              &:nth-child(odd) {
-                background-color: #fff;
-              }
-              &:nth-child(even) {
-                background: #ebf1f6;
-              }
-              td {
-                padding-top: 12px;
-                padding-bottom: 12px;
-                .td-wrapper {
-                  display: flex;
-                  align-items: center;
-                }
-                &.select {
-                  padding-left: 32px;
-                  padding-right: 24px;
-                }
-                &.name {
-                  width: 100%;
-                  font-family: Roboto;
-                  font-style: normal;
-                  font-weight: 500;
-                  font-size: 14px;
-                  line-height: 114.9%;
-                  color: #3c4252;
-                  img {
-                    width: 24px;
-                    height: 24px;
-                    margin-right: 8px;
-                  }
-                }
-                &.actions {
-                  padding-right: 12px;
-                  .icon-delete-file {
-                    width: 13px;
-                  }
-                  button {
-                    width: 24px;
-                    height: 24px;
-                    padding: 0;
-                    margin-left: 8px;
-                    cursor: pointer;
-                  }
-                }
-              }
-            }
           }
         }
       }
       .documents__filter {
         width: 272px;
         flex-shrink: 0;
-        background: url("../../assets/img/bg-comments.png") repeat;
+        background: url('../../assets/img/bg-comments.png') repeat;
         padding: 29px 24px 32px 24px;
         .documents__filter_head {
           display: flex;

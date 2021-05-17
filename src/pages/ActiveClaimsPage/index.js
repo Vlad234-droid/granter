@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Skeleton } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Skeleton } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Layout from "../../components/LayoutDashboard/Layout";
-import ActiveClaimsCards from "./ActiveClaimsCards";
-import ActiveClaimsSteps from "./ActiveClaimsSteps";
+import Layout from '../../components/LayoutDashboard/Layout';
+import ActiveClaimsCards from './ActiveClaimsCards';
+import ActiveClaimsSteps from './ActiveClaimsSteps';
 
-import { getActiveClaimData } from "../../core/services";
+import { getActiveClaimData } from '../../core/services';
 
-import "./style.scss";
+import './style.scss';
 
 const ActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);
@@ -19,31 +19,28 @@ const ActiveClaimsPage = (props) => {
   useEffect(() => {
     if (user) {
       getActiveClaimData(dispatch, user.id).then((data) => {
-        const result = {
-          ...data,
-          startDate: `01/01/${new Date(data.created_at).getFullYear()}`,
-          endDate: `31/12/${new Date(data.created_at).getFullYear()}`,
-        };
-        setActiveClaimData(result);
+        setActiveClaimData(data);
       });
     }
   }, [user]);
 
   return (
-    <Layout isLogged={false} className='dashboard'>
-      <div className='active-claims'>
+    <Layout isLogged={false} className="dashboard">
+      <div className="active-claims">
         {!activeClaimData ? (
           <Skeleton active />
         ) : (
           <>
-            <div className='active-claims__title'>
+            <div className="active-claims__title">
               <h2>{activeClaimData.title}</h2>
-              <time>
-                {activeClaimData.start_date} – {activeClaimData.end_date}
-              </time>
+              {activeClaimData.start_date && activeClaimData.end_date && (
+                <time>
+                  {activeClaimData.start_date} – {activeClaimData.end_date}
+                </time>
+              )}
             </div>
             {!user.email_verified_at ? (
-              <div className='active-claims__verify-message'>
+              <div className="active-claims__verify-message">
                 Welcome! Verify your email to see approximate benefits
               </div>
             ) : (

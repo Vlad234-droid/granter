@@ -22,6 +22,9 @@
   }
   .hello-page__steps_slider {
     margin-top: 40px;
+    .ant-form-item-control-input-content {
+      justify-content: center;
+    }
   }
 }
 

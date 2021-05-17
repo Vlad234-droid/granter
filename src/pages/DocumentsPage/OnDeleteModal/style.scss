@@ -1,0 +1,38 @@
+.documents-remove-modal {
+  .ant-modal-body {
+    padding: 40px 64px;
+    text-align: center;
+    h2 {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 36px;
+      color: #3c4252;
+      margin-bottom: 16px;
+    }
+    .documents-remove-modal__text {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 150%;
+      text-align: center;
+      color: #3c4252;
+    }
+    .documents-remove-modal__actions {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      button {
+        margin: 0 8px;
+        &.ant-btn-dangerous {
+          background-color: #f65747;
+          &:hover {
+            box-shadow: 0px 4px 12px rgba(245, 48, 48, 0.5);
+          }
+        }
+      }
+    }
+  }
+}
