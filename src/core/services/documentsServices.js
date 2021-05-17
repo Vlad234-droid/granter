@@ -196,10 +196,53 @@ const getDocumentsManagerList = (step) => {
   });
 };
 
+const getDownloadList = (list) => {
+  const token = lockr.get("auth-key");
+
+  const formData = new FormData();
+  list.forEach((file, i) => {
+    formData.append(`document_ids[${i}]`, file.id);
+  });
+  // formData.append("file", file);
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/documents/download/list`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        console.log(resp);
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: "error-message",
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export {
   getDocumentComments,
   postNewVersionDocument,
   postNewComment,
   removeComment,
   getDocumentsManagerList,
+  getDownloadList,
 };

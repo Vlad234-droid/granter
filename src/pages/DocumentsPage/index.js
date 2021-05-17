@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { Form, Checkbox, Upload, Spin, Input, Select, Skeleton } from "antd";
+import { Link, useParams } from "react-router-dom";
+import {
+  Form,
+  Checkbox,
+  Upload,
+  Spin,
+  Input,
+  Select,
+  Skeleton,
+  Dropdown,
+  Menu,
+  Button,
+} from "antd";
 
 import Layout from "../../components/LayoutDashboard/Layout";
-import { getDocumentsManagerList } from "../../core/services";
+import { getDocumentsManagerList, getDownloadList } from "../../core/services";
 
 import {
   IconDeleteFile,
@@ -22,12 +33,12 @@ const { Option } = Select;
 const DocumentsPage = () => {
   const [fileList, setFileList] = useState(null);
   const [filterList, setFilterList] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
   const { step } = useParams();
   const claims = useSelector((state) => state.user.currentCompany?.claims);
 
   useEffect(() => {
     getDocumentsManagerList(step).then((data) => {
-      console.log("extension", data);
       const list = data.map((item) => {
         const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
         if (extension === ".pdf") {
@@ -40,12 +51,11 @@ const DocumentsPage = () => {
         ) {
           item.extension = "word";
         }
-        item.chacked = false;
+        item.checked = false;
         return item;
       });
       setFileList(list);
       setFilterList(list);
-      console.log(list);
     });
   }, []);
 
@@ -110,20 +120,49 @@ const DocumentsPage = () => {
     console.log(result.length);
   };
 
+  const onFileSelect = (e, id) => {
+    const result = [...filterList];
+    result.map((item) => {
+      if (item.id === id) {
+        item.checked = e.target.checked;
+      }
+      return item;
+    });
+    setFilterList(result);
+    setIsDisabled(result.filter((item) => item.checked).length === 0);
+  };
+
+  const onDownloadList = () => {
+    const list = filterList.filter((item) => item.checked);
+    // getDownloadList(list).then((data) => {
+    //   console.log(data);
+    // });
+  };
+
   return (
     <Layout isLogged={false} className='dashboard documents'>
+      <div>
+        <form action='http://granter.get-code.net/api/public/documents/download/list'>
+          <input type='text' name='document_ids[0]' value='607' />
+          <input type='text' name='document_ids[1]' value='608' />
+          <input type='submit' value='Go' />
+        </form>
+      </div>
       <div className='documents-wrapper'>
         <div className='documents__table'>
           <div className='documents__table_head'>
             <div className='show'>
               <span>Show:</span>
-              <b>by date</b>
             </div>
-            <a href='/' className='head--download disabled'>
+            <button
+              className='head--download'
+              disabled={isDisabled}
+              onClick={onDownloadList}
+            >
               <IconDownload />
               <span>Download File</span>
-            </a>
-            <button className='head--delete' disabled>
+            </button>
+            <button className='head--delete' disabled={isDisabled}>
               <IconDeleteFile />
               <span>Delete Selected</span>
             </button>
@@ -137,12 +176,19 @@ const DocumentsPage = () => {
                   {filterList.map((item) => (
                     <tr key={`key-${item.id}`}>
                       <td className='select'>
-                        <Checkbox checked={item.chacked} />
+                        <Checkbox
+                          onChange={(e) => {
+                            onFileSelect(e, item.id);
+                          }}
+                          checked={item.checked}
+                        />
                       </td>
                       <td className='name'>
                         <div className='td-wrapper'>
-                          <img src={iconPdf} alt='' />
-                          <span>{item.original_name}</span>
+                          <Link to={`/document/${item.claim_id}/${item.id}/`}>
+                            <img src={iconPdf} alt='' />
+                            <span>{item.original_name}</span>
+                          </Link>
                         </div>
                       </td>
                       <td className='actions'>
@@ -194,7 +240,7 @@ const DocumentsPage = () => {
                 <Form.Item name='claim_id'>
                   <Checkbox.Group>
                     {claims.map((item) => (
-                      <Checkbox value={item.id}>
+                      <Checkbox key={`checkbox-${item.id}`} value={item.id}>
                         <span className='claims--title'>{item.title}</span>
                         {item.start_date && item.end_date && (
                           <span className='claims--title'>
