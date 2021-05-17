@@ -1,22 +1,22 @@
-import React from "react";
-import actions from "../actions";
-import lockr from "lockr";
-import { bindActionCreators } from "redux";
-import { notification } from "antd";
+import React from 'react';
+import actions from '../actions';
+import lockr from 'lockr';
+import { bindActionCreators } from 'redux';
+import { notification } from 'antd';
 
-import { IconWarning } from "../../components/icons";
+import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
 
 const getDocumentComments = (claimId, id) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/comments/${claimId}/${id}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -26,7 +26,7 @@ const getDocumentComments = (claimId, id) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -44,16 +44,16 @@ const getDocumentComments = (claimId, id) => {
 };
 
 const postNewVersionDocument = (claimId, id, file) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/upload/${claimId}/${id}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -64,7 +64,7 @@ const postNewVersionDocument = (claimId, id, file) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -82,21 +82,21 @@ const postNewVersionDocument = (claimId, id, file) => {
 };
 
 const postNewComment = (claimId, id, text, is_reply, comment_id) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
-  formData.append("text", text);
-  formData.append("page", 1);
+  formData.append('text', text);
+  formData.append('page', 1);
   if (is_reply) {
-    formData.append("is_reply", is_reply);
-    formData.append("comment_id", comment_id);
+    formData.append('is_reply', is_reply);
+    formData.append('comment_id', comment_id);
   }
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/comment/${claimId}/${id}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -107,7 +107,7 @@ const postNewComment = (claimId, id, text, is_reply, comment_id) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -125,26 +125,23 @@ const postNewComment = (claimId, id, text, is_reply, comment_id) => {
 };
 
 const removeComment = (claimId, documentId, commentId) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   return new Promise((resolve, reject) => {
-    fetch(
-      `${REACT_APP_API_URL}/documents/delete/comment/${claimId}/${documentId}/${commentId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`${REACT_APP_API_URL}/documents/delete/comment/${claimId}/${documentId}/${commentId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((resp) => {
         if (resp.ok) {
           return resp.json();
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -161,15 +158,15 @@ const removeComment = (claimId, documentId, commentId) => {
   });
 };
 
-const getDocumentsManagerList = (step) => {
-  const token = lockr.get("auth-key");
+const getDocumentsManagerList = (step, companyId) => {
+  const token = lockr.get('auth-key');
 
   return new Promise((resolve, reject) => {
-    fetch(`${REACT_APP_API_URL}/documents/get/${step}`, {
-      method: "GET",
+    fetch(`${REACT_APP_API_URL}/documents/get/${step}/${companyId}`, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -179,7 +176,7 @@ const getDocumentsManagerList = (step) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -197,7 +194,7 @@ const getDocumentsManagerList = (step) => {
 };
 
 const getDownloadList = (list) => {
-  const token = lockr.get("auth-key");
+  const token = lockr.get('auth-key');
 
   const formData = new FormData();
   list.forEach((file, i) => {
@@ -207,9 +204,9 @@ const getDownloadList = (list) => {
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/download/list`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -221,7 +218,7 @@ const getDownloadList = (list) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
