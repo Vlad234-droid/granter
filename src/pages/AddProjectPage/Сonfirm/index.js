@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import { Button, Row, Col, Card, notification } from "antd";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button, Row, Col, Card, notification } from 'antd';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { UpVector } from '../../../components/icons';
+import BenefitModal from './BenefitModal';
+import { addNewCompany } from '../../../core/services';
+import './style.scss';
 
-import { addNewCompany } from "../../../core/services";
-
-import "./style.scss";
-
-const Сonfirm = ({ goNextStep, goPrevStep }) => {
+const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
+  console.log('indexStepindexStep', indexStep);
   const [loader, setLoader] = useState(false);
   const state = useSelector((state) => state.registration);
   let history = useHistory();
+  const [modalPrice, setModalPice] = useState(true);
+  const [isModalBenefit, setIsModalBenefit] = useState(null);
 
   const addCompany = () => {
     setLoader(true);
@@ -26,22 +29,50 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
     addNewCompany(companyData).then((data) => {
       setLoader(false);
       notification.success({
-        description: "Company was created successfully",
+        description: 'Company was created successfully',
       });
-      history.push("/profile/");
+      history.push('/profile/');
     });
   };
 
+  useEffect(() => {
+    if (indexStep === 2) {
+      setIsModalBenefit(() => true);
+    }
+  }, [indexStep]);
+
+  const checkorForRenderBenefitModal = useCallback(() => {
+    if (indexStep === 2) {
+      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
+    } else {
+      return (
+        <div className="wrapper_total_benefit">
+          <p>Estimated total claim benefit</p>
+          <h2>£2,000 - £5,000 </h2>
+          <div className="block_info_img">
+            <h5>YoY Change:</h5>
+            <UpVector />
+            <h6>13%</h6>
+          </div>
+        </div>
+      );
+    }
+  }, [indexStep, isModalBenefit, setIsModalBenefit]);
+
   return (
-    <div className='welcome__comfirm'>
-      <h1>
-        Please confirm information to proceed to official service agreement
-      </h1>
+    <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>
+      <h1>Please confirm information to proceed to official service agreement</h1>
+
+      <div className="hello-page__description">
+        Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
+        with you in the future.
+      </div>
+      {checkorForRenderBenefitModal()}
       {/* <div className='hello-page__description'>
         Thank you for signing up to work with Granter or your next R&D tax
         credit claim. We are excited to be working with you in the future.
       </div> */}
-      <div className='welcome__comfirm_info'>
+      <div className="welcome__comfirm_info">
         <Row gutter={24}>
           <Col span={8}>
             <Card>
@@ -68,11 +99,11 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
           </Col>
         </Row>
       </div>
-      <div className='welcome__comfirm_submit'>
-        <Button type='primary' loading={loader} onClick={addCompany}>
+      <div className="welcome__comfirm_submit">
+        <Button type="primary" loading={loader} onClick={addCompany}>
           Confirm
         </Button>
-        <Button type='text' onClick={goPrevStep}>
+        <Button type="text" onClick={goPrevStep}>
           Back
         </Button>
       </div>

@@ -1,10 +1,10 @@
-import React from "react";
-import actions from "../actions";
-import lockr from "lockr";
-import { bindActionCreators } from "redux";
-import { notification } from "antd";
+import React from 'react';
+import actions from '../actions';
+import lockr from 'lockr';
+import { bindActionCreators } from 'redux';
+import { notification } from 'antd';
 
-import { IconWarning } from "../../components/icons";
+import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -12,10 +12,10 @@ const fetchLogin = (dispatch, loginData, history) => {
   const { loginLoaded } = bindActionCreators(actions, dispatch);
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         //Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(loginData),
@@ -26,7 +26,7 @@ const fetchLogin = (dispatch, loginData, history) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -35,13 +35,15 @@ const fetchLogin = (dispatch, loginData, history) => {
         }
       })
       .then((data) => {
-        lockr.rm("current-company-id");
+        lockr.rm('current-company-id');
         const authDate = new Date();
-        lockr.set("auth-key", data.data.token);
-        lockr.set("session-token-expiry", authDate);
-        history.push("/active-claims/");
-        resolve(data.data);
+        lockr.set('auth-key', data.data.token);
+        lockr.set('session-token-expiry', authDate);
         loginLoaded(true);
+        setTimeout(() => {
+          history.push('/active-claims/');
+        }, 10);
+        resolve(data.data);
       })
       .catch(() => {
         reject();

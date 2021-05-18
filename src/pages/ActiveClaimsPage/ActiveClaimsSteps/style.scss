@@ -219,16 +219,30 @@
       img {
         margin-right: 8px;
       }
-      .step-file--remove {
+      .step-file--remove-button {
+        margin-left: auto;
         width: 24px;
         height: 24px;
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        margin-left: auto;
         cursor: pointer;
         &:disabled {
           opacity: 0.4;
+        }
+      }
+      .step-file--remove {
+        margin-left: auto;
+        button {
+          width: 24px;
+          height: 24px;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:disabled {
+            opacity: 0.4;
+          }
         }
       }
     }
@@ -313,11 +327,6 @@
     .ant-drawer-title-wripper {
       display: flex;
       align-items: center;
-      img {
-        width: 16px;
-        height: 16px;
-        margin-right: 8px;
-      }
       font-family: Poppins;
       font-style: normal;
       font-weight: 500;
@@ -330,6 +339,12 @@
       display: flex;
       align-items: center;
       white-space: nowrap;
+      width: 100%;
+      img {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
       p {
         margin: 0;
       }

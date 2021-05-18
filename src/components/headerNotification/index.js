@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getNotificationsForUser } from '../../core/services/getNotificationsForUser';
 import { IconNotifications } from '../icons';
 import './style.scss';
@@ -14,6 +15,8 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [notiData, setNotiData] = useState([]);
+  const [count, setCount] = useState('');
+  console.log('notiData', notiData);
 
   useEffect(() => {
     if (company) {
@@ -21,6 +24,11 @@ const HeaderNotification = () => {
       getNotificationsForUser(dispatch, id).then((data) => {
         setNotiData(() => data);
       });
+      // if(!notiData.length) {
+      //
+      // } else{
+      //
+      // }
     }
     return () => {
       setNotiData(() => []);
@@ -76,9 +84,9 @@ const HeaderNotification = () => {
   };
 
   const getCurrentNoti = () => {
-    if (!notiData.length) {
-      return 0;
-    } else return notiData.length;
+    if (!notiData.length) return;
+    const filterNotiData = notiData.filter((item) => item.type === 1);
+    return filterNotiData.length;
   };
 
   return (
@@ -90,6 +98,7 @@ const HeaderNotification = () => {
       </button>
       <Drawer
         title={getTitle()}
+        className="header__notification_drawer"
         placement="right"
         closable={false}
         onClose={onClose}
@@ -100,14 +109,18 @@ const HeaderNotification = () => {
         <ul className="list_of_notif">
           {notiData !== null ? (
             notiData.map((item) => (
-              <div className="wrapper_li" key={item.id}>
+              <li className="wrapper_li" key={item.id}>
                 <div className="time_container">
                   <time className="created_at">{convertDate(item.created_at)}</time>
                   <time className="created_at">{convertTime(item.created_at)}</time>
                 </div>
-                <li className="item_li">{item.text}</li>
-                <span className="check_doc">Check document</span>
-              </div>
+                <div className="details_container">
+                  <div className="item_li">{item.text}</div>
+                  <Link to={`/document/${item.claim_id}/${item.document_id}/`} className="check_doc">
+                    Check document
+                  </Link>
+                </div>
+              </li>
             ))
           ) : (
             <div>The lkist is Empty</div>

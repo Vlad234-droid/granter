@@ -1,27 +1,30 @@
-import React, { useState, useRef } from "react";
-import { Carousel } from "antd";
-import Layout from "../../components/LayoutGuest/Layout";
+import React, { useRef, useState } from 'react';
+import { Carousel } from 'antd';
+import Layout from '../../components/LayoutGuest/Layout';
 
-import WelcomeSteps from "./Steps";
-import WelcomeСonfirm from "./Сonfirm";
-import RegistrationForm from "./RegistrationForm";
+import WelcomeSteps from './Steps';
+import WelcomeСonfirm from './Сonfirm';
+import RegistrationForm from './RegistrationForm';
 
-import "./style.scss";
+import './style.scss';
 
 const WelcomePage = (props) => {
   const slider = useRef();
+  const [indexStep, setIndexStep] = useState(null);
 
   return (
-    <Layout isLogged={false} className='hello-page' mode='registration'>
-      <div className='hello-page__wrapper'>
+    <Layout isLogged={false} className="hello-page" mode="registration">
+      <div className="hello-page__wrapper">
         <Carousel
           ref={slider}
           swipe={false}
           dots={false}
-          easing='ease-in-out'
-          effect='fade'
-          className='hello-page__steps_slider'
-        >
+          easing="ease-in-out"
+          effect="fade"
+          beforeChange={(prevIndex, newIndex) => {
+            setIndexStep(() => newIndex);
+          }}
+          className="hello-page__steps_slider">
           <div>
             <WelcomeSteps
               goNextStep={() => {
@@ -31,6 +34,7 @@ const WelcomePage = (props) => {
           </div>
           <div>
             <WelcomeСonfirm
+              indexStep={indexStep}
               goNextStep={() => {
                 slider.current.next();
               }}

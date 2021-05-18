@@ -32,6 +32,8 @@ const DocumentsPage = () => {
 
   useEffect(() => {
     if (companyId) {
+      setFileList(false);
+      setFilterList(false);
       getDocumentsManagerList(step, companyId).then((data) => {
         const list = data.map((item) => {
           const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
@@ -45,12 +47,12 @@ const DocumentsPage = () => {
           item.checked = false;
           return item;
         });
-        list.sort((a, b) => (a.original_name < b.original_name ? 1 : -1));
+        //list.sort((a, b) => (new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1));
         setFileList(list);
         setFilterList(list);
       });
     }
-  }, [companyId]);
+  }, [companyId, step]);
 
   const onFilterChange = (changedValues, filters) => {
     console.log(filters);
@@ -138,7 +140,7 @@ const DocumentsPage = () => {
     if (mode === 'name') {
       result.sort((a, b) => (a.original_name < b.original_name ? 1 : -1));
     } else if (mode === 'date') {
-      result.sort((a, b) => (a.updated_at < b.updated_at ? 1 : -1));
+      result.sort((a, b) => (new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1));
     }
     setFilterList(result);
     console.log(mode);
@@ -152,7 +154,7 @@ const DocumentsPage = () => {
             <div className="show">
               <span>Show:</span>
               <Select
-                defaultValue="name"
+                defaultValue="date"
                 suffixIcon={<img src={iconSelectArrow} alt="" />}
                 dropdownMatchSelectWidth={false}
                 getPopupContainer={() => document.querySelector('.documents__table_sort')}
@@ -160,8 +162,8 @@ const DocumentsPage = () => {
                 onChange={onSort}
                 //onChange={onChangeMode}
               >
-                <Option value="name">by name</Option>
                 <Option value="date">by date</Option>
+                <Option value="name">by name</Option>
               </Select>
             </div>
             <button className="head--download" disabled={isDisabled} onClick={onDownloadList}>

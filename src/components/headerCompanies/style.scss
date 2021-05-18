@@ -1,6 +1,7 @@
 .header__company {
   position: relative;
   max-width: 300px;
+  margin-left: auto;
   .header__company_selected {
     font-family: Poppins;
     font-style: normal;
@@ -70,7 +71,7 @@
     transition: all 250ms ease;
     flex-shrink: 0;
     &::before {
-      content: "";
+      content: '';
       display: block;
       height: 2px;
       width: 7.5px;
@@ -83,7 +84,7 @@
       transition: all 250ms ease;
     }
     &::after {
-      content: "";
+      content: '';
       display: block;
       height: 2px;
       width: 7.5px;
@@ -157,7 +158,7 @@
     margin-top: -5px;
     margin-left: 12px;
     &::before {
-      content: "";
+      content: '';
       display: block;
       height: 2px;
       width: 7.5px;
@@ -169,7 +170,7 @@
       background-color: #3c4252;
     }
     &::after {
-      content: "";
+      content: '';
       display: block;
       height: 2px;
       width: 7.5px;

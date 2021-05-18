@@ -1,0 +1,22 @@
+.ant-modal.modal_benefit {
+  top: 210px !important;
+  .ant-modal-body {
+    padding: 20px 20px 0px 20px !important;
+  }
+  .wrapper_info {
+    .promWrapperText {
+      color: #7f8896;
+      p {
+        text-align: center;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+    .wrapper-btn-modal {
+      width: 40% !important;
+      margin: -12px auto 4px auto !important;
+    }
+  }
+}

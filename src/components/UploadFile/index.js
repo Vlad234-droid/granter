@@ -77,7 +77,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
           <img src={iconPdf} alt="" />
           <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
           {removeButton &&
-            (file.has_unresolved_comments ? (
+            (!file.has_unresolved_comments ? (
               <Dropdown
                 placement="bottomRight"
                 trigger="click"
@@ -105,7 +105,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
                   </div>
                 }>
                 <button
-                  className="step-file--remove"
+                  className="step-file--remove-button"
                   onClick={() => {
                     setOnRemoveDropdown(true);
                   }}>
@@ -113,9 +113,11 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
                 </button>
               </Dropdown>
             ) : (
-              <button className="step-file--remove" disabled>
-                <IconDeleteFile />
-              </button>
+              <Tooltip placement="left" title="This file cannot be deleted because it contains unresolved comment">
+                <button className="step-file--remove" disabled>
+                  <IconDeleteFile />
+                </button>
+              </Tooltip>
             ))}
         </div>
         <div className="step-file--status">

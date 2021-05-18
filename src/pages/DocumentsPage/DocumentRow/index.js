@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Checkbox, Dropdown, Button } from 'antd';
+import { Checkbox, Dropdown, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { IconDeleteFile, IconDownload } from '../../../components/icons';
@@ -77,9 +77,11 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
               </button>
             </Dropdown>
           ) : (
-            <button disabled>
-              <IconDeleteFile />
-            </button>
+            <Tooltip placement="left" title="This file cannot be deleted because it contains unresolved comment">
+              <button className="step-file--remove" disabled>
+                <IconDeleteFile />
+              </button>
+            </Tooltip>
           )}
         </div>
       </td>

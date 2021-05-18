@@ -62,7 +62,7 @@ const ChangePasswordPage = () => {
     <Layout isLogged={false} className="dashboard">
       <div className="change-password">
         <div className="change-password__title">
-          <Link to="">
+          <Link to="/profile/">
             <img src={arrowLeft} alt="" />
             <span>To Profile</span>
           </Link>

@@ -1,12 +1,13 @@
 .app-dashboard {
-	.main-content {
-		overflow: auto;
-		padding: 22px 32px 22px 32px;
-		.dashboard-wrapper {
-			min-width: 1100px;
-			display: flex;
-			flex-direction: column;
-			flex-grow: 1;
-		}
-	}
+  .main-content {
+    overflow: auto;
+    padding: 22px 32px 22px 32px;
+    max-height: calc(100vh - 60px);
+    .dashboard-wrapper {
+      min-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  }
 }
