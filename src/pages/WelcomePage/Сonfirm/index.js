@@ -40,7 +40,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
         Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
         with you in the future.
       </div>
-      {checkorForRenderBenefitModal()}
+      {/* {checkorForRenderBenefitModal()} */}
 
       <div className="welcome__comfirm_info">
         <Row gutter={24}>

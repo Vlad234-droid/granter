@@ -15,6 +15,7 @@ const ActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentCompany);
+  const userData = useSelector((state) => state.user.data);
 
   useEffect(() => {
     if (user) {
@@ -39,12 +40,12 @@ const ActiveClaimsPage = (props) => {
                 </time>
               )}
             </div>
-            {!user.email_verified_at ? (
+            {!userData?.email_verified_at ? (
               <div className="active-claims__verify-message">
                 Welcome! Verify your email to see approximate benefits
               </div>
             ) : (
-              <ActiveClaimsCards />
+              <ActiveClaimsCards activeClaimData={activeClaimData} />
             )}
           </>
         )}
