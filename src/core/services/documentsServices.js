@@ -193,14 +193,14 @@ const getDocumentsManagerList = (step, companyId) => {
   });
 };
 
-const getDownloadList = (list) => {
+const getDownloadList = (list, stage) => {
   const token = lockr.get('auth-key');
 
   const formData = new FormData();
   list.forEach((file, i) => {
     formData.append(`document_ids[${i}]`, file.id);
   });
-  // formData.append("file", file);
+  formData.append('stage', stage);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/download/list`, {
@@ -212,7 +212,6 @@ const getDownloadList = (list) => {
       body: formData,
     })
       .then((resp) => {
-        console.log(resp);
         if (resp.ok) {
           return resp.json();
         } else {
@@ -227,7 +226,7 @@ const getDownloadList = (list) => {
         }
       })
       .then((data) => {
-        resolve(data);
+        resolve(data.data);
       })
       .catch((error) => {
         reject(error);

@@ -35,7 +35,7 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
           <a href={file.url} target="_blank">
             <IconDownload />
           </a>
-          {file.status === 3 ? (
+          {!file.has_unresolved_comments ? (
             <Dropdown
               placement="bottomRight"
               trigger="click"
@@ -56,7 +56,13 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
                       }}>
                       Back
                     </Button>
-                    <Button type="primary" onClick={onDeleteFile} loading={loading}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setLoading(true);
+                        onDeleteFile(file.claim_id, file.id);
+                      }}
+                      loading={loading}>
                       Delete
                     </Button>
                   </div>

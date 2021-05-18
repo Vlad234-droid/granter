@@ -227,6 +227,9 @@
         align-items: center;
         margin-left: auto;
         cursor: pointer;
+        &:disabled {
+          opacity: 0.4;
+        }
       }
     }
     .step-file--status {
@@ -248,14 +251,12 @@
         text-transform: uppercase;
         white-space: nowrap;
         &.review {
-          background: rgba(249, 166, 72, 0.2)
-            url("../../../assets/img/icon-review.svg") no-repeat 8px center;
+          background: rgba(249, 166, 72, 0.2) url('../../../assets/img/icon-review.svg') no-repeat 8px center;
           color: #f9a648;
           padding-left: 28px;
         }
         &.approved {
-          background: rgba(16, 172, 132, 0.2)
-            url("../../../assets/img/icon-approved.svg") no-repeat 8px center;
+          background: rgba(16, 172, 132, 0.2) url('../../../assets/img/icon-approved.svg') no-repeat 8px center;
           color: #10ac84;
           padding-left: 28px;
         }

@@ -31,23 +31,25 @@ const DocumentsPage = () => {
   const token = lockr.get('auth-key');
 
   useEffect(() => {
-    getDocumentsManagerList(step, companyId).then((data) => {
-      const list = data.map((item) => {
-        const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
-        if (extension === '.pdf') {
-          item.extension = 'pdf';
-        } else if (extension === '.doc' || extension === '.docx') {
-          item.extension = 'doc';
-        } else if (extension === '.xls' || extension === '.xlsx') {
-          item.extension = 'xls';
-        }
-        item.checked = false;
-        return item;
+    if (companyId) {
+      getDocumentsManagerList(step, companyId).then((data) => {
+        const list = data.map((item) => {
+          const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
+          if (extension === '.pdf') {
+            item.extension = 'pdf';
+          } else if (extension === '.doc' || extension === '.docx') {
+            item.extension = 'doc';
+          } else if (extension === '.xls' || extension === '.xlsx') {
+            item.extension = 'xls';
+          }
+          item.checked = false;
+          return item;
+        });
+        list.sort((a, b) => (a.original_name < b.original_name ? 1 : -1));
+        setFileList(list);
+        setFilterList(list);
       });
-      list.sort((a, b) => (a.original_name < b.original_name ? 1 : -1));
-      setFileList(list);
-      setFilterList(list);
-    });
+    }
   }, [companyId]);
 
   const onFilterChange = (changedValues, filters) => {
@@ -115,13 +117,20 @@ const DocumentsPage = () => {
 
   const onDownloadList = () => {
     const list = filterList.filter((item) => item.checked);
-    getDownloadList(list).then((data) => {
-      console.log(data);
+    const stage = list[0].stage;
+    getDownloadList(list, stage).then((data) => {
+      console.log(data.zip);
+      window.open(data.zip);
     });
   };
 
   const onDeleteFile = (claim_id, id) => {
-    deleteFile(claim_id, id);
+    deleteFile(claim_id, id).then((data) => {
+      const filesListNew = filterList.filter((item) => item.id !== id);
+      const filterListNew = filterList.filter((item) => item.id !== id);
+      setFileList(filesListNew);
+      setFilterList(filterListNew);
+    });
   };
 
   const onSort = (mode) => {
@@ -137,14 +146,6 @@ const DocumentsPage = () => {
 
   return (
     <Layout isLogged={false} className="dashboard documents">
-      {/* <div>
-        <form method="POST" action="http://granter.get-code.net/api/public/documents/download/list">
-          <input type="text" name="document_ids[0]" value="607" />
-          <input type="text" name="document_ids[1]" value="608" />
-          <input type="text" name="_token" value={token} hidden />
-          <input type="submit" value="Go" />
-        </form>
-      </div> */}
       <div className="documents-wrapper">
         <div className="documents__table">
           <div className="documents__table_head">
