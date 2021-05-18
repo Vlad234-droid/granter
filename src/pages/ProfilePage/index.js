@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  Skeleton,
-  Checkbox,
-  notification,
-  Spin,
-  Input,
-  Select,
-  Form,
-  Button,
-} from "antd";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Skeleton, Checkbox, notification, Spin, Input, Select, Form, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
-import Layout from "../../components/LayoutDashboard/Layout";
-import Company from "./Company";
+import Layout from '../../components/LayoutDashboard/Layout';
+import Company from './Company';
 
-import {
-  fetchProfileData,
-  postProfileData,
-  fetchUserCompanies,
-} from "../../core/services";
+import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
 
-import { IconEditPencil, IconWarning, IconAdd } from "../../components/icons";
+import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 
-import "./style.scss";
+import './style.scss';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
@@ -75,36 +62,26 @@ const ProfilePage = () => {
   };
 
   return (
-    <Layout className='dashboard profile'>
-      <div className='profile__general'>
-        <div className='profile__general_title'>
+    <Layout className="dashboard profile">
+      <div className="profile__general">
+        <div className="profile__general_title">
           <h2>
             <span>Personal Information</span>
-            <button
-              onClick={(e) => {
-                setEditModeGeneral(true);
-              }}
-            >
-              <IconEditPencil />
-            </button>
+            {!editModeGeneral && (
+              <button
+                onClick={(e) => {
+                  setEditModeGeneral(true);
+                }}>
+                <IconEditPencil />
+              </button>
+            )}
           </h2>
-          {editModeGeneral && (
-            <Button
-              type='button'
-              loading={profileFormLoader}
-              onClick={(e) => {
-                profileForm.submit();
-              }}
-            >
-              Save
-            </Button>
-          )}
         </div>
         {!userData ? (
           <Skeleton active />
         ) : (
           <Form
-            name='profile'
+            name="profile"
             form={profileForm}
             // initialValues={{
             //   remember: true,
@@ -112,45 +89,43 @@ const ProfilePage = () => {
             onFinish={onSave}
             // onFinishFailed={onFinishFailed}
           >
-            <ul className='profile__general_table'>
+            <ul className="profile__general_table">
               <li>
-                <div className='label'>Full Name</div>
-                <div className='details'>
+                <div className="label">Full Name</div>
+                <div className="details">
                   {!editModeGeneral ? (
                     <span>{userData.profile.name}</span>
                   ) : (
                     <Form.Item
-                      name='name'
+                      name="name"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your name!",
+                          message: 'Please input your name!',
                         },
-                      ]}
-                    >
+                      ]}>
                       <Input />
                     </Form.Item>
                   )}
                 </div>
               </li>
               <li>
-                <div className='label'>Team Role</div>
-                <div className='details'>
+                <div className="label">Team Role</div>
+                <div className="details">
                   {!editModeGeneral ? (
                     <>
                       {userData.profile.team_role ? (
                         <span>{userData.profile.team_role}</span>
                       ) : (
-                        <div className='alert'>
+                        <div className="alert">
                           <IconWarning />
                           <span>Not Setted</span>
                           <a
-                            href=''
+                            href=""
                             onClick={(e) => {
                               e.preventDefault();
                               setEditModeGeneral(true);
-                            }}
-                          >
+                            }}>
                             Set the Role
                           </a>
                         </div>
@@ -158,108 +133,115 @@ const ProfilePage = () => {
                     </>
                   ) : (
                     <Form.Item
-                      name='team_role'
+                      name="team_role"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your Team Role!",
+                          message: 'Please input your Team Role!',
                         },
-                      ]}
-                    >
+                      ]}>
                       <Input />
                     </Form.Item>
                   )}
                 </div>
               </li>
               <li>
-                <div className='label'>Registered Address</div>
-                <div className='details'>
+                <div className="label">Registered Address</div>
+                <div className="details">
                   {!editModeGeneral ? (
                     <span>{userData.profile.address}</span>
                   ) : (
                     <Form.Item
-                      name='address'
+                      name="address"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your Registered Address!",
+                          message: 'Please input your Registered Address!',
                         },
-                      ]}
-                    >
+                      ]}>
                       <Input />
                     </Form.Item>
                   )}
                 </div>
               </li>
-              <li>
-                <div className='label'>ID Verification status</div>
-                <div className='details'>
-                  <div className='alert'>
+              {/* <li>
+                <div className="label">ID Verification status</div>
+                <div className="details">
+                  <div className="alert">
                     <IconWarning />
                     <span>Not Verified</span>
-                    <a href=''>Verify</a>
+                    <a href="">Verify</a>
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li>
-                <div className='label'>Your Email</div>
-                <div className='details'>
+                <div className="label">Your Email</div>
+                <div className="details">
                   <span>{userData.email}</span>
-                  <Form.Item
-                    name='enable_notifications'
-                    valuePropName='checked'
-                  >
-                    <Checkbox onChange={enableNotificationsChange}>
-                      Receive all notifications
-                    </Checkbox>
+                  <Form.Item name="enable_notifications" valuePropName="checked">
+                    <Checkbox onChange={enableNotificationsChange}>Receive all notifications</Checkbox>
                   </Form.Item>
                 </div>
               </li>
               <li>
-                <div className='label'>Your Phone Number</div>
-                <div className='details'>
+                <div className="label">Your Phone Number</div>
+                <div className="details">
                   {!editModeGeneral ? (
                     <span>{userData.profile.phone}</span>
                   ) : (
                     <Form.Item
-                      name='phone'
+                      name="phone"
                       rules={[
                         {
                           required: true,
-                          message: "Please input your Phone Number!",
+                          message: 'Please input your Phone Number!',
                         },
-                      ]}
-                    >
+                      ]}>
                       <Input />
                     </Form.Item>
                   )}
                 </div>
               </li>
               <li>
-                <div className='label'>Your Password</div>
-                <div className='details'>
-                  <Link to='/profile/change-password/'>Change password</Link>
+                <div className="label">Your Password</div>
+                <div className="details">
+                  <Link to="/profile/change-password/">Change password</Link>
                 </div>
               </li>
             </ul>
           </Form>
         )}
+        {editModeGeneral && (
+          <div className="profile__general_actions">
+            <Button
+              type="button"
+              onClick={(e) => {
+                setEditModeGeneral(false);
+              }}>
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              loading={profileFormLoader}
+              onClick={(e) => {
+                profileForm.submit();
+              }}>
+              Save
+            </Button>
+          </div>
+        )}
       </div>
-      <div className='profile__companies'>
+      <div className="profile__companies">
         <h2>
           <span>My Companies</span>
-          <Link to='/profile/add-project/'>
+          <Link to="/profile/add-project/">
             <IconAdd />
           </Link>
         </h2>
-        <ul className='profile__companies_list'>
+        <ul className="profile__companies_list">
           {companiesList &&
             companiesList.map((item) => (
-              <Company
-                key={`company-${item.id}`}
-                company={item}
-                updateCompany={updateCompany}
-              />
+              <Company key={`company-${item.id}`} company={item} updateCompany={updateCompany} />
             ))}
         </ul>
       </div>

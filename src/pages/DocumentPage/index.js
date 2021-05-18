@@ -1,33 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import {
-  Upload,
-  Select,
-  Button,
-  Spin,
-  Skeleton,
-  Modal,
-  Form,
-  Input,
-} from "antd";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Upload, Select, Button, Spin, Skeleton, Tooltip, Form, Input } from 'antd';
 
-import {
-  getDocumentComments,
-  postNewVersionDocument,
-  postNewComment,
-  removeComment,
-} from "../../core/services";
+import { getDocumentComments, postNewVersionDocument, postNewComment, removeComment } from '../../core/services';
 
-import DocumentViewer from "../../components/DocumentViewer";
-import Comment from "../../components/Comment";
-import { IconComment } from "../../components/icons";
+import DocumentViewer from '../../components/DocumentViewer';
+import Comment from '../../components/Comment';
+import { IconComment } from '../../components/icons';
 
-import iconBack from "../../assets/img/arrow-left.svg";
-import iconDownload from "../../assets/img/icon-download.svg";
-import iconUpload from "../../assets/img/icon-upload-blue.svg";
-import iconSelectArrow from "../../assets/img/iceon-select-arrow.svg";
+import iconBack from '../../assets/img/arrow-left.svg';
+import iconDownload from '../../assets/img/icon-download.svg';
+import iconUpload from '../../assets/img/icon-upload-blue.svg';
+import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 
-import "./style.scss";
+import './style.scss';
 
 const { Dragger } = Upload;
 const { Option } = Select;
@@ -35,7 +21,7 @@ const { Option } = Select;
 const DocumentPage = () => {
   const { id, climeId } = useParams();
   const [commentsList, setCommentsList] = useState(null);
-  const [mode, setMode] = useState("all");
+  const [mode, setMode] = useState('all');
   const [document, setDocument] = useState(null);
   const [documentUploadLoader, setDocumentUploadLoader] = useState(false);
   const [newCommentForm, setNewCommentForm] = useState(false);
@@ -50,14 +36,10 @@ const DocumentPage = () => {
 
   const onChangeMode = (e) => {
     const result = [...commentsList];
-    if (e === "latest") {
-      result.sort((a, b) =>
-        a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0
-      );
+    if (e === 'latest') {
+      result.sort((a, b) => (a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0));
     } else {
-      result.sort((a, b) =>
-        a.updated_at > b.updated_at ? 1 : b.updated_at > a.updated_at ? -1 : 0
-      );
+      result.sort((a, b) => (a.updated_at > b.updated_at ? 1 : b.updated_at > a.updated_at ? -1 : 0));
     }
     setCommentsList(result);
     setMode(e);
@@ -77,19 +59,15 @@ const DocumentPage = () => {
     setNewCommentLoader(true);
     postNewComment(climeId, id, value).then((data) => {
       const result = [...data.comment];
-      if (mode === "latest") {
-        result.sort((a, b) =>
-          a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0
-        );
+      if (mode === 'latest') {
+        result.sort((a, b) => (a.updated_at > b.updated_at ? -1 : b.updated_at > a.updated_at ? 1 : 0));
       }
       setCommentsList(result);
       setNewCommentLoader(false);
       setNewCommentForm(false);
-      if (mode === "latest") {
+      if (mode === 'latest') {
         setTimeout(() => {
-          window.document
-            .querySelector(".document-details__comments_list")
-            .scrollTo(0, 0);
+          window.document.querySelector('.document-details__comments_list').scrollTo(0, 0);
         }, 100);
       }
     });
@@ -113,66 +91,81 @@ const DocumentPage = () => {
     });
   };
 
+  const isCommentsApproved = () => {
+    console.log('commentsList', commentsList);
+    return commentsList.filter((item) => item.status === 1).length > 0;
+    //return true;
+  };
+
   return (
-    <div className='document-details'>
-      <div className='document-details__viewer'>
-        <header className='document-details__header'>
-          <Link to='/active-claims/' className='header--back'>
-            <img src={iconBack} alt='' />
+    <div className="document-details">
+      <div className="document-details__viewer">
+        <header className="document-details__header">
+          <Link to="/active-claims/" className="header--back">
+            <img src={iconBack} alt="" />
             <span>To Dashboard</span>
           </Link>
           {document && (
             <>
-              <a href={document.url} className='header--download'>
-                <img src={iconDownload} alt='' />
+              <a href={document.url} className="header--download">
+                <img src={iconDownload} alt="" />
                 <span>Download File</span>
               </a>
               <Dragger
-                className='header--upload'
-                disabled={document.status !== 1}
-                name='file'
+                className="header--upload"
+                disabled={isCommentsApproved()}
+                name="file"
                 customRequest={uploadNewDocument}
-                accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-                showUploadList={false}
-              >
+                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                showUploadList={false}>
                 {documentUploadLoader && (
-                  <div className='loading'>
+                  <div className="loading">
                     <Spin />
                   </div>
                 )}
-                <img src={iconUpload} alt='' />
-                <span>Upload New Version</span>
+                {isCommentsApproved() ? (
+                  <Tooltip
+                    placement="bottom"
+                    title="You cannot update this file because it contains an unresolved comment.">
+                    <div>
+                      <img src={iconUpload} alt="" />
+                      <span>Upload New Version</span>
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <div>
+                    <img src={iconUpload} alt="" />
+                    <span>Upload New Version</span>
+                  </div>
+                )}
               </Dragger>
             </>
           )}
         </header>
-        <article className='document-wrapper'>
-          {document && <DocumentViewer url={document.url} />}
-        </article>
+        <article className="document-wrapper">{document && <DocumentViewer url={document.url} />}</article>
       </div>
-      <div className='document-details__comments'>
+      <div className="document-details__comments">
         {!commentsList ? (
           <Skeleton active />
         ) : (
           <>
-            <div className='document-details__comments_header'>
-              <div className='header--title'>
+            <div className="document-details__comments_header">
+              <div className="header--title">
                 <IconComment />
                 <span>Comments ({commentsList.length})</span>
               </div>
               {commentsList.length > 0 && (
                 <Select
-                  defaultValue='all'
-                  suffixIcon={<img src={iconSelectArrow} alt='' />}
+                  defaultValue="all"
+                  suffixIcon={<img src={iconSelectArrow} alt="" />}
                   dropdownMatchSelectWidth={false}
-                  onChange={onChangeMode}
-                >
-                  <Option value='all'>All</Option>
-                  <Option value='latest'>Latest</Option>
+                  onChange={onChangeMode}>
+                  <Option value="all">All</Option>
+                  <Option value="latest">Latest</Option>
                 </Select>
               )}
             </div>
-            <div className='document-details__comments_list'>
+            <div className="document-details__comments_list">
               {commentsList.map((comment) => (
                 <Comment
                   key={comment.id}
@@ -183,14 +176,11 @@ const DocumentPage = () => {
                 />
               ))}
               {newCommentForm && (
-                <div className='new-comment'>
+                <div className="new-comment">
                   {!newCommentLoader ? (
                     <>
                       <label>Comment:</label>
-                      <Input.TextArea
-                        placeholder='Type to Comment, Enter to Send'
-                        onPressEnter={addComment}
-                      />
+                      <Input.TextArea placeholder="Type to Comment, Enter to Send" onPressEnter={addComment} />
                     </>
                   ) : (
                     <Skeleton active />
@@ -200,19 +190,16 @@ const DocumentPage = () => {
             </div>
           </>
         )}
-        <div className='document-details__comments_new'>
+        <div className="document-details__comments_new">
           <Button
-            type='primary'
+            type="primary"
             disabled={newCommentForm}
             onClick={(e) => {
               setNewCommentForm(true);
               setTimeout(() => {
-                window.document
-                  .querySelector(".document-details__comments_list")
-                  .scrollTo(0, 50000);
+                window.document.querySelector('.document-details__comments_list').scrollTo(0, 50000);
               }, 100);
-            }}
-          >
+            }}>
             New Comment
           </Button>
         </div>
