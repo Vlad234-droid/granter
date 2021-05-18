@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getNotificationsForUser } from '../../core/services/getNotificationsForUser';
 import { IconNotifications } from '../icons';
 import './style.scss';
@@ -97,6 +98,7 @@ const HeaderNotification = () => {
       </button>
       <Drawer
         title={getTitle()}
+        className="header__notification_drawer"
         placement="right"
         closable={false}
         onClose={onClose}
@@ -112,8 +114,12 @@ const HeaderNotification = () => {
                   <time className="created_at">{convertDate(item.created_at)}</time>
                   <time className="created_at">{convertTime(item.created_at)}</time>
                 </div>
-                <div className="item_li">{item.text}</div>
-                <span className="check_doc">Check document</span>
+                <div className="details_container">
+                  <div className="item_li">{item.text}</div>
+                  <Link to={`/document/${item.claim_id}/${item.document_id}/`} className="check_doc">
+                    Check document
+                  </Link>
+                </div>
               </li>
             ))
           ) : (
