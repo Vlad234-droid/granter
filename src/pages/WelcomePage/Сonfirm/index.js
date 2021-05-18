@@ -9,8 +9,6 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
   const state = useSelector((state) => state.registration);
   const [isModalBenefit, setIsModalBenefit] = useState(null);
 
-  console.log('isModalBenefit', isModalBenefit);
-
   useEffect(() => {
     if (indexStep === 1) {
       setIsModalBenefit(() => true);
@@ -34,8 +32,6 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
       );
     }
   }, [indexStep, isModalBenefit, setIsModalBenefit]);
-
-  console.log('!!indexStep', !!indexStep, indexStep);
 
   return (
     <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>
