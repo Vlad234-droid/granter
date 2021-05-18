@@ -88,7 +88,7 @@ const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
             }}>
             <IconReply />
           </button>
-          <Checkbox className="reply-checkbox" />
+          <Checkbox checked={false} className="reply-checkbox" />
         </div>
         <div
           className="comment--message"
