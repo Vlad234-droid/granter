@@ -15,7 +15,7 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [notiData, setNotiData] = useState([]);
-  const [count, setCount] = useState('');
+  const [count, setCount] = useState(null);
   console.log('notiData', notiData);
 
   useEffect(() => {
@@ -24,16 +24,19 @@ const HeaderNotification = () => {
       getNotificationsForUser(dispatch, id).then((data) => {
         setNotiData(() => data);
       });
-      // if(!notiData.length) {
-      //
-      // } else{
-      //
-      // }
     }
     return () => {
       setNotiData(() => []);
     };
   }, [company]);
+
+  useEffect(() => {
+    if (notiData.length) {
+      let count = notiData.filter((item) => item.status === 2).length;
+      count = count > 0 ? count : null;
+      setCount(count);
+    }
+  }, [notiData]);
 
   const showDrawer = () => {
     if (!notiData.length) {
@@ -92,7 +95,7 @@ const HeaderNotification = () => {
   return (
     <div className="header__notification">
       <button onClick={showDrawer}>
-        <Badge count={getCurrentNoti()}>
+        <Badge count={count}>
           <IconNotifications empty={notiData.length} />
         </Badge>
       </button>
