@@ -1,21 +1,52 @@
-import React from "react";
-import { Button, Row, Col, Card } from "antd";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Row, Col, Card } from 'antd';
+import { useSelector } from 'react-redux';
+import './style.scss';
+import { UpVector } from '../../../components/icons';
+import BenefitModal from './BenefitModal';
 
-import "./style.scss";
-
-const Сonfirm = ({ goNextStep, goPrevStep }) => {
+const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
   const state = useSelector((state) => state.registration);
+  const [isModalBenefit, setIsModalBenefit] = useState(null);
+
+  console.log('isModalBenefit', isModalBenefit);
+
+  useEffect(() => {
+    if (indexStep === 1) {
+      setIsModalBenefit(() => true);
+    }
+  }, [indexStep]);
+
+  const checkorForRenderBenefitModal = useCallback(() => {
+    if (indexStep === 2) {
+      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
+    } else {
+      return (
+        <div className="wrapper_total_benefit">
+          <p>Estimated total claim benefit</p>
+          <h2>£2,000 - £5,000 </h2>
+          <div className="block_info_img">
+            <h5>YoY Change:</h5>
+            <UpVector />
+            <h6>13%</h6>
+          </div>
+        </div>
+      );
+    }
+  }, [indexStep, isModalBenefit, setIsModalBenefit]);
+
+  console.log('!!indexStep', !!indexStep, indexStep);
+
   return (
-    <div className='welcome__comfirm'>
-      <h1>
-        Please confirm information to proceed to official service agreement
-      </h1>
-      <div className='hello-page__description'>
-        Thank you for signing up to work with Granter or your next R&D tax
-        credit claim. We are excited to be working with you in the future.
+    <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>
+      <h1>Please confirm information to proceed to official service agreement</h1>
+      <div className="hello-page__description">
+        Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
+        with you in the future.
       </div>
-      <div className='welcome__comfirm_info'>
+      {checkorForRenderBenefitModal()}
+
+      <div className="welcome__comfirm_info">
         <Row gutter={24}>
           <Col span={8}>
             <Card>
@@ -42,11 +73,11 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
           </Col>
         </Row>
       </div>
-      <div className='welcome__comfirm_submit'>
-        <Button type='primary' onClick={goNextStep}>
+      <div className="welcome__comfirm_submit">
+        <Button type="primary" onClick={goNextStep}>
           Confirm
         </Button>
-        <Button type='text' onClick={goPrevStep}>
+        <Button type="text" onClick={goPrevStep}>
           Back
         </Button>
       </div>

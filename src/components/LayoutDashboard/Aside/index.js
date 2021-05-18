@@ -22,7 +22,7 @@ const Aside = () => {
   const { currentCompany } = useSelector((state) => state.user);
   const [currentMenu, setCurrentMenu] = useState([]);
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
-  const { isVisibleSubMenu } = useSelector((state) => state.modal);
+  const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
   const [addSubClass, setAddSubClass] = useState(false);
 
   console.log('isVisibleSubMenu', addSubClass);
@@ -44,18 +44,24 @@ const Aside = () => {
       case location.pathname.includes('introduction'):
         setCurrentMenu('library-introduction');
         setAddSubClass(() => true);
+        showSubMenu(['library']);
         break;
       case location.pathname.includes('financial'):
         setCurrentMenu('library-financial');
         setAddSubClass(() => true);
+        showSubMenu(['library']);
+
         break;
       case location.pathname.includes('technical'):
         setCurrentMenu('library-technical');
         setAddSubClass(() => true);
+        showSubMenu(['library']);
+
         break;
       case location.pathname.includes('submission'):
         setCurrentMenu('library-submission');
         setAddSubClass(() => true);
+        showSubMenu(['library']);
         break;
 
       default:
@@ -63,16 +69,15 @@ const Aside = () => {
         setAddSubClass(() => false);
         break;
     }
-    return () => setCurrentMenu(() => []);
+    return () => {
+      setCurrentMenu(() => []);
+      closeSubMenu();
+    };
   }, [location.pathname]);
 
   const checkForAvatar = useCallback(() => {
     if (currentCompany) return currentCompany.manager?.avatar;
   }, [currentCompany]);
-
-  const testFn = (e) => {
-    //setCurrentMenu(() => [e.key]);
-  };
 
   const onOpenChange = useCallback(
     (key) => {
@@ -120,10 +125,10 @@ const Aside = () => {
               <Link to="/documents/financial">Financial</Link>
             </Item>
             <Item key="library-technical">
-              <Link to="documents/technical">Technical</Link>
+              <Link to="/documents/technical">Technical</Link>
             </Item>
             <Item key="library-submission">
-              <Link to="documents/submission">Submission</Link>
+              <Link to="/documents/submission">Submission</Link>
             </Item>
           </SubMenu>
         </Menu>

@@ -14,6 +14,8 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [notiData, setNotiData] = useState([]);
+  const [count, setCount] = useState('');
+  console.log('notiData', notiData);
 
   useEffect(() => {
     if (company) {
@@ -21,6 +23,11 @@ const HeaderNotification = () => {
       getNotificationsForUser(dispatch, id).then((data) => {
         setNotiData(() => data);
       });
+      // if(!notiData.length) {
+      //
+      // } else{
+      //
+      // }
     }
     return () => {
       setNotiData(() => []);
@@ -76,9 +83,9 @@ const HeaderNotification = () => {
   };
 
   const getCurrentNoti = () => {
-    if (!notiData.length) {
-      return 0;
-    } else return notiData.length;
+    if (!notiData.length) return;
+    const filterNotiData = notiData.filter((item) => item.type === 1);
+    return filterNotiData.length;
   };
 
   return (
@@ -100,14 +107,14 @@ const HeaderNotification = () => {
         <ul className="list_of_notif">
           {notiData !== null ? (
             notiData.map((item) => (
-              <div className="wrapper_li" key={item.id}>
+              <li className="wrapper_li" key={item.id}>
                 <div className="time_container">
                   <time className="created_at">{convertDate(item.created_at)}</time>
                   <time className="created_at">{convertTime(item.created_at)}</time>
                 </div>
-                <li className="item_li">{item.text}</li>
+                <div className="item_li">{item.text}</div>
                 <span className="check_doc">Check document</span>
-              </div>
+              </li>
             ))
           ) : (
             <div>The lkist is Empty</div>
