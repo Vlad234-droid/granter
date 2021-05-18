@@ -1,3 +1,101 @@
+.header__notification_drawer {
+  .header__company_name {
+    margin-right: 40px;
+  }
+  .ant-drawer-body {
+    padding: 0px !important;
+  }
+  .header__company_icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: all 250ms ease;
+    flex-shrink: 0;
+    &.blue {
+      background: rgba(48, 95, 245, 0.2);
+      .icon-company {
+        .icon-fill {
+          fill: #305ff5;
+        }
+      }
+    }
+    &.yellow {
+      background: rgba(249, 166, 72, 0.2);
+      .icon-company {
+        .icon-fill {
+          fill: #f9a648;
+        }
+      }
+    }
+  }
+  .header__company_name {
+    transition: all 250ms ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ant-drawer-title {
+    display: flex;
+    align-items: center;
+  }
+  .ant-drawer-close {
+    position: absolute !important;
+    top: 24px !important;
+    right: 30px !important;
+  }
+  .list_of_notif {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    .wrapper_li {
+      display: flex;
+      padding: 15px 20px;
+      position: relative;
+      .details_container {
+        margin-left: 32px;
+        .check_doc {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #305ff5;
+          opacity: 0.9;
+          text-decoration-line: underline;
+        }
+      }
+      .time_container {
+        display: flex;
+        flex-direction: column;
+        .created_at {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #7f8896;
+        }
+      }
+      .item_li {
+        font-family: Poppins;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 21px;
+        letter-spacing: 0em;
+        text-align: left;
+        line-height: 17px;
+        margin-bottom: 4px;
+      }
+      &:nth-child(even) {
+        background: rgba(238, 242, 246, 0.85);
+      }
+    }
+  }
+}
+
 .header__notification {
   display: flex;
   justify-content: center;
@@ -8,102 +106,9 @@
     height: 40px;
   }
 }
-.header__company_icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 8px;
-  transition: all 250ms ease;
-  flex-shrink: 0;
-  &.blue {
-    background: rgba(48, 95, 245, 0.2);
-    .icon-company {
-      .icon-fill {
-        fill: #305ff5;
-      }
-    }
-  }
-  &.yellow {
-    background: rgba(249, 166, 72, 0.2);
-    .icon-company {
-      .icon-fill {
-        fill: #f9a648;
-      }
-    }
-  }
-}
-.header__company_name {
-  transition: all 250ms ease;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ant-drawer-title {
-  display: flex;
-  align-items: center;
-}
-.ant-drawer-close {
-  position: absolute !important;
-  top: 24px !important;
-  right: 30px !important;
-}
-.list_of_notif {
-  width: 100%;
-  list-style: none;
-  padding: 0;
-  .wrapper_li {
-    display: flex;
-    padding: 15px 20px;
-    position: relative;
-    .item_li {
-      font-family: Poppins;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 21px;
-      letter-spacing: 0em;
-      text-align: left;
-      line-height: 17px;
-      margin-bottom: 4px;
-    }
-    &:nth-child(even) {
-      background: rgba(238, 242, 246, 0.85);
-    }
-  }
-}
 
-.ant-drawer-body {
-  padding: 0px !important;
-}
-.check_doc {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #305ff5;
-  opacity: 0.9;
-  text-decoration-line: underline;
-}
-.created_at {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #7f8896;
-}
-.time_container {
-  display: flex;
-  flex-direction: column;
-}
-.details_container {
-  margin-left: 32px;
-}
-
-.header__notification_drawer {
-  .header__company_name {
-    margin-right: 40px;
+.ant-tooltip {
+  .custom__toool {
+    background-color: red;
   }
 }
