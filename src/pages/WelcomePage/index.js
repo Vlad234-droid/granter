@@ -1,27 +1,26 @@
-import React, { useState, useRef } from "react";
-import { Carousel } from "antd";
-import Layout from "../../components/LayoutGuest/Layout";
+import React, { useState, useRef, useEffect } from 'react';
+import { Carousel } from 'antd';
+import Layout from '../../components/LayoutGuest/Layout';
 
-import WelcomeSteps from "./Steps";
-import WelcomeСonfirm from "./Сonfirm";
-import RegistrationForm from "./RegistrationForm";
+import WelcomeSteps from './Steps';
+import WelcomeСonfirm from './Сonfirm';
+import RegistrationForm from './RegistrationForm';
 
-import "./style.scss";
+import './style.scss';
 
 const WelcomePage = (props) => {
   const slider = useRef();
 
   return (
-    <Layout isLogged={false} className='hello-page' mode='registration'>
-      <div className='hello-page__wrapper'>
+    <Layout isLogged={false} className="hello-page" mode="registration">
+      <div className="hello-page__wrapper">
         <Carousel
           ref={slider}
           swipe={false}
           dots={false}
-          easing='ease-in-out'
-          effect='fade'
-          className='hello-page__steps_slider'
-        >
+          easing="ease-in-out"
+          effect="fade"
+          className="hello-page__steps_slider">
           <div>
             <WelcomeSteps
               goNextStep={() => {

@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import "./style.scss";
-import HeaderSearch from "../../headerSearch";
-import HeaderCompanies from "../../headerCompanies";
-import HeaderNotification from "../../headerNotification";
+import './style.scss';
+import HeaderSearch from '../../headerSearch';
+import HeaderCompanies from '../../headerCompanies';
+import HeaderNotification from '../../headerNotification';
 
 const Header = () => {
   return (
     <header>
-      <HeaderSearch />
+      {/* <HeaderSearch /> */}
       <HeaderCompanies />
       <HeaderNotification />
     </header>

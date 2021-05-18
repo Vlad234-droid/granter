@@ -22,6 +22,7 @@
         display: flex;
         align-items: center;
         margin-right: auto;
+        width: calc(100% - 130px);
         .comment--author-photo {
           width: 40px;
           height: 40px;
@@ -37,6 +38,7 @@
         }
         .comment--author-info {
           font-family: Poppins;
+          width: 100%;
           span {
             display: block;
             font-style: normal;
