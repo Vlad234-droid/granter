@@ -3,20 +3,19 @@ import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getNotificationsForUser } from '../../core/services/getNotificationsForUser';
-import { IconNotifications } from '../icons';
+import { IconNotificationsLength, IconNotificationsEmpty } from '../icons';
 import './style.scss';
 import { showModalNotifications, closeModalNotifications } from '../../core/actions/modal';
 import { CloseIconModal } from '../icons/index';
 import { IconCompany } from '../icons';
+import { Tooltip, Button } from 'antd';
 
 const HeaderNotification = () => {
   const company = useSelector((state) => state.user.currentCompany);
   const { isVisibleNotifications } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   const [notiData, setNotiData] = useState([]);
-  const [count, setCount] = useState(null);
-  console.log('notiData', notiData);
+  const [count, setCount] = useState('');
 
   useEffect(() => {
     if (company) {
@@ -33,9 +32,9 @@ const HeaderNotification = () => {
   useEffect(() => {
     if (notiData.length) {
       let count = notiData.filter((item) => item.status === 2).length;
-      count = count > 0 ? count : null;
       setCount(count);
     }
+    return () => setCount(() => '');
   }, [notiData]);
 
   const showDrawer = () => {
@@ -86,18 +85,20 @@ const HeaderNotification = () => {
     return convertDate(date);
   };
 
-  const getCurrentNoti = () => {
-    if (!notiData.length) return;
-    const filterNotiData = notiData.filter((item) => item.type === 1);
-    return filterNotiData.length;
-  };
-
   return (
     <div className="header__notification">
       <button onClick={showDrawer}>
-        <Badge count={count}>
-          <IconNotifications empty={notiData.length} />
-        </Badge>
+        {notiData.length ? (
+          <Badge count={count}>
+            <IconNotificationsLength />
+          </Badge>
+        ) : (
+          <Tooltip placement="left" title="You don’t have any notifications yet">
+            <span>
+              <IconNotificationsEmpty />
+            </span>
+          </Tooltip>
+        )}
       </button>
       <Drawer
         title={getTitle()}

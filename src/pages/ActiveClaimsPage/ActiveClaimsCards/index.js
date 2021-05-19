@@ -25,15 +25,16 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
         <Col span={6}>
           <Card title="Estimated total claim benefit">
             <div className="different">
-              £{activeClaimData.estimated_benefit_start} - £{activeClaimData.estimated_benefit_end}
+              £{Number(activeClaimData.estimated_benefit_start).toFixed()} - £
+              {Number(activeClaimData.estimated_benefit_end).toFixed()}
             </div>
-            <ul className="claims">
+            {/* <ul className="claims">
               <li>
                 Claim 1 - 2019:
                 <b>£2,000 - £5,000 </b>
-                {/* <span className='statistics down'>13%</span> */}
+                <span className='statistics down'>13%</span>
               </li>
-            </ul>
+            </ul> */}
           </Card>
         </Col>
         <Col span={6}>
