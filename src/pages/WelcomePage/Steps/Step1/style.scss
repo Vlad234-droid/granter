@@ -1,4 +1,7 @@
 .hello-page__steps_slider {
+  .ant-select-dropdown {
+    top: 75px !important;
+  }
   .step--wrapper {
     .ant-form-item {
       max-width: 320px;
@@ -27,6 +30,7 @@
     }
   }
   .hello-page__autocomplete {
+    position: relative;
     .ant-input-search.ant-select-selection-search-input {
       border: 1px solid #305ff5;
       border-radius: 10px;
@@ -61,5 +65,13 @@
         }
       }
     }
+  }
+}
+.app-welcome {
+  .drop_down__list {
+    height: 200px !important;
+  }
+  .slick-list {
+    overflow: visible !important;
   }
 }
