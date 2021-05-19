@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Checkbox, notification, Spin, Input, Select, Form, Button } from 'antd';
+import { Skeleton, Checkbox, Input, Form, Button } from 'antd';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { LogOut } from '../../components/icons';
 import Layout from '../../components/LayoutDashboard/Layout';
 import Company from './Company';
-
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
-
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
-
 import './style.scss';
+import { logOut } from '../../core/services/logOut';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [editModeGeneral, setEditModeGeneral] = useState(false);
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
-
+  const history = useHistory();
   const [profileForm] = Form.useForm();
   const dispatch = useDispatch();
+
+  const exit = () => {
+    logOut(dispatch);
+    history.push('/sign-in');
+  };
 
   useEffect(() => {
     fetchProfileData().then((data) => {
@@ -63,108 +67,110 @@ const ProfilePage = () => {
 
   return (
     <Layout className="dashboard profile">
-      <div className="profile__general">
-        <div className="profile__general_title">
-          <h2>
-            <span>Personal Information</span>
-            {!editModeGeneral && (
-              <button
-                onClick={(e) => {
-                  setEditModeGeneral(true);
-                }}>
-                <IconEditPencil />
-              </button>
-            )}
-          </h2>
-        </div>
-        {!userData ? (
-          <Skeleton active />
-        ) : (
-          <Form
-            name="profile"
-            form={profileForm}
-            // initialValues={{
-            //   remember: true,
-            // }}
-            onFinish={onSave}
-            // onFinishFailed={onFinishFailed}
-          >
-            <ul className="profile__general_table">
-              <li>
-                <div className="label">Full Name</div>
-                <div className="details">
-                  {!editModeGeneral ? (
-                    <span>{userData.profile.name}</span>
-                  ) : (
-                    <Form.Item
-                      name="name"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your name!',
-                        },
-                      ]}>
-                      <Input />
-                    </Form.Item>
-                  )}
-                </div>
-              </li>
-              <li>
-                <div className="label">Team Role</div>
-                <div className="details">
-                  {!editModeGeneral ? (
-                    <>
-                      {userData.profile.team_role ? (
-                        <span>{userData.profile.team_role}</span>
-                      ) : (
-                        <div className="alert">
-                          <IconWarning />
-                          <span>Not Setted</span>
-                          <a
-                            href=""
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setEditModeGeneral(true);
-                            }}>
-                            Set the Role
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <Form.Item
-                      name="team_role"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Team Role!',
-                        },
-                      ]}>
-                      <Input />
-                    </Form.Item>
-                  )}
-                </div>
-              </li>
-              <li>
-                <div className="label">Registered Address</div>
-                <div className="details">
-                  {!editModeGeneral ? (
-                    <span>{userData.profile.address}</span>
-                  ) : (
-                    <Form.Item
-                      name="address"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Registered Address!',
-                        },
-                      ]}>
-                      <Input />
-                    </Form.Item>
-                  )}
-                </div>
-              </li>
-              {/* <li>
+      <div className="wrapp_profile_logOut">
+        <div className="profile__general">
+          <div className="profile__general_title">
+            <h2>
+              <span>Personal Information</span>
+              {!editModeGeneral && (
+                <button
+                  onClick={(e) => {
+                    setEditModeGeneral(true);
+                  }}>
+                  <IconEditPencil />
+                </button>
+              )}
+            </h2>
+          </div>
+
+          {!userData ? (
+            <Skeleton active />
+          ) : (
+            <Form
+              name="profile"
+              form={profileForm}
+              // initialValues={{
+              //   remember: true,
+              // }}
+              onFinish={onSave}
+              // onFinishFailed={onFinishFailed}
+            >
+              <ul className="profile__general_table">
+                <li>
+                  <div className="label">Full Name</div>
+                  <div className="details">
+                    {!editModeGeneral ? (
+                      <span>{userData.profile.name}</span>
+                    ) : (
+                      <Form.Item
+                        name="name"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your name!',
+                          },
+                        ]}>
+                        <Input />
+                      </Form.Item>
+                    )}
+                  </div>
+                </li>
+                <li>
+                  <div className="label">Team Role</div>
+                  <div className="details">
+                    {!editModeGeneral ? (
+                      <>
+                        {userData.profile.team_role ? (
+                          <span>{userData.profile.team_role}</span>
+                        ) : (
+                          <div className="alert">
+                            <IconWarning />
+                            <span>Not Setted</span>
+                            <a
+                              href=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setEditModeGeneral(true);
+                              }}>
+                              Set the Role
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Form.Item
+                        name="team_role"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Team Role!',
+                          },
+                        ]}>
+                        <Input />
+                      </Form.Item>
+                    )}
+                  </div>
+                </li>
+                <li>
+                  <div className="label">Registered Address</div>
+                  <div className="details">
+                    {!editModeGeneral ? (
+                      <span>{userData.profile.address}</span>
+                    ) : (
+                      <Form.Item
+                        name="address"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Registered Address!',
+                          },
+                        ]}>
+                        <Input />
+                      </Form.Item>
+                    )}
+                  </div>
+                </li>
+                {/* <li>
                 <div className="label">ID Verification status</div>
                 <div className="details">
                   <div className="alert">
@@ -174,62 +180,72 @@ const ProfilePage = () => {
                   </div>
                 </div>
               </li> */}
-              <li>
-                <div className="label">Your Email</div>
-                <div className="details">
-                  <span>{userData.email}</span>
-                  <Form.Item name="enable_notifications" valuePropName="checked">
-                    <Checkbox onChange={enableNotificationsChange}>Receive all notifications</Checkbox>
-                  </Form.Item>
-                </div>
-              </li>
-              <li>
-                <div className="label">Your Phone Number</div>
-                <div className="details">
-                  {!editModeGeneral ? (
-                    <span>{userData.profile.phone}</span>
-                  ) : (
-                    <Form.Item
-                      name="phone"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Phone Number!',
-                        },
-                      ]}>
-                      <Input />
+                <li>
+                  <div className="label">Your Email</div>
+                  <div className="details">
+                    <span>{userData.email}</span>
+                    <Form.Item name="enable_notifications" valuePropName="checked">
+                      <Checkbox onChange={enableNotificationsChange}>Receive all notifications</Checkbox>
                     </Form.Item>
-                  )}
-                </div>
-              </li>
-              <li>
-                <div className="label">Your Password</div>
-                <div className="details">
-                  <Link to="/profile/change-password/">Change password</Link>
-                </div>
-              </li>
-            </ul>
-          </Form>
-        )}
-        {editModeGeneral && (
-          <div className="profile__general_actions">
-            <Button
-              type="button"
-              onClick={(e) => {
-                setEditModeGeneral(false);
-              }}>
-              Cancel
-            </Button>
-            <Button
-              type="primary"
-              loading={profileFormLoader}
-              onClick={(e) => {
-                profileForm.submit();
-              }}>
-              Save
-            </Button>
-          </div>
-        )}
+                  </div>
+                </li>
+                <li>
+                  <div className="label">Your Phone Number</div>
+                  <div className="details">
+                    {!editModeGeneral ? (
+                      <span>{userData.profile.phone}</span>
+                    ) : (
+                      <Form.Item
+                        name="phone"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Phone Number!',
+                          },
+                        ]}>
+                        <Input />
+                      </Form.Item>
+                    )}
+                  </div>
+                </li>
+                <li>
+                  <div className="label">Your Password</div>
+                  <div className="details">
+                    <Link to="/profile/change-password/">Change password</Link>
+                  </div>
+                </li>
+              </ul>
+            </Form>
+          )}
+
+          {editModeGeneral && (
+            <div className="profile__general_actions">
+              <Button
+                type="button"
+                onClick={(e) => {
+                  setEditModeGeneral(false);
+                }}>
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                loading={profileFormLoader}
+                onClick={(e) => {
+                  profileForm.submit();
+                }}>
+                Save
+              </Button>
+            </div>
+          )}
+        </div>
+        <div className="wrapper_container">
+          <button type="submit" onClick={exit}>
+            <div className="details__btn">
+              <LogOut />
+              <span>Log out</span>
+            </div>
+          </button>
+        </div>
       </div>
       <div className="profile__companies">
         <h2>

@@ -26,6 +26,7 @@ const Aside = () => {
   const [addSubClass, setAddSubClass] = useState(false);
 
   console.log('isVisibleSubMenu', isVisibleSubMenu);
+  console.log('currentMenu', currentMenu);
 
   useEffect(() => {
     switch (true) {
@@ -42,24 +43,28 @@ const Aside = () => {
         setCurrentMenu(() => ['clients']);
         break;
       case location.pathname.includes('introduction'):
-        setCurrentMenu('library-introduction');
+        if (currentMenu[0] === 'library-introduction') return;
+        setCurrentMenu(() => ['library-introduction']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
         break;
       case location.pathname.includes('financial'):
-        setCurrentMenu('library-financial');
+        if (currentMenu[0] === 'library-financial') return;
+        setCurrentMenu(() => ['library-financial']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
 
         break;
       case location.pathname.includes('technical'):
-        setCurrentMenu('library-technical');
+        if (currentMenu[0] === 'library-technical') return;
+        setCurrentMenu(() => ['library-technical']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
 
         break;
       case location.pathname.includes('submission'):
-        setCurrentMenu('library-submission');
+        if (currentMenu[0] === 'library-submission') return;
+        setCurrentMenu(() => ['library-submission']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
         break;

@@ -1,10 +1,40 @@
 .dashboard.profile {
+  .wrapp_profile_logOut {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+    .wrapper_container {
+      button {
+        cursor: pointer;
+        padding: 10px;
+      }
+      flex-grow: 1;
+      margin-top: 43px;
+      .details__btn {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        span {
+          margin-left: 13px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          align-items: center;
+          color: #305ff5;
+        }
+      }
+    }
+  }
   .main-content {
     padding: 0 0 22px 0;
     .profile__general {
       padding: 32px 32px 24px 32px;
       background-color: #fff;
-      border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+      flex-grow: 2;
+
       .profile__general_title {
         display: flex;
         justify-content: space-between;
