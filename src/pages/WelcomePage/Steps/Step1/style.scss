@@ -69,7 +69,8 @@
 }
 .app-welcome {
   .drop_down__list {
-    height: 200px !important;
+    min-height: 40px !important;
+    max-height: 200px !important;
   }
   .slick-list {
     overflow: visible !important;
