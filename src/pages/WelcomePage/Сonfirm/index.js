@@ -9,6 +9,8 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
   const state = useSelector((state) => state.registration);
   const [isModalBenefit, setIsModalBenefit] = useState(null);
 
+  console.log(indexStep);
+
   useEffect(() => {
     if (indexStep === 1) {
       setIsModalBenefit(() => true);
@@ -16,9 +18,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
   }, [indexStep]);
 
   const checkorForRenderBenefitModal = useCallback(() => {
-    if (indexStep === 2) {
-      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
-    } else {
+    if (indexStep === 1) {
       return (
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
@@ -30,6 +30,8 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
           </div>
         </div>
       );
+    } else if (indexStep === 3) {
+      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
     }
   }, [indexStep, isModalBenefit, setIsModalBenefit]);
 
@@ -40,7 +42,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
         Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
         with you in the future.
       </div>
-      {/* {checkorForRenderBenefitModal()} */}
+      {checkorForRenderBenefitModal()}
 
       <div className="welcome__comfirm_info">
         <Row gutter={24}>

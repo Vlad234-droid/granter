@@ -25,7 +25,7 @@ const Aside = () => {
   const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
   const [addSubClass, setAddSubClass] = useState(false);
 
-  console.log('isVisibleSubMenu', addSubClass);
+  console.log('isVisibleSubMenu', isVisibleSubMenu);
 
   useEffect(() => {
     switch (true) {
@@ -71,7 +71,6 @@ const Aside = () => {
     }
     return () => {
       setCurrentMenu(() => []);
-      closeSubMenu();
     };
   }, [location.pathname]);
 
@@ -117,7 +116,11 @@ const Aside = () => {
           <Item key="profile" className="profile">
             <Link to="/profile/">Profile</Link>
           </Item>
-          <SubMenu key="library" title="Documents Library" className={addSubClass ? 'active_subMenu' : ''}>
+          <SubMenu
+            key="library"
+            title="Documents Library"
+            className={addSubClass ? 'active_subMenu' : ''}
+            onTitleClick={(key) => onOpenChange(key)}>
             <Item key="library-introduction">
               <Link to="/documents/introduction">Introduction</Link>
             </Item>
