@@ -22,6 +22,7 @@ const DocumentsPage = () => {
   const [fileList, setFileList] = useState(null);
   const [filterList, setFilterList] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabledDelete, setIsDisabledDelete] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
   const { step } = useParams();
@@ -106,6 +107,7 @@ const DocumentsPage = () => {
     });
     setFilterList(result);
     setIsDisabled(result.filter((item) => item.checked).length === 0);
+    setIsDisabledDelete(result.filter((item) => item.checked && !item.has_unresolved_comments).length === 0);
   };
 
   const onDownloadList = () => {
@@ -119,10 +121,25 @@ const DocumentsPage = () => {
 
   const onDeleteFile = (claim_id, id) => {
     deleteFile(claim_id, id).then((data) => {
-      const filesListNew = filterList.filter((item) => item.id !== id);
-      const filterListNew = filterList.filter((item) => item.id !== id);
-      setFileList(filesListNew);
-      setFilterList(filterListNew);
+      setFileList(false);
+      setFilterList(false);
+      getDocumentsManagerList(step, companyId).then((data) => {
+        const list = data.map((item) => {
+          const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
+          if (extension === '.pdf') {
+            item.extension = 'pdf';
+          } else if (extension === '.doc' || extension === '.docx') {
+            item.extension = 'doc';
+          } else if (extension === '.xls' || extension === '.xlsx') {
+            item.extension = 'xls';
+          }
+          item.checked = false;
+          return item;
+        });
+        //list.sort((a, b) => (new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1));
+        setFileList(list);
+        setFilterList(list);
+      });
     });
   };
 
@@ -166,7 +183,7 @@ const DocumentsPage = () => {
               onClick={() => {
                 setModalVisible(true);
               }}
-              disabled={isDisabled}>
+              disabled={isDisabledDelete}>
               <IconDeleteFile />
               <span>Delete Selected</span>
             </button>
@@ -246,6 +263,8 @@ const DocumentsPage = () => {
       </div>
       <OnDeleteModal
         visible={modalVisible}
+        deleteList={filterList ? filterList?.filter((item) => item.checked) : []}
+        onDeleteFile={onDeleteFile}
         onClose={() => {
           setModalVisible(false);
         }}

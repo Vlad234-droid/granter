@@ -20,6 +20,19 @@
       text-align: center;
       color: #3c4252;
     }
+    .documents-remove-modal__list {
+      list-style: none;
+      margin: 32px 0 0 0;
+      padding: 0;
+      text-align: left;
+      li {
+        display: flex;
+        align-self: center;
+        img {
+          margin-right: 8px;
+        }
+      }
+    }
     .documents-remove-modal__actions {
       margin-top: 32px;
       display: flex;

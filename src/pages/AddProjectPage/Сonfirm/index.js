@@ -22,7 +22,7 @@ const Сonfirm = ({ goPrevStep, indexStep }) => {
       industry_ids: state.industry,
       staffing_costs: state.staffing_costs,
       materials_costs: state.materials_costs,
-      subcontracting: state.subcontracting_costs,
+      subcontracting_costs: state.subcontracting_costs,
       software_costs: state.software_costs,
     };
     addNewCompany(companyData).then((data) => {
