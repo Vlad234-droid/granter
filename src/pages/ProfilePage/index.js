@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Skeleton, Checkbox, Input, Form, Button } from 'antd';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { LogOut } from '../../components/icons';
 import Layout from '../../components/LayoutDashboard/Layout';
 import Company from './Company';
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
-import { logOut } from '../../core/services/logOut';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [editModeGeneral, setEditModeGeneral] = useState(false);
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
-  const history = useHistory();
   const [profileForm] = Form.useForm();
   const dispatch = useDispatch();
-
-  const exit = () => {
-    logOut(dispatch);
-    history.push('/sign-in');
-  };
 
   useEffect(() => {
     fetchProfileData().then((data) => {
@@ -237,14 +228,6 @@ const ProfilePage = () => {
               </Button>
             </div>
           )}
-        </div>
-        <div className="wrapper_container">
-          <button type="submit" onClick={exit}>
-            <div className="details__btn">
-              <LogOut />
-              <span>Log out</span>
-            </div>
-          </button>
         </div>
       </div>
       <div className="profile__companies">

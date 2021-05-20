@@ -99,7 +99,7 @@ const Company = ({ company, updateCompany }) => {
                     onVisibleChange={() => {
                       if (isDropDownDelete) setIsDropDownDelete((prev) => !prev);
                     }}
-                    getPopupContainer={() => document.querySelector('.profile__btn_delete')}>
+                    getPopupContainer={() => document.getElementById('btn_del')}>
                     <button
                       onClick={() => {
                         setIsDropDownDelete((prev) => !prev);

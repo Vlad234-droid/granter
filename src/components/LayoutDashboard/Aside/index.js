@@ -11,6 +11,10 @@ import { bindActionCreators } from 'redux';
 import { IconPhone, IconMail } from '../../icons';
 import { showModalAction, closeModalAction } from '../../../core/actions/modal';
 import actions from '../../../core/actions';
+import { useHistory } from 'react-router-dom';
+import { logOut } from '../../../core/services/logOut';
+import { LogOutSVG } from '../../../components/icons';
+
 import './style.scss';
 import { activeItems, subMenuItems } from './config';
 
@@ -25,6 +29,7 @@ const Aside = () => {
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
   const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
   const [addSubClass, setAddSubClass] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     switch (true) {
@@ -92,6 +97,10 @@ const Aside = () => {
     [isVisibleSubMenu],
   );
 
+  const exit = () => {
+    logOut(dispatch);
+    history.push('/sign-in');
+  };
   return (
     <aside className="nav-left">
       <div className="nav__logo">
@@ -118,12 +127,20 @@ const Aside = () => {
             className={addSubClass ? 'active_subMenu' : ''}
             onTitleClick={(key) => onOpenChange(key)}>
             {subMenuItems.map(({ key, to, text }) => (
-              <Item key={key}>
+              <Item key={key} style={{ height: '36px' }}>
                 <Link to={to}>{text}</Link>
               </Item>
             ))}
           </SubMenu>
         </Menu>
+        <div className="wrapper_container">
+          <button type="submit" onClick={exit}>
+            <div className="details__btn">
+              <LogOutSVG />
+              <span>Log out</span>
+            </div>
+          </button>
+        </div>
         <div className="nav__help">
           <div className="nav__help_title">Need Help?</div>
           {!currentCompany ? (

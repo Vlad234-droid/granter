@@ -32,6 +32,29 @@
     height: calc(100% - 71px);
     overflow-y: auto;
     overflow-x: hidden;
+    .wrapper_container {
+      button {
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      margin-top: 13px;
+      margin-left: 10px;
+      .details__btn {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        span {
+          margin-left: 13px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          align-items: center;
+          color: #305ff5;
+        }
+      }
+    }
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -182,7 +205,7 @@
     }
   }
   .nav__ask {
-    margin-top: 56px;
+    margin-top: 20px;
     margin-bottom: 16px;
     .nav__ask_manager {
       display: flex;

@@ -297,7 +297,7 @@ const UpVector = () => {
   );
 };
 
-const LogOut = () => {
+const LogOutSVG = () => {
   return (
     <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M14 10V8H5V5L0 9L5 13V10H14Z" fill="#305FF5" />
@@ -340,6 +340,6 @@ export {
   IconFilter,
   CloseIconModal,
   UpVector,
-  LogOut,
+  LogOutSVG,
   DeleteCompanySVG,
 };
