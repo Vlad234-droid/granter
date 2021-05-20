@@ -33,6 +33,8 @@
         }
         .project__form_inputs {
           margin-bottom: 24px;
+          textarea {
+          }
         }
         .project__form_dates {
           display: flex;
@@ -66,6 +68,99 @@
     }
     .project__docs {
       background-color: #e8eef2;
+      width: 261px;
+      flex-shrink: 0;
+      padding: 0 16px;
+      h3 {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3c4252;
+        margin-bottom: 8px;
+      }
+      .project__docs_status {
+        .status {
+          display: flex;
+          align-items: center;
+          width: 94px;
+          height: 24px;
+          border-radius: 4px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 10px;
+          line-height: 15px;
+          text-transform: uppercase;
+          white-space: nowrap;
+          &.review {
+            background: rgba(249, 166, 72, 0.2) url('../../../assets/img/icon-review.svg') no-repeat 8px center;
+            color: #f9a648;
+            padding-left: 28px;
+          }
+          &.approved {
+            background: rgba(16, 172, 132, 0.2) url('../../../assets/img/icon-approved.svg') no-repeat 8px center;
+            color: #10ac84;
+            padding-left: 28px;
+          }
+        }
+      }
+      .project__docs_list {
+        margin-top: 24px;
+        .ant-upload-drag {
+          background: #ffffff;
+          border: 1px dashed #305ff5;
+          box-sizing: border-box;
+          border-radius: 10px;
+          min-height: 42px;
+          margin-bottom: 12px;
+          .ant-upload-btn {
+            padding: 0;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            padding: 8px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 114.9%;
+            color: #3c4252;
+            img {
+              margin-right: 8px;
+            }
+          }
+        }
+        .file--list {
+          list-style: none;
+          padding: 0 0 0 8px;
+          margin: 0;
+          li {
+            display: flex;
+            align-items: center;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 114.9%;
+            color: #3c4252;
+            margin-bottom: 16px;
+            img {
+              margin-right: 8px;
+            }
+            .file--list-remove {
+              width: 24px;
+              height: 24px;
+              margin-left: auto;
+              cursor: pointer;
+              .icon-delete-file {
+                width: 16px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

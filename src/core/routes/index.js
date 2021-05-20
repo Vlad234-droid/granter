@@ -9,21 +9,21 @@ import ActiveClaimsPage from '../../pages/ActiveClaimsPage';
 import FutureClaimsPage from '../../pages/FutureClaimsPage';
 import DocumentPage from '../../pages/DocumentPage';
 import ProjectsPage from '../../pages/ProjectsPage';
-import ProfilePage from '../../pages/ProfilePage';
+// import ProfilePage from '../../pages/ProfilePage';
 import ChangePasswordPage from '../../pages/ChangePasswordPage';
 import ResetPasswordPage from '../../pages/ResetPasswordPage';
 import CreatePasswordPage from '../../pages/CreatePasswordPage';
 import AddProjectPage from '../../pages/AddProjectPage';
 import DocumentsPage from '../../pages/DocumentsPage';
 
-// TODO Lazy
-// function lazyWithPreload(factory) {
-//   const Component = React.lazy(factory);
-//   Component.preload = factory;
-//   return Component;
-// }
+//TODO Lazy
+function lazyWithPreload(factory) {
+  const Component = React.lazy(factory);
+  Component.preload = factory;
+  return Component;
+}
 
-// const LoginPage = lazyWithPreload(() => import("../../pages/Login"));
+const ProfilePage = lazyWithPreload(() => import('../../pages/ProfilePage'));
 
 const routes = () => {
   return (
