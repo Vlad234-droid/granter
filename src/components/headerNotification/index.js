@@ -30,10 +30,13 @@ const HeaderNotification = () => {
   }, [company]);
 
   useEffect(() => {
-    if (notiData.length) {
+    if (notiData === undefined) {
+      return;
+    } else if (notiData.length) {
       let count = notiData.filter((item) => item.status === 2).length;
       setCount(count);
     }
+
     return () => setCount(() => '');
   }, [notiData]);
 
@@ -88,16 +91,22 @@ const HeaderNotification = () => {
   return (
     <div className="header__notification">
       <button onClick={showDrawer}>
-        {notiData.length ? (
-          <Badge count={count}>
-            <IconNotificationsLength />
-          </Badge>
+        {notiData === undefined ? (
+          ''
         ) : (
-          <Tooltip placement="left" title="You don’t have any notifications yet">
-            <span>
-              <IconNotificationsEmpty />
-            </span>
-          </Tooltip>
+          <>
+            {notiData.length ? (
+              <Badge count={count}>
+                <IconNotificationsLength />
+              </Badge>
+            ) : (
+              <Tooltip placement="left" title="You don’t have any notifications yet">
+                <span>
+                  <IconNotificationsEmpty />
+                </span>
+              </Tooltip>
+            )}
+          </>
         )}
       </button>
       <Drawer
@@ -111,23 +120,29 @@ const HeaderNotification = () => {
         closeIcon={<CloseIconModal />}
         closable={true}>
         <ul className="list_of_notif">
-          {notiData !== null ? (
-            notiData.map((item) => (
-              <li className="wrapper_li" key={item.id}>
-                <div className="time_container">
-                  <time className="created_at">{convertDate(item.created_at)}</time>
-                  <time className="created_at">{convertTime(item.created_at)}</time>
-                </div>
-                <div className="details_container">
-                  <div className="item_li">{item.text}</div>
-                  <Link to={`/document/${item.claim_id}/${item.document_id}/`} className="check_doc">
-                    Check document
-                  </Link>
-                </div>
-              </li>
-            ))
+          {notiData === undefined ? (
+            ''
           ) : (
-            <div>The lkist is Empty</div>
+            <>
+              {notiData !== null ? (
+                notiData.map((item) => (
+                  <li className="wrapper_li" key={item.id}>
+                    <div className="time_container">
+                      <time className="created_at">{convertDate(item.created_at)}</time>
+                      <time className="created_at">{convertTime(item.created_at)}</time>
+                    </div>
+                    <div className="details_container">
+                      <div className="item_li">{item.text}</div>
+                      <Link to={`/document/${item.claim_id}/${item.document_id}/`} className="check_doc">
+                        Check document
+                      </Link>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <div>The lkist is Empty</div>
+              )}
+            </>
           )}
         </ul>
       </Drawer>

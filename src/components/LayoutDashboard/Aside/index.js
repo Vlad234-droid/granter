@@ -12,6 +12,7 @@ import { IconPhone, IconMail } from '../../icons';
 import { showModalAction, closeModalAction } from '../../../core/actions/modal';
 import actions from '../../../core/actions';
 import './style.scss';
+import { activeItems, subMenuItems } from './config';
 
 const { SubMenu, Item } = Menu;
 
@@ -24,8 +25,6 @@ const Aside = () => {
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
   const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
   const [addSubClass, setAddSubClass] = useState(false);
-
-  console.log('isVisibleSubMenu', isVisibleSubMenu);
 
   useEffect(() => {
     switch (true) {
@@ -42,24 +41,28 @@ const Aside = () => {
         setCurrentMenu(() => ['clients']);
         break;
       case location.pathname.includes('introduction'):
-        setCurrentMenu('library-introduction');
+        if (currentMenu[0] === 'library-introduction') return;
+        setCurrentMenu(() => ['library-introduction']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
         break;
       case location.pathname.includes('financial'):
-        setCurrentMenu('library-financial');
+        if (currentMenu[0] === 'library-financial') return;
+        setCurrentMenu(() => ['library-financial']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
 
         break;
       case location.pathname.includes('technical'):
-        setCurrentMenu('library-technical');
+        if (currentMenu[0] === 'library-technical') return;
+        setCurrentMenu(() => ['library-technical']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
 
         break;
       case location.pathname.includes('submission'):
-        setCurrentMenu('library-submission');
+        if (currentMenu[0] === 'library-submission') return;
+        setCurrentMenu(() => ['library-submission']);
         setAddSubClass(() => true);
         showSubMenu(['library']);
         break;
@@ -104,35 +107,21 @@ const Aside = () => {
           selectedKeys={currentMenu}
           onOpenChange={onOpenChange}
           openKeys={isVisibleSubMenu}>
-          <Item key="active">
-            <Link to="/active-claims/">Active Claims</Link>
-          </Item>
-          <Item key="future">
-            <Link to="/future-claims/">Future Claims</Link>
-          </Item>
-          <Item key="completed">
-            <Link to="/">Completed Claims</Link>
-          </Item>
-          <Item key="profile" className="profile">
-            <Link to="/profile/">Profile</Link>
-          </Item>
+          {activeItems.map(({ key, to, text, className }) => (
+            <Item key={key} className={className}>
+              <Link to={to}>{text}</Link>
+            </Item>
+          ))}
           <SubMenu
             key="library"
             title="Documents Library"
             className={addSubClass ? 'active_subMenu' : ''}
             onTitleClick={(key) => onOpenChange(key)}>
-            <Item key="library-introduction">
-              <Link to="/documents/introduction">Introduction</Link>
-            </Item>
-            <Item key="library-financial">
-              <Link to="/documents/financial">Financial</Link>
-            </Item>
-            <Item key="library-technical">
-              <Link to="/documents/technical">Technical</Link>
-            </Item>
-            <Item key="library-submission">
-              <Link to="/documents/submission">Submission</Link>
-            </Item>
+            {subMenuItems.map(({ key, to, text }) => (
+              <Item key={key}>
+                <Link to={to}>{text}</Link>
+              </Item>
+            ))}
           </SubMenu>
         </Menu>
         <div className="nav__help">
