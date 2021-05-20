@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { Form, Checkbox, Upload, Spin, Input, Select, Skeleton, Dropdown, Menu, Button } from 'antd';
-import lockr from 'lockr';
+import { useParams } from 'react-router-dom';
+import { Form, Checkbox, Select, Skeleton } from 'antd';
 
 import Layout from '../../components/LayoutDashboard/Layout';
 import DocumentRow from './DocumentRow';
@@ -17,7 +16,6 @@ import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 
 import './style.scss';
 
-const { Dragger } = Upload;
 const { Option } = Select;
 
 const DocumentsPage = () => {
@@ -28,7 +26,6 @@ const DocumentsPage = () => {
 
   const { step } = useParams();
   const companyId = useSelector((state) => state.user.currentCompany?.id);
-  const token = lockr.get('auth-key');
 
   useEffect(() => {
     if (companyId) {
@@ -47,7 +44,6 @@ const DocumentsPage = () => {
           item.checked = false;
           return item;
         });
-        //list.sort((a, b) => (new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1));
         setFileList(list);
         setFilterList(list);
       });
@@ -81,11 +77,6 @@ const DocumentsPage = () => {
             }
           });
         }
-
-        // console.log("isExtension", isExtension);
-        // console.log("isClaimId", isClaimId);
-        // console.log("isStatus", isStatus);
-        // console.log("----------------------------------");
 
         if (
           (isExtension || isExtension === undefined) &&

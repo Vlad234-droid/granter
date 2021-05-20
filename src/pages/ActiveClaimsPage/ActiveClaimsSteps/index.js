@@ -1,19 +1,16 @@
-import React from "react";
-import { Tooltip, Upload } from "antd";
+import React from 'react';
 
-import StepIntroduction from "./StepIntroduction";
-import StepFinancial from "./StepFinancial";
-import StepTechnical from "./StepTechnical";
-import StepDeliverables from "./StepDeliverables";
-import StepSubmission from "./StepSubmission";
+import StepIntroduction from './StepIntroduction';
+import StepFinancial from './StepFinancial';
+import StepTechnical from './StepTechnical';
+import StepDeliverables from './StepDeliverables';
+import StepSubmission from './StepSubmission';
 
-import { IconWarning } from "../../../components/icons";
-
-import "./style.scss";
+import './style.scss';
 
 const ActiveClaimsSteps = () => {
   return (
-    <div className='active-claims__steps'>
+    <div className="active-claims__steps">
       <StepIntroduction />
       <StepFinancial />
       <StepTechnical />

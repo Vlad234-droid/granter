@@ -32,7 +32,7 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
       </td>
       <td className="actions">
         <div className="td-wrapper">
-          <a href={file.url} target="_blank">
+          <a href={file.url} target="blank">
             <IconDownload />
           </a>
           {!file.has_unresolved_comments ? (

@@ -1,17 +1,12 @@
-import React from "react";
-import lockr from "lockr";
-import { notification } from "antd";
-import { IconWarning } from "../../components/icons";
-
 const initialState = {
   loader: false,
   error: null,
   success: false,
-  name: "",
-  number: "",
-  email: "",
+  name: '',
+  number: '',
+  email: '',
   industry: [],
-  password: "",
+  password: '',
   staffing_costs: 0,
   materials_costs: 0,
   subcontracting_costs: 0,
@@ -21,7 +16,7 @@ const initialState = {
 
 const registrationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "FETCH_REGISTER_REQUEST":
+    case 'FETCH_REGISTER_REQUEST':
       return {
         ...state,
         isloggedIn: false,
@@ -30,7 +25,7 @@ const registrationReducer = (state = initialState, action) => {
         success: false,
       };
 
-    case "FETCH_REGISTER_SUCCESS":
+    case 'FETCH_REGISTER_SUCCESS':
       return {
         ...state,
         isloggedIn: action.payload,
@@ -39,7 +34,7 @@ const registrationReducer = (state = initialState, action) => {
         success: true,
       };
 
-    case "FETCH_REGISTER_FAILURE":
+    case 'FETCH_REGISTER_FAILURE':
       return {
         ...state,
         isloggedIn: false,
@@ -47,13 +42,13 @@ const registrationReducer = (state = initialState, action) => {
         error: action.payload,
         success: false,
       };
-    case "FETCH_REGISTER_UPDATE_STATE":
+    case 'FETCH_REGISTER_UPDATE_STATE':
       return {
         ...state,
         ...action.payload,
       };
 
-    case "REGISTER_SET_ALL_INDUSTRIES":
+    case 'REGISTER_SET_ALL_INDUSTRIES':
       return {
         ...state,
         industriesList: action.payload,

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactPasswordStrength from 'react-password-strength';
 import { useHistory } from 'react-router-dom';
 
-import { Skeleton, notification, Tooltip, Button, Input, Form } from 'antd';
+import { notification, Tooltip, Button, Input, Form } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 import Layout from '../../components/LayoutDashboard/Layout';
@@ -16,7 +16,6 @@ import './style.scss';
 import { Link } from 'react-router-dom';
 
 const ChangePasswordPage = () => {
-  const [editModeGeneral, setEditModeGeneral] = useState(false);
   const [loader, setLoader] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

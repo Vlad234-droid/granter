@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -23,14 +23,7 @@ const LoginPage = (props) => {
     <Layout isLogged={false} mode="login" className="login-page">
       <div className="login-page__wrapper">
         <h1>Welcome to Granter</h1>
-        <Form
-          name="name"
-          layout="vertical"
-          requiredMark={false}
-          onFinish={onFinish}
-          className="login--form"
-          // onFinishFailed={onFinishFailed}
-        >
+        <Form name="name" layout="vertical" requiredMark={false} onFinish={onFinish} className="login--form">
           <Form.Item
             label="What is your company number or email?"
             name="login"

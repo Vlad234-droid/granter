@@ -32,7 +32,7 @@ const HeaderCompanies = () => {
         }
       });
     }
-  }, []);
+  }, [user.companies]);
 
   const companyChange = (id) => {
     setUserCurrentCompany(user.companies.filter((item) => item.id === id)[0]);

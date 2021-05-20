@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
 
 import { CloseIconModal } from '../../../components/icons';
-
-import iconPdf from '../../../assets/img/icon-pdf.svg';
 
 import './style.scss';
 

@@ -1,9 +1,8 @@
-import React from 'react';
-
 export const initialState = {
   visibleModal: false,
   isVisibleNotifications: false,
   isVisibleSubMenu: [],
+  isVisibleModalDelete: false,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
@@ -38,6 +37,17 @@ export const modalReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isVisibleSubMenu: [],
+      };
+    case 'SHOW_MODAL_DELETE':
+      return {
+        ...state,
+        isVisibleModalDelete: true,
+      };
+
+    case 'CLOSE_MODAL_DELETE':
+      return {
+        ...state,
+        isVisibleModalDelete: false,
       };
     default:
       return {

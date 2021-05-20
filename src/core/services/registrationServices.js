@@ -1,9 +1,9 @@
-import React from "react";
-import actions from "../actions";
-import { bindActionCreators } from "redux";
-import { notification } from "antd";
+import React from 'react';
+import actions from '../actions';
+import { bindActionCreators } from 'redux';
+import { notification } from 'antd';
 
-import { IconWarning } from "../../components/icons";
+import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -14,11 +14,10 @@ const fetchCompanyHouse = (q) => {
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/core/find-company`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        //Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(body),
     })
@@ -28,12 +27,11 @@ const fetchCompanyHouse = (q) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
             throw new Error(json);
-            reject();
           });
         }
       })
@@ -47,10 +45,10 @@ const fetchRegistration = (form) => {
   let body = form;
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/register`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         //Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
@@ -61,7 +59,7 @@ const fetchRegistration = (form) => {
         } else {
           return resp.json().then((json) => {
             notification.error({
-              className: "error-message",
+              className: 'error-message',
               description: json.message,
               icon: <IconWarning />,
             });
@@ -79,17 +77,13 @@ const fetchRegistration = (form) => {
 };
 
 const fetchAllIndustries = (dispatch) => {
-  const { registrationSetAllIndustries } = bindActionCreators(
-    actions,
-    dispatch
-  );
+  const { registrationSetAllIndustries } = bindActionCreators(actions, dispatch);
 
   fetch(`${REACT_APP_API_URL}/core/industries`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      //Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
   })
     .then((resp) => {
@@ -98,7 +92,7 @@ const fetchAllIndustries = (dispatch) => {
       } else {
         return resp.json().then((json) => {
           notification.error({
-            className: "error-message",
+            className: 'error-message',
             description: json.message,
             icon: <IconWarning />,
           });

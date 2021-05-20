@@ -7,12 +7,11 @@ import BenefitModal from './BenefitModal';
 import { addNewCompany } from '../../../core/services';
 import './style.scss';
 
-const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
+const Сonfirm = ({ goPrevStep, indexStep }) => {
   console.log('indexStepindexStep', indexStep);
   const [loader, setLoader] = useState(false);
   const state = useSelector((state) => state.registration);
   let history = useHistory();
-  const [modalPrice, setModalPice] = useState(true);
   const [isModalBenefit, setIsModalBenefit] = useState(null);
 
   const addCompany = () => {

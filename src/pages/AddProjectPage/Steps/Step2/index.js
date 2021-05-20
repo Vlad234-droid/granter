@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Form, Carousel, Button, Select } from "antd";
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from 'react';
+import { Form, Carousel, Button, Select } from 'antd';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import actions from "../../../../core/actions";
-import { fetchAllIndustries } from "../../../../core/services";
+import actions from '../../../../core/actions';
+import { fetchAllIndustries } from '../../../../core/services';
 
-import "./style.scss";
+import './style.scss';
 
 const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   const [industry, setIndustry] = useState(null);
@@ -16,7 +16,6 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   const { registrationUpdateState } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
-    console.log("state", state);
     fetchAllIndustries(dispatch);
     if (state.industry.length === 0) slider.current.next();
   }, []);
@@ -33,11 +32,11 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   };
 
   return (
-    <div className='hello-page__step'>
-      <Carousel ref={slider} dots={false} effect='fade' swipe={false}>
-        <div className='step--wrapper'>
-          <div className='step--label'>Is your company in the industry of</div>
-          <div className='step--value'>
+    <div className="hello-page__step">
+      <Carousel ref={slider} dots={false} effect="fade" swipe={false}>
+        <div className="step--wrapper">
+          <div className="step--label">Is your company in the industry of</div>
+          <div className="step--value">
             {state.industry.length > 0 &&
               state.industry.map((item, index) => (
                 <p key={`in-${index}`}>
@@ -45,48 +44,45 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
                 </p>
               ))}
           </div>
-          <div className='control-submit'>
+          <div className="control-submit">
             <Button
-              type='primary'
+              type="primary"
               onClick={() => {
                 goNextStep();
-              }}
-            >
+              }}>
               Yes
             </Button>
             <Button
-              type='text'
+              type="text"
               onClick={() => {
                 slider.current.prev();
-              }}
-            >
+              }}>
               No
             </Button>
           </div>
         </div>
-        <div className='step--wrapper'>
+        <div className="step--wrapper">
           <Form
-            layout='vertical'
+            layout="vertical"
             requiredMark={false}
             onFinish={onFinishName}
             // onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label='What is your company’s industry?'
-              name='industry'
+              label="What is your company’s industry?"
+              name="industry"
               rules={[
                 {
                   required: true,
-                  message: "Please select your company’s industry!",
+                  message: 'Please select your company’s industry!',
                 },
-              ]}
-            >
+              ]}>
               <Select
                 showSearch
-                size='large'
+                size="large"
                 showArrow={false}
-                placeholder='Select a person'
-                optionFilterProp='children'
+                placeholder="Select a person"
+                optionFilterProp="children"
                 options={state.industriesList}
                 onSelect={onSelect}
                 // onChange={onChange}
@@ -94,25 +90,19 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
                 // onBlur={onBlur}
                 // onSearch={onSearch}
                 filterOption={(input, option) => {
-                  return (
-                    option.display_value
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  );
-                }}
-              ></Select>
+                  return option.display_value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+                }}></Select>
             </Form.Item>
 
-            <Form.Item className='control-submit'>
-              <Button type='primary' htmlType='submit'>
+            <Form.Item className="control-submit">
+              <Button type="primary" htmlType="submit">
                 Next
               </Button>
               <Button
-                type='text'
+                type="text"
                 onClick={() => {
                   goPrevStep();
-                }}
-              >
+                }}>
                 Back
               </Button>
             </Form.Item>

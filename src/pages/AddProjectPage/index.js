@@ -1,21 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Carousel, Select, Button } from 'antd';
+import { Carousel } from 'antd';
 
 import Layout from '../../components/LayoutDashboard/Layout';
 import Steps from './Steps';
 import Сonfirm from './Сonfirm';
 
 import arrowLeft from '../../assets/img/arrow-left.svg';
-
-import DocumentViewer from '../../components/DocumentViewer';
-import Comment from '../../components/Comment';
-import { IconComment } from '../../components/icons';
-
-import iconBack from '../../assets/img/arrow-left.svg';
-import iconDownload from '../../assets/img/icon-download.svg';
-import iconUpload from '../../assets/img/icon-upload-blue.svg';
-import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 
 import './style.scss';
 

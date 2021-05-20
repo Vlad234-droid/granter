@@ -18,7 +18,7 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   useEffect(() => {
     fetchAllIndustries(dispatch);
     if (!state.industry.length) slider.current.next();
-  }, []);
+  }, [dispatch, state]);
 
   const onFinishName = (value) => {
     slider.current.next();

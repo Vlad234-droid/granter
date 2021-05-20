@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Input, notification } from 'antd';
-import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Layout from '../../components/LayoutGuest/Layout';
 
 import { IconWarning } from '../../components/icons';
@@ -12,8 +11,6 @@ import './style.scss';
 
 const ResetPasswordPage = (props) => {
   const [loader, setLoader] = useState(false);
-  const history = useHistory();
-  const dispatch = useDispatch();
   const onFinish = (values) => {
     setLoader(true);
     fetchResetPassword(values.email)

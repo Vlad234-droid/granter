@@ -1,11 +1,7 @@
 import React from 'react';
-import actions from '../actions';
 import lockr from 'lockr';
-import { bindActionCreators } from 'redux';
 import { notification } from 'antd';
-
 import { IconWarning } from '../../components/icons';
-
 const { REACT_APP_API_URL } = process.env;
 
 const fetchProfileData = () => {

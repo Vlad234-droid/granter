@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import Layout from '../../components/LayoutDashboard/Layout';
 import ActiveClaimsCards from './ActiveClaimsCards';

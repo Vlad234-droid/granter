@@ -11,7 +11,7 @@ const { REACT_APP_API_URL } = process.env;
 const getActiveClaimData = (dispatch, companyId) => {
   const token = lockr.get('auth-key');
 
-  const { setUserActiveClimeId, userLogOut } = bindActionCreators(actions, dispatch);
+  const { setUserActiveClimeId } = bindActionCreators(actions, dispatch);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/claims/active/${companyId}`, {

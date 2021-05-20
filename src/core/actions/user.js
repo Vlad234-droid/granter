@@ -1,5 +1,3 @@
-import lockr from 'lockr';
-
 const loginRequested = () => {
   return {
     type: 'FETCH_LOGIN_REQUEST',

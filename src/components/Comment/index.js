@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Checkbox, Input, Collapse, Dropdown, Button, Skeleton } from 'antd';
 
 import Reply from './Reply';
-import authorPhoto from '../../assets/img/author.png';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
 
 import { IconDeleteFile, IconReply } from '../icons';
-
-import { removeComment } from '../../core/services';
 
 import './style.scss';
 
 const { Panel } = Collapse;
 
-const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
+const Comment = ({ comment, onCommentDelete, onAddReply }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [replyForm, setReplyForm] = useState(false);
   const [replyLoader, setReplyLoader] = useState(false);
@@ -40,9 +37,6 @@ const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
       <div className="comment__section">
         <div className="comment--header">
           <div className="comment--author">
-            {/* <div className='comment--author-photo'>
-              <img src={authorPhoto} alt='' />
-            </div> */}
             <div className="comment--author-info">
               <span title={comment.user}>{comment.user}</span>
               <time>{convertDate(comment.updated_at)}</time>
@@ -122,7 +116,7 @@ const Comment = ({ comment, climeId, onCommentDelete, onAddReply }) => {
         </div>
       )}
       {comment.replies.length > 0 && (
-        <Collapse bordered={false} ghost={true} expandIcon={() => <img src={arrow} />}>
+        <Collapse bordered={false} ghost={true} expandIcon={() => <img src={arrow} alt={arrow} />}>
           <Panel header={`Replies (${comment.replies.length})`} key="1">
             {comment.replies.map((item, index) => (
               <Reply

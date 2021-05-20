@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, Tooltip, Upload, Spin, Input, Select, Form, Button } from 'antd';
+import { Tooltip, Upload, Spin, Input, Form, Button, Dropdown } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-
-import { IconEditPencil, IconDeleteFile } from '../../../components/icons';
+import { IconEditPencil, DeleteCompanySVG } from '../../../components/icons';
 import iconUpload from '../../../assets/img/icon-upload.svg';
-
 import { postCompanyData, postCompanyLogo } from '../../../core/services';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './style.scss';
 
@@ -13,11 +12,14 @@ const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
 const { Dragger } = Upload;
 const Company = ({ company, updateCompany }) => {
+  const dispatch = useDispatch();
   const [companyLogo, setCompanyLogo] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loader, setLoader] = useState(false);
   const [logoLoader, setLogoLoader] = useState(false);
   const [companyForm] = Form.useForm();
+  const companies = useSelector((state) => state.user.companies);
+  const [isDropDownDelete, setIsDropDownDelete] = useState(false);
 
   useEffect(() => {
     companyForm.setFieldsValue({
@@ -28,7 +30,7 @@ const Company = ({ company, updateCompany }) => {
       sme_or_rdec: company.sme_or_rdec,
     });
     setCompanyLogo(company.avatar);
-  }, [company]);
+  }, [company, companyForm]);
 
   const onSave = (form) => {
     setLoader(true);
@@ -48,29 +50,71 @@ const Company = ({ company, updateCompany }) => {
     e.onSuccess('ok');
   };
 
+  const menu = (
+    <div className="wrapper_dropDown">
+      <h4>Are you sure you want to delete this сompany? All the documents, claims will be deleted as well</h4>
+      <div className="dropDown__btn_container">
+        <Button
+          type="button"
+          onClick={() => {
+            setIsDropDownDelete((prev) => !prev);
+          }}>
+          Back
+        </Button>
+        <Button
+          type="primary"
+          className="delete__red"
+          onClick={() => {
+            setIsDropDownDelete((prev) => !prev);
+          }}>
+          Delete
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
-    <li className="profile__company">
+    <li className={`profile__company ${isDropDownDelete ? 'red_Company' : ''}`}>
       <div className="profile__company_title">
         <h3>
           <span>{company.name}</span>
-          {!editMode && (
-            <button
-              onClick={(e) => {
-                setEditMode(true);
-              }}>
-              <IconEditPencil />
-            </button>
-          )}
         </h3>
+        <div className="profile__wrapper_btn" id="btn_del">
+          {!editMode && (
+            <>
+              <button
+                className="profile__btn_mode"
+                onClick={(e) => {
+                  setEditMode(true);
+                }}>
+                <IconEditPencil />
+              </button>
+              {companies.length > 1 && (
+                <>
+                  <Dropdown
+                    overlay={menu}
+                    placement="bottomRight"
+                    trigger="click"
+                    visible={isDropDownDelete}
+                    onVisibleChange={() => {
+                      if (isDropDownDelete) setIsDropDownDelete((prev) => !prev);
+                    }}
+                    getPopupContainer={() => document.querySelector('.profile__btn_delete')}>
+                    <button
+                      onClick={() => {
+                        setIsDropDownDelete((prev) => !prev);
+                      }}
+                      className="profile__btn_delete">
+                      <DeleteCompanySVG />
+                    </button>
+                  </Dropdown>
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
-      <Form
-        form={companyForm}
-        // initialValues={{
-        //   remember: true,
-        // }}
-        onFinish={onSave}
-        // onFinishFailed={onFinishFailed}
-      >
+      <Form form={companyForm} onFinish={onSave}>
         <section className="profile__company_details">
           <div className="company--row">
             <div className="label">Number</div>
@@ -194,17 +238,11 @@ const Company = ({ company, updateCompany }) => {
                       </div>
                     )}
                     <Tooltip placement="top" title="Upload png or jpeg">
-                      <img src={companyLogo} />
+                      <img src={companyLogo} alt={companyLogo} />
                     </Tooltip>
                   </Dragger>
                 </div>
               ) : (
-                // <div className='company--logo'>
-                //   <img src={companyLogo} />
-                //   <button type='button'>
-                //     <IconDeleteFile />
-                //   </button>
-                // </div>
                 <Dragger customRequest={updateLogo} showUploadList={false}>
                   {logoLoader && (
                     <div className="upload-loading">

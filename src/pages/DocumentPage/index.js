@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Upload, Select, Button, Spin, Skeleton, Tooltip, Form, Input } from 'antd';
+import { Upload, Select, Button, Spin, Skeleton, Tooltip, Input } from 'antd';
 
 import { getDocumentComments, postNewVersionDocument, postNewComment, removeComment } from '../../core/services';
 
@@ -32,7 +32,7 @@ const DocumentPage = () => {
       setCommentsList(data.comments);
       setDocument(data.document);
     });
-  }, []);
+  }, [climeId, id]);
 
   const onChangeMode = (e) => {
     const result = [...commentsList];

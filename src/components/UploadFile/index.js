@@ -24,9 +24,6 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
 
-  const action = `${REACT_APP_API_URL}/documents/upload/${activeClaimId}/${file.id}`;
-  const token = lockr.get('auth-key');
-
   const customRequest = (e) => {
     setLoading(true);
     uploadFile(activeClaimId, file.id, e.file).then((data) => {

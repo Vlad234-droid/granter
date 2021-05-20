@@ -8,7 +8,8 @@ import './style.scss';
 import { showModalNotifications, closeModalNotifications } from '../../core/actions/modal';
 import { CloseIconModal } from '../icons/index';
 import { IconCompany } from '../icons';
-import { Tooltip, Button } from 'antd';
+import { Tooltip } from 'antd';
+import { readNoti } from '../../core/services/readNotiServices';
 
 const HeaderNotification = () => {
   const company = useSelector((state) => state.user.currentCompany);
@@ -38,9 +39,14 @@ const HeaderNotification = () => {
     }
 
     return () => setCount(() => '');
-  }, [notiData]);
+  }, [notiData, dispatch]);
 
   const showDrawer = () => {
+    readNoti(company.id);
+    getNotificationsForUser(dispatch, company.id).then((data) => {
+      setNotiData(() => data);
+    });
+
     if (!notiData.length) {
       dispatch(closeModalNotifications());
     } else {

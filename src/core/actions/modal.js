@@ -23,6 +23,14 @@ const closeSubMenu = () => ({
   type: 'CLOSE_SUBMENU',
 });
 
+const showModalDelete = (payload) => ({
+  type: 'SHOW_MODAL_DELETE',
+  payload,
+});
+
+const closeModalDelete = () => ({
+  type: 'CLOSE_MODAL_DELETE',
+});
 export {
   showModalAction,
   closeModalAction,
@@ -30,4 +38,6 @@ export {
   closeModalNotifications,
   showSubMenu,
   closeSubMenu,
+  showModalDelete,
+  closeModalDelete,
 };
