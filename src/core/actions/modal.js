@@ -31,6 +31,16 @@ const showModalDelete = (payload) => ({
 const closeModalDelete = () => ({
   type: 'CLOSE_MODAL_DELETE',
 });
+
+const showModalDeleteDocs = (payload) => ({
+  type: 'SHOW_MODAL_DELETE_DOCS',
+  payload,
+});
+
+const closeModalDeleteDocs = () => ({
+  type: 'CLOSE_MODAL_DELETE_DOCS',
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -40,4 +50,6 @@ export {
   closeSubMenu,
   showModalDelete,
   closeModalDelete,
+  showModalDeleteDocs,
+  closeModalDeleteDocs,
 };

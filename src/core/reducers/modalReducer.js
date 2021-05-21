@@ -3,6 +3,7 @@ export const initialState = {
   isVisibleNotifications: false,
   isVisibleSubMenu: [],
   isVisibleModalDelete: false,
+  isVisibleModalDeleteDocs: false,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
@@ -48,6 +49,18 @@ export const modalReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isVisibleModalDelete: false,
+      };
+
+    case 'SHOW_MODAL_DELETE_DOCS':
+      return {
+        ...state,
+        isVisibleModalDeleteDocs: true,
+      };
+
+    case 'CLOSE_MODAL_DELETE_DOCS':
+      return {
+        ...state,
+        isVisibleModalDeleteDocs: false,
       };
     default:
       return {
