@@ -234,10 +234,10 @@ const DocumentsPage = () => {
                     <img src={PDFSVG} alt="pdf" /> PDF
                   </Checkbox>
                   <Checkbox value="doc">
-                    <img src={XLSXSVG} alt="doc" /> Doc
+                    <img src={DOCSSVG} alt="doc" /> Doc
                   </Checkbox>
                   <Checkbox value="xls">
-                    <img src={DOCSSVG} alt="xls" /> Exel
+                    <img src={XLSXSVG} alt="xls" /> Exel
                   </Checkbox>
                 </Checkbox.Group>
               </Form.Item>
