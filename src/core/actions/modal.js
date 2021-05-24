@@ -41,6 +41,15 @@ const closeModalDeleteDocs = () => ({
   type: 'CLOSE_MODAL_DELETE_DOCS',
 });
 
+const showBlurSheduleCall = (payload) => ({
+  type: 'SHOW_BLUR_SHEDULE_CALL',
+  payload,
+});
+
+const closeBlurSheduleCall = () => ({
+  type: 'CLOSE_BLUR_SHEDULE_CALL',
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -52,4 +61,6 @@ export {
   closeModalDelete,
   showModalDeleteDocs,
   closeModalDeleteDocs,
+  showBlurSheduleCall,
+  closeBlurSheduleCall,
 };

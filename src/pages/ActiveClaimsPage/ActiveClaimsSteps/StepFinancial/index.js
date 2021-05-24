@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton, Drawer } from 'antd';
 import { getFinancialClaimStep } from '../../../../core/services';
 import UploadFile from '../../../../components/UploadFile';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
+import actions from '../../../../core/actions';
+import { bindActionCreators } from 'redux';
+import CommonModalShadule from '../CommonModalShadule';
 
 import './style.scss';
 
 const StepFinancial = () => {
+  const dispatch = useDispatch();
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
+  const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (isVisibleModalSheduleCall) {
+      showBlurSheduleCall();
+    }
+    if (!isVisibleModalSheduleCall) {
+      closeBlurSheduleCall();
+    }
+  }, [isVisibleModalSheduleCall]);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -69,10 +84,31 @@ const StepFinancial = () => {
           </div>
           <div className="step-status">
             {financialStep.call_date === null && (
-              <button className="step-status--call-schedule">
-                <img src={iconCalendar} alt="" />
-                <span>Schedule a call</span>
-              </button>
+              <>
+                <button
+                  className="step-status--call-schedule"
+                  onClick={() => {
+                    setIsVisibleModalSheduleCall((prev) => !prev);
+                  }}>
+                  <img src={iconCalendar} alt="iconCalendar" />
+                  <span>Schedule a call</span>
+                </button>
+                <CommonModalShadule
+                  isVisibleModalSheduleCall={isVisibleModalSheduleCall}
+                  setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
+                  <ul className="list_shedule_intro">
+                    <li>1. Financial call often takes about 1 hour.</li>
+                    <li>
+                      2. We want to assist you in accurately analysing project expenditure that occurred within the
+                      relevant period(s).
+                    </li>
+                    <li>
+                      3. We will do our due diligence and benchmark your claim in order to maximise the robustness of
+                      submission.
+                    </li>
+                  </ul>
+                </CommonModalShadule>
+              </>
             )}
             {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
