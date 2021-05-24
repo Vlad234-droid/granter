@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { Upload, Select, Button, Spin, Skeleton, Tooltip, Input } from 'antd';
 
 import { getDocumentComments, postNewVersionDocument, postNewComment, removeComment } from '../../core/services';
@@ -26,9 +26,10 @@ const DocumentPage = () => {
   const [documentUploadLoader, setDocumentUploadLoader] = useState(false);
   const [newCommentForm, setNewCommentForm] = useState(false);
   const [newCommentLoader, setNewCommentLoader] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    getDocumentComments(climeId, id).then((data) => {
+    getDocumentComments(climeId, id, history).then((data) => {
       setCommentsList(data.comments);
       setDocument(data.document);
     });

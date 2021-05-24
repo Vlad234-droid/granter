@@ -15,6 +15,7 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage';
 import CreatePasswordPage from '../../pages/CreatePasswordPage';
 import AddProjectPage from '../../pages/AddProjectPage';
 import DocumentsPage from '../../pages/DocumentsPage';
+import NoFoundDoc from '../../pages/NoFoundDoc';
 
 //TODO Lazy
 function lazyWithPreload(factory) {
@@ -35,6 +36,7 @@ const routes = () => {
         <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
         <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
         <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
+        <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
         <PrivateRoute exact path="/projects/" component={ProjectsPage} />
         <PrivateRoute exact path="/profile/" component={ProfilePage} />
         <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />

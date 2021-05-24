@@ -18,6 +18,8 @@ const HeaderNotification = () => {
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
 
+  console.log('notiData', notiData);
+
   useEffect(() => {
     if (company) {
       const { id } = company;
@@ -139,14 +141,17 @@ const HeaderNotification = () => {
                     </div>
                     <div className="details_container">
                       <div className="item_li">{item.text}</div>
-                      <Link to={`/document/${item.claim_id}/${item.document_id}/`} className="check_doc">
+                      <Link
+                        to={`/document/${item.claim_id}/${item.document_id}/`}
+                        className="check_doc"
+                        onClick={() => dispatch(closeModalNotifications())}>
                         Check document
                       </Link>
                     </div>
                   </li>
                 ))
               ) : (
-                <div>The lkist is Empty</div>
+                <div>The list is Empty</div>
               )}
             </>
           )}

@@ -2,9 +2,11 @@ import React from 'react';
 import lockr from 'lockr';
 import { notification } from 'antd';
 import { IconWarning } from '../../components/icons';
+import { useHistory } from 'react-router-dom';
+
 const { REACT_APP_API_URL } = process.env;
 
-const getDocumentComments = (claimId, id) => {
+const getDocumentComments = (claimId, id, history) => {
   const token = lockr.get('auth-key');
 
   return new Promise((resolve, reject) => {
@@ -34,7 +36,7 @@ const getDocumentComments = (claimId, id) => {
         resolve(data.data);
       })
       .catch((error) => {
-        reject(error);
+        history.push('/document/notFound');
       });
   });
 };

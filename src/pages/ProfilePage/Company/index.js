@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Tooltip, Upload, Spin, Input, Form, Button, Dropdown } from 'antd';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Tooltip, Upload, Spin, Input, Form, Button, Dropdown, notification } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { IconEditPencil, DeleteCompanySVG } from '../../../components/icons';
 import iconUpload from '../../../assets/img/icon-upload.svg';
 import { postCompanyData, postCompanyLogo } from '../../../core/services';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { deleteCompany } from '../../../core/services/deleteCompany';
 import './style.scss';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
 const { Dragger } = Upload;
-const Company = ({ company, updateCompany }) => {
+const Company = ({ company, updateCompany, setCompaniesList }) => {
   const dispatch = useDispatch();
   const [companyLogo, setCompanyLogo] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -20,8 +20,13 @@ const Company = ({ company, updateCompany }) => {
   const [companyForm] = Form.useForm();
   const companies = useSelector((state) => state.user.companies);
   const [isDropDownDelete, setIsDropDownDelete] = useState(false);
+  const [loaderDelBtn, setLoaderDelBtn] = useState(false);
+
+  console.log('companies', companies);
 
   useEffect(() => {
+    let cleanupFunction = false;
+
     companyForm.setFieldsValue({
       number: company.number,
       accountant_email: company.accountant_email,
@@ -29,7 +34,9 @@ const Company = ({ company, updateCompany }) => {
       utr: company.utr,
       sme_or_rdec: company.sme_or_rdec,
     });
-    setCompanyLogo(company.avatar);
+    if (!cleanupFunction) setCompanyLogo(company.avatar);
+
+    return () => (cleanupFunction = true);
   }, [company, companyForm]);
 
   const onSave = (form) => {
@@ -50,6 +57,20 @@ const Company = ({ company, updateCompany }) => {
     e.onSuccess('ok');
   };
 
+  const deleteCompanyActions = () => {
+    setLoaderDelBtn(() => true);
+    deleteCompany(company?.id).then((data) => {
+      if (data.success) {
+        setLoaderDelBtn(() => true);
+        notification.success({
+          description: 'Company was deleted successfully',
+        });
+        setIsDropDownDelete((prev) => !prev);
+        setCompaniesList((prev) => prev.filter((item) => item.id !== company?.id));
+      }
+    });
+  };
+
   const menu = (
     <div className="wrapper_dropDown">
       <h4>Are you sure you want to delete this сompany? All the documents, claims will be deleted as well</h4>
@@ -61,12 +82,7 @@ const Company = ({ company, updateCompany }) => {
           }}>
           Back
         </Button>
-        <Button
-          type="primary"
-          className="delete__red"
-          onClick={() => {
-            setIsDropDownDelete((prev) => !prev);
-          }}>
+        <Button type="primary" className="delete__red" loading={loaderDelBtn} onClick={deleteCompanyActions}>
           Delete
         </Button>
       </div>
@@ -89,7 +105,7 @@ const Company = ({ company, updateCompany }) => {
                 }}>
                 <IconEditPencil />
               </button>
-              {companies.length > 1 && (
+              {companies.length !== 1 && (
                 <>
                   <Dropdown
                     overlay={menu}
@@ -243,7 +259,7 @@ const Company = ({ company, updateCompany }) => {
                   </Dragger>
                 </div>
               ) : (
-                <Dragger customRequest={updateLogo} showUploadList={false}>
+                <Dragger customRequest={updateLogo} showUploadList={false} accept="image/png, image/gif, image/jpeg">
                   {logoLoader && (
                     <div className="upload-loading">
                       <Spin indicator={antIcon} />

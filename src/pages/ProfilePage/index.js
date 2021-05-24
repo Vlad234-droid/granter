@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Skeleton, Checkbox, Input, Form, Button } from 'antd';
+import { Skeleton, Input, Form, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import Layout from '../../components/LayoutDashboard/Layout';
 import Company from './Company';
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
+import actions from '../../core/actions';
+import { bindActionCreators } from 'redux';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
@@ -26,11 +28,19 @@ const ProfilePage = () => {
         enable_notifications: data.profile.enable_notifications,
         phone: data.profile.phone,
       });
-    });
-    fetchUserCompanies(dispatch).then((data) => {
-      setCompaniesList(data);
+      fetchUserCompanies(dispatch).then((data) => {
+        setCompaniesList(data);
+      });
     });
   }, []);
+
+  useEffect(() => {
+    console.log('Im here');
+    const { userCompaniesLoaded } = bindActionCreators(actions, dispatch);
+    userCompaniesLoaded(companiesList);
+  }, [companiesList]);
+
+  console.log('companiesList', companiesList);
 
   const onSave = (form) => {
     setProfileFormLoader(true);
@@ -41,12 +51,12 @@ const ProfilePage = () => {
     });
   };
 
-  const enableNotificationsChange = (e) => {
-    const form = {
-      enable_notifications: e.target.checked ? 1 : 0,
-    };
-    postProfileData(form);
-  };
+  //const enableNotificationsChange = (e) => {
+  //  const form = {
+  //    enable_notifications: e.target.checked ? 1 : 0,
+  //  };
+  //  postProfileData(form);
+  //};
 
   const updateCompany = (company) => {
     const result = companiesList.map((item) => {
@@ -175,9 +185,9 @@ const ProfilePage = () => {
                   <div className="label">Your Email</div>
                   <div className="details">
                     <span>{userData.email}</span>
-                    <Form.Item name="enable_notifications" valuePropName="checked">
+                    {/* <Form.Item name="enable_notifications" valuePropName="checked">
                       <Checkbox onChange={enableNotificationsChange}>Receive all notifications</Checkbox>
-                    </Form.Item>
+                    </Form.Item> */}
                   </div>
                 </li>
                 <li>
@@ -240,7 +250,12 @@ const ProfilePage = () => {
         <ul className="profile__companies_list">
           {companiesList &&
             companiesList.map((item) => (
-              <Company key={`company-${item.id}`} company={item} updateCompany={updateCompany} />
+              <Company
+                key={`company-${item.id}`}
+                company={item}
+                updateCompany={updateCompany}
+                setCompaniesList={setCompaniesList}
+              />
             ))}
         </ul>
       </div>

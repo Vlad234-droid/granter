@@ -9,11 +9,8 @@ import DOCSSVG from '../../assets/img/DOCS.svg';
 import Layout from '../../components/LayoutDashboard/Layout';
 import DocumentRow from './DocumentRow';
 import OnDeleteModal from './OnDeleteModal';
-
 import { getDocumentsManagerList, getDownloadList, deleteFile } from '../../core/services';
-
 import { IconDeleteFile, IconDownload, IconFilter } from '../../components/icons';
-
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 import actions from '../../core/actions';

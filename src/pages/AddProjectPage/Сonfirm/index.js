@@ -8,7 +8,6 @@ import { addNewCompany } from '../../../core/services';
 import './style.scss';
 
 const Сonfirm = ({ goPrevStep, indexStep }) => {
-  console.log('indexStepindexStep', indexStep);
   const [loader, setLoader] = useState(false);
   const state = useSelector((state) => state.registration);
   let history = useHistory();

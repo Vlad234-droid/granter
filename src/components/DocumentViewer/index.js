@@ -4,6 +4,7 @@ import './style.scss';
 
 const DocumentViewer = ({ url }) => {
   const [src, setSrc] = useState('');
+
   useEffect(() => {
     if (url.match(/\.[0-9a-z]+$/i)[0] === '.pdf') {
       setSrc(url);
