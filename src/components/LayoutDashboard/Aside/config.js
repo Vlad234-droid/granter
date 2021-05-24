@@ -2,19 +2,19 @@ export const activeItems = [
   {
     key: 'active',
     to: '/active-claims/',
-    text: 'Active Claims',
+    text: 'Active',
     className: '',
   },
   {
     key: 'future',
     to: '/future-claims/',
-    text: 'Future Claims',
+    text: 'Future',
     className: '',
   },
   {
     key: 'completed',
     to: '/',
-    text: 'Completed Claims',
+    text: 'Completed',
     className: '',
   },
   {

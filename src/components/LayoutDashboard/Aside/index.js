@@ -123,7 +123,7 @@ const Aside = () => {
           ))}
           <SubMenu
             key="library"
-            title="Documents Library"
+            title="Library"
             className={addSubClass ? 'active_subMenu' : ''}
             onTitleClick={(key) => onOpenChange(key)}>
             {subMenuItems.map(({ key, to, text }) => (
