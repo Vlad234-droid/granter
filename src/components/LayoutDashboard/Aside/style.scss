@@ -33,12 +33,14 @@
     overflow-y: auto;
     overflow-x: hidden;
     .wrapper_container {
-      button {
+      .ant-btn.ant-btn-button {
         cursor: pointer;
-        padding: 10px;
+        background-color: transparent;
+        width: 95%;
+        margin-top: 0px !important;
       }
+      margin-bottom: 10px;
 
-      margin-top: 13px;
       margin-left: 10px;
       .details__btn {
         display: flex;

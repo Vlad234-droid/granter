@@ -3,6 +3,8 @@ export const initialState = {
   isVisibleNotifications: false,
   isVisibleSubMenu: [],
   isVisibleModalDelete: false,
+  isVisibleModalDeleteDocs: false,
+  isVisibleBlurSheduleCall: false,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
@@ -48,6 +50,29 @@ export const modalReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isVisibleModalDelete: false,
+      };
+
+    case 'SHOW_MODAL_DELETE_DOCS':
+      return {
+        ...state,
+        isVisibleModalDeleteDocs: true,
+      };
+
+    case 'CLOSE_MODAL_DELETE_DOCS':
+      return {
+        ...state,
+        isVisibleModalDeleteDocs: false,
+      };
+    case 'SHOW_BLUR_SHEDULE_CALL':
+      return {
+        ...state,
+        isVisibleBlurSheduleCall: true,
+      };
+
+    case 'CLOSE_BLUR_SHEDULE_CALL':
+      return {
+        ...state,
+        isVisibleBlurSheduleCall: false,
       };
     default:
       return {

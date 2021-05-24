@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import ModalAsk from './ModalAsk/index';
+//import ModalFeedBack from './ModalFeedBack/index';
 import { useLocation } from 'react-router-dom';
 import headerLogo from '../../../assets/img/header-logo.svg';
 import { Skeleton } from 'antd';
@@ -133,14 +134,7 @@ const Aside = () => {
             ))}
           </SubMenu>
         </Menu>
-        <div className="wrapper_container">
-          <button type="submit" onClick={exit}>
-            <div className="details__btn">
-              <LogOutSVG />
-              <span>Log out</span>
-            </div>
-          </button>
-        </div>
+
         <div className="nav__help">
           <div className="nav__help_title">Need Help?</div>
           {!currentCompany ? (
@@ -207,6 +201,20 @@ const Aside = () => {
             Ask a Question
           </Button>
           <ModalAsk visibleModal={visibleModal} handleCancel={closeModalAction} />
+          {/* <ModalFeedBack
+            visibleModal={visibleModal}
+            handleCancel={closeModalAction}
+            currentCompany={currentCompany}
+            checkForAvatar={checkForAvatar}
+          /> */}
+        </div>
+        <div className="wrapper_container">
+          <Button type="button" onClick={exit}>
+            <div className="details__btn">
+              <LogOutSVG />
+              <span>Log out</span>
+            </div>
+          </Button>
         </div>
       </div>
     </aside>

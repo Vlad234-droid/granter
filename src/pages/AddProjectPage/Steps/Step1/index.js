@@ -1,13 +1,13 @@
-import React, { useRef, useState } from "react";
-import { Form, Carousel, Button, Input, AutoComplete } from "antd";
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
-import _ from "underscore";
+import React, { useRef, useState } from 'react';
+import { Form, Carousel, Button, Input, AutoComplete } from 'antd';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'underscore';
 
-import { fetchCompanyHouse } from "../../../../core/services";
-import actions from "../../../../core/actions";
+import { fetchCompanyHouse } from '../../../../core/services';
+import actions from '../../../../core/actions';
 
-import "./style.scss";
+import './style.scss';
 
 const WelcomeStep1 = ({ goNextStep }) => {
   const slider = useRef();
@@ -68,49 +68,45 @@ const WelcomeStep1 = ({ goNextStep }) => {
   };
 
   return (
-    <div className='hello-page__step'>
-      <Carousel ref={slider} dots={false} effect='fade' swipe={false}>
+    <div className="hello-page__step">
+      <Carousel ref={slider} dots={false} effect="fade" swipe={false}>
         {/* WHAT IS YOUR COMPANY NAME? */}
-        <div className='step--wrapper'>
+        <div className="step--wrapper">
           <Form
-            name='name'
-            layout='vertical'
+            name="name"
+            layout="vertical"
             requiredMark={false}
             onFinish={onFinishName}
             // onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label='What is your company name?'
-              name='name'
-              validateTrigger='onSelect'
+              label="What is your company name?"
+              name="name"
+              validateTrigger="onSelect"
               rules={[
                 {
-                  validateTrigger: "onSelect",
+                  validateTrigger: 'onSelect',
                   validator: (_, value) => {
                     if (companyName) {
                       return Promise.resolve();
                     }
 
-                    return Promise.reject(
-                      new Error("Please input your company name!")
-                    );
+                    return Promise.reject(new Error('Please input your company name!'));
                   },
                 },
-              ]}
-            >
+              ]}>
               <AutoComplete
                 options={options}
                 onSelect={onSelect}
                 onSearch={onSearch}
-                className='hello-page__autocomplete'
-                notFoundContent='Nothing found'
-              >
-                <Input.Search placeholder='Enter the name' loading={loader} />
+                className="hello-page__autocomplete"
+                notFoundContent="Nothing found">
+                <Input.Search placeholder="Enter the name" loading={loader} />
               </AutoComplete>
             </Form.Item>
 
             <Form.Item>
-              <Button type='primary' htmlType='submit'>
+              <Button type="primary" htmlType="submit">
                 Next
               </Button>
             </Form.Item>
@@ -118,42 +114,38 @@ const WelcomeStep1 = ({ goNextStep }) => {
         </div>
 
         {/* IS THIS YOUR COMPANY NUMBER ON COMPANIES HOUSE? */}
-        <div className='step--wrapper'>
-          <div className='step--label'>
-            Is this your company number on companies house?
-          </div>
-          <div className='step--value'>{state.number}</div>
-          <div className='control-submit'>
+        <div className="step--wrapper">
+          <div className="step--label">Is this your company number on companies house?</div>
+          <div className="step--value">{state.number}</div>
+          <div className="control-submit">
             <Button
-              type='primary'
+              type="primary"
               onClick={() => {
                 //slider.current.goTo(3);
                 goNextStep();
-              }}
-            >
+              }}>
               Yes
             </Button>
             <Button
-              type='text'
+              type="text"
               onClick={() => {
                 slider.current.goTo(2);
                 setCompanyName(null);
                 form.setFieldsValue({
-                  number: "",
+                  number: '',
                 });
-              }}
-            >
+              }}>
               No
             </Button>
           </div>
         </div>
 
         {/* WHAT IS YOUR REGISTERED COMPANY NAME OR NUMBER? */}
-        <div className='step--wrapper'>
+        <div className="step--wrapper">
           <Form
-            name='number'
+            name="number"
             form={form}
-            layout='vertical'
+            layout="vertical"
             requiredMark={false}
             onFinish={(values) => {
               const companyData = {
@@ -169,40 +161,32 @@ const WelcomeStep1 = ({ goNextStep }) => {
             // onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label='What is your registered company name or number?'
-              name='number'
-              validateTrigger='onSelect'
+              label="What is your registered company name or number?"
+              name="number"
+              validateTrigger="onSelect"
               rules={[
                 {
-                  validateTrigger: "onSelect",
+                  validateTrigger: 'onSelect',
                   validator: (_, value) => {
                     if (companyName) {
                       return Promise.resolve();
                     }
 
-                    return Promise.reject(
-                      new Error("Please input your company name or number!")
-                    );
+                    return Promise.reject(new Error('Please input your company name or number!'));
                   },
                 },
-              ]}
-            >
+              ]}>
               <AutoComplete
                 options={options}
                 onSelect={onSelect}
                 onSearch={onSearch}
-                className='hello-page__autocomplete'
-                notFoundContent='Nothing found'
-              >
-                <Input.Search
-                  placeholder='Enter the name'
-                  loading={loader}
-                  ref={inputSearch}
-                />
+                className="hello-page__autocomplete"
+                notFoundContent="Nothing found">
+                <Input.Search placeholder="Enter the name" loading={loader} ref={inputSearch} />
               </AutoComplete>
             </Form.Item>
-            <Form.Item className='control-submit'>
-              <Button type='primary' htmlType='submit'>
+            <Form.Item className="control-submit">
+              <Button type="primary" htmlType="submit">
                 Next
               </Button>
               {/* <Button
@@ -220,24 +204,23 @@ const WelcomeStep1 = ({ goNextStep }) => {
         </div>
 
         {/* IS THIS YOUR COMPANY? */}
-        <div className='step--wrapper'>
-          <div className='step--label'>Is this your company?</div>
-          <div className='step--value'>{state.name}</div>
-          <div className='control-submit'>
-            <Button type='primary' onClick={goNextStep}>
+        <div className="step--wrapper">
+          <div className="step--label">Is this your company?</div>
+          <div className="step--value">{state.name}</div>
+          <div className="control-submit">
+            <Button type="primary" onClick={goNextStep}>
               Yes
             </Button>
             <Button
-              type='text'
+              type="text"
               onClick={() => {
                 setCompanyName(null);
                 setOptions([]);
                 slider.current.prev();
                 form.setFieldsValue({
-                  number: "",
+                  number: '',
                 });
-              }}
-            >
+              }}>
               No
             </Button>
           </div>

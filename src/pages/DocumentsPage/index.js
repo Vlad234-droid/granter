@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Form, Checkbox, Select, Skeleton } from 'antd';
-
+import { bindActionCreators } from 'redux';
+import PDFSVG from '../../assets/img/PDF.svg';
+import XLSXSVG from '../../assets/img/XLSX.svg';
+import DOCSSVG from '../../assets/img/DOCS.svg';
 import Layout from '../../components/LayoutDashboard/Layout';
 import DocumentRow from './DocumentRow';
 import OnDeleteModal from './OnDeleteModal';
@@ -13,6 +16,7 @@ import { IconDeleteFile, IconDownload, IconFilter } from '../../components/icons
 
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
+import actions from '../../core/actions';
 
 import './style.scss';
 
@@ -23,8 +27,9 @@ const DocumentsPage = () => {
   const [filterList, setFilterList] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabledDelete, setIsDisabledDelete] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-
+  const dispatch = useDispatch();
+  const { isVisibleModalDeleteDocs } = useSelector((state) => state.modal);
+  const { showModalDeleteDocs, closeModalDeleteDocs } = bindActionCreators(actions, dispatch);
   const { step } = useParams();
   const companyId = useSelector((state) => state.user.currentCompany?.id);
 
@@ -181,7 +186,7 @@ const DocumentsPage = () => {
             <button
               className="head--delete"
               onClick={() => {
-                setModalVisible(true);
+                showModalDeleteDocs();
               }}
               disabled={isDisabledDelete}>
               <IconDeleteFile />
@@ -225,9 +230,15 @@ const DocumentsPage = () => {
               <h3>Document Type</h3>
               <Form.Item name="extension" valuePropName="checked">
                 <Checkbox.Group>
-                  <Checkbox value="pdf">PDF</Checkbox>
-                  <Checkbox value="doc">Doc</Checkbox>
-                  <Checkbox value="xls">Exel</Checkbox>
+                  <Checkbox value="pdf">
+                    <img src={PDFSVG} alt="pdf" /> PDF
+                  </Checkbox>
+                  <Checkbox value="doc">
+                    <img src={XLSXSVG} alt="doc" /> Doc
+                  </Checkbox>
+                  <Checkbox value="xls">
+                    <img src={DOCSSVG} alt="xls" /> Exel
+                  </Checkbox>
                 </Checkbox.Group>
               </Form.Item>
             </section>
@@ -262,11 +273,11 @@ const DocumentsPage = () => {
         </div>
       </div>
       <OnDeleteModal
-        visible={modalVisible}
+        visible={isVisibleModalDeleteDocs}
         deleteList={filterList ? filterList?.filter((item) => item.checked) : []}
         onDeleteFile={onDeleteFile}
         onClose={() => {
-          setModalVisible(false);
+          closeModalDeleteDocs();
         }}
       />
     </Layout>

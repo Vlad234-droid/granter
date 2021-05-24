@@ -4,6 +4,7 @@
 .ant-form-item-control-input-content {
   display: flex;
 }
+
 .info-img-text-info {
   display: flex;
   flex-direction: column;
@@ -14,34 +15,17 @@
     width: 64px;
     height: 64px;
   }
-  b {
+  .feedBack__text {
     font-family: Poppins;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
     letter-spacing: 0em;
     text-align: center;
-    width: 55%;
-    color: #3c4252;
-  }
-  p {
-    font-family: Roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0em;
-    text-align: center;
+    width: 64%;
     color: #3c4252;
   }
 }
-.checkBox {
-  width: 45%;
-  margin-left: 35px;
-  justify-content: space-evenly;
-  display: flex;
-  height: 30px;
-}
-
 #askForm {
   .wrapper-btn-modal {
     display: flex;

@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Tooltip, Skeleton, Drawer } from 'antd';
-
 import { getIntroductionClaimStep } from '../../../../core/services';
-
 import UploadFile from '../../../../components/UploadFile';
 import { IconWarning } from '../../../../components/icons';
-
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
+import actions from '../../../../core/actions';
+import { bindActionCreators } from 'redux';
+import CommonModalShadule from '../CommonModalShadule';
 
 import './style.scss';
 
 const StepIntroduction = () => {
+  const dispatch = useDispatch();
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
+  const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (isVisibleModalSheduleCall) {
+      showBlurSheduleCall();
+    }
+    if (!isVisibleModalSheduleCall) {
+      closeBlurSheduleCall();
+    }
+  }, [isVisibleModalSheduleCall]);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -73,10 +85,27 @@ const StepIntroduction = () => {
           </div>
           <div className="step-status">
             {introductionStep.call_date === null && (
-              <button className="step-status--call-schedule">
-                <img src={iconCalendar} alt="" />
-                <span>Schedule a call</span>
-              </button>
+              <>
+                <button
+                  className="step-status--call-schedule"
+                  onClick={() => {
+                    setIsVisibleModalSheduleCall((prev) => !prev);
+                  }}>
+                  <img src={iconCalendar} alt="" />
+                  <span>Schedule a call</span>
+                </button>
+                <CommonModalShadule
+                  isVisibleModalSheduleCall={isVisibleModalSheduleCall}
+                  setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
+                  <ul className="list_shedule_intro">
+                    <li>1. Introduction often takes about one hour.</li>
+                    <li>
+                      2. We want to understand the type of work you have undertaken during the relevant period(s).
+                    </li>
+                    <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                  </ul>
+                </CommonModalShadule>
+              </>
             )}
             {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
