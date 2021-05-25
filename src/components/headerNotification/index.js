@@ -18,8 +18,6 @@ const HeaderNotification = () => {
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
 
-  console.log('notiData', notiData);
-
   useEffect(() => {
     if (company) {
       const { id } = company;

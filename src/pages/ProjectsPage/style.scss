@@ -36,6 +36,10 @@
     display: flex;
     width: 100%;
     flex-grow: 1;
+    .ant-row.ant-form-item.hidden {
+      margin: 0;
+      height: 0;
+    }
     .projects-list {
       display: flex;
       background: linear-gradient(90deg, rgba(247, 247, 250, 1) 660px, rgba(232, 238, 242, 1) 660px);

@@ -1,4 +1,4 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 html,
 body,
@@ -165,7 +165,7 @@ a.ant-btn {
         .ant-steps-icon {
           color: #fff !important;
           .ant-steps-finish-icon {
-            background: url("./assets/img/icon-step-done.svg") no-repeat center;
+            background: url('./assets/img/icon-step-done.svg') no-repeat center;
             width: 32px;
             height: 32px;
             svg {
@@ -282,11 +282,11 @@ a.ant-btn {
         text-align: left;
       }
       &::before {
-        content: "";
+        content: '';
         display: block;
         width: 22px;
         height: 22px;
-        background: url("./assets//img/icon-search.svg") no-repeat center;
+        background: url('./assets//img/icon-search.svg') no-repeat center;
         margin-right: 14px;
       }
     }
@@ -323,9 +323,7 @@ a.ant-btn {
   }
 }
 
-.ant-select-single.ant-select-show-search
-  .ant-select-selector
-  .ant-select-selection-item {
+.ant-select-single.ant-select-show-search .ant-select-selector .ant-select-selection-item {
   text-align: left;
   padding-left: 32px;
   font-family: Roboto;
@@ -488,7 +486,7 @@ button:not(.ant-btn) {
   width: 12px;
   height: 25px;
   display: block;
-  background: url("./assets/img/icon-close.svg") no-repeat center;
+  background: url('./assets/img/icon-close.svg') no-repeat center;
   svg {
     display: none;
   }
@@ -496,4 +494,47 @@ button:not(.ant-btn) {
 
 .ant-notification-notice-description {
   margin-right: 32px;
+}
+
+.step-file--status {
+  margin-top: 4px;
+  margin-left: 32px;
+  display: flex;
+  align-items: center;
+  .status {
+    display: flex;
+    align-items: center;
+    width: 94px;
+    height: 24px;
+    border-radius: 4px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 15px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    &.review {
+      background: rgba(249, 166, 72, 0.2) url('./assets/img/icon-review.svg') no-repeat 8px center;
+      color: #f9a648;
+      padding-left: 28px;
+    }
+    &.approved {
+      background: rgba(16, 172, 132, 0.2) url('./assets/img/icon-approved.svg') no-repeat 8px center;
+      color: #10ac84;
+      padding-left: 28px;
+    }
+  }
+  .comments {
+    margin-left: 16px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #7f8896;
+    img {
+      margin-right: 3px;
+    }
+  }
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Form, Select, Button, Space, Skeleton } from 'antd';
+import { Form, notification, Button, Space, Skeleton } from 'antd';
 
-import { getTechnicalClaimStep, setNewProject } from '../../core/services';
+import { getTechnicalClaimStep, setNewProject, editProject } from '../../core/services';
 import actions from '../../core/actions';
 import { IconComment } from '../../components/icons';
 import Project from './Project';
@@ -20,52 +20,85 @@ import DocumentViewer from '../../components/DocumentViewer';
 
 const ProjectsPage = () => {
   const [currentProject, setCurrentProject] = useState(null);
+  const [count, setCcount] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [formLength, setFormLength] = useState(1);
   const projectsList = useSelector((state) => state.projects.projectsList);
   const { climeId, id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (!projectsList) {
-      const { addProjectsDetails } = bindActionCreators(actions, dispatch);
-      getTechnicalClaimStep(climeId).then((data) => {
-        addProjectsDetails(data.documents);
-        setCurrentProject(data.documents.filter((item) => item.id == id)[0]);
+    const { addProjectsDetails } = bindActionCreators(actions, dispatch);
+    getTechnicalClaimStep(climeId).then((data) => {
+      addProjectsDetails(data.documents);
+      setCurrentProject(data.documents.filter((item) => item.id == id)[0]);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (count > 0) console.log('Count', count, form.getFieldsValue().projectList?.length);
+
+    if (count > 0 && count === form.getFieldsValue().projectList?.length) {
+      notification.success({
+        description: 'Project was updated successfully',
       });
-    } else {
-      setCurrentProject(projectsList.filter((item) => item.id == id)[0]);
+      history.push('/active-claims/');
     }
-  }, [projectsList]);
+  }, [count]);
 
   const onFinish = (formValues) => {
-    formValues.projectList.forEach((item) => {
-      addProject(item);
-    });
+    setLoader(true);
+    console.log('formValues', formValues);
+
+    if (formValues.projectList.length) {
+      formValues.projectList.forEach((item) => {
+        addProject(item);
+      });
+    } else {
+      notification.success({
+        description: 'Project was updated successfully',
+      });
+      history.push('/active-claims/');
+    }
   };
 
+  var getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
+
   const addProject = (project) => {
-    const form = {
+    const data = {
       title: project.title,
-      project_id: id,
       objectives: project.objectives,
       challanges: project.challenges,
     };
     if (project['start-months'] && project['start-year'] && project['end-months'] && project['end-year']) {
-      form.start_date = Date.parse(`${project['start-months']}/01/${project['start-year']}`);
-      form.end_date = Date.parse(`${project['end-months']}/01/${project['end-year']}`);
+      data.start_date = Date.parse(`${project['start-months'] + 1}/01/${project['start-year']}`);
+      data.end_date = Date.parse(
+        `${project['end-months'] + 1}/${getDaysInMonth(project['end-months'] + 1, project['end-year'])}/${
+          project['end-year']
+        }`,
+      );
     }
-    if (project.documents) {
+    if (project.documents && !project.id) {
       const docs = [];
       project.documents.forEach((doc) => {
         docs.push(doc.originFileObj);
       });
-      form.documents = docs;
+      data.documents = docs;
     }
     if (project.id) {
+      console.log('DATA', data);
+
+      editProject(climeId, project.id, data).then(() => {
+        setCcount((prevState) => prevState + 1);
+      });
     } else {
-      setNewProject(climeId, form);
+      data.project_id = id;
+      setNewProject(climeId, data).then(() => {
+        setCcount((prevState) => prevState + 1);
+      });
     }
-    console.log(form);
   };
 
   const initialValue = () => {
@@ -78,6 +111,7 @@ const ProjectsPage = () => {
           id: item.id,
           objectives: item.objectives,
           documents: item.documents,
+          status: item.status,
         };
         if (item.start_date && item.end_date) {
           project['start-months'] = new Date(Number(item.start_date)).getMonth();
@@ -99,13 +133,12 @@ const ProjectsPage = () => {
         'start-year': undefined,
       });
     }
-    console.log('initialValue', currentProject);
     return result;
   };
 
-  // const onFieldsChange = (changedFields, allFields) => {
-  //   console.log(form.getFieldsValue());
-  // };
+  const onFieldsChange = () => {
+    setFormLength(form.getFieldsValue().projectList.length);
+  };
 
   return (
     <div className="projects">
@@ -127,35 +160,32 @@ const ProjectsPage = () => {
               layout="vertical"
               form={form}
               onFinish={onFinish}
-              // onFieldsChange={onFieldsChange}
-            >
+              onFieldsChange={onFieldsChange}>
               <Form.List name="projectList" initialValue={initialValue()}>
                 {(fields, { add, remove }, { errors }) => (
                   <>
                     {fields.map((field, index) => {
-                      console.log(field);
                       return (
                         <Space key={field.key}>
                           <Project field={field} add={add} remove={remove} form={form} length={fields.length} />
                         </Space>
                       );
                     })}
-                    {fields.length > 1 && (
-                      <div className="project__form_submit-external">
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            add();
-                          }}>
-                          Add One More Project
+
+                    <div className="project__form_submit-external" style={{ marginTop: formLength ? 0 : 56 }}>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          add();
+                        }}>
+                        Add One More Project
+                      </Button>
+                      <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={loader}>
+                          {currentProject.projects.length ? 'Save changes' : 'Add Project to Dashboard'}
                         </Button>
-                        <Form.Item>
-                          <Button type="primary" htmlType="submit">
-                            Add Project to Dashboard
-                          </Button>
-                        </Form.Item>
-                      </div>
-                    )}
+                      </Form.Item>
+                    </div>
                   </>
                 )}
               </Form.List>
