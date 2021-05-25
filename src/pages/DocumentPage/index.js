@@ -29,11 +29,14 @@ const DocumentPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    getDocumentComments(climeId, id, history).then((data) => {
-      console.log(data);
-      setCommentsList(data.comments);
-      setDocument(data.document);
-    });
+    getDocumentComments(climeId, id)
+      .then((data) => {
+        setCommentsList(data.comments);
+        setDocument(data.document);
+      })
+      .catch(() => {
+        history.push('/document/notFound');
+      });
   }, [climeId, id]);
 
   const onChangeMode = (e) => {

@@ -2,14 +2,11 @@ import React from 'react';
 import lockr from 'lockr';
 import { notification } from 'antd';
 import { IconWarning } from '../../components/icons';
-import { useHistory } from 'react-router-dom';
 
 const { REACT_APP_API_URL } = process.env;
 
-const getDocumentComments = (claimId, id, history) => {
+const getDocumentComments = (claimId, id) => {
   const token = lockr.get('auth-key');
-
-  if (claimId === null || id === null) return;
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/comments/${claimId}/${id}`, {
@@ -37,9 +34,8 @@ const getDocumentComments = (claimId, id, history) => {
       .then((data) => {
         resolve(data.data);
       })
-      .catch((error) => {
-        history.push('/document/notFound');
-        return error;
+      .catch(() => {
+        reject();
       });
   });
 };
