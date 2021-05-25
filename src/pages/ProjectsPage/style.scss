@@ -39,6 +39,13 @@
     .projects-list {
       display: flex;
       background: linear-gradient(90deg, rgba(247, 247, 250, 1) 660px, rgba(232, 238, 242, 1) 660px);
+      flex-grow: 1;
+      .ant-skeleton {
+        width: 660px;
+        .ant-skeleton-content {
+          padding: 32px;
+        }
+      }
       .ant-form {
         display: flex;
         flex-direction: column;
@@ -46,6 +53,16 @@
           align-items: inherit;
           .ant-space-item {
             display: flex;
+          }
+        }
+        .project__form_submit-external {
+          padding: 8px 40px 56px 30px;
+          display: flex;
+          .ant-row {
+            margin-bottom: 0;
+          }
+          .ant-btn {
+            margin-right: 24px;
           }
         }
       }

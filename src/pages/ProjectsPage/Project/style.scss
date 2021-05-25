@@ -63,6 +63,13 @@
           margin-top: 40px;
           display: flex;
           justify-content: space-between;
+          .remove-project {
+            color: #f65747;
+            border-color: #f65747;
+            &:hover {
+              box-shadow: 0px 4px 12px rgba(245, 48, 48, 0.5);
+            }
+          }
         }
       }
     }
@@ -108,14 +115,56 @@
       }
       .project__docs_list {
         margin-top: 24px;
-        .ant-upload-drag {
+        .ant-form-item.documents {
+          .ant-form-item-control-input-content {
+            & > span {
+              width: 100%;
+            }
+          }
+        }
+        .ant-upload-list {
+          .ant-upload-list-item {
+            margin: 0 0 16px 0;
+
+            .ant-upload-list-item-info {
+              background-color: transparent !important;
+            }
+            .ant-upload-text-icon {
+              width: 24px;
+              height: 24px;
+              background: url('../../../assets/img/icon-pdf.svg');
+              margin-right: 8px;
+              .anticon {
+                display: none;
+              }
+            }
+            .ant-upload-list-item-name {
+              padding: 0;
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 114.9%;
+              color: #3c4252;
+            }
+            .ant-upload-list-item-card-actions {
+              .ant-btn {
+                opacity: 1 !important;
+                outline: none !important;
+                border: none !important;
+              }
+            }
+          }
+        }
+        .ant-upload-select {
           background: #ffffff;
           border: 1px dashed #305ff5;
           box-sizing: border-box;
           border-radius: 10px;
           min-height: 42px;
           margin-bottom: 12px;
-          .ant-upload-btn {
+          width: 100%;
+          .ant-upload {
             padding: 0;
             display: flex;
             width: 100%;
@@ -149,11 +198,19 @@
             img {
               margin-right: 8px;
             }
+            span {
+              flex-grow: 1;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
             .file--list-remove {
               width: 24px;
               height: 24px;
               margin-left: auto;
               cursor: pointer;
+              flex-shrink: 0;
+              margin-left: 8px;
               .icon-delete-file {
                 width: 16px;
               }

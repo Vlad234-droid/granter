@@ -4,5 +4,55 @@
     box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
     border-radius: 10px;
     border: 1px solid rgba(48, 95, 245, 0.7);
+    .upload-file {
+      margin-bottom: 24px;
+    }
+  }
+}
+.technical__modal {
+  h2 {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .technical__modal_file {
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 114.9%;
+    color: #3c4252;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+  }
+  .technical__modal_description {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: #3c4252;
+    margin: 24px auto 0 auto;
+    width: 480px;
+    p {
+      margin-bottom: 1em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .technical__modal_actions {
+    margin-top: 40px;
+    text-align: center;
+    .ant-btn {
+      margin: 0 12px;
+    }
   }
 }

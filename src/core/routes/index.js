@@ -37,7 +37,7 @@ const routes = () => {
         <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
         <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
         <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
-        <PrivateRoute exact path="/projects/" component={ProjectsPage} />
+        <PrivateRoute exact path="/project/:climeId/:id" component={ProjectsPage} />
         <PrivateRoute exact path="/profile/" component={ProfilePage} />
         <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />
         <PrivateRoute exact path="/reset-password/" component={ResetPasswordPage} />
