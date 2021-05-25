@@ -298,7 +298,84 @@ const setNewProject = (claimId, form) => {
   });
 };
 
-const removeSubProject = (claimId, projectId) => {
+const editProject = (claimId, projectId, form) => {
+  const token = lockr.get('auth-key');
+  const formData = new FormData();
+
+  for (let i in form) {
+    if (form[i]) formData.append(i, form[i]);
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/projects/edit/${claimId}/${projectId}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const addDocumentToProject = (claimId, projectId, file) => {
+  const token = lockr.get('auth-key');
+  const formData = new FormData();
+  formData.append('document', file);
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/projects/add/document/${claimId}/${projectId}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const removeProject = (claimId, projectId) => {
   const token = lockr.get('auth-key');
   const formData = new FormData();
 
@@ -334,6 +411,40 @@ const removeSubProject = (claimId, projectId) => {
   });
 };
 
+const removeDocumentFromProject = (claimId, projectId, documentId) => {
+  const token = lockr.get('auth-key');
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/projects/delete/document/${claimId}/${projectId}/${documentId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export {
   getActiveClaimData,
   getIntroductionClaimStep,
@@ -343,5 +454,8 @@ export {
   deleteFile,
   uploadFile,
   setNewProject,
-  removeSubProject,
+  removeProject,
+  editProject,
+  addDocumentToProject,
+  removeDocumentFromProject,
 };
