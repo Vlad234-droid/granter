@@ -3,13 +3,13 @@ import { combineReducers } from 'redux';
 import userReducer from './userReducer';
 import registrationReducer from './registrationReducer';
 import modalReducer from './modalReducer';
-import projectReducer from './projectReducer';
+import projectsReducer from './projectsReducer';
 
 const appReducer = combineReducers({
   user: userReducer,
   registration: registrationReducer,
   modal: modalReducer,
-  project: projectReducer,
+  projects: projectsReducer,
 });
 
 const rootReducer = (state, action) => {

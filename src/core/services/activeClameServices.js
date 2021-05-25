@@ -262,13 +262,49 @@ const setNewProject = (claimId, form) => {
         formData.append(`${i}[${index}]`, doc);
       });
     } else {
-      formData.append(i, form[i]);
+      if (form[i]) formData.append(i, form[i]);
     }
   }
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/projects/add/${claimId}`, {
       method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const removeSubProject = (claimId, projectId) => {
+  const token = lockr.get('auth-key');
+  const formData = new FormData();
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/projects/delete/${claimId}/${projectId}`, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
@@ -307,4 +343,5 @@ export {
   deleteFile,
   uploadFile,
   setNewProject,
+  removeSubProject,
 };

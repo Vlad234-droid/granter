@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button } from 'antd';
+import actions from '../../../../core/actions';
+
 import { LoadingOutlined } from '@ant-design/icons';
 
 import { getTechnicalClaimStep, setNewProject } from '../../../../core/services';
@@ -26,6 +29,7 @@ const StepTechnical = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -33,6 +37,8 @@ const StepTechnical = () => {
       setTechnicalStep(null);
       getTechnicalClaimStep(activeClaimId).then((data) => {
         setTechnicalStep(data);
+        const { addProjectsDetails } = bindActionCreators(actions, dispatch);
+        addProjectsDetails(data.documents);
         console.log('getTechnicalClaimStep', data);
       });
     }
@@ -89,7 +95,7 @@ const StepTechnical = () => {
               </Dragger>
 
               {technicalStep.documents.map((item) => (
-                <Project key={`technical-project-${item.id}`} file={item.documents[0]} status={item.status} />
+                <Project key={`technical-project-${item.id}`} file={item} />
               ))}
             </div>
             <div className="step-status">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import lockr from 'lockr';
-import { bindActionCreators } from 'redux';
 import { Tooltip, Upload, Dropdown, Button, Spin } from 'antd';
 import { setSkipFile, uploadFile, deleteFile } from '../../core/services';
 
@@ -24,6 +24,7 @@ const Project = ({ file, removeButton, onRed, onAction, status }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const history = useHistory();
 
   const onDelete = () => {
     setLoading(true);
@@ -57,6 +58,7 @@ const Project = ({ file, removeButton, onRed, onAction, status }) => {
   };
 
   const onEditProject = () => {
+    history.push(`/project/${activeClaimId}/${file.id}`);
     // const { addProjectDetails } = bindActionCreators(actions, dispatch);
   };
 
@@ -108,7 +110,7 @@ const Project = ({ file, removeButton, onRed, onAction, status }) => {
         )}
       </div>
       <div className="step-file--status">
-        <div className={`status ${statusName(status).class}`}>{statusName(status).name}</div>
+        <div className={`status ${statusName(file.status).class}`}>{statusName(file.status).name}</div>
       </div>
     </div>
   );
