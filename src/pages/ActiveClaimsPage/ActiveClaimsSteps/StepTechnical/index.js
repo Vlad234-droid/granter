@@ -14,9 +14,7 @@ import { IconWarning, CloseIconModal } from '../../../../components/icons';
 
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
 import iconUpload from '../../../../assets/img/icon-upload.svg';
-import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
-import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconPdf from '../../../../assets/img/icon-pdf.svg';
 
 import './style.scss';

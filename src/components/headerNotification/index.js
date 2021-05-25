@@ -140,13 +140,17 @@ const HeaderNotification = () => {
                       <time className="created_at">{convertTime(item.created_at)}</time>
                     </div>
                     <div className="details_container">
-                      <div className="item_li">{item.text}</div>
-                      <Link
-                        to={`/document/${item.claim_id}/${item.document_id}/`}
-                        className="check_doc"
-                        onClick={() => dispatch(closeModalNotifications())}>
-                        Check document
-                      </Link>
+                      <div className="item_li">{item.title}</div>
+                      {item.title !== 'Document was removed' ? (
+                        <Link
+                          to={`/document/${item.claim_id}/${item.document_id}/`}
+                          className="check_doc"
+                          onClick={() => dispatch(closeModalNotifications())}>
+                          Check document
+                        </Link>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </li>
                 ))

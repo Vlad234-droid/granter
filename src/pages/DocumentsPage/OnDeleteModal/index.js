@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
 
 import { CloseIconModal } from '../../../components/icons';
 
@@ -59,15 +58,15 @@ const OnDeleteModal = ({ visible, onClose, deleteList, onDeleteFile }) => {
         </>
       ) : (
         <>
-      <h2>Are you sure you want to delete this Documents?</h2>
-      <div className="documents-remove-modal__actions">
-        <Button type="button" onClick={onClose}>
-          Cancel
-        </Button>
+          <h2>Are you sure you want to delete this Documents?</h2>
+          <div className="documents-remove-modal__actions">
+            <Button type="button" onClick={onClose}>
+              Cancel
+            </Button>
             <Button type="primary" onClick={onDeleteList} danger>
-          Delete
-        </Button>
-      </div>
+              Delete
+            </Button>
+          </div>
         </>
       )}
     </Modal>

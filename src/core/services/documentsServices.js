@@ -9,6 +9,8 @@ const { REACT_APP_API_URL } = process.env;
 const getDocumentComments = (claimId, id, history) => {
   const token = lockr.get('auth-key');
 
+  if (claimId === null || id === null) return;
+
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/documents/comments/${claimId}/${id}`, {
       method: 'GET',
@@ -37,6 +39,7 @@ const getDocumentComments = (claimId, id, history) => {
       })
       .catch((error) => {
         history.push('/document/notFound');
+        return error;
       });
   });
 };

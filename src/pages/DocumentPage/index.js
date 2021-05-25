@@ -30,6 +30,7 @@ const DocumentPage = () => {
 
   useEffect(() => {
     getDocumentComments(climeId, id, history).then((data) => {
+      console.log(data);
       setCommentsList(data.comments);
       setDocument(data.document);
     });
