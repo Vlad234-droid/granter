@@ -50,6 +50,15 @@ const closeBlurSheduleCall = () => ({
   type: 'CLOSE_BLUR_SHEDULE_CALL',
 });
 
+const showBlurActiveTechnicals = (payload) => ({
+  type: 'SHOW_BLUR_ACTIVE_TECHNICALS',
+  payload,
+});
+
+const closeBlurActiveTechnicals = () => ({
+  type: 'CLOSE_BLUR_ACTIVE_TECHNICALS',
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -63,4 +72,6 @@ export {
   closeModalDeleteDocs,
   showBlurSheduleCall,
   closeBlurSheduleCall,
+  showBlurActiveTechnicals,
+  closeBlurActiveTechnicals,
 };

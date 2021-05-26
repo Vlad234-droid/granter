@@ -4,21 +4,16 @@ import { useHistory } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
-
 import { LoadingOutlined } from '@ant-design/icons';
-
 import { getTechnicalClaimStep, setNewProject } from '../../../../core/services';
-
 import Project from '../../../../components/Project';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
-
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
 import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconPdf from '../../../../assets/img/icon-pdf.svg';
-
 import './style.scss';
 
 const { Dragger } = Upload;
@@ -34,6 +29,7 @@ const StepTechnical = () => {
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { showBlurActiveTechnicals, closeBlurActiveTechnicals } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -54,6 +50,7 @@ const StepTechnical = () => {
     setNewProject(activeClaimId, form).then((data) => {
       setLoading(false);
       setModalVisible(true);
+      showBlurActiveTechnicals();
       setNewProjectId(data.id);
       const { addProjectsDetails } = bindActionCreators(actions, dispatch);
       const res = { ...technicalStep };
@@ -66,6 +63,7 @@ const StepTechnical = () => {
 
   const uploadInformation = () => {
     history.push(`/project/${activeClaimId}/${newProjectId}`);
+    closeBlurActiveTechnicals();
   };
 
   const onAction = (id) => {
@@ -163,6 +161,7 @@ const StepTechnical = () => {
         width={700}
         onCancel={() => {
           setModalVisible(false);
+          closeBlurActiveTechnicals();
         }}
         footer={false}
         title={false}
@@ -184,6 +183,7 @@ const StepTechnical = () => {
             type="button"
             onClick={() => {
               setModalVisible(false);
+              closeBlurActiveTechnicals();
             }}>
             Add your First Project
           </Button>

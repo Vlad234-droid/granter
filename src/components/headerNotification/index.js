@@ -35,16 +35,18 @@ const HeaderNotification = () => {
       return;
     } else if (notiData.length) {
       let count = notiData.filter((item) => item.status === 2).length;
-      setCount(count);
+      setCount(() => count);
     }
-
     return () => setCount(() => '');
   }, [notiData, dispatch]);
 
   const showDrawer = () => {
-    readNoti(company.id);
-    getNotificationsForUser(dispatch, company.id).then((data) => {
-      setNotiData(() => data);
+    readNoti(company.id).then((data) => {
+      if (data.success) {
+        getNotificationsForUser(dispatch, company.id).then((data) => {
+          setNotiData(() => data);
+        });
+      }
     });
 
     if (!notiData.length) {

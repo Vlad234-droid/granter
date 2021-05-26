@@ -11,8 +11,6 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log('file', file);
-
   const checkForExt = (extension) => {
     switch (extension) {
       case 'doc':
