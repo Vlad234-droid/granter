@@ -36,14 +36,14 @@ const DocumentsPage = () => {
       setFilterList(false);
       getDocumentsManagerList(step, companyId).then((data) => {
         const list = data.map((item) => {
-          const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
-          if (extension === '.pdf') {
-            item.extension = 'pdf';
-          } else if (extension === '.doc' || extension === '.docx') {
-            item.extension = 'doc';
-          } else if (extension === '.xls' || extension === '.xlsx') {
-            item.extension = 'xls';
-          }
+          // const extension = item.original_name.match(/\.[0-9a-z]+$/i)[0];
+          // if (extension === '.pdf') {
+          //   item.extension = 'pdf';
+          // } else if (extension === '.doc' || extension === '.docx') {
+          //   item.extension = 'doc';
+          // } else if (extension === '.xls' || extension === '.xlsx') {
+          //   item.extension = 'xls';
+          // }
           item.checked = false;
           return item;
         });
@@ -230,10 +230,10 @@ const DocumentsPage = () => {
                   <Checkbox value="pdf">
                     <img src={PDFSVG} alt="pdf" /> PDF
                   </Checkbox>
-                  <Checkbox value="doc">
+                  <Checkbox value="docx">
                     <img src={DOCSSVG} alt="doc" /> Doc
                   </Checkbox>
-                  <Checkbox value="xls">
+                  <Checkbox value="xlsx">
                     <img src={XLSXSVG} alt="xls" /> Exel
                   </Checkbox>
                 </Checkbox.Group>

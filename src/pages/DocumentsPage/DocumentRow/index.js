@@ -15,9 +15,13 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
     switch (extension) {
       case 'doc':
         return DOCSSVG;
+      case 'docx':
+        return DOCSSVG;
       case 'pdf':
         return PDFSVG;
       case 'xls':
+        return XLSXSVG;
+      case 'xlsx':
         return XLSXSVG;
       default:
         return extension;
