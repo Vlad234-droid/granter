@@ -1,0 +1,15 @@
+.active-claims__steps_step {
+  &.submission {
+    background: #f5f5f5;
+    box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
+    border-radius: 10px;
+  }
+}
+.step-status--approve {
+  width: 100%;
+  margin-bottom: 24px;
+  &:disabled {
+    background: #c0c4cb !important;
+    box-shadow: none !important;
+  }
+}

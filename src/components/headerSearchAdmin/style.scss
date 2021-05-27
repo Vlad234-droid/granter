@@ -1,0 +1,20 @@
+.header__search {
+  margin-right: auto;
+  width: 370px;
+  .ant-select-auto-complete {
+    width: 100%;
+    .ant-select-selection-search-input {
+      border: none !important;
+      background: transparent !important;
+      padding: 0;
+      outline: none !important;
+      box-shadow: none !important;
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #3c4252;
+    }
+  }
+}

@@ -1,0 +1,131 @@
+.active-claims__cards {
+  margin-bottom: 24px;
+  .ant-card {
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    .ant-card-head {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 150%;
+      text-align: center;
+      color: #7f8896;
+      border-bottom: none;
+    }
+    .ant-card-body {
+      padding: 10px 24px 24px 24px;
+      text-align: center;
+      .different {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 36px;
+        text-align: center;
+        color: #3c4252;
+        margin-bottom: 12px;
+      }
+      .claims {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-align: center;
+        li {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 150%;
+          color: #7f8896;
+          text-align: center;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          white-space: nowrap;
+          b {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 150%;
+            color: #3c4252;
+            margin-left: 8px;
+          }
+        }
+        .statistics {
+          color: #3c4252;
+          margin-left: 8px;
+          display: inline-flex;
+          align-items: center;
+          &.up {
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 6px;
+              height: 4px;
+              margin-right: 5px;
+              background: url('../../../assets/img/statistics-up.svg') no-repeat center / cover;
+            }
+          }
+          &.down {
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 6px;
+              height: 4px;
+              margin-right: 5px;
+              background: url('../../../assets/img/statistics-down.svg') no-repeat center / cover;
+            }
+          }
+        }
+      }
+      .clime-progress {
+        display: inline-flex;
+        align-items: center;
+        margin: auto;
+        .ant-progress {
+          .ant-progress-text {
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: #3c4252;
+          }
+          svg.ant-progress-circle {
+            .ant-progress-circle-trail {
+              stroke-width: 10px;
+            }
+            .ant-progress-circle-path {
+              stroke-width: 10px;
+              stroke-linecap: butt;
+            }
+          }
+        }
+        .clime-progress--info {
+          margin-left: 32px;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 150%;
+          color: #7f8896;
+          b {
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: #3c4252;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

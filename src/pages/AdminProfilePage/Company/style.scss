@@ -1,0 +1,265 @@
+.admin_dashboard_wrapper {
+  .form_claims {
+    display: flex;
+    padding-top: 20px;
+    .block_claims {
+      height: inherit;
+      background: #ffffff;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+      box-shadow: -18px 2px 68px -7px rgba(34, 60, 80, 0.03);
+      width: 480px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .container_info {
+        margin: 10px 0px 10px 0px;
+        h2 {
+          margin-bottom: 8px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 16px;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+          color: #3c4252;
+        }
+        ul {
+          padding-left: 0px;
+          li {
+            list-style: none;
+            margin-bottom: 5px;
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 21px;
+            display: flex;
+            align-items: center;
+            font-feature-settings: 'pnum' on, 'lnum' on;
+            color: #305ff5;
+          }
+        }
+      }
+    }
+  }
+  .profile__company {
+    padding-top: 2px;
+    #btn_del {
+      position: relative;
+    }
+    transition: background 300ms ease;
+
+    &.red_Company {
+      background: rgba(246, 87, 71, 0.15);
+      .company--row {
+        &:nth-child(even) {
+          background: rgba(246, 87, 71, 0.15);
+        }
+      }
+    }
+    width: 435px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    .profile__company_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 32px;
+      margin: 12px 10px 16px 0;
+      padding: 0 16px;
+      .profile__wrapper_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .profile__btn_mode {
+          width: 22px;
+          height: 22px;
+          margin-left: 8px;
+          cursor: pointer;
+        }
+        .profile__btn_delete {
+          margin-left: 20px;
+          cursor: pointer;
+        }
+      }
+      .ant-btn {
+        height: 32px;
+      }
+      h3 {
+        display: flex;
+        align-items: center;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3c4252;
+        margin-bottom: 0;
+        max-width: 100%;
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .company--row {
+      display: flex;
+      padding: 9px 16px 10px 16px;
+      align-items: center;
+      &:nth-child(even) {
+        background: rgba(238, 242, 246, 0.85);
+      }
+      .manager {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .ant-row {
+        margin: 0;
+      }
+      .label {
+        width: 180px;
+        flex-shrink: 0;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 150%;
+        color: #7f8896;
+      }
+      .details {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 150%;
+        color: #3c4252;
+        flex-grow: 1;
+        .company--logo {
+          display: flex;
+          align-items: center;
+          .ant-upload-drag {
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border: none;
+            position: relative;
+            .upload-loading {
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .ant-upload-btn {
+              padding: 0;
+            }
+          }
+          img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+          }
+          button {
+            width: 32px;
+            height: 32px;
+            margin-left: 8px;
+            cursor: pointer;
+          }
+        }
+        .ant-upload-drag {
+          background: #ffffff;
+          border: 1px dashed #305ff5;
+          box-sizing: border-box;
+          border-radius: 10px;
+          width: 200px;
+          position: relative;
+          overflow: hidden;
+          .upload-loading {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.6);
+          }
+          .ant-upload-btn {
+            padding: 8px;
+            .upload-title {
+              display: flex;
+              align-items: center;
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 114.9%;
+              color: #3c4252;
+              img {
+                margin-right: 8px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .profile__company_actions {
+      margin: 32px 16px 40px 0;
+      text-align: right;
+      .ant-btn {
+        width: 106px;
+        margin-left: 16px;
+      }
+    }
+  }
+}
+
+.ant-dropdown .wrapper_dropDown {
+  width: 360px;
+  height: 136px;
+  background: #ffffff;
+  box-shadow: 0px 8px 15px rgba(17, 51, 103, 0.15);
+  border-radius: 10px;
+  padding: 24px;
+
+  h4 {
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #3c4252;
+  }
+  .dropDown__btn_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    margin: 10px auto 0px auto;
+    button {
+      height: 40px !important;
+    }
+  }
+  .delete__red {
+    background-color: #f65747;
+    border-color: #f65747;
+    color: #fff;
+
+    &:disabled {
+      opacity: 0.4;
+    }
+    &:hover {
+      background-color: #f65747;
+      border-color: #f65747;
+      box-shadow: 0px 4px 12px #f65747;
+    }
+  }
+}

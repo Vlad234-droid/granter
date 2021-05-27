@@ -16,6 +16,10 @@ import CreatePasswordPage from '../../pages/CreatePasswordPage';
 import AddProjectPage from '../../pages/AddProjectPage';
 import DocumentsPage from '../../pages/DocumentsPage';
 import NoFoundDoc from '../../pages/NoFoundDoc';
+import AdminProfilePage from '../../pages/AdminProfilePage';
+import AdminActiveClaimsPage from '../../pages/AdminActiveClaimsPage';
+import AdminClientsPage from '../../pages/AdminClientsPage';
+import AdminSettings from '../../pages/AdminSettings';
 
 //TODO Lazy
 function lazyWithPreload(factory) {
@@ -44,6 +48,10 @@ const routes = () => {
         <PrivateRoute exact path="/create-password/" component={CreatePasswordPage} />
         <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
         <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
+        <PrivateRoute exact path="/admin/clients" component={AdminClientsPage} />
+        <PrivateRoute exact path="/admin/clients/1" component={AdminProfilePage} />
+        <PrivateRoute exact path="/admin/active-claims" component={AdminActiveClaimsPage} />
+        <PrivateRoute exact path="/admin/settings" component={AdminSettings} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

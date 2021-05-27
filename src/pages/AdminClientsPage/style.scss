@@ -1,0 +1,110 @@
+.table_wrapper {
+  padding: 20px 24px;
+  .dropdown_filter {
+    text-align: end;
+    padding: 11px 21px 13px 0px;
+    .btn_filter {
+      cursor: pointer;
+      padding: 3px;
+      h3 {
+        margin-bottom: 0px !important;
+        margin-left: 10px;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: #305ff5;
+      }
+    }
+  }
+  .ant-table-wrapper {
+    .ant-table-cell.ant-table-column-has-sorters {
+      .ant-table-column-sorters {
+        font-family: Roboto !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        color: #3c4252 !important;
+        padding-left: 30px !important;
+      }
+      background: rgba(192, 196, 203, 0.2) !important;
+    }
+    .ant-table-row.ant-table-row-level-0 {
+      .ant-table-cell {
+        vertical-align: text-top !important;
+        padding-top: 20px !important;
+        padding-bottom: 60px !important;
+        padding-left: 30px !important;
+      }
+      &:nth-child(even) {
+        background: rgba(238, 242, 246, 0.85) !important;
+      }
+    }
+    .ant-pagination-options {
+      position: relative;
+      &:before {
+        content: 'Page:';
+        position: absolute;
+        top: 4px;
+        left: 5px;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        color: #3c4252;
+      }
+      .ant-pagination-options-quick-jumper {
+        color: transparent;
+      }
+      .ant-pagination-options-quick-jumper {
+        input {
+          //padding-left: 32px !important;
+          //padding-right: 32px !important;
+          border: 1.7px solid #305ff5 !important;
+          border-radius: 4px;
+          color: #305ff5 !important;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          text-align: center;
+          color: #305ff5;
+        }
+      }
+    }
+    .ant-pagination.ant-table-pagination.ant-table-pagination-center {
+      .ant-pagination-item {
+        border: 1.7px solid #305ff5 !important;
+        border-radius: 4px;
+        a {
+          color: #305ff5;
+        }
+      }
+      .ant-pagination-item.ant-pagination-item-active {
+        background: #305ff5;
+        border-radius: 4px;
+        a {
+          color: white !important;
+        }
+      }
+      .ant-pagination-prev {
+        border: 1.7px solid #305ff5 !important;
+        border-radius: 4px;
+        .ant-pagination-item-link {
+          border: none !important;
+        }
+      }
+      .ant-pagination-next {
+        border: 1.7px solid #305ff5 !important;
+        border-radius: 4px;
+        .ant-pagination-item-link {
+          border: none !important;
+        }
+      }
+      .anticon.anticon-right,
+      .anticon.anticon-left {
+        color: #305ff5 !important;
+      }
+    }
+  }
+}
