@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
+import React, { useState, useMemo } from 'react';
+import { Table, Form } from 'antd';
 import './style.scss';
 import { ColumnVisibilitySVG } from '../../components/icons';
 import LayOutAdmin from '../../components/LayOutAdmin';
 import { Menu, Dropdown, Checkbox } from 'antd';
+import { forEach } from 'underscore';
 
 const dataSource = [
   {
@@ -368,31 +369,30 @@ const AdminClientsPage = () => {
     },
   ]);
 
-  const defaultCheckedList = [
-    { title: 'Client name', disabled: true },
-    { title: 'Company', disabled: true },
-    { title: 'Active claim', disabled: true },
-    { title: 'Yearend' },
-    { title: 'Due date' },
-    { title: 'Progress % of stages' },
-    { title: 'Projected value' },
-    { title: 'Date completed' },
-  ];
-  const onChangeBox = (e) => {
-    if (!e.target.checked) {
-      const filteredColumns = columns.filter((item) => item.title !== e.target.valuePropName);
-      setColumns(() => filteredColumns);
-    }
-    if (e.target.checked) {
-      const filteredColumn = dataColumns.filter((item) => item.title === e.target.valuePropName);
-      setColumns((prev) => [...prev, ...filteredColumn]);
-    }
-  };
+  const defaultCheckedList = useMemo(
+    () => [
+      { title: 'Client name', disabled: true, dataIndex: 'name' },
+      { title: 'Company', disabled: true, dataIndex: 'company' },
+      { title: 'Active claim', disabled: true, dataIndex: 'activeClaim' },
+      { title: 'Yearend', disabled: false, dataIndex: 'yearend' },
+      { title: 'Due date', disabled: false, dataIndex: 'dueDate' },
+      { title: 'Progress % of stages', disabled: false, dataIndex: 'perStages' },
+      { title: 'Projected value', disabled: false, dataIndex: 'value' },
+      { title: 'Date completed', disabled: false, dataIndex: 'dateCompleted' },
+    ],
+    [],
+  );
+
+  console.log('defaultCheckedList', defaultCheckedList);
+
   const onChange = (pagination, filters, sorter, extra) => {
     //console.log('params', pagination, filters, sorter, extra);
   };
 
-  console.log(columns);
+  const onFilterChange = (changedValues, filters) => {
+    const res = dataColumns.filter((itemData) => filters.checkedProp.includes(itemData.dataIndex));
+    setColumns(() => res);
+  };
 
   return (
     <LayOutAdmin>
@@ -401,16 +401,38 @@ const AdminClientsPage = () => {
           <button className="btn_filter">
             <ColumnVisibilitySVG />
             <Dropdown
+              arrow={false}
               getPopupContainer={() => document.getElementById('drop_down_filter')}
               overlay={
                 <Menu>
-                  {defaultCheckedList.map(({ title, disabled }) => (
-                    <Menu.Item key={title}>
-                      <Checkbox defaultChecked={true} onChange={onChangeBox} valuePropName={title} disabled={disabled}>
-                        {title}
-                      </Checkbox>
-                    </Menu.Item>
-                  ))}
+                  <Menu.Item>
+                    <Form
+                      initialValues={{
+                        checkedProp: [
+                          'name',
+                          'company',
+                          'activeClaim',
+                          'yearend',
+                          'dueDate',
+                          'perStages',
+                          'value',
+                          'dateCompleted',
+                        ],
+                      }}
+                      name="basic"
+                      className="clients__filter_form"
+                      onValuesChange={onFilterChange}>
+                      <Form.Item name="checkedProp">
+                        <Checkbox.Group>
+                          {defaultCheckedList.map(({ title, disabled, dataIndex }) => (
+                            <Checkbox key={dataIndex} value={dataIndex} disabled={disabled}>
+                              {title}
+                            </Checkbox>
+                          ))}
+                        </Checkbox.Group>
+                      </Form.Item>
+                    </Form>
+                  </Menu.Item>
                 </Menu>
               }
               placement="bottomRight"
@@ -428,7 +450,6 @@ const AdminClientsPage = () => {
             pageSize: 5,
             position: ['bottomCenter'],
             showQuickJumper: true,
-            //showQuickJumper: { goButton: 'Page:' }, // problem
             showSizeChanger: false,
           }}
         />
