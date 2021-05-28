@@ -60,7 +60,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
           </Col>
           <Col span={8}>
             <Card>
-              {state.industry.length > 0 &&
+              {state.industry?.length > 0 &&
                 state.industry.map((item, index) => (
                   <p key={`ind-${index}`}>
                     {item.sic_code} - {item.display_value}

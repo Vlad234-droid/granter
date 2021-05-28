@@ -26,29 +26,35 @@ function lazyWithPreload(factory) {
 
 const ProfilePage = lazyWithPreload(() => import('../../pages/ProfilePage'));
 
-const routes = () => {
-  return (
-    <React.Suspense fallback="">
-      <CoreRouter>
-        <Route exact path="/" component={WelcomePage} />
-        <Route exact path="/welcome/" component={WelcomePage} />
-        <Route exact path="/sign-in/" component={LoginPage} />
-        <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
-        <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
-        <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
-        <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
-        <PrivateRoute exact path="/project/:climeId/:id" component={ProjectsPage} />
-        <PrivateRoute exact path="/profile/" component={ProfilePage} />
-        <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />
-        <PrivateRoute exact path="/reset-password/" component={ResetPasswordPage} />
-        <PrivateRoute exact path="/create-password/" component={CreatePasswordPage} />
-        <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
-        <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
+export default class routes extends React.Component {
+  componentDidCatch() {
+    console.log('ERROR');
+  }
 
-        {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
-      </CoreRouter>
-    </React.Suspense>
-  );
-};
+  render() {
+    return (
+      <React.Suspense fallback="">
+        <CoreRouter>
+          <Route exact path="/" component={WelcomePage} />
+          <Route exact path="/welcome/" component={WelcomePage} />
+          <Route exact path="/sign-in/" component={LoginPage} />
+          <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
+          <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
+          <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
+          <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
+          <PrivateRoute exact path="/project/:climeId/:id" component={ProjectsPage} />
+          <PrivateRoute exact path="/profile/" component={ProfilePage} />
+          <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />
+          <PrivateRoute exact path="/reset-password/" component={ResetPasswordPage} />
+          <PrivateRoute exact path="/create-password/" component={CreatePasswordPage} />
+          <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
+          <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
 
-export default routes;
+          {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
+        </CoreRouter>
+      </React.Suspense>
+    );
+  }
+}
+
+//export default routes;
