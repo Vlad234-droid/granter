@@ -32,7 +32,7 @@ const getActiveClaimData = (dispatch, companyId) => {
               description: json.message,
               icon: <IconWarning />,
             });
-            throw new Error(json);
+            throw new Error(resp);
           });
         }
       })

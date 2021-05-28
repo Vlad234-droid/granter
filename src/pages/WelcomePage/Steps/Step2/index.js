@@ -17,8 +17,12 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
 
   useEffect(() => {
     fetchAllIndustries(dispatch);
+  }, []);
+
+  useEffect(() => {
+    console.log(state);
     if (!state.industry.length) slider.current.next();
-  }, [dispatch, state]);
+  }, [state.industry]);
 
   const onFinishName = (value) => {
     slider.current.next();
@@ -81,7 +85,7 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
                 showSearch
                 size="large"
                 showArrow={false}
-                placeholder="Select a person"
+                placeholder="Select an industry"
                 optionFilterProp="children"
                 options={state.industriesList}
                 onSelect={onSelect}

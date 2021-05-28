@@ -44,6 +44,9 @@ const DocumentsPage = () => {
           // } else if (extension === '.xls' || extension === '.xlsx') {
           //   item.extension = 'xls';
           // }
+          if (step === 'technical' && item.project) {
+            item.status = item.project.status;
+          }
           item.checked = false;
           return item;
         });

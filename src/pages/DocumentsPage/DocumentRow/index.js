@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Checkbox, Dropdown, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { IconDeleteFile, IconDownload } from '../../../components/icons';
@@ -10,6 +11,7 @@ import './style.scss';
 const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { step } = useParams();
 
   const checkForExt = (extension) => {
     switch (extension) {
@@ -40,10 +42,17 @@ const DocumentRow = ({ file, onFileSelect, onDeleteFile }) => {
       </td>
       <td className="name">
         <div className="td-wrapper">
-          <Link to={`/document/${file.claim_id}/${file.id}/`}>
-            <img src={checkForExt(file.extension)} alt="document-file" />
-            <span>{file.original_name}</span>
-          </Link>
+          {step === 'technical' ? (
+            <div>
+              <img src={checkForExt(file.extension)} alt="document-file" />
+              <span>{file.original_name}</span>
+            </div>
+          ) : (
+            <Link to={`/document/${file.claim_id}/${file.id}/`}>
+              <img src={checkForExt(file.extension)} alt="document-file" />
+              <span>{file.original_name}</span>
+            </Link>
+          )}
         </div>
       </td>
       <td className="actions">

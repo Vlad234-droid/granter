@@ -4,16 +4,21 @@ import { useHistory } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
+
 import { LoadingOutlined } from '@ant-design/icons';
+
 import { getTechnicalClaimStep, setNewProject } from '../../../../core/services';
+
 import Project from '../../../../components/Project';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
+
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
 import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconPdf from '../../../../assets/img/icon-pdf.svg';
+
 import './style.scss';
 
 const { Dragger } = Upload;
@@ -29,7 +34,6 @@ const StepTechnical = () => {
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { showBlurActiveTechnicals, closeBlurActiveTechnicals } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -50,7 +54,6 @@ const StepTechnical = () => {
     setNewProject(activeClaimId, form).then((data) => {
       setLoading(false);
       setModalVisible(true);
-      showBlurActiveTechnicals();
       setNewProjectId(data.id);
       const { addProjectsDetails } = bindActionCreators(actions, dispatch);
       const res = { ...technicalStep };
@@ -63,14 +66,15 @@ const StepTechnical = () => {
 
   const uploadInformation = () => {
     history.push(`/project/${activeClaimId}/${newProjectId}`);
-    closeBlurActiveTechnicals();
   };
 
   const onAction = (id) => {
     const res = { ...technicalStep };
     res.documents = technicalStep.documents.filter((item) => item.id !== id);
     setTechnicalStep(res);
-    const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
+    const status = res.documents.filter((item) => item.status === 3).length
+      ? Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100)
+      : 0;
     setStatus(status);
   };
 
@@ -161,7 +165,6 @@ const StepTechnical = () => {
         width={700}
         onCancel={() => {
           setModalVisible(false);
-          closeBlurActiveTechnicals();
         }}
         footer={false}
         title={false}
@@ -179,15 +182,14 @@ const StepTechnical = () => {
           </p>
         </div>
         <div className="technical__modal_actions">
-          <Button
-            type="button"
-            onClick={() => {
-              setModalVisible(false);
-              closeBlurActiveTechnicals();
-            }}>
+          <Button type="button" onClick={uploadInformation}>
             Add your First Project
           </Button>
-          <Button type="primary" onClick={uploadInformation}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setModalVisible(false);
+            }}>
             Upload Information
           </Button>
         </div>
@@ -215,6 +217,27 @@ const StepTechnical = () => {
         }}
         visible={detailsShow}
         className="active-claims__step_drawer">
+        <div className="drawer-technical-dragger">
+          <Dragger
+            name="file"
+            customRequest={customRequest}
+            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            className={`upload-file ${loading ? 'loading' : ''}`}
+            showUploadList={false}>
+            <div className="upload-loading">
+              <Spin indicator={antIcon} />
+            </div>
+            <div className="upload-title">
+              <img src={iconUpload} alt="" />
+              <span>Add a Project</span>
+            </div>
+
+            <div className="upload-status">
+              <img src={iconUploadRed} alt="" />
+              <span>Not uploaded</span>
+            </div>
+          </Dragger>
+        </div>
         <div className="step-actions">
           {technicalStep?.documents.map((item, index) => {
             return (

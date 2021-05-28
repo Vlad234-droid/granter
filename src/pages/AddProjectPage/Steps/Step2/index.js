@@ -81,7 +81,7 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
                 showSearch
                 size="large"
                 showArrow={false}
-                placeholder="Select a person"
+                placeholder="Select an industry"
                 optionFilterProp="children"
                 options={state.industriesList}
                 onSelect={onSelect}
