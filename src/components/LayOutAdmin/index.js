@@ -39,34 +39,36 @@ const LayOutAdmin = ({ children }) => {
 
   return (
     <>
-      <div className="admin_header">
-        <div className="wrapper_links_S">
-          <ul>
-            {config.map((item) => (
-              <li key={item.text} className={activeLink === item.routeLi ? 'activeLink' : ''}>
-                <Link to={item.to}>{item.text}</Link>
-              </li> // here problem
-            ))}
-          </ul>
-          <div className="search">
-            <HeaderSearchAdmin />
+      <div className="admin_wrapper">
+        <div className="admin_header">
+          <div className="wrapper_links_S">
+            <ul>
+              {config.map((item) => (
+                <li key={item.text} className={activeLink === item.routeLi ? 'activeLink' : ''}>
+                  <Link to={item.to}>{item.text}</Link>
+                </li> // here problem
+              ))}
+            </ul>
+            <div className="search">
+              <HeaderSearchAdmin />
+            </div>
           </div>
-        </div>
 
-        <div className="wrapper_btn_Noti">
-          <div className="btn">
-            <Button type="button" htmlType="submit">
-              Add Client
-            </Button>
-          </div>
-          <div className="noti">
-            <AdminHeaderNotifications />
+          <div className="wrapper_btn_Noti">
+            <div className="btn">
+              <Button type="button" htmlType="submit">
+                Add Client
+              </Button>
+            </div>
+            <div className="noti">
+              <AdminHeaderNotifications />
+            </div>
           </div>
         </div>
+        <Layout.Content className="wrapper_content">
+          <div className="admin_dashboard_wrapper">{children}</div>
+        </Layout.Content>
       </div>
-      <Layout.Content className="wrapper_content">
-        <div className="admin_dashboard_wrapper">{children}</div>
-      </Layout.Content>
     </>
   );
 };

@@ -51,7 +51,7 @@ const AdminSettings = () => {
       title: 'Admin name',
       dataIndex: 'name',
       key: 'name',
-      sorter: {},
+      sorter: (a, b) => a.name.length - b.name.length,
       render: (text) => (
         <>
           <div className="wrapper_img_name">

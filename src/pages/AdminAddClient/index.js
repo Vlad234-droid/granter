@@ -1,27 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'antd';
-import Layout from '../../components/LayoutDashboard/Layout';
 import Steps from './Steps';
-import Сonfirm from './Сonfirm';
+import Сonfirm from './Confirm/index';
 import arrowLeft from '../../assets/img/arrow-left.svg';
 import './style.scss';
-
-const AddProjectPage = () => {
+import LayOutAdmin from '../../components/LayOutAdmin';
+const AdminAddClient = () => {
   const [indexStep, setIndexStep] = useState(null);
-
   const slider = useRef();
+
   return (
-    <Layout isLogged={false} className="dashboard">
+    <LayOutAdmin>
       <div className="add-project">
-        <div className="add-project__header">
-          <Link to="/profile/">
-            <img src={arrowLeft} alt="" />
-            <span>To Profile</span>
-          </Link>
-        </div>
         <div className="add-project__wrapper">
-          <h2>Add new company with 3 little steps</h2>
+          <h2>Add Client</h2>
           <Carousel
             beforeChange={(prevIndex, newIndex) => {
               setIndexStep(() => newIndex);
@@ -53,8 +46,8 @@ const AddProjectPage = () => {
           </Carousel>
         </div>
       </div>
-    </Layout>
+    </LayOutAdmin>
   );
 };
 
-export default AddProjectPage;
+export default AdminAddClient;
