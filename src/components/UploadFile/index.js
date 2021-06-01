@@ -28,8 +28,6 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
 
-  console.log('file', file);
-
   const customRequest = (e) => {
     setLoading(true);
     uploadFile(activeClaimId, file.id, e.file).then((data) => {

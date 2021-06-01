@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
 import { LoadingOutlined } from '@ant-design/icons';
-import { getTechnicalClaimStep, setNewProject } from '../../../../core/services';
+import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../../core/services';
 import Project from '../../../../components/Project';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
@@ -35,9 +35,20 @@ const StepTechnical = () => {
     if (activeClaimId) {
       setTechnicalStep(null);
       getTechnicalClaimStep(activeClaimId).then((data) => {
-        setTechnicalStep(data);
+        const claim = { ...data };
+        console.log('claim', claim);
+
+        const result = data.documents.map((item) => {
+          if (item.title === '' || !item.start_date || !item.end_date) {
+            removeProject(item.claim_id, item.id);
+          } else {
+            return item;
+          }
+        });
+        claim.documents = result;
+        setTechnicalStep(claim);
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
-        addProjectsDetails(data.documents);
+        addProjectsDetails(claim.documents);
       });
     }
   }, [activeClaimId]);
@@ -48,15 +59,7 @@ const StepTechnical = () => {
       documents: [e.file],
     };
     setNewProject(activeClaimId, form).then((data) => {
-      setLoading(false);
-      setModalVisible(true);
-      showBlurActiveTechnicals();
-      setNewProjectId(data.id);
-      const { addProjectsDetails } = bindActionCreators(actions, dispatch);
-      const res = { ...technicalStep };
-      res.documents.push(data);
-      addProjectsDetails(res.documents);
-      setTechnicalStep(res);
+      history.push(`/project/${activeClaimId}/${data.id}`);
     });
     e.onSuccess('ok');
   };
