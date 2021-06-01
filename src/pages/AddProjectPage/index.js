@@ -8,8 +8,6 @@ import arrowLeft from '../../assets/img/arrow-left.svg';
 import './style.scss';
 
 const AddProjectPage = () => {
-  const [indexStep, setIndexStep] = useState(null);
-
   const slider = useRef();
   return (
     <Layout isLogged={false} className="dashboard">
@@ -23,9 +21,6 @@ const AddProjectPage = () => {
         <div className="add-project__wrapper">
           <h2>Add new company with 3 little steps</h2>
           <Carousel
-            beforeChange={(prevIndex, newIndex) => {
-              setIndexStep(() => newIndex);
-            }}
             ref={slider}
             swipe={false}
             dots={false}
@@ -41,7 +36,6 @@ const AddProjectPage = () => {
             </div>
             <div>
               <Сonfirm
-                indexStep={indexStep}
                 goNextStep={() => {
                   slider.current.next();
                 }}

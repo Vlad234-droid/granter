@@ -1,24 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Row, Col, Card } from 'antd';
+import { Button, Row, Col, Card, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import './style.scss';
 import { UpVector } from '../../../components/icons';
 import BenefitModal from './BenefitModal';
 
-const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
-  const state = useSelector((state) => state.registration);
-  const [isModalBenefit, setIsModalBenefit] = useState(null);
+import { LoadingOutlined } from '@ant-design/icons';
 
-  console.log(indexStep);
+const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
+
+const Сonfirm = ({ goNextStep, goPrevStep }) => {
+  const state = useSelector((state) => state.registration);
+  const [isModalBenefit, setIsModalBenefit] = useState(false);
+  const { showEstimate } = useSelector((state) => state.registration);
 
   useEffect(() => {
-    if (indexStep === 1) {
+    if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);
     }
-  }, [indexStep]);
+  }, [showEstimate]);
 
   const checkorForRenderBenefitModal = useCallback(() => {
-    if (indexStep === 1) {
+    if (showEstimate === 'benefit') {
       return (
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
@@ -30,10 +33,24 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
           </div>
         </div>
       );
-    } else if (indexStep === 3) {
-      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
+    } else if (showEstimate === 'estimate') {
+      return (
+        <BenefitModal
+          goNextStep={goNextStep}
+          state={state}
+          isModalBenefit={isModalBenefit}
+          setIsModalBenefit={setIsModalBenefit}
+        />
+      );
     }
-  }, [indexStep, isModalBenefit, setIsModalBenefit]);
+  }, [isModalBenefit, setIsModalBenefit]);
+
+  if (state.showEstimate === null)
+    return (
+      <div className="upload-loading">
+        <Spin indicator={antIcon} />
+      </div>
+    );
 
   return (
     <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>

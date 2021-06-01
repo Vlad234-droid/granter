@@ -12,6 +12,7 @@ const initialState = {
   subcontracting_costs: 0,
   software_costs: 0,
   industriesList: [],
+  showEstimate: null,
 };
 
 const registrationReducer = (state = initialState, action) => {
@@ -52,6 +53,11 @@ const registrationReducer = (state = initialState, action) => {
       return {
         ...state,
         industriesList: action.payload,
+      };
+    case 'REGISTRATION_CHANGE_ESTIMATE':
+      return {
+        ...state,
+        showEstimate: action.payload,
       };
 
     default:

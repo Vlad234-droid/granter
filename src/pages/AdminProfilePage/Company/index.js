@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Tooltip, Upload, Spin, Input, Form, Button, Dropdown, notification } from 'antd';
+import { Tooltip, Upload, Spin, Form } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { IconEditPencil, DeleteCompanySVG } from '../../../components/icons';
 import iconUpload from '../../../assets/img/icon-upload.svg';
 import { postCompanyData, postCompanyLogo } from '../../../core/services';
-import { useSelector } from 'react-redux';
-import { deleteCompany } from '../../../core/services/deleteCompany';
 import './style.scss';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
 const { Dragger } = Upload;
-const Company = ({ company, updateCompany, setCompaniesList }) => {
+const Company = ({ company, updateCompany }) => {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loader, setLoader] = useState(false);
   const [logoLoader, setLogoLoader] = useState(false);
   const [companyForm] = Form.useForm();
-  const companies = useSelector((state) => state.user.companies);
   const [isDropDownDelete, setIsDropDownDelete] = useState(false);
-  const [loaderDelBtn, setLoaderDelBtn] = useState(false);
 
   useEffect(() => {
     let cleanupFunction = false;

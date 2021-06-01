@@ -46,7 +46,7 @@ const LayOutAdmin = ({ children }) => {
               {config.map((item) => (
                 <li key={item.text} className={activeLink === item.routeLi ? 'activeLink' : ''}>
                   <Link to={item.to}>{item.text}</Link>
-                </li> // here problem
+                </li>
               ))}
             </ul>
             <div className="search">

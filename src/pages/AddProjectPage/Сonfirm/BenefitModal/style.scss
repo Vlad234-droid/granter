@@ -4,6 +4,10 @@
     padding: 20px 20px 0px 20px !important;
   }
   .wrapper_info {
+    .ant-form-item-explain div {
+      margin-bottom: 17px !important;
+      text-align: center !important;
+    }
     .promWrapperText {
       color: #7f8896;
       p {

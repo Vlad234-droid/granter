@@ -11,10 +11,10 @@
       width: 480px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       flex-direction: column;
       .container_info {
-        margin: 10px 0px 10px 0px;
+        margin: 10px 0px 10px 80px;
         h2 {
           margin-bottom: 8px;
           font-family: Poppins;

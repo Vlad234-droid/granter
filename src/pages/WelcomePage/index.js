@@ -10,7 +10,6 @@ import './style.scss';
 
 const WelcomePage = (props) => {
   const slider = useRef();
-  const [indexStep, setIndexStep] = useState(null);
 
   return (
     <Layout isLogged={false} className="hello-page" mode="registration">
@@ -21,9 +20,6 @@ const WelcomePage = (props) => {
           dots={false}
           easing="ease-in-out"
           effect="fade"
-          beforeChange={(prevIndex, newIndex) => {
-            setIndexStep(() => newIndex);
-          }}
           className="hello-page__steps_slider">
           <div>
             <WelcomeSteps
@@ -34,7 +30,6 @@ const WelcomePage = (props) => {
           </div>
           <div>
             <WelcomeСonfirm
-              indexStep={indexStep}
               goNextStep={() => {
                 slider.current.next();
               }}
