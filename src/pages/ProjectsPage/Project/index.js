@@ -8,34 +8,33 @@ import { removeProject, addDocumentToProject, removeDocumentFromProject } from '
 import iconSelectArrow from '../../../assets/img/iceon-select-arrow.svg';
 import iconUpload from '../../../assets/img/icon-upload.svg';
 import iconPdf from '../../../assets/img/icon-pdf.svg';
+import iconFile from '../../../assets/img/icon-file-s.svg';
 
 import './style.scss';
+import reactDomTestUtilsProductionMin from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 const { Option } = Select;
 const { Dragger } = Upload;
 
-const Project = ({ field, add, remove, length, form }) => {
+const Project = ({ form, onRemove, isRemoved }) => {
   const [status, setStatus] = useState(null);
-  const [loaderOnRemove, setLoaderOnRemove] = useState(false);
   const { climeId } = useParams();
 
   useEffect(() => {
-    const status = form.getFieldsValue().projectList[field.key]?.status;
+    const status = form.getFieldsValue().status;
     setStatus(status);
+    console.log(form);
   }, []);
 
   const customRequest = (e) => {
-    const id = form.getFieldsValue().projectList[field.key]?.id;
+    const id = form.getFieldsValue().id;
     if (id) {
       addDocumentToProject(climeId, id, e.file).then((data) => {
-        const result = [...form.getFieldsValue().projectList];
-        result[field.name].documents = data.documents;
         form.setFieldsValue({
-          projectList: result,
+          documents: data.documents,
         });
       });
     }
-    console.log(e);
     e.onSuccess('ok');
   };
 
@@ -46,25 +45,36 @@ const Project = ({ field, add, remove, length, form }) => {
     return e && e.fileList;
   };
 
-  const onDeleteProject = (name) => {
-    setLoaderOnRemove(true);
-    const id = form.getFieldsValue().projectList[field.key]?.id;
-    if (id) {
-      removeProject(climeId, id)
-        .then((data) => {
-          setLoaderOnRemove(false);
-          remove(name);
-        })
-        .catch((error) => {
-          setLoaderOnRemove(false);
-        });
-    } else {
-      remove(name);
-    }
+  const onDeleteProject = () => {
+    onRemove();
+    setStatus(null);
+    form.setFieldsValue({
+      challenges: null,
+      documents: [],
+      id: null,
+      objectives: null,
+      status: null,
+      title: null,
+      'start-months': null,
+      'start-year': null,
+      'end-months': null,
+      'end-year': null,
+      status: null,
+    });
+    // const id = form.getFieldsValue().id;
+    // if (id) {
+    //   removeProject(climeId, id)
+    //     .then((data) => {
+    //       setLoaderOnRemove(false);
+    //     })
+    //     .catch((error) => {
+    //       setLoaderOnRemove(false);
+    //     });
+    // }
   };
 
   const onRemoveDocument = (file) => {
-    const id = form.getFieldsValue().projectList[field.key]?.id;
+    const id = form.getFieldsValue().id;
     if (id) {
       removeDocumentFromProject(file.claim_id, file.project_id, file.id);
     }
@@ -95,35 +105,33 @@ const Project = ({ field, add, remove, length, form }) => {
   return (
     <div className="project">
       <div className="project__forms">
-        {field.name === 0 && (
-          <div className="project__forms_title">
-            <h2>Active claim title</h2>
-            <time>01/01/2021 – 31/12/2021</time>
+        <h1 style={{ visibility: form.getFieldValue('id') || isRemoved ? 'hidden' : 'visible' }}>New Project</h1>
+        {isRemoved && (
+          <div className="removed-message">
+            <img src={iconFile} alt="" />
+            <span>There are no projects yet</span>
           </div>
         )}
-        <div className="project__form">
-          {/* {form.getFieldsValue().projectList.length > } */}
+        <div className={`project__form ${isRemoved ? 'removed' : ''}`}>
           <button
             type="button"
             className="project__form_remove"
             style={{
-              display: length == 1 && !status ? 'none' : '',
+              display: !form.getFieldValue('id') || isRemoved ? 'none' : '',
             }}
             onClick={() => {
-              onDeleteProject(field.name);
+              onDeleteProject();
             }}>
             <IconDeleteFile />
           </button>
           <div className="project__form_inputs">
             <Form.Item
               label="Project Title"
-              name={[field.name, 'title']}
+              name="title"
               rules={[
                 {
-                  validator: (_, value) =>
-                    value && value.trim().length
-                      ? Promise.resolve()
-                      : Promise.reject(new Error('Please input your facility title!')),
+                  required: true,
+                  message: 'Please input your facility title!',
                 },
               ]}>
               <Input placeholder="Enter the title" />
@@ -131,7 +139,16 @@ const Project = ({ field, add, remove, length, form }) => {
           </div>
           <div className="project__form_dates">
             <div className="start-dates">
-              <Form.Item name={[field.name, 'start-months']} label="Start Date">
+              <Form.Item
+                name="start-months"
+                label="Start Date"
+                className="row-months"
+                rules={[
+                  {
+                    required: true,
+                    message: false,
+                  },
+                ]}>
                 <Select
                   placeholder="Months"
                   suffixIcon={<img src={iconSelectArrow} alt="" />}
@@ -150,7 +167,15 @@ const Project = ({ field, add, remove, length, form }) => {
                   <Option value={11}>December</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name={[field.name, 'start-year']}>
+              <Form.Item
+                name="start-year"
+                className="row-year"
+                rules={[
+                  {
+                    required: true,
+                    message: false,
+                  },
+                ]}>
                 <Select placeholder="Year" suffixIcon={<img src={iconSelectArrow} alt="" />} className="years-select">
                   <Option value="2021">2021</Option>
                   <Option value="2020">2020</Option>
@@ -161,7 +186,16 @@ const Project = ({ field, add, remove, length, form }) => {
               </Form.Item>
             </div>
             <div className="end-dates">
-              <Form.Item name={[field.name, 'end-months']} label="End Date">
+              <Form.Item
+                name="end-months"
+                label="End Date"
+                className="row-months"
+                rules={[
+                  {
+                    required: true,
+                    message: false,
+                  },
+                ]}>
                 <Select
                   placeholder="Months"
                   className="months-select"
@@ -180,7 +214,15 @@ const Project = ({ field, add, remove, length, form }) => {
                   <Option value={11}>December</Option>
                 </Select>
               </Form.Item>
-              <Form.Item name={[field.name, 'end-year']}>
+              <Form.Item
+                name="end-year"
+                className="row-year"
+                rules={[
+                  {
+                    required: true,
+                    message: false,
+                  },
+                ]}>
                 <Select placeholder="Year" suffixIcon={<img src={iconSelectArrow} alt="" />} className="years-select">
                   <Option value="2021">2021</Option>
                   <Option value="2020">2020</Option>
@@ -192,16 +234,16 @@ const Project = ({ field, add, remove, length, form }) => {
             </div>
           </div>
           <div className="project__form_inputs">
-            <Form.Item label="Objectives" name={[field.name, 'objectives']}>
+            <Form.Item label="Objectives" name="objectives">
               <Input.TextArea placeholder="Enter objectives" style={{ height: 112 }} />
             </Form.Item>
           </div>
           <div className="project__form_inputs">
-            <Form.Item label="Non-Routine Challenges" name={[field.name, 'challenges']}>
+            <Form.Item label="Non-Routine Challenges" name="challenges">
               <Input.TextArea placeholder="Enter challenges" style={{ height: 156 }} />
             </Form.Item>
           </div>
-          <Form.Item hidden name={[field.name, 'id']}>
+          <Form.Item hidden name="id">
             <Input />
           </Form.Item>
           {/* <div className="project__form_submit">
@@ -234,61 +276,37 @@ const Project = ({ field, add, remove, length, form }) => {
           </div> */}
         </div>
       </div>
-      <div className="project__docs">
-        <h3>Add Related Documents</h3>
-        <Form.Item name={[field.name, 'status']} className="hidden">
-          <Input hidden />
-        </Form.Item>
-        {status && (
-          <div className="step-file--status">
-            <div className={`status ${statusName(status).class}`}>{statusName(status).name}</div>
-          </div>
-        )}
-        <div className="project__docs_list">
-          <Form.Item
-            name={[field.name, 'documents']}
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            className="documents">
-            <Upload
-              customRequest={customRequest}
-              showUploadList={{
-                showDownloadIcon: false,
-                showRemoveIcon: true,
-                removeIcon: <IconDeleteFile />,
-              }}
-              onRemove={onRemoveDocument}
-              accept="application/pdf, application/msword,
+      {!isRemoved && (
+        <div className="project__docs">
+          <h3>Add Related Documents</h3>
+          <Form.Item name="status" className="hidden">
+            <Input hidden />
+          </Form.Item>
+          {status && (
+            <div className="step-file--status">
+              <div className={`status ${statusName(status).class}`}>{statusName(status).name}</div>
+            </div>
+          )}
+          <div className="project__docs_list">
+            <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
+              <Upload
+                customRequest={customRequest}
+                showUploadList={{
+                  showDownloadIcon: false,
+                  showRemoveIcon: true,
+                  removeIcon: <IconDeleteFile />,
+                }}
+                onRemove={onRemoveDocument}
+                accept="application/pdf, application/msword,
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,
             application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-              <img src={iconUpload} alt="" />
-              <span>Add the Document</span>
-            </Upload>
-          </Form.Item>
-          {/* <Dragger
-            customRequest={customRequest}
-            showUploadList={false}
-            accept="application/pdf, application/msword,
-            application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"></Dragger> */}
-          {/* <ul className="file--list">
-            {fileList.map((item) => (
-              <li key={item.lastModified}>
-                <img src={iconPdf} alt="" />
-                <span>{item.name}</span>
-                <button
-                  type="button"
-                  className="file--list-remove"
-                  onClick={() => {
-                    onDelete(item);
-                  }}>
-                  <IconDeleteFile />
-                </button>
-              </li>
-            ))}
-          </ul> */}
+                <img src={iconUpload} alt="" />
+                <span>Add the Document</span>
+              </Upload>
+            </Form.Item>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

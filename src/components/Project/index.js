@@ -9,7 +9,7 @@ import arrow from '../../assets/img/icon-arrow-dropdown.svg';
 import iconUpload from '../../assets/img/icon-upload.svg';
 import iconUploadRed from '../../assets/img/icon-upload-red.svg';
 import iconSkip from '../../assets/img/icon-skip.svg';
-import iconUndo from '../../assets/img/icon-undo.svg';
+import iconFileS from '../../assets/img/icon-file-s.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconFile from '../../assets/img/icon-file-s.svg';
 
@@ -28,10 +28,6 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const history = useHistory();
-
-  useEffect(() => {
-    console.log('file', file);
-  }, []);
 
   const onDelete = () => {
     setLoading(true);
@@ -75,9 +71,9 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
         <Spin />
       </div>
       <div className="step-file--title">
-        <img src={iconPdf} alt="" />
+        <img src={iconFileS} alt="" />
         <Button type="link" onClick={onEditProject}>
-          {`List of projects ${index ? index : ''}`}
+          {file.title}
         </Button>
         {removeButton && (
           <Dropdown
@@ -119,18 +115,18 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
       <div className="step-file--status">
         <div className={`status ${statusName(file.status).class}`}>{statusName(file.status).name}</div>
       </div>
-      {file.projects?.length > 0 && (
+      {file.documents?.length > 0 && (
         <Collapse bordered={false} ghost={true} expandIcon={() => <img src={arrow} alt={arrow} />}>
-          <Panel header={`Show All (${file.projects.length})`} key="1">
-            {file.projects.map((item) => (
+          <Panel header={`Show All (${file.documents.length})`} key="1">
+            {file.documents.map((item) => (
               <div key={`sub-${item.id}`} className="step-sub">
                 <div className="step-sub__title">
-                  <img src={iconFile} alt="project" />
-                  <span>{item.title}</span>
+                  <img src={iconPdf} alt="project" />
+                  <span>{item.name}</span>
                 </div>
-                <div className="step-file--status">
+                {/* <div className="step-file--status">
                   <div className={`status ${statusName(item.status).class}`}>{statusName(item.status).name}</div>
-                </div>
+                </div> */}
               </div>
             ))}
           </Panel>

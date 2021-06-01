@@ -45,6 +45,7 @@ const routes = () => {
         <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
         <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
         <PrivateRoute exact path="/project/:climeId/:id" component={ProjectsPage} />
+        <PrivateRoute exact path="/project/:climeId/" component={ProjectsPage} />
         <PrivateRoute exact path="/profile/" component={ProfilePage} />
         <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />
         <PrivateRoute exact path="/reset-password/" component={ResetPasswordPage} />

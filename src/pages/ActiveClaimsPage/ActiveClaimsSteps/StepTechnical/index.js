@@ -7,7 +7,7 @@ import actions from '../../../../core/actions';
 
 import { LoadingOutlined } from '@ant-design/icons';
 
-import { getTechnicalClaimStep, setNewProject } from '../../../../core/services';
+import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../../core/services';
 
 import Project from '../../../../components/Project';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
@@ -17,7 +17,8 @@ import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconApproved from '../../../../assets/img/icon-approved.svg';
-import iconPdf from '../../../../assets/img/icon-pdf.svg';
+import iconFile from '../../../../assets/img/icon-file-b.svg';
+import iconAddProject from '../../../../assets/img/icon-add-project.svg';
 
 import './style.scss';
 
@@ -39,9 +40,16 @@ const StepTechnical = () => {
     if (activeClaimId) {
       setTechnicalStep(null);
       getTechnicalClaimStep(activeClaimId).then((data) => {
-        setTechnicalStep(data);
+        const result = { ...data };
+        result.documents = data.documents.filter((item) => item.title.length && item.start_date && item.end_date);
+        data.documents.forEach((item) => {
+          if (item.title === '' || !item.start_date || !item.end_date) {
+            removeProject(item.claim_id, item.id);
+          }
+        });
+        setTechnicalStep(result);
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
-        addProjectsDetails(data.documents);
+        addProjectsDetails(result.documents);
       });
     }
   }, [activeClaimId]);
@@ -49,17 +57,20 @@ const StepTechnical = () => {
   const customRequest = (e) => {
     setLoading(true);
     const form = {
-      documents: [e.file],
+      main_document: e.file,
     };
     setNewProject(activeClaimId, form).then((data) => {
-      setLoading(false);
-      setModalVisible(true);
-      setNewProjectId(data.id);
+      // setLoading(false);
+      // setModalVisible(true);
+      // setNewProjectId(data.id);
       const { addProjectsDetails } = bindActionCreators(actions, dispatch);
       const res = { ...technicalStep };
       res.documents.push(data);
       addProjectsDetails(res.documents);
-      setTechnicalStep(res);
+      // setTechnicalStep(res);
+      setTimeout(() => {
+        history.push(`/project/${activeClaimId}/${data.id}`);
+      }, 150);
     });
     e.onSuccess('ok');
   };
@@ -99,7 +110,15 @@ const StepTechnical = () => {
         ) : (
           <div className="technical__scroll">
             <div className="step-actions">
-              <Dragger
+              <button
+                className="technical__add-project_button"
+                onClick={() => {
+                  setModalVisible(true);
+                }}>
+                <img src={iconAddProject} alt="" />
+                <span>Add a Project</span>
+              </button>
+              {/* <Dragger
                 name="file"
                 customRequest={customRequest}
                 accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -109,15 +128,10 @@ const StepTechnical = () => {
                   <Spin indicator={antIcon} />
                 </div>
                 <div className="upload-title">
-                  <img src={iconUpload} alt="" />
+                  <img src={iconAddProject} alt="" />
                   <span>Add a Project</span>
                 </div>
-
-                <div className="upload-status">
-                  <img src={iconUploadRed} alt="" />
-                  <span>Not uploaded</span>
-                </div>
-              </Dragger>
+              </Dragger> */}
               {technicalStep.documents.map((item, index) => (
                 <Project
                   key={`technical-project-${item.id}`}
@@ -169,28 +183,32 @@ const StepTechnical = () => {
         footer={false}
         title={false}
         closeIcon={<CloseIconModal />}>
-        <h2>You uploaded List of pojects</h2>
-        <div className="technical__modal_file">
-          <img src={iconPdf} alt="file" />
-          <span>List of projects</span>
-        </div>
+        <h2>Create your first project</h2>
         <div className="technical__modal_description">
-          <p>Upload project information using our online project information tool. </p>
+          <p>Upload project information using our online tool. </p>
           <p>
-            Alternatively, if you have existing information, please click below to upload a pdf or word document for
-            your consultant to review.
+            Alternatively, you can upload <br />a pdf or word document for your consultant to review.
           </p>
         </div>
         <div className="technical__modal_actions">
-          <Button type="button" onClick={uploadInformation}>
-            Add your First Project
-          </Button>
+          <Dragger
+            name="file"
+            customRequest={customRequest}
+            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            className={`upload-file ${loading ? 'loading' : ''}`}
+            showUploadList={false}>
+            <Button type="button" loading={loading}>
+              <img src={iconFile} alt="" />
+              <span>Add file</span>
+            </Button>
+          </Dragger>
           <Button
             type="primary"
             onClick={() => {
+              history.push(`/project/${activeClaimId}`);
               setModalVisible(false);
             }}>
-            Upload Information
+            Add your First Project
           </Button>
         </div>
       </Modal>
@@ -218,7 +236,13 @@ const StepTechnical = () => {
         visible={detailsShow}
         className="active-claims__step_drawer">
         <div className="drawer-technical-dragger">
-          <Dragger
+          <button>
+            <div className="upload-title">
+              <img src={iconAddProject} alt="" />
+              <span>Add a Project</span>
+            </div>
+          </button>
+          {/* <Dragger
             name="file"
             customRequest={customRequest}
             accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -227,16 +251,7 @@ const StepTechnical = () => {
             <div className="upload-loading">
               <Spin indicator={antIcon} />
             </div>
-            <div className="upload-title">
-              <img src={iconUpload} alt="" />
-              <span>Add a Project</span>
-            </div>
-
-            <div className="upload-status">
-              <img src={iconUploadRed} alt="" />
-              <span>Not uploaded</span>
-            </div>
-          </Dragger>
+          </Dragger> */}
         </div>
         <div className="step-actions">
           {technicalStep?.documents.map((item, index) => {

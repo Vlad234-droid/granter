@@ -126,9 +126,21 @@
 
 .step-project {
   .step-file--title {
+    img {
+      width: 20px;
+    }
     .ant-btn-link {
       height: auto;
+      overflow: hidden;
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
+  }
+  .step-file--status {
+    margin-top: 8px !important;
   }
   .ant-collapse {
     // border: none;
@@ -185,6 +197,7 @@
         }
         img {
           margin-right: 8px;
+          width: 16px;
         }
       }
       .step-file--status {
