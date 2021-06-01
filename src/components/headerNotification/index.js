@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,8 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
+
+  console.log('count', count);
 
   useEffect(() => {
     if (company) {
@@ -41,13 +43,15 @@ const HeaderNotification = () => {
   }, [notiData, dispatch]);
 
   const showDrawer = () => {
-    readNoti(company.id).then((data) => {
-      if (data.success) {
-        getNotificationsForUser(dispatch, company.id).then((data) => {
-          setNotiData(() => data);
-        });
-      }
-    });
+    if (!!count) {
+      readNoti(company.id).then((data) => {
+        if (data.success) {
+          getNotificationsForUser(dispatch, company.id).then((data) => {
+            setNotiData(() => data);
+          });
+        }
+      });
+    }
 
     if (!notiData.length) {
       dispatch(closeModalNotifications());
@@ -96,6 +100,11 @@ const HeaderNotification = () => {
     return convertDate(date);
   };
 
+  const checkForLinkTo = useCallback((item) => {
+    //`/document/${item.claim_id}/${item.document_id}/`
+    ///project/${claimId}/${projectId} (
+  }, []);
+
   return (
     <div className="header__notification">
       <button onClick={showDrawer}>
@@ -141,9 +150,9 @@ const HeaderNotification = () => {
                     </div>
                     <div className="details_container">
                       <div className="item_li">{item.title}</div>
-                      {item.title !== 'Document was removed' ? (
+                      {item.claim_id !== null ? (
                         <Link
-                          to={`/document/${item.claim_id}/${item.document_id}/`}
+                          to={() => checkForLinkTo(item)}
                           className="check_doc"
                           onClick={() => dispatch(closeModalNotifications())}>
                           Check document
