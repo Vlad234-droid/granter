@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getNotificationsForUser } from '../../core/services/getNotificationsForUser';
 import { IconNotificationsLength, IconNotificationsEmpty } from '../icons';
 import './style.scss';
@@ -17,8 +17,7 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
-
-  console.log('count', count);
+  const history = useHistory();
 
   useEffect(() => {
     if (company) {
@@ -40,7 +39,7 @@ const HeaderNotification = () => {
       setCount(() => count);
     }
     return () => setCount(() => '');
-  }, [notiData, dispatch]);
+  }, [notiData]);
 
   const showDrawer = () => {
     if (!!count) {
@@ -101,8 +100,12 @@ const HeaderNotification = () => {
   };
 
   const checkForLinkTo = useCallback((item) => {
-    //`/document/${item.claim_id}/${item.document_id}/`
-    ///project/${claimId}/${projectId} (
+    if (item.project_id === null) {
+      return `/document/${item.claim_id}/${item.document_id}/`;
+    }
+    if (item.document_id === null) {
+      return `/project/${item.claim_id}/${item.project_id}`;
+    }
   }, []);
 
   return (
