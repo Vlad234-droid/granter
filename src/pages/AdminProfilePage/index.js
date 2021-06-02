@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Skeleton, Input, Form, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
+
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
 import actions from '../../core/actions';
@@ -18,10 +20,13 @@ const ProfilePage = () => {
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
   const [profileForm] = Form.useForm();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
+    console.log('ID', id);
+
     fetchProfileData().then((data) => {
       setUserData(data);
       profileForm.setFieldsValue({
