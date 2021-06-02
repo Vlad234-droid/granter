@@ -60,27 +60,34 @@
   .ant-table-wrapper {
     .ant-table-tbody {
       tr {
-        .ant-table-cell .wrapper_progress {
-          background-color: red !important;
-        }
-      }
-
-      tr {
         .ant-table-cell.ant-table-column-sort {
           background-color: transparent !important;
         }
       }
+      tr {
+        td.ant-table-cell.td_progress {
+          .wrapper_progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
     }
     .ant-table-thead {
-      .ant-table-cell {
-        .ant-table-column-sorters {
-          font-family: Roboto !important;
-          font-style: normal !important;
-          font-weight: 500 !important;
-          font-size: 14px !important;
-          color: #3c4252 !important;
-          padding-left: 30px !important;
+      .ant-table-column-sorters {
+        padding: 0px;
+        span {
+          white-space: nowrap;
         }
+      }
+      .ant-table-cell {
+        font-family: Roboto !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        color: #3c4252 !important;
+        padding-left: 30px !important;
         background: rgba(192, 196, 203, 0.2);
       }
     }
@@ -112,8 +119,6 @@
       }
       .ant-pagination-options-quick-jumper {
         input {
-          //padding-left: 32px !important;
-          //padding-right: 32px !important;
           border: 1.7px solid #305ff5 !important;
           border-radius: 4px;
           color: #305ff5 !important;

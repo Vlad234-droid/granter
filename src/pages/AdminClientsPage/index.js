@@ -18,8 +18,15 @@ const dataSource = [
     dueDate: '5/19/20',
     perStages: (
       <div className="wrapper_progress">
-        <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
-        <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
+        <div>
+          <p>3% 1/5 Introduction</p>
+          <p>3% 1/5 Introduction</p>
+          <p>3% 1/5 Introduction</p>
+        </div>
+        <div>
+          <p>3% 1/5 Introduction</p>
+          <p>3% 1/5 Introduction</p>
+        </div>
       </div>
     ),
     value: '£100,000',
@@ -34,7 +41,12 @@ const dataSource = [
     activeClaim: 'link',
     yearend: '5/19/20',
     dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction',
+    perStages: (
+      <div className="wrapper_progress">
+        <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
+        <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
+      </div>
+    ),
     value: '£100,000',
     dateCompleted: '5/19/20',
   },
@@ -79,7 +91,6 @@ const dataColumns = [
     title: 'Progress % of stages',
     dataIndex: 'perStages',
     key: 'perStages',
-    render: (text) => <h1>{text}</h1>,
   },
   {
     title: 'Projected value',
@@ -137,6 +148,7 @@ const AdminClientsPage = () => {
       title: 'Progress % of stages',
       dataIndex: 'perStages',
       key: 'perStages',
+      className: 'td_progress',
     },
     {
       title: 'Projected value',
