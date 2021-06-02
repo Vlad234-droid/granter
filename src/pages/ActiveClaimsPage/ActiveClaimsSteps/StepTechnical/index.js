@@ -10,6 +10,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../../core/services';
 
 import Project from '../../../../components/Project';
+import CommonModalShadule from '../CommonModalShadule';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
@@ -30,6 +31,7 @@ const StepTechnical = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
@@ -142,10 +144,38 @@ const StepTechnical = () => {
             </div>
             <div className="step-status">
               {technicalStep.call_date === null && (
-                <button className="step-status--call-schedule">
-                  <img src={iconCalendar} alt="" />
-                  <span>Schedule a call</span>
-                </button>
+                <>
+                  <button
+                    className={`step-status--call-schedule ${technicalStep.documents.length === 0 ? 'disabled' : ''}`}
+                    onClick={() => {
+                      if (technicalStep.documents.length === 0) return;
+                      setIsVisibleModalSheduleCall((prev) => !prev);
+                    }}>
+                    <img src={iconCalendar} alt="" />
+                    <span>Schedule a call</span>
+                    {technicalStep.documents.length === 0 && (
+                      <Tooltip
+                        title="Please, upload documents 
+                      to be able to schedule this call. 
+                      Or contact our support">
+                        <span className="warning">
+                          <IconWarning />
+                        </span>
+                      </Tooltip>
+                    )}
+                  </button>
+                  <CommonModalShadule
+                    isVisibleModalSheduleCall={isVisibleModalSheduleCall}
+                    setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
+                    <ul className="list_shedule_intro">
+                      <li>1. Introduction often takes about one hour.</li>
+                      <li>
+                        2. We want to understand the type of work you have undertaken during the relevant period(s).
+                      </li>
+                      <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                    </ul>
+                  </CommonModalShadule>
+                </>
               )}
               {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>

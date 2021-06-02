@@ -87,12 +87,25 @@ const StepIntroduction = () => {
             {introductionStep.call_date === null && (
               <>
                 <button
-                  className="step-status--call-schedule"
+                  className={`step-status--call-schedule ${
+                    introductionStep.documents.filter((item) => item.status === 1).length === 3 ? 'disabled' : ''
+                  }`}
                   onClick={() => {
+                    if (introductionStep.documents.filter((item) => item.status === 1).length === 3) return;
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
                   <img src={iconCalendar} alt="" />
                   <span>Schedule a call</span>
+                  {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
+                    <Tooltip
+                      title="Please, upload documents 
+                    to be able to schedule this call. 
+                    Or contact our support">
+                      <span className="warning">
+                        <IconWarning />
+                      </span>
+                    </Tooltip>
+                  )}
                 </button>
                 <CommonModalShadule
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}

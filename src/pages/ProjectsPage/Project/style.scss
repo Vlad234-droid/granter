@@ -5,6 +5,7 @@
       width: 730px;
       flex-shrink: 0;
       position: relative;
+      padding-top: 56px;
       .removed-message {
         position: absolute;
         top: 0;
@@ -63,6 +64,15 @@
         box-shadow: 0px 4px 10px rgba(17, 51, 103, 0.1);
         border-radius: 10px;
         position: relative;
+        transition: background-color 300ms ease;
+        &.red {
+          background-color: rgba(246, 87, 71, 0.15);
+          input,
+          textarea,
+          .ant-select-selector {
+            background-color: rgba(246, 87, 71, 0);
+          }
+        }
         &.removed {
           opacity: 0;
           visibility: hidden;
