@@ -38,7 +38,6 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Im here');
     const { userCompaniesLoaded } = bindActionCreators(actions, dispatch);
     userCompaniesLoaded(companiesList);
   }, [companiesList]);

@@ -20,7 +20,6 @@ const WelcomeStep2 = ({ goNextStep, goPrevStep }) => {
   }, []);
 
   useEffect(() => {
-    console.log(state);
     if (!state.industry.length) slider.current.next();
   }, [state.industry]);
 

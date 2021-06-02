@@ -15,7 +15,6 @@ const ResetPasswordPage = (props) => {
     setLoader(true);
     fetchResetPassword(values.email)
       .then((data) => {
-        console.log(data);
         notification.success({
           description: 'Check your mail',
         });

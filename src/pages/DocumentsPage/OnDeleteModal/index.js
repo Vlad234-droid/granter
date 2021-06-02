@@ -8,10 +8,6 @@ import iconPdf from '../../../assets/img/icon-pdf.svg';
 import './style.scss';
 
 const OnDeleteModal = ({ visible, onClose, deleteList, onDeleteFile }) => {
-  useEffect(() => {
-    console.log('deleteList', deleteList);
-  }, [deleteList]);
-
   const onDeleteList = () => {
     deleteList.forEach((item) => {
       if (!item.has_unresolved_comments) {

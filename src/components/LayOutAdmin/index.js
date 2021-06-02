@@ -17,7 +17,6 @@ const LayOutAdmin = ({ children }) => {
 
     return () => setActiveLink(() => '');
   }, [pathname]);
-  console.log(activeLink);
 
   const config = [
     {
