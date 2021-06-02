@@ -1,9 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Route, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { fetchUserData } from "../services/";
+import { fetchUserData } from '../services/';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch();
@@ -11,14 +11,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     fetchUserData(dispatch);
   }
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        rest.isloggedIn ? <Component /> : <Redirect to='/sign-in/' />
-      }
-    />
-  );
+  return <Route {...rest} render={(props) => (rest.isloggedIn ? <Component /> : <Redirect to="/sign-in/" />)} />;
 };
 
 const mapStateToProps = (state) => {

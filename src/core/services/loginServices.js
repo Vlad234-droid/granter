@@ -4,9 +4,14 @@ import lockr from 'lockr';
 import { bindActionCreators } from 'redux';
 import { notification } from 'antd';
 
+import { fetchUserData } from './userServices';
+import store from '../../store';
+
 import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
+
+const { dispatch } = store;
 
 const fetchLogin = (dispatch, loginData, history) => {
   const { loginLoaded } = bindActionCreators(actions, dispatch);
@@ -40,10 +45,16 @@ const fetchLogin = (dispatch, loginData, history) => {
         lockr.set('auth-key', data.data.token);
         lockr.set('session-token-expiry', authDate);
         loginLoaded(true);
-        setTimeout(() => {
-          history.push('/active-claims/');
-        }, 10);
-        resolve(data.data);
+        fetchUserData(dispatch).then((data) => {
+          if (data.role_id === 1) {
+            history.push('/admin/clients');
+            resolve(data.data);
+          }
+          if (data.role_id === 2) {
+            history.push('/active-claims/');
+            resolve(data.data);
+          }
+        });
       })
       .catch(() => {
         reject();
