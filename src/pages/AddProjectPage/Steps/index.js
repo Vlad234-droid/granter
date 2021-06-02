@@ -1,33 +1,33 @@
-import React, { useState, useRef } from "react";
-import { Carousel, Steps } from "antd";
+import React, { useState, useRef } from 'react';
+import { Carousel, Steps } from 'antd';
 
-import WelcomeStep1 from "./Step1";
-import WelcomeStep2 from "./Step2";
-import WelcomeStep3 from "./Step3";
+import WelcomeStep1 from './Step1';
+import WelcomeStep2 from './Step2';
+import WelcomeStep3 from './Step3';
 
-import "./style.scss";
+import './style.scss';
 
 const { Step } = Steps;
 
-const WelcomeSteps = ({ goNextStep }) => {
+const WelcomeSteps = ({ goNextStep, setMinPrice, setMaxPrice }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const slider = useRef();
 
   const contentStyle = {
-    height: "160px",
-    color: "#364d79",
-    lineHeight: "160px",
-    textAlign: "center",
-    border: "1px solid #364d79",
+    height: '160px',
+    color: '#364d79',
+    lineHeight: '160px',
+    textAlign: 'center',
+    border: '1px solid #364d79',
   };
 
   return (
     <>
-      <div className='hello-page__steps'>
+      <div className="hello-page__steps">
         <Steps current={currentStep}>
-          <Step title='Company' />
-          <Step title='Industry' />
-          <Step title='Numbers' />
+          <Step title="Company" />
+          <Step title="Industry" />
+          <Step title="Numbers" />
         </Steps>
       </div>
 
@@ -35,10 +35,9 @@ const WelcomeSteps = ({ goNextStep }) => {
         ref={slider}
         swipe={false}
         dots={false}
-        easing='ease-in-out'
-        effect='fade'
-        className='hello-page__steps_slider'
-      >
+        easing="ease-in-out"
+        effect="fade"
+        className="hello-page__steps_slider">
         <div>
           <WelcomeStep1
             goNextStep={() => {
@@ -66,6 +65,8 @@ const WelcomeSteps = ({ goNextStep }) => {
           <div>
             {currentStep === 2 && (
               <WelcomeStep3
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
                 goNextStep={() => {
                   goNextStep();
                 }}

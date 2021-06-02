@@ -9,6 +9,8 @@ import './style.scss';
 
 const AddProjectPage = () => {
   const slider = useRef();
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
   return (
     <Layout isLogged={false} className="dashboard">
       <div className="add-project">
@@ -29,6 +31,8 @@ const AddProjectPage = () => {
             className="hello-page__steps_slider">
             <div>
               <Steps
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
                 goNextStep={() => {
                   slider.current.next();
                 }}
@@ -36,6 +40,8 @@ const AddProjectPage = () => {
             </div>
             <div>
               <Сonfirm
+                minPrice={minPrice}
+                maxPrice={maxPrice}
                 goNextStep={() => {
                   slider.current.next();
                 }}

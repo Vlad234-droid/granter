@@ -1,34 +1,51 @@
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Form, Button, Input, Row, Col } from 'antd';
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../../../core/actions';
-import { getEstimate } from '../../../../core/services/getEstimate';
 
 import './style.scss';
 
-const WelcomeStep3 = ({ goNextStep, goPrevStep }) => {
+const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
+  const hight = useRef({
+    hightPersent: '',
+  });
   const dispatch = useDispatch();
   const { industry } = useSelector((state) => state?.registration);
   const { registrationUpdateState, registrationChangeEstimate } = bindActionCreators(actions, dispatch);
 
-  const Ids = useMemo(() => {
-    const filterId = industry[0]?.id;
-    const idArr = [];
-    if (filterId !== null) idArr.push(filterId);
-    return idArr;
-  }, [industry]);
+  const checkForHighestPercent = () => {
+    const check = industry.map((item) => {
+      if (item.percent >= 0) {
+        return item.percent;
+      }
+    });
+    if (Math.max(...check) > 0) {
+      hight.current.hightPersent = Math.max(...check);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const setToBenefitPriceHandler = (values) => {
+    const { staffing_costs, materials_costs, subcontracting_costs, software_costs } = values;
+
+    const estimated_benefit =
+      (Number(staffing_costs) + Number(materials_costs) + Number(subcontracting_costs) + Number(software_costs)) *
+      0.25 *
+      (Number(hight.current.hightPersent) / 100);
+    setMinPrice(() => Math.floor(estimated_benefit * 0.8));
+    setMaxPrice(() => Math.floor(estimated_benefit * 1.2));
+  };
 
   const onFinishName = (values) => {
     registrationUpdateState(values);
-    if (!!industry[0]?.percent) {
-      getEstimate(Ids, values).then((res) => {
-        if (res.ok) {
-          registrationChangeEstimate('estimate');
-        }
-      });
-    } else {
+    if (checkForHighestPercent()) {
+      setToBenefitPriceHandler(values);
       registrationChangeEstimate('benefit');
+    } else {
+      registrationChangeEstimate('estimate');
     }
     goNextStep();
   };

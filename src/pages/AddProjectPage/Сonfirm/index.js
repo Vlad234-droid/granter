@@ -11,7 +11,7 @@ import './style.scss';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
-const Сonfirm = ({ goPrevStep, goNextStep }) => {
+const Сonfirm = ({ goPrevStep, maxPrice, minPrice }) => {
   const [loader, setLoader] = useState(false);
   const state = useSelector((state) => state.registration);
   let history = useHistory();
@@ -49,7 +49,7 @@ const Сonfirm = ({ goPrevStep, goNextStep }) => {
       return (
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
-          <h2>£2,000 - £5,000 </h2>
+          <h2>{`£${minPrice} - £${maxPrice}`}</h2>
           <div className="block_info_img">
             <h5>YoY Change:</h5>
             <UpVector />
@@ -60,7 +60,7 @@ const Сonfirm = ({ goPrevStep, goNextStep }) => {
     } else if (showEstimate === 'estimate') {
       return <BenefitModal state={state} isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
     }
-  }, [isModalBenefit, setIsModalBenefit]);
+  }, [isModalBenefit, setIsModalBenefit, showEstimate]);
 
   return (
     <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>

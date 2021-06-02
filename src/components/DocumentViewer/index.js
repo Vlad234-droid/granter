@@ -6,6 +6,7 @@ const DocumentViewer = ({ url }) => {
   const [src, setSrc] = useState('');
 
   useEffect(() => {
+    // cgheck
     if (url.match(/\.[0-9a-z]+$/i)[0] === '.pdf') {
       setSrc(url);
     } else {

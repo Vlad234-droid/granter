@@ -9,7 +9,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
-const Сonfirm = ({ goNextStep, goPrevStep }) => {
+const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
   const state = useSelector((state) => state.registration);
   const [isModalBenefit, setIsModalBenefit] = useState(false);
   const { showEstimate } = useSelector((state) => state.registration);
@@ -25,7 +25,7 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
       return (
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
-          <h2>£2,000 - £5,000 </h2>
+          <h2>{`£${minPrice} - £${maxPrice}`}</h2>
           <div className="block_info_img">
             <h5>YoY Change:</h5>
             <UpVector />
@@ -43,7 +43,7 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
         />
       );
     }
-  }, [isModalBenefit, setIsModalBenefit]);
+  }, [isModalBenefit, setIsModalBenefit, showEstimate]);
 
   if (state.showEstimate === null)
     return (
@@ -59,7 +59,8 @@ const Сonfirm = ({ goNextStep, goPrevStep }) => {
         Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
         with you in the future.
       </div>
-      {checkorForRenderBenefitModal()}
+
+      {showEstimate !== null && checkorForRenderBenefitModal()}
 
       <div className="welcome__comfirm_info">
         <Row gutter={24}>
