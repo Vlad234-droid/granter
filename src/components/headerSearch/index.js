@@ -29,7 +29,8 @@ const HeaderSearch = () => {
       <AutoComplete
         dropdownClassName="header__search-dropdown"
         options={options}
-        onSelect={(options) => console.log('selected', options)}>
+        //onSelect={(options) => console.log('selected', options)}
+      >
         <Input size="large" placeholder="Type to search for documents or claims..." />
       </AutoComplete>
     </div>

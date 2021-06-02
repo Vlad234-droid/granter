@@ -42,7 +42,6 @@ const CreatePasswordPage = (props) => {
       setLoader(false);
       history.push('/sign-in/');
     });
-    console.log('email', email);
   };
 
   const changeCallback = (score, password, isValid) => {

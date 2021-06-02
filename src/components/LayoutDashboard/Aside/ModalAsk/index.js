@@ -19,7 +19,7 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
     },
   };
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    //console.log('Received values of form: ', values);
   };
   const onAskSelectionChange = useCallback(
     (e) => {

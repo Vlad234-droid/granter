@@ -58,22 +58,36 @@
     }
   }
   .ant-table-wrapper {
-    .ant-table-cell.ant-table-column-has-sorters {
-      .ant-table-column-sorters {
-        font-family: Roboto !important;
-        font-style: normal !important;
-        font-weight: 500 !important;
-        font-size: 14px !important;
-        color: #3c4252 !important;
-        padding-left: 30px !important;
+    .ant-table-tbody {
+      tr {
+        .ant-table-cell .wrapper_progress {
+          background-color: red !important;
+        }
       }
-      background: rgba(192, 196, 203, 0.2) !important;
+
+      tr {
+        .ant-table-cell.ant-table-column-sort {
+          background-color: transparent !important;
+        }
+      }
     }
+    .ant-table-thead {
+      .ant-table-cell {
+        .ant-table-column-sorters {
+          font-family: Roboto !important;
+          font-style: normal !important;
+          font-weight: 500 !important;
+          font-size: 14px !important;
+          color: #3c4252 !important;
+          padding-left: 30px !important;
+        }
+        background: rgba(192, 196, 203, 0.2);
+      }
+    }
+
     .ant-table-row.ant-table-row-level-0 {
       .ant-table-cell {
         vertical-align: text-top !important;
-        //padding-top: 20px !important;
-        //padding-bottom: 60px !important;
         padding-left: 30px !important;
       }
       &:nth-child(even) {

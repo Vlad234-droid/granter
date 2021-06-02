@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Table, Form } from 'antd';
 import './style.scss';
 import { ColumnVisibilitySVG } from '../../components/icons';
 import LayOutAdmin from '../../components/LayOutAdmin';
 import { Menu, Dropdown, Checkbox } from 'antd';
-import { forEach } from 'underscore';
+import { searchService } from '../../core/adminServices/getAllClients';
 
 const dataSource = [
   {
@@ -16,7 +16,12 @@ const dataSource = [
     activeClaim: 'link',
     yearend: '5/19/20',
     dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
+    perStages: (
+      <div className="wrapper_progress">
+        <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
+        <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
+      </div>
+    ),
     value: '£100,000',
     dateCompleted: '5/19/20',
   },
@@ -29,228 +34,7 @@ const dataSource = [
     activeClaim: 'link',
     yearend: '5/19/20',
     dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '3',
-    name: 'Dima',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '4',
-    name: 'Kris',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '5',
-    name: 'Anna',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '6',
-    name: 'Oksana',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '7',
-    name: 'Lexa',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '8',
-    name: 'Misha',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '9',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '11',
-    name: 'Sofi',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '12',
-    name: 'Vlad',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '13',
-    name: 'Sergey',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '14',
-    name: 'Dima',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '15',
-    name: 'Kris',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '16',
-    name: 'Anna',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '17',
-    name: 'Oksana',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '18',
-    name: 'Lexa',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '19',
-    name: 'Misha',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '20',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: '3% 1/5 Introduction',
+    perStages: '3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction',
     value: '£100,000',
     dateCompleted: '5/19/20',
   },
@@ -276,7 +60,6 @@ const dataColumns = [
     title: 'Active claim',
     dataIndex: 'activeClaim',
     key: 'activeClaim',
-    sorter: {},
     render: (text) => <a>{text}</a>,
     disabled: true,
   },
@@ -296,7 +79,7 @@ const dataColumns = [
     title: 'Progress % of stages',
     dataIndex: 'perStages',
     key: 'perStages',
-    sorter: {},
+    render: (text) => <h1>{text}</h1>,
   },
   {
     title: 'Projected value',
@@ -313,6 +96,8 @@ const dataColumns = [
 ];
 
 const AdminClientsPage = () => {
+  const [visible, setVisible] = useState(false);
+  const [clients, setClients] = useState([]);
   const [columns, setColumns] = useState([
     {
       title: 'Client name',
@@ -334,7 +119,6 @@ const AdminClientsPage = () => {
       dataIndex: 'activeClaim',
       key: 'activeClaim',
       sorter: {},
-      render: (text) => <a>{text}</a>,
       disabled: true,
     },
     {
@@ -353,7 +137,6 @@ const AdminClientsPage = () => {
       title: 'Progress % of stages',
       dataIndex: 'perStages',
       key: 'perStages',
-      sorter: {},
     },
     {
       title: 'Projected value',
@@ -383,8 +166,6 @@ const AdminClientsPage = () => {
     [],
   );
 
-  console.log('defaultCheckedList', defaultCheckedList);
-
   const onChange = (pagination, filters, sorter, extra) => {
     //console.log('params', pagination, filters, sorter, extra);
   };
@@ -394,6 +175,16 @@ const AdminClientsPage = () => {
     setColumns(() => res);
   };
 
+  const onVisibleChange = (flag) => {
+    setVisible(() => flag);
+  };
+
+  useEffect(() => {
+    searchService().then((data) => setClients(() => data));
+  }, []);
+
+  console.log('clients', clients);
+
   return (
     <LayOutAdmin>
       <div className="table_wrapper">
@@ -401,6 +192,9 @@ const AdminClientsPage = () => {
           <button className="btn_filter">
             <ColumnVisibilitySVG />
             <Dropdown
+              visible={visible}
+              onVisibleChange={onVisibleChange}
+              trigger={['click']}
               arrow={false}
               getPopupContainer={() => document.getElementById('drop_down_filter')}
               overlay={
@@ -458,7 +252,3 @@ const AdminClientsPage = () => {
   );
 };
 export default AdminClientsPage;
-
-//<Menu>
-//  <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChangeBox} />
-//</Menu>;

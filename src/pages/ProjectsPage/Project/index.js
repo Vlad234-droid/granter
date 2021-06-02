@@ -25,8 +25,6 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('project', project);
-
     if (project.status) setStatus(status);
   }, [project]);
 
@@ -126,8 +124,6 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
             trigger="click"
             visible={onRemoveDropdown}
             onVisibleChange={(visible) => {
-              console.log('visible', visible);
-
               if (!visible) {
                 setOnRemoveDropdown(false);
                 setIsRed(false);

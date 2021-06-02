@@ -76,8 +76,6 @@ const ProjectsPage = () => {
   var getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
 
   const addProject = (project) => {
-    console.log('FORM', project['start-months']);
-
     const data = {
       title: project.title,
       objectives: project.objectives,
@@ -105,7 +103,6 @@ const ProjectsPage = () => {
       });
       data.documents = docs;
     }
-    console.log('DATA', data);
 
     if (currentProject.id) {
       editProject(climeId, currentProject.id, data).then(() => {

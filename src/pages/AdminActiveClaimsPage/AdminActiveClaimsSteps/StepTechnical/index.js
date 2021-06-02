@@ -36,7 +36,6 @@ const StepTechnical = () => {
       setTechnicalStep(null);
       getTechnicalClaimStep(activeClaimId).then((data) => {
         const claim = { ...data };
-        console.log('claim', claim);
 
         const result = data.documents.map((item) => {
           if (item.title === '' || !item.start_date || !item.end_date) {
