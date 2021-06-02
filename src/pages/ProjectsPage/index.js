@@ -48,10 +48,10 @@ const ProjectsPage = () => {
     } else {
       setCurrentProject({});
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    console.log('currentProject', currentProject);
+    if (currentProject) initialValue();
   }, [currentProject]);
 
   const customRequest = (e) => {
@@ -70,19 +70,27 @@ const ProjectsPage = () => {
 
   const onFinish = (formValues) => {
     setLoader(true);
-    console.log('formValues', formValues);
     addProject(formValues);
   };
 
   var getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
 
   const addProject = (project) => {
+    console.log('FORM', project['start-months']);
+
     const data = {
       title: project.title,
       objectives: project.objectives,
       challanges: project.challenges,
     };
-    if (project['start-months'] && project['start-year'] && project['end-months'] && project['end-year']) {
+    console.log(
+      'SCOOTEROK',
+      project['start-months'],
+      project['start-year'],
+      project['end-months'],
+      project['end-year'],
+    );
+    if (project['start-months'] >= 0 && project['start-year'] && project['end-months'] >= 0 && project['end-year']) {
       data.start_date = Date.parse(`${project['start-months'] + 1}/01/${project['start-year']}`);
       data.end_date = Date.parse(
         `${project['end-months'] + 1}/${getDaysInMonth(project['end-months'] + 1, project['end-year'])}/${
@@ -97,8 +105,10 @@ const ProjectsPage = () => {
       });
       data.documents = docs;
     }
-    if (id) {
-      editProject(climeId, project.id, data).then(() => {
+    console.log('DATA', data);
+
+    if (currentProject.id) {
+      editProject(climeId, currentProject.id, data).then(() => {
         notification.success({
           description: 'Project was updated successfully',
         });
@@ -118,28 +128,28 @@ const ProjectsPage = () => {
     let result = {};
     if (currentProject) {
       result = {
-        challenges: currentProject.challanges,
-        documents: currentProject.documents,
-        id: currentProject.id,
-        objectives: currentProject.objectives,
-        status: currentProject.status,
-        title: currentProject.title,
+        challenges: currentProject?.challanges,
+        documents: currentProject?.documents,
+        id: currentProject?.id,
+        objectives: currentProject?.objectives,
+        status: currentProject?.status,
+        title: currentProject?.title,
       };
     }
+    result['start-months'] = currentProject?.start_date
+      ? new Date(Number(currentProject?.start_date)).getMonth()
+      : null;
+    result['start-year'] = currentProject?.start_date
+      ? new Date(Number(currentProject?.start_date)).getFullYear()
+      : null;
+    result['end-months'] = currentProject?.end_date ? new Date(Number(currentProject?.end_date)).getMonth() : null;
+    result['end-year'] = currentProject?.end_date ? new Date(Number(currentProject?.end_date)).getFullYear() : null;
 
-    if (currentProject.start_date && currentProject.end_date) {
-      result['start-months'] = new Date(Number(currentProject.start_date)).getMonth();
-      result['start-year'] = new Date(Number(currentProject.start_date)).getFullYear();
-      result['end-months'] = new Date(Number(currentProject.end_date)).getMonth();
-      result['end-year'] = new Date(Number(currentProject.end_date)).getFullYear();
-    }
-    return result;
+    form.setFieldsValue(result);
   };
 
   const onBack = () => {
-    console.log(currentProject.title?.length, currentProject.start_date, currentProject.end_date);
-
-    if (!currentProject.title?.length || !currentProject.start_date || !currentProject.end_date) {
+    if (!isRemoved && (!currentProject.title?.length || !currentProject.start_date || !currentProject.end_date)) {
       setModalVisible(true);
     } else {
       history.push('/active-claims/');
@@ -150,7 +160,7 @@ const ProjectsPage = () => {
     <div className="projects">
       <header>
         <div className="projects__header_wrapper">
-          <Button type="link" to="/active-claims/" onClick={onBack} className="header--back">
+          <Button type="link" onClick={onBack} className="header--back">
             <img src={iconBack} alt="" />
             <span>To Dashboard</span>
           </Button>
@@ -161,13 +171,7 @@ const ProjectsPage = () => {
           {!currentProject ? (
             <Skeleton active />
           ) : (
-            <Form
-              name="dynamic_form_item"
-              layout="vertical"
-              form={form}
-              initialValues={initialValue()}
-              requiredMark={false}
-              onFinish={onFinish}>
+            <Form name="dynamic_form_item" layout="vertical" form={form} requiredMark={false} onFinish={onFinish}>
               <Project
                 onRemove={() => {
                   setIsRemoved(true);
@@ -175,6 +179,7 @@ const ProjectsPage = () => {
                 }}
                 isRemoved={isRemoved}
                 form={form}
+                project={currentProject}
               />
               <div className="project__form_submit-external" style={{ marginTop: formLength ? 0 : 56 }}>
                 {isRemoved ? (
@@ -184,7 +189,7 @@ const ProjectsPage = () => {
                       setIsRemoved(false);
                       history.push(`/project/${climeId}`);
                     }}>
-                    Add Project to Dashboard
+                    Add Project
                   </Button>
                 ) : (
                   <Form.Item>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Select, Button, Input, Upload } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Form, Select, Button, Input, Upload, Dropdown } from 'antd';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { IconDeleteFile } from '../../../components/icons';
 import { removeProject, addDocumentToProject, removeDocumentFromProject } from '../../../core/services';
@@ -16,15 +16,19 @@ import reactDomTestUtilsProductionMin from 'react-dom/cjs/react-dom-test-utils.p
 const { Option } = Select;
 const { Dragger } = Upload;
 
-const Project = ({ form, onRemove, isRemoved }) => {
+const Project = ({ form, project, onRemove, isRemoved }) => {
   const [status, setStatus] = useState(null);
+  const [isRed, setIsRed] = useState(false);
+  const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { climeId } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
-    const status = form.getFieldsValue().status;
-    setStatus(status);
-    console.log(form);
-  }, []);
+    console.log('project', project);
+
+    if (project.status) setStatus(status);
+  }, [project]);
 
   const customRequest = (e) => {
     const id = form.getFieldsValue().id;
@@ -46,31 +50,35 @@ const Project = ({ form, onRemove, isRemoved }) => {
   };
 
   const onDeleteProject = () => {
-    onRemove();
-    setStatus(null);
-    form.setFieldsValue({
-      challenges: null,
-      documents: [],
-      id: null,
-      objectives: null,
-      status: null,
-      title: null,
-      'start-months': null,
-      'start-year': null,
-      'end-months': null,
-      'end-year': null,
-      status: null,
-    });
-    // const id = form.getFieldsValue().id;
-    // if (id) {
-    //   removeProject(climeId, id)
-    //     .then((data) => {
-    //       setLoaderOnRemove(false);
-    //     })
-    //     .catch((error) => {
-    //       setLoaderOnRemove(false);
-    //     });
-    // }
+    const id = form.getFieldsValue().id;
+    if (id) {
+      setLoading(true);
+      removeProject(climeId, id)
+        .then((data) => {
+          onRemove();
+          setIsRed(false);
+          setStatus(null);
+          history.push(`/project/${climeId}`);
+          setOnRemoveDropdown(false);
+          form.setFieldsValue({
+            challenges: null,
+            documents: [],
+            id: null,
+            objectives: null,
+            status: null,
+            title: null,
+            'start-months': null,
+            'start-year': null,
+            'end-months': null,
+            'end-year': null,
+            status: null,
+          });
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
   };
 
   const onRemoveDocument = (file) => {
@@ -105,25 +113,66 @@ const Project = ({ form, onRemove, isRemoved }) => {
   return (
     <div className="project">
       <div className="project__forms">
-        <h1 style={{ visibility: form.getFieldValue('id') || isRemoved ? 'hidden' : 'visible' }}>New Project</h1>
+        {/* <h1 style={{ visibility: form.getFieldValue('id') || isRemoved ? 'hidden' : 'visible' }}>New Project</h1> */}
         {isRemoved && (
           <div className="removed-message">
             <img src={iconFile} alt="" />
             <span>There are no projects yet</span>
           </div>
         )}
-        <div className={`project__form ${isRemoved ? 'removed' : ''}`}>
-          <button
-            type="button"
-            className="project__form_remove"
-            style={{
-              display: !form.getFieldValue('id') || isRemoved ? 'none' : '',
+        <div className={`project__form ${isRemoved ? 'removed' : ''} ${isRed ? 'red' : ''}`}>
+          <Dropdown
+            placement="bottomRight"
+            trigger="click"
+            visible={onRemoveDropdown}
+            onVisibleChange={(visible) => {
+              console.log('visible', visible);
+
+              if (!visible) {
+                setOnRemoveDropdown(false);
+                setIsRed(false);
+              } else {
+                setIsRed(true);
+              }
             }}
-            onClick={() => {
-              onDeleteProject();
-            }}>
-            <IconDeleteFile />
-          </button>
+            overlay={
+              <div className="step-file--title-dropdown">
+                <div className="dropdown-title">Are you sure you want to delete this Document?</div>
+                <div className="dropdown-actions">
+                  <Button
+                    type="button"
+                    onClick={(e) => {
+                      setOnRemoveDropdown(false);
+                      setIsRed(false);
+                    }}>
+                    Back
+                  </Button>
+                  <Button type="primary" onClick={onDeleteProject} loading={loading}>
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            }>
+            {/* <button
+              className="step-file--remove-button"
+              onClick={() => {
+                setOnRemoveDropdown(true);
+              }}>
+              <IconDeleteFile />
+            </button> */}
+            <button
+              type="button"
+              className="project__form_remove"
+              style={{
+                display: !project.id || isRemoved ? 'none' : '',
+              }}
+              onClick={() => {
+                setOnRemoveDropdown(true);
+                //onDeleteProject();
+              }}>
+              <IconDeleteFile />
+            </button>
+          </Dropdown>
           <div className="project__form_inputs">
             <Form.Item
               label="Project Title"
@@ -282,9 +331,9 @@ const Project = ({ form, onRemove, isRemoved }) => {
           <Form.Item name="status" className="hidden">
             <Input hidden />
           </Form.Item>
-          {status && (
+          {project.status && (
             <div className="step-file--status">
-              <div className={`status ${statusName(status).class}`}>{statusName(status).name}</div>
+              <div className={`status ${statusName(project.status).class}`}>{statusName(project.status).name}</div>
             </div>
           )}
           <div className="project__docs_list">

@@ -162,7 +162,8 @@
     border: 1px solid #305ff5;
     box-sizing: border-box;
     border-radius: 10px;
-    padding: 12px;
+    height: 40px;
+    padding: 0 12px;
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
@@ -176,6 +177,19 @@
     cursor: pointer;
     img {
       margin-right: 12px;
+    }
+    .warning {
+      display: flex;
+      width: 24px;
+      height: 24px;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      .icon-warning {
+        .icon-fill {
+          fill: #305ff5;
+        }
+      }
     }
   }
 }
