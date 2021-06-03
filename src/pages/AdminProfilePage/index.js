@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Skeleton, Input, Form, Button } from 'antd';
 import { Link, useParams } from 'react-router-dom';
-
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
 import { getClient } from '../../core/adminServices';
-
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
 import actions from '../../core/actions';

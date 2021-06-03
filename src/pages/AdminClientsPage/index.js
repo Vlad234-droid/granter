@@ -111,18 +111,18 @@ const AdminClientsPage = () => {
   const [clients, setClients] = useState([]);
   const [columns, setColumns] = useState([
     {
+      title: 'Company',
+      dataIndex: 'company',
+      key: 'company',
+      sorter: {},
+      disabled: true,
+    },
+    {
       title: 'Client name',
       dataIndex: 'name',
       key: 'name',
       sorter: {},
       render: (text) => <a>{text}</a>,
-      disabled: true,
-    },
-    {
-      title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
-      sorter: {},
       disabled: true,
     },
     {
