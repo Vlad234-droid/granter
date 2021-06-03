@@ -14,7 +14,7 @@ const { REACT_APP_API_URL } = process.env;
 const { dispatch } = store;
 
 const fetchLogin = (dispatch, loginData, history) => {
-  const { loginLoaded } = bindActionCreators(actions, dispatch);
+  const { loginLoaded, setUserIsAdmin } = bindActionCreators(actions, dispatch);
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/login`, {
       method: 'POST',
@@ -47,6 +47,7 @@ const fetchLogin = (dispatch, loginData, history) => {
         loginLoaded(true);
         fetchUserData(dispatch).then((data) => {
           if (data.role_id === 1) {
+            setUserIsAdmin();
             history.push('/admin/clients');
             resolve(data.data);
           }

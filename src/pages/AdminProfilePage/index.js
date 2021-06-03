@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Skeleton, Input, Form, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
+import { getClient } from '../../core/adminServices';
+
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
 import actions from '../../core/actions';
@@ -18,10 +21,27 @@ const ProfilePage = () => {
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
   const [profileForm] = Form.useForm();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
+    getClient(id)
+      .then((data) => {
+        console.log('userData', data);
+        setUserData(data);
+        profileForm.setFieldsValue({
+          name: data.profile.name,
+          team_role: data.profile.team_role,
+          address: data.profile.address,
+          enable_notifications: data.profile.enable_notifications,
+          phone: data.profile.phone,
+        });
+      })
+      .catch((err) => {
+        console.log('UserError', err);
+      });
+
     fetchProfileData().then((data) => {
       setUserData(data);
       profileForm.setFieldsValue({
