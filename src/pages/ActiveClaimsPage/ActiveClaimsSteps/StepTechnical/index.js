@@ -4,15 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
-
 import { LoadingOutlined } from '@ant-design/icons';
-
 import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../../core/services';
-
 import Project from '../../../../components/Project';
 import CommonModalShadule from '../CommonModalShadule';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
-
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
 import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
@@ -37,6 +33,7 @@ const StepTechnical = () => {
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -72,6 +69,7 @@ const StepTechnical = () => {
       // setTechnicalStep(res);
       setTimeout(() => {
         history.push(`/project/${activeClaimId}/${data.id}`);
+        blurActiveSteps();
       }, 150);
     });
     e.onSuccess('ok');
@@ -97,6 +95,7 @@ const StepTechnical = () => {
         <h2
           onClick={() => {
             setDetailsShow(true);
+            blurActiveSteps();
           }}>
           <p>
             3<i>/</i>5 Technical
@@ -116,6 +115,7 @@ const StepTechnical = () => {
                 className="technical__add-project_button"
                 onClick={() => {
                   setModalVisible(true);
+                  blurActiveSteps();
                 }}>
                 <img src={iconAddProject} alt="" />
                 <span>Add a Project</span>
@@ -209,6 +209,7 @@ const StepTechnical = () => {
         width={700}
         onCancel={() => {
           setModalVisible(false);
+          blurActiveSteps();
         }}
         footer={false}
         title={false}
@@ -237,6 +238,7 @@ const StepTechnical = () => {
             onClick={() => {
               history.push(`/project/${activeClaimId}`);
               setModalVisible(false);
+              blurActiveSteps();
             }}>
             Add your First Project
           </Button>
@@ -246,7 +248,14 @@ const StepTechnical = () => {
       <Drawer
         title={
           <div className="ant-drawer-title-wripper">
-            <img src={arrowLeft} alt={arrowLeft} />
+            <img
+              src={arrowLeft}
+              alt={arrowLeft}
+              onClick={() => {
+                setDetailsShow(() => false);
+                blurActiveSteps();
+              }}
+            />
             <p>
               3<i>/</i>5 Technical
             </p>
@@ -262,6 +271,7 @@ const StepTechnical = () => {
         closable={false}
         onClose={() => {
           setDetailsShow(false);
+          blurActiveSteps();
         }}
         visible={detailsShow}
         className="active-claims__step_drawer">

@@ -6,6 +6,8 @@ export const initialState = {
   isVisibleModalDeleteDocs: false,
   isVisibleBlurSheduleCall: false,
   isVisibleActiveTechnical: false,
+  isVisibleActiveSteps: false,
+  isVisibleProjectPage: false,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
@@ -84,6 +86,16 @@ export const modalReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isVisibleActiveTechnical: false,
+      };
+    case 'BLUR_ACTIVE_STEPS':
+      return {
+        ...state,
+        isVisibleActiveSteps: !state.isVisibleActiveSteps,
+      };
+    case 'BLUR_ACTIVE_PR_PAGE':
+      return {
+        ...state,
+        isVisibleProjectPage: !state.isVisibleProjectPage,
       };
     default:
       return {

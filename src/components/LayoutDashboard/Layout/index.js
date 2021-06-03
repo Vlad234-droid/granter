@@ -13,6 +13,7 @@ const LayoutBoard = ({ children, className }) => {
     isVisibleNotifications,
     isVisibleBlurSheduleCall,
     isVisibleActiveTechnical,
+    isVisibleActiveSteps,
   } = useSelector((state) => state.modal);
 
   return (
@@ -24,7 +25,8 @@ const LayoutBoard = ({ children, className }) => {
           isVisibleNotifications ||
           isVisibleModalDeleteDocs ||
           isVisibleBlurSheduleCall ||
-          isVisibleActiveTechnical
+          isVisibleActiveTechnical ||
+          isVisibleActiveSteps
             ? 'blur(3px)'
             : 'blur(0px)',
       }}>

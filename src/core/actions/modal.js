@@ -59,6 +59,13 @@ const closeBlurActiveTechnicals = () => ({
   type: 'CLOSE_BLUR_ACTIVE_TECHNICALS',
 });
 
+const blurActiveSteps = () => ({
+  type: 'BLUR_ACTIVE_STEPS',
+});
+const blurActivePrPage = () => ({
+  type: 'BLUR_ACTIVE_PR_PAGE',
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -74,4 +81,6 @@ export {
   closeBlurSheduleCall,
   showBlurActiveTechnicals,
   closeBlurActiveTechnicals,
+  blurActiveSteps,
+  blurActivePrPage,
 };

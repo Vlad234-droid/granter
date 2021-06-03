@@ -2,21 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { Form, notification, Button, Modal, Skeleton, Upload } from 'antd';
-
 import { getTechnicalClaimStep, setNewProject, editProject, addDocumentToProject } from '../../core/services';
 import actions from '../../core/actions';
 import { CloseIconModal } from '../../components/icons';
 import Project from './Project';
-
 import iconBack from '../../assets/img/arrow-left.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
-
 import iconDownload from '../../assets/img/icon-download.svg';
 import iconUpload from '../../assets/img/icon-upload-blue.svg';
 import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
-
 import './style.scss';
 import DocumentViewer from '../../components/DocumentViewer';
 
@@ -29,10 +24,12 @@ const ProjectsPage = () => {
   const [isRemoved, setIsRemoved] = useState(false);
   const [formLength, setFormLength] = useState(1);
   const projectsList = useSelector((state) => state.projects.projectsList);
+  const { isVisibleProjectPage } = useSelector((state) => state.modal);
   const { climeId, id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = Form.useForm();
+  const { blurActivePrPage } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (id) {
@@ -148,13 +145,18 @@ const ProjectsPage = () => {
   const onBack = () => {
     if (!isRemoved && (!currentProject.title?.length || !currentProject.start_date || !currentProject.end_date)) {
       setModalVisible(true);
+      blurActivePrPage();
     } else {
       history.push('/active-claims/');
     }
   };
 
   return (
-    <div className="projects">
+    <div
+      className="projects"
+      style={{
+        filter: isVisibleProjectPage ? 'blur(3px)' : 'blur(0px)',
+      }}>
       <header>
         <div className="projects__header_wrapper">
           <Button type="link" onClick={onBack} className="header--back">
@@ -230,6 +232,7 @@ const ProjectsPage = () => {
         width={700}
         onCancel={() => {
           setModalVisible(false);
+          blurActivePrPage();
         }}
         footer={false}
         title={false}
@@ -246,6 +249,7 @@ const ProjectsPage = () => {
             type="button"
             onClick={() => {
               setModalVisible(false);
+              blurActivePrPage();
             }}>
             Keep project
           </Button>
@@ -253,6 +257,7 @@ const ProjectsPage = () => {
             type="primary"
             onClick={() => {
               history.push('/active-claims/');
+              blurActivePrPage();
             }}>
             Delete and go to Dashboard
           </Button>

@@ -19,7 +19,7 @@ const StepIntroduction = () => {
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
-  const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+  const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -64,6 +64,7 @@ const StepIntroduction = () => {
       <h2
         onClick={() => {
           setDetailsShow(true);
+          blurActiveSteps();
         }}>
         <p>
           1<i>/</i>5 Introduction
@@ -149,7 +150,14 @@ const StepIntroduction = () => {
           <Drawer
             title={
               <div className="ant-drawer-title-wripper">
-                <img src={arrowLeft} alt={arrowLeft} />
+                <img
+                  src={arrowLeft}
+                  alt={arrowLeft}
+                  onClick={() => {
+                    setDetailsShow(() => false);
+                    blurActiveSteps();
+                  }}
+                />
                 <p>
                   1<i>/</i>5 Introduction
                 </p>
@@ -165,6 +173,7 @@ const StepIntroduction = () => {
             closable={false}
             onClose={() => {
               setDetailsShow(false);
+              blurActiveSteps();
             }}
             visible={detailsShow}
             className="active-claims__step_drawer">
