@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tooltip, Skeleton, Drawer } from 'antd';
-import { getIntroductionClaimStep } from '../../../../core/services';
-import UploadFile from '../../../../components/UploadFile';
+import { getIntroductionClaimStep, approveIntroduction } from '../../../../core/adminServices/claimServices';
+import AdminUploadFile from '../../../../components/AdminUploadFile';
 import { IconWarning } from '../../../../components/icons';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
+import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
@@ -17,9 +18,9 @@ const StepIntroduction = () => {
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+  const { id } = useParams();
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -31,9 +32,9 @@ const StepIntroduction = () => {
   }, [isVisibleModalSheduleCall]);
 
   useEffect(() => {
-    if (activeClaimId) {
+    if (id) {
       setIntroductionStep(null);
-      getIntroductionClaimStep(activeClaimId).then((data) => {
+      getIntroductionClaimStep(id).then((data) => {
         const res = { ...data };
         res.documents = data.documents.map((item) => {
           item.red = false;
@@ -46,7 +47,7 @@ const StepIntroduction = () => {
         setStatus(status);
       });
     }
-  }, [activeClaimId]);
+  }, [id]);
 
   const onAction = (file) => {
     const res = { ...introductionStep };
@@ -80,7 +81,7 @@ const StepIntroduction = () => {
         <>
           <div className="step-actions">
             {introductionStep.documents.map((item) => (
-              <UploadFile key={`introduction-document-${item.id}`} file={item} onAction={onAction} />
+              <AdminUploadFile key={`introduction-document-${item.id}`} file={item} onAction={onAction} />
             ))}
           </div>
           <div className="step-status">
@@ -132,6 +133,7 @@ const StepIntroduction = () => {
               </div>
             </div>
           </div>
+          {/*drawer on the right */}
 
           <Drawer
             title={
@@ -162,7 +164,7 @@ const StepIntroduction = () => {
                     className="row"
                     key={`introduction-document-${item.id}`}
                     style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                    <UploadFile
+                    <AdminUploadFile
                       file={item}
                       removeButton={true}
                       onAction={onAction}

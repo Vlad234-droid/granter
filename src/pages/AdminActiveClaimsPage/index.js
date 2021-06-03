@@ -20,7 +20,9 @@ const AdminActiveClaimsPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    getClaim(139);
+    getClaim(329).then((data) => {
+      setActiveClaimData(() => data);
+    });
   }, []);
 
   return (

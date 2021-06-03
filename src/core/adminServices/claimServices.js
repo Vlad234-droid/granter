@@ -48,4 +48,39 @@ const getClaim = async (claimId) => {
   }
 };
 
-export { getClaim };
+const getIntroductionClaimStep = async (claimId) => {
+  try {
+    const intro = await getResource(`admin/claim/stage/introduction/${claimId}`);
+    return intro.data;
+  } catch (err) {
+    return null;
+  }
+};
+const getFinancialClaimStep = async (claimId) => {
+  try {
+    const intro = await getResource(`admin/claim/stage/financial/${claimId}`);
+    return intro.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const getTechnicalClaimStep = async (claimId) => {
+  try {
+    const intro = await getResource(`admin/claim/stage/technical/${claimId}`);
+    return intro.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const approveDocument = async (documentId, status) => {
+  try {
+    const appDoc = await postResource(`admin/claim/approve/document/${documentId}/${status}`);
+    return appDoc;
+  } catch (err) {
+    return null;
+  }
+};
+
+export { getClaim, getIntroductionClaimStep, getFinancialClaimStep, getTechnicalClaimStep, approveDocument };

@@ -9,11 +9,8 @@ import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../..
 import Project from '../../../../components/Project';
 import CommonModalShadule from '../CommonModalShadule';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
-import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
-import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
-import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
 

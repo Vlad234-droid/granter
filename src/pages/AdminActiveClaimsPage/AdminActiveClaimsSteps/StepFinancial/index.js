@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton, Drawer } from 'antd';
-import { getFinancialClaimStep } from '../../../../core/services';
-import UploadFile from '../../../../components/UploadFile';
+import { getFinancialClaimStep } from '../../../../core/adminServices/claimServices';
+import AdminUploadFile from '../../../../components/AdminUploadFile';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
+import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
@@ -16,9 +17,9 @@ const StepFinancial = () => {
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+  const { id } = useParams();
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -30,9 +31,9 @@ const StepFinancial = () => {
   }, [isVisibleModalSheduleCall]);
 
   useEffect(() => {
-    if (activeClaimId) {
+    if (id) {
       setFinancialStep(null);
-      getFinancialClaimStep(activeClaimId)
+      getFinancialClaimStep(id)
         .then((data) => {
           const res = { ...data };
           res.documents = data.documents.map((item) => {
@@ -49,7 +50,7 @@ const StepFinancial = () => {
           console.log('error', error);
         });
     }
-  }, [activeClaimId]);
+  }, [id]);
 
   const onAction = (file) => {
     console.log(file);
@@ -79,7 +80,12 @@ const StepFinancial = () => {
         <>
           <div className="step-actions">
             {financialStep.documents.map((item) => (
-              <UploadFile key={`introduction-document-${item.id}`} file={item} skipButton={true} onAction={onAction} />
+              <AdminUploadFile
+                key={`introduction-document-${item.id}`}
+                file={item}
+                skipButton={true}
+                onAction={onAction}
+              />
             ))}
           </div>
           <div className="step-status">
@@ -160,7 +166,7 @@ const StepFinancial = () => {
                     className="row"
                     key={`introduction-document-${item.id}`}
                     style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                    <UploadFile
+                    <AdminUploadFile
                       file={item}
                       removeButton={true}
                       skipButton={true}

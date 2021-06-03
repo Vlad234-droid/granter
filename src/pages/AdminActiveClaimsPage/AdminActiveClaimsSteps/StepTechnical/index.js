@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
 import { LoadingOutlined } from '@ant-design/icons';
-import { getTechnicalClaimStep, setNewProject, removeProject } from '../../../../core/services';
+import { setNewProject, removeProject } from '../../../../core/services';
+import { getTechnicalClaimStep } from '../../../../core/adminServices/claimServices';
 import Project from '../../../../components/Project';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
@@ -15,6 +16,7 @@ import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconPdf from '../../../../assets/img/icon-pdf.svg';
 import './style.scss';
+import { useParams } from 'react-router-dom';
 
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -26,15 +28,15 @@ const StepTechnical = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const dispatch = useDispatch();
   const history = useHistory();
   const { showBlurActiveTechnicals, closeBlurActiveTechnicals } = bindActionCreators(actions, dispatch);
+  const { id } = useParams();
 
   useEffect(() => {
-    if (activeClaimId) {
+    if (id) {
       setTechnicalStep(null);
-      getTechnicalClaimStep(activeClaimId).then((data) => {
+      getTechnicalClaimStep(id).then((data) => {
         const claim = { ...data };
 
         const result = data.documents.map((item) => {
@@ -50,21 +52,21 @@ const StepTechnical = () => {
         addProjectsDetails(claim.documents);
       });
     }
-  }, [activeClaimId]);
+  }, [id]);
 
   const customRequest = (e) => {
     setLoading(true);
     const form = {
       documents: [e.file],
     };
-    setNewProject(activeClaimId, form).then((data) => {
-      history.push(`/project/${activeClaimId}/${data.id}`);
+    setNewProject(id, form).then((data) => {
+      history.push(`/project/${id}/${data.id}`);
     });
     e.onSuccess('ok');
   };
 
   const uploadInformation = () => {
-    history.push(`/project/${activeClaimId}/${newProjectId}`);
+    history.push(`/project/${id}/${newProjectId}`);
     closeBlurActiveTechnicals();
   };
 
