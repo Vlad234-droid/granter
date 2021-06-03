@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import HeaderSearchAdmin from '../headerSearchAdmin';
 import AdminHeaderNotifications from '../AdminHeaderNotifications';
-import { Button } from 'antd';
+import { Layout, Button } from 'antd';
+import { useSelector } from 'react-redux';
+
 import './style.scss';
-import { useLocation } from 'react-router-dom';
-import { Layout } from 'antd';
 
 const LayOutAdmin = ({ children }) => {
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { pathname } = location;
+  const isBlur = useSelector((state) => state.modal.isBlur);
 
   useEffect(() => {
     setActiveLink(() => pathname.split('/')[2]);
@@ -38,7 +39,11 @@ const LayOutAdmin = ({ children }) => {
 
   return (
     <>
-      <div className="admin_wrapper">
+      <div
+        className="admin_wrapper"
+        style={{
+          filter: isBlur ? 'blur(3px)' : 'blur(0px)',
+        }}>
         <div className="admin_header">
           <div className="wrapper_links_S">
             <ul>

@@ -3,15 +3,17 @@ import { useDispatch } from 'react-redux';
 import { Skeleton, Input, Form, Button } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 
-import { fetchProfileData, postProfileData, fetchUserCompanies } from '../../core/services';
-import { getClient } from '../../core/adminServices';
+import { postProfileData, fetchUserCompanies } from '../../core/services';
+import { getClient, getClientCompanies, getClientActions } from '../../core/adminServices';
 
 import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
 import './style.scss';
 import actions from '../../core/actions';
 import { bindActionCreators } from 'redux';
+
 import LayOutAdmin from '../../components/LayOutAdmin';
 import Company from './Company';
+import AdminClientActionLog from '../../components/AdminClientActionLog';
 import { AdminBackToTablesSVG } from '../../components/icons';
 import { useHistory } from 'react-router-dom';
 
@@ -20,6 +22,10 @@ const ProfilePage = () => {
   const [editModeGeneral, setEditModeGeneral] = useState(false);
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
+  const [clientLogList, setClientLogList] = useState(null);
+
+  const [isClientActionLog, setIsClientActionLog] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [profileForm] = Form.useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -28,7 +34,6 @@ const ProfilePage = () => {
   useEffect(() => {
     getClient(id)
       .then((data) => {
-        console.log('userData', data);
         setUserData(data);
         profileForm.setFieldsValue({
           name: data.profile.name,
@@ -41,26 +46,24 @@ const ProfilePage = () => {
       .catch((err) => {
         console.log('UserError', err);
       });
-
-    fetchProfileData().then((data) => {
-      setUserData(data);
-      profileForm.setFieldsValue({
-        name: data.profile.name,
-        team_role: data.profile.team_role,
-        address: data.profile.address,
-        enable_notifications: data.profile.enable_notifications,
-        phone: data.profile.phone,
-      });
-      fetchUserCompanies(dispatch).then((data) => {
-        setCompaniesList(data);
-      });
+    getClientCompanies(id).then((data) => {
+      setCompaniesList(data);
     });
-  }, []);
 
-  useEffect(() => {
-    const { userCompaniesLoaded } = bindActionCreators(actions, dispatch);
-    userCompaniesLoaded(companiesList);
-  }, [companiesList]);
+    // fetchProfileData().then((data) => {
+    //   setUserData(data);
+    //   profileForm.setFieldsValue({
+    //     name: data.profile.name,
+    //     team_role: data.profile.team_role,
+    //     address: data.profile.address,
+    //     enable_notifications: data.profile.enable_notifications,
+    //     phone: data.profile.phone,
+    //   });
+    //   fetchUserCompanies(dispatch).then((data) => {
+    //     setCompaniesList(data);
+    //   });
+    // });
+  }, []);
 
   const onSave = (form) => {
     setProfileFormLoader(true);
@@ -77,6 +80,19 @@ const ProfilePage = () => {
       return item;
     });
     setCompaniesList(result);
+  };
+
+  const onActionLog = () => {
+    if (!clientLogList) {
+      setLoading(true);
+      getClientActions(id).then((data) => {
+        setIsClientActionLog(true);
+        setClientLogList(data);
+        setLoading(false);
+      });
+    } else {
+      setIsClientActionLog(true);
+    }
   };
 
   return (
@@ -220,12 +236,12 @@ const ProfilePage = () => {
                     )}
                   </div>
                 </li>
-                <li>
+                {/* <li>
                   <div className="label">Your Password</div>
                   <div className="details">
                     <Link to="/profile/change-password/">Change password</Link>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </Form>
           )}
@@ -251,10 +267,10 @@ const ProfilePage = () => {
           )}
         </div>
         <div className="btns_actions">
-          <Button type="button" htmlType="submit" className="delete_client">
+          <Button type="button" className="delete_client">
             Delete Client
           </Button>
-          <Button type="primary" className="action_logs">
+          <Button type="primary" className="action_logs" onClick={onActionLog} loading={loading}>
             Action Logs
           </Button>
         </div>
@@ -273,12 +289,21 @@ const ProfilePage = () => {
               <Company
                 key={`company-${item.id}`}
                 company={item}
+                companies={companiesList}
                 updateCompany={updateCompany}
                 setCompaniesList={setCompaniesList}
               />
             ))}
         </ul>
       </div>
+      <AdminClientActionLog
+        visible={isClientActionLog}
+        list={clientLogList}
+        name={userData?.profile.name}
+        onClose={() => {
+          setIsClientActionLog(false);
+        }}
+      />
     </LayOutAdmin>
   );
 };
