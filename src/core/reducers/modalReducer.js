@@ -1,4 +1,5 @@
 export const initialState = {
+  isBlur: false,
   visibleModal: false,
   isVisibleNotifications: false,
   isVisibleSubMenu: [],
@@ -12,6 +13,11 @@ export const initialState = {
 
 export const modalReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case 'SET_IS_BLUR':
+      return {
+        ...state,
+        isBlur: payload,
+      };
     case 'SHOW_MODAL':
       return {
         ...state,

@@ -13,8 +13,6 @@ const PrivateAdminRoute = ({ component: Component, ...rest }) => {
   const isAdmin = useSelector((state) => state.user.isAdmin);
   const userData = useSelector((state) => state.user.data);
 
-  console.log('isAdmin', isAdmin);
-
   if (isloggedIn && !userData) {
     fetchUserData(dispatch);
   }

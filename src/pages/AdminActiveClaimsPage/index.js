@@ -6,6 +6,8 @@ import AdminActiveClaimsSteps from './AdminActiveClaimsSteps';
 import LayOutAdmin from '../../components/LayOutAdmin';
 import { useHistory } from 'react-router-dom';
 import { getActiveClaimData } from '../../core/services';
+import { getClaim } from '../../core/adminServices';
+
 import { AdminBackToTablesSVG } from '../../components/icons';
 
 import './style.scss';
@@ -18,12 +20,8 @@ const AdminActiveClaimsPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (user) {
-      getActiveClaimData(dispatch, user.id).then((data) => {
-        setActiveClaimData(data);
-      });
-    }
-  }, [user]);
+    getClaim(139);
+  }, []);
 
   return (
     <LayOutAdmin>

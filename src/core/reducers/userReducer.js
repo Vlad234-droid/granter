@@ -120,6 +120,7 @@ const userReducer = (state = initialState, action) => {
     case 'USER-LOG-OUT':
       return {
         isloggedIn: false,
+        isAdmin: false,
         data: null,
         companies: null,
         currentCompany: null,

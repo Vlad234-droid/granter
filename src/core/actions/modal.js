@@ -66,6 +66,11 @@ const blurActivePrPage = () => ({
   type: 'BLUR_ACTIVE_PR_PAGE',
 });
 
+const setIsBlur = (status) => ({
+  type: 'SET_IS_BLUR',
+  payload: status,
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -83,4 +88,5 @@ export {
   closeBlurActiveTechnicals,
   blurActiveSteps,
   blurActivePrPage,
+  setIsBlur,
 };
