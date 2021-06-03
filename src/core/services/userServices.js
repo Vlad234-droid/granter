@@ -9,7 +9,7 @@ import { IconWarning } from '../../components/icons';
 const { REACT_APP_API_URL } = process.env;
 
 const fetchUserData = (dispatch) => {
-  const { loginRequested, userDataLoaded, loginError } = bindActionCreators(actions, dispatch);
+  const { loginRequested, userDataLoaded, loginError, setUserIsAdmin } = bindActionCreators(actions, dispatch);
   const token = lockr.get('auth-key');
   loginRequested();
   return new Promise((resolve, reject) => {
@@ -37,6 +37,7 @@ const fetchUserData = (dispatch) => {
         }
       })
       .then((data) => {
+        if (data.data.role_id === 1) setUserIsAdmin();
         userDataLoaded(data.data);
         resolve(data.data);
       })

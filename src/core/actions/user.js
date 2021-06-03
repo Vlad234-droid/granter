@@ -53,6 +53,12 @@ const userLogOut = (data) => {
   };
 };
 
+const setUserIsAdmin = () => {
+  return {
+    type: 'SET_USER_IS_ADMIN',
+  };
+};
+
 export {
   loginRequested,
   loginLoaded,
@@ -62,4 +68,5 @@ export {
   setUserActiveClimeId,
   setUserCurrentCompany,
   userLogOut,
+  setUserIsAdmin,
 };
