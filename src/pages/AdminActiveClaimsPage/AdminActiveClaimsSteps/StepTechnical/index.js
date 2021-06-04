@@ -6,17 +6,17 @@ import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
 import { LoadingOutlined } from '@ant-design/icons';
 import { setNewProject, removeProject } from '../../../../core/services';
-import { getTechnicalClaimStep } from '../../../../core/adminServices/claimServices';
-import Project from '../../../../components/Project';
+import { getTechnicalClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
+import AdminProject from '../../../../components/AdminProject';
+import CommonModalShadule from '../CommonModalShadule';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
-import iconUploadRed from '../../../../assets/img/icon-upload-red.svg';
-import iconUpload from '../../../../assets/img/icon-upload.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
-import iconApproved from '../../../../assets/img/icon-approved.svg';
-import iconPdf from '../../../../assets/img/icon-pdf.svg';
-import './style.scss';
+import iconFile from '../../../../assets/img/icon-file-b.svg';
+import iconAddProject from '../../../../assets/img/icon-add-project.svg';
 import { useParams } from 'react-router-dom';
+
+import './style.scss';
 
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -26,30 +26,28 @@ const StepTechnical = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { showBlurActiveTechnicals, closeBlurActiveTechnicals } = bindActionCreators(actions, dispatch);
+  const { blurActiveSteps } = bindActionCreators(actions, dispatch);
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
       setTechnicalStep(null);
       getTechnicalClaimStep(id).then((data) => {
-        const claim = { ...data };
-
-        const result = data.documents.map((item) => {
+        const result = { ...data };
+        result.documents = data.documents.filter((item) => item.title.length && item.start_date && item.end_date);
+        data.documents.forEach((item) => {
           if (item.title === '' || !item.start_date || !item.end_date) {
             removeProject(item.claim_id, item.id);
-          } else {
-            return item;
           }
         });
-        claim.documents = result;
-        setTechnicalStep(claim);
+        setTechnicalStep(result);
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
-        addProjectsDetails(claim.documents);
+        addProjectsDetails(result.documents);
       });
     }
   }, [id]);
@@ -57,25 +55,41 @@ const StepTechnical = () => {
   const customRequest = (e) => {
     setLoading(true);
     const form = {
-      documents: [e.file],
+      main_document: e.file,
     };
     setNewProject(id, form).then((data) => {
-      history.push(`/project/${id}/${data.id}`);
+      // setLoading(false);
+      // setModalVisible(true);
+      // setNewProjectId(data.id);
+      const { addProjectsDetails } = bindActionCreators(actions, dispatch);
+      const res = { ...technicalStep };
+      res.documents.push(data);
+      addProjectsDetails(res.documents);
+      // setTechnicalStep(res);
+      setTimeout(() => {
+        history.push(`/project/${id}/${data.id}`);
+        blurActiveSteps();
+      }, 150);
     });
     e.onSuccess('ok');
   };
 
   const uploadInformation = () => {
     history.push(`/project/${id}/${newProjectId}`);
-    closeBlurActiveTechnicals();
   };
 
   const onAction = (id) => {
     const res = { ...technicalStep };
     res.documents = technicalStep.documents.filter((item) => item.id !== id);
     setTechnicalStep(res);
-    const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
+    const status = res.documents.filter((item) => item.status === 3).length
+      ? Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100)
+      : 0;
     setStatus(status);
+  };
+
+  const checkForAllStatus = () => {
+    if (!technicalStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 3);
   };
 
   return (
@@ -84,6 +98,7 @@ const StepTechnical = () => {
         <h2
           onClick={() => {
             setDetailsShow(true);
+            blurActiveSteps();
           }}>
           <p>
             3<i>/</i>5 Technical
@@ -99,7 +114,16 @@ const StepTechnical = () => {
         ) : (
           <div className="technical__scroll">
             <div className="step-actions">
-              <Dragger
+              <button
+                className="technical__add-project_button"
+                onClick={() => {
+                  setModalVisible(true);
+                  blurActiveSteps();
+                }}>
+                <img src={iconAddProject} alt="" />
+                <span>Add a Project</span>
+              </button>
+              {/* <Dragger
                 name="file"
                 customRequest={customRequest}
                 accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -109,32 +133,30 @@ const StepTechnical = () => {
                   <Spin indicator={antIcon} />
                 </div>
                 <div className="upload-title">
-                  <img src={iconUpload} alt="" />
+                  <img src={iconAddProject} alt="" />
                   <span>Add a Project</span>
                 </div>
-
-                <div className="upload-status">
-                  <img src={iconUploadRed} alt="" />
-                  <span>Not uploaded</span>
-                </div>
-              </Dragger>
+              </Dragger> */}
               {technicalStep.documents.map((item, index) => (
                 <div
-                  className="row"
-                  key={`technical-project-${item.id}`}
+                  className="row admin"
+                  key={`introduction-document-${item.id}`}
                   style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                  <Project
+                  <AdminProject
+                    checkForAllStatus={checkForAllStatus}
+                    removeButton={true}
                     key={`technical-project-${item.id}`}
                     file={item}
                     index={technicalStep.documents.length > 1 ? index + 1 : null}
-                    removeButton={true}
                     onRed={(red) => {
+                      //introductionStep, setIntroductionStep
                       const res = { ...technicalStep };
                       res.documents.map((row) => {
                         if (row.id === item.id) row.red = red;
                         return row;
                       });
                       setTechnicalStep(res);
+                      //item.red = red;
                     }}
                   />
                 </div>
@@ -142,10 +164,38 @@ const StepTechnical = () => {
             </div>
             <div className="step-status">
               {technicalStep.call_date === null && (
-                <button className="step-status--call-schedule">
-                  <img src={iconCalendar} alt="" />
-                  <span>Schedule a call</span>
-                </button>
+                <>
+                  <button
+                    className={`step-status--call-schedule ${technicalStep.documents.length === 0 ? 'disabled' : ''}`}
+                    onClick={() => {
+                      if (technicalStep.documents.length === 0) return;
+                      setIsVisibleModalSheduleCall((prev) => !prev);
+                    }}>
+                    <img src={iconCalendar} alt="" />
+                    <span>Schedule a call</span>
+                    {technicalStep.documents.length === 0 && (
+                      <Tooltip
+                        title="Please, upload documents 
+                      to be able to schedule this call. 
+                      Or contact our support">
+                        <span className="warning">
+                          <IconWarning />
+                        </span>
+                      </Tooltip>
+                    )}
+                  </button>
+                  <CommonModalShadule
+                    isVisibleModalSheduleCall={isVisibleModalSheduleCall}
+                    setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
+                    <ul className="list_shedule_intro">
+                      <li>1. Introduction often takes about one hour.</li>
+                      <li>
+                        2. We want to understand the type of work you have undertaken during the relevant period(s).
+                      </li>
+                      <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                    </ul>
+                  </CommonModalShadule>
+                </>
               )}
               {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
@@ -179,37 +229,127 @@ const StepTechnical = () => {
         width={700}
         onCancel={() => {
           setModalVisible(false);
-          closeBlurActiveTechnicals();
+          blurActiveSteps();
         }}
         footer={false}
         title={false}
         closeIcon={<CloseIconModal />}>
-        <h2>You uploaded List of pojects</h2>
-        <div className="technical__modal_file">
-          <img src={iconPdf} alt="file" />
-          <span>List of projects</span>
-        </div>
+        <h2>Create your first project</h2>
         <div className="technical__modal_description">
-          <p>Upload project information using our online project information tool. </p>
+          <p>Upload project information using our online tool. </p>
           <p>
-            Alternatively, if you have existing information, please click below to upload a pdf or word document for
-            your consultant to review.
+            Alternatively, you can upload <br />a pdf or word document for your consultant to review.
           </p>
         </div>
         <div className="technical__modal_actions">
+          <Dragger
+            name="file"
+            customRequest={customRequest}
+            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            className={`upload-file ${loading ? 'loading' : ''}`}
+            showUploadList={false}>
+            <Button type="button" loading={loading}>
+              <img src={iconFile} alt="" />
+              <span>Add file</span>
+            </Button>
+          </Dragger>
           <Button
-            type="button"
+            type="primary"
             onClick={() => {
+              history.push(`/project/${id}`);
               setModalVisible(false);
-              closeBlurActiveTechnicals();
+              blurActiveSteps();
             }}>
             Add your First Project
           </Button>
-          <Button type="primary" onClick={uploadInformation}>
-            Upload Information
-          </Button>
         </div>
       </Modal>
+
+      <Drawer
+        title={
+          <div className="ant-drawer-title-wripper">
+            <img
+              src={arrowLeft}
+              alt={arrowLeft}
+              onClick={() => {
+                setDetailsShow(() => false);
+                blurActiveSteps();
+              }}
+            />
+            <p>
+              3<i>/</i>5 Technical
+            </p>
+            <Tooltip title="Required Files" placement="left">
+              <span>
+                <IconWarning />
+              </span>
+            </Tooltip>
+          </div>
+        }
+        placement="right"
+        width="320px"
+        closable={false}
+        onClose={() => {
+          setDetailsShow(false);
+          blurActiveSteps();
+        }}
+        visible={detailsShow}
+        className="active-claims__step_drawer">
+        <div className="drawer-technical-dragger">
+          <button>
+            <div className="upload-title">
+              <img src={iconAddProject} alt="" />
+              <span>Add a Project</span>
+            </div>
+          </button>
+          {/* <Dragger
+            name="file"
+            customRequest={customRequest}
+            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            className={`upload-file ${loading ? 'loading' : ''}`}
+            showUploadList={false}>
+            <div className="upload-loading">
+              <Spin indicator={antIcon} />
+            </div>
+          </Dragger> */}
+        </div>
+        <div className="step-actions">
+          {technicalStep?.documents.map((item, index) => {
+            return (
+              <div
+                className="row"
+                key={`introduction-document-${item.id}`}
+                style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
+                <AdminProject
+                  file={item}
+                  removeButton={true}
+                  onAction={onAction}
+                  index={technicalStep.documents.length > 1 ? index + 1 : null}
+                  onRed={(red) => {
+                    //introductionStep, setIntroductionStep
+                    const res = { ...technicalStep };
+                    res.documents.map((row) => {
+                      if (row.id === item.id) row.red = red;
+                      return row;
+                    });
+                    setTechnicalStep(res);
+                    //item.red = red;
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div className="step-status">
+          <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
+            <span className="step-status--bar-fill" style={{ width: status + '%' }} />
+            <span className="step-status--bar-parcent">{status}%</span>
+            <span className="step-status--bar-detail">
+              {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
+            </span>
+          </div>
+        </div>
+      </Drawer>
     </>
   );
 };

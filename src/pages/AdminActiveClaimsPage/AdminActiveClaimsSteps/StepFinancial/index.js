@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton, Drawer } from 'antd';
-import { getFinancialClaimStep } from '../../../../core/adminServices/claimServices';
+import { getFinancialClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
 import AdminUploadFile from '../../../../components/AdminUploadFile';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
@@ -65,6 +65,10 @@ const StepFinancial = () => {
     setStatus(status);
   };
 
+  const checkForAllStatus = () => {
+    if (!financialStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 2);
+  };
+
   return (
     <section className="active-claims__steps_step financial">
       <h2
@@ -85,6 +89,7 @@ const StepFinancial = () => {
                 key={`introduction-document-${item.id}`}
                 style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
                 <AdminUploadFile
+                  checkForAllStatus={checkForAllStatus}
                   key={`introduction-document-${item.id}`}
                   file={item}
                   skipButton={true}

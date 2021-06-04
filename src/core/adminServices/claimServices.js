@@ -83,4 +83,20 @@ const approveDocument = async (documentId, status) => {
   }
 };
 
-export { getClaim, getIntroductionClaimStep, getFinancialClaimStep, getTechnicalClaimStep, approveDocument };
+const approveStep = async (claimId, stepNumber) => {
+  try {
+    const appDoc = await postResource(`admin/claim/approve/${claimId}/${stepNumber}`);
+    return appDoc.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+export {
+  getClaim,
+  getIntroductionClaimStep,
+  getFinancialClaimStep,
+  getTechnicalClaimStep,
+  approveDocument,
+  approveStep,
+};

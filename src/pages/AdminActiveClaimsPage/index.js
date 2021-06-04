@@ -39,7 +39,7 @@ const AdminActiveClaimsPage = (props) => {
             <div className="text_btn">Back to all Michael Cormac Newell</div>
           </button>
         </div>
-        <div className="active-claims">
+        <div className="active-claims admin">
           {/*{!activeClaimData ? <Skeleton active /> : <></>}*/}
 
           {/* <div className='active-claims__title'>
