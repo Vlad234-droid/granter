@@ -114,13 +114,25 @@ const Company = ({ companies, company, updateCompany }) => {
                   <IconEditPencil />
                 </button>
                 {companies.length !== 1 && (
-                  <button
-                    onClick={() => {
-                      setIsDropDownDelete((prev) => !prev);
-                    }}
-                    className="profile__btn_delete">
-                    <DeleteCompanySVG />
-                  </button>
+                  <>
+                    <Dropdown
+                      overlay={menu}
+                      placement="bottomRight"
+                      trigger="click"
+                      visible={isDropDownDelete}
+                      onVisibleChange={() => {
+                        if (isDropDownDelete) setIsDropDownDelete((prev) => !prev);
+                      }}
+                      getPopupContainer={() => document.getElementById('btn_del')}>
+                      <button
+                        onClick={() => {
+                          setIsDropDownDelete((prev) => !prev);
+                        }}
+                        className="profile__btn_delete">
+                        <DeleteCompanySVG />
+                      </button>
+                    </Dropdown>
+                  </>
                 )}
               </>
             )}
