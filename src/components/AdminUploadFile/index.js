@@ -22,7 +22,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  console.log('file', file);
+  console.log('filefile', file);
 
   const customRequest = (e) => {
     setLoading(true);
@@ -64,7 +64,9 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
     return status;
   };
 
-  const checkForExt = (extension) => {
+  const checkForExt = (original_name) => {
+    const extensions = original_name.split('.');
+    const extension = extensions[extensions.length - 1];
     switch (extension) {
       case 'doc':
         return DOCSSVG;
@@ -88,8 +90,8 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
         <div className="step-file-loading">
           <Spin />
         </div>
-        <div className="step-file--title">
-          <img src={checkForExt(file.extension)} alt="" />
+        <div className={`step-file--title admin ${file.name === 'Full company accounts' ? 'intro' : ''}`}>
+          <img src={checkForExt(file.original_name)} alt={file.original_name} />
           <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
           {removeButton &&
             (!file.has_unresolved_comments ? (
@@ -120,7 +122,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
                   </div>
                 }>
                 <button
-                  className="step-file--remove-button"
+                  className="step-file--remove-button admin"
                   onClick={() => {
                     setOnRemoveDropdown(true);
                   }}>
@@ -135,18 +137,20 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
               </Tooltip>
             ))}
         </div>
-        <div className="step-file--status">
+        <div className="step-file--status admin">
           <Dropdown
+            trigger="click"
             overlay={
               <Menu>
                 <Menu.Item>
                   <span
                     onClick={() =>
                       approveDocument(file.id, 3).then((data) => {
-                        setLoading(() => true);
-                        if (data.success) {
-                          setLoading(() => false);
-                        }
+                        // setLoading(() => true);
+                        // if (data.success) {
+                        //   setLoading(() => false);
+                        // }
+                        console.log('data:', data);
                       })
                     }>
                     Approve
@@ -155,7 +159,9 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
               </Menu>
             }
             placement="bottomCenter">
-            <div className={`status ${statusName(file.status).class}`}>{statusName(file.status).name}</div>
+            <div style={{ cursor: 'pointer' }} className={`status ${statusName(file.status).class}`}>
+              {statusName(file.status).name}
+            </div>
           </Dropdown>
           <div className="comments">
             <img src={iconComment} alt="" />

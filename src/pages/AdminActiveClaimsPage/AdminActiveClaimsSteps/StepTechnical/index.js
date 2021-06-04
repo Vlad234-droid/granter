@@ -119,11 +119,25 @@ const StepTechnical = () => {
                 </div>
               </Dragger>
               {technicalStep.documents.map((item, index) => (
-                <Project
+                <div
+                  className="row"
                   key={`technical-project-${item.id}`}
-                  file={item}
-                  index={technicalStep.documents.length > 1 ? index + 1 : null}
-                />
+                  style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
+                  <Project
+                    key={`technical-project-${item.id}`}
+                    file={item}
+                    index={technicalStep.documents.length > 1 ? index + 1 : null}
+                    removeButton={true}
+                    onRed={(red) => {
+                      const res = { ...technicalStep };
+                      res.documents.map((row) => {
+                        if (row.id === item.id) row.red = red;
+                        return row;
+                      });
+                      setTechnicalStep(res);
+                    }}
+                  />
+                </div>
               ))}
             </div>
             <div className="step-status">
@@ -196,66 +210,6 @@ const StepTechnical = () => {
           </Button>
         </div>
       </Modal>
-
-      <Drawer
-        title={
-          <div className="ant-drawer-title-wripper">
-            <img src={arrowLeft} alt={arrowLeft} />
-            <p>
-              3<i>/</i>5 Technical
-            </p>
-            <Tooltip title="Required Files" placement="left">
-              <span>
-                <IconWarning />
-              </span>
-            </Tooltip>
-          </div>
-        }
-        placement="right"
-        width="320px"
-        closable={false}
-        onClose={() => {
-          setDetailsShow(false);
-        }}
-        visible={detailsShow}
-        className="active-claims__step_drawer">
-        <div className="step-actions">
-          {technicalStep?.documents.map((item, index) => {
-            return (
-              <div
-                className="row"
-                key={`introduction-document-${item.id}`}
-                style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                <Project
-                  file={item}
-                  removeButton={true}
-                  onAction={onAction}
-                  index={technicalStep.documents.length > 1 ? index + 1 : null}
-                  onRed={(red) => {
-                    //introductionStep, setIntroductionStep
-                    const res = { ...technicalStep };
-                    res.documents.map((row) => {
-                      if (row.id === item.id) row.red = red;
-                      return row;
-                    });
-                    setTechnicalStep(res);
-                    //item.red = red;
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div className="step-status">
-          <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-            <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-            <span className="step-status--bar-parcent">{status}%</span>
-            <span className="step-status--bar-detail">
-              {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
-            </span>
-          </div>
-        </div>
-      </Drawer>
     </>
   );
 };

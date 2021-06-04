@@ -80,12 +80,26 @@ const StepFinancial = () => {
         <>
           <div className="step-actions">
             {financialStep.documents.map((item) => (
-              <AdminUploadFile
+              <div
+                className="row"
                 key={`introduction-document-${item.id}`}
-                file={item}
-                skipButton={true}
-                onAction={onAction}
-              />
+                style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
+                <AdminUploadFile
+                  key={`introduction-document-${item.id}`}
+                  file={item}
+                  skipButton={true}
+                  onAction={onAction}
+                  removeButton={true}
+                  onRed={(red) => {
+                    const res = { ...financialStep };
+                    res.documents.map((row) => {
+                      if (row.id === item.id) row.red = red;
+                      return row;
+                    });
+                    setFinancialStep(res);
+                  }}
+                />
+              </div>
             ))}
           </div>
           <div className="step-status">
@@ -141,61 +155,6 @@ const StepFinancial = () => {
               </div>
             </div>
           </div>
-
-          <Drawer
-            title={
-              <div className="ant-drawer-title-wripper">
-                <img src={arrowLeft} />
-                <p>
-                  2<i>/</i>5 Financial
-                </p>
-              </div>
-            }
-            placement="right"
-            width="320px"
-            closable={false}
-            onClose={() => {
-              setDetailsShow(false);
-            }}
-            visible={detailsShow}
-            className="active-claims__step_drawer">
-            <div className="step-actions">
-              {financialStep.documents.map((item) => {
-                return (
-                  <div
-                    className="row"
-                    key={`introduction-document-${item.id}`}
-                    style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                    <AdminUploadFile
-                      file={item}
-                      removeButton={true}
-                      skipButton={true}
-                      onAction={onAction}
-                      onRed={(red) => {
-                        //introductionStep, setIntroductionStep
-                        const res = { ...financialStep };
-                        res.documents.map((row) => {
-                          if (row.id === item.id) row.red = red;
-                          return row;
-                        });
-                        setFinancialStep(res);
-                        //item.red = red;
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="step-status">
-              <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-                <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-                <span className="step-status--bar-parcent">{status}%</span>
-                <span className="step-status--bar-detail">
-                  {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
-                </span>
-              </div>
-            </div>
-          </Drawer>
         </>
       )}
     </section>

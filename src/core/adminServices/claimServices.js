@@ -75,21 +75,11 @@ const getTechnicalClaimStep = async (claimId) => {
 };
 
 const approveDocument = async (documentId, status) => {
-  const token = lockr.get('auth-key');
-
   try {
-    const appDoc = await fetch(`${REACT_APP_API_URL}/admin/claim/approve/document/${documentId}/${status}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!appDoc.ok) throw new Error();
-    const res = await appDoc.json();
-    console.log(res);
+    const appDoc = await postResource(`admin/claim/approve/document/${documentId}/${status}`);
+    return appDoc;
   } catch (err) {
-    return err;
+    return null;
   }
 };
 

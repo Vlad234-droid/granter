@@ -81,7 +81,28 @@ const StepIntroduction = () => {
         <>
           <div className="step-actions">
             {introductionStep.documents.map((item) => (
-              <AdminUploadFile key={`introduction-document-${item.id}`} file={item} onAction={onAction} />
+              <div
+                className="row admin"
+                key={`introduction-document-${item.id}`}
+                style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
+                <AdminUploadFile
+                  removeButton={true}
+                  key={`introduction-document-${item.id}`}
+                  file={item}
+                  onAction={onAction}
+                  onRed={(red) => {
+                    //introductionStep, setIntroductionStep
+                    const res = { ...introductionStep };
+                    res.documents.map((row) => {
+                      console.log('row.red', row.red);
+                      if (row.id === item.id) row.red = red;
+                      return row;
+                    });
+                    setIntroductionStep(res);
+                    //item.red = red;
+                  }}
+                />
+              </div>
             ))}
           </div>
           <div className="step-status">
@@ -133,66 +154,6 @@ const StepIntroduction = () => {
               </div>
             </div>
           </div>
-          {/*drawer on the right */}
-
-          <Drawer
-            title={
-              <div className="ant-drawer-title-wripper">
-                <img src={arrowLeft} alt={arrowLeft} />
-                <p>
-                  1<i>/</i>5 Introduction
-                </p>
-                <Tooltip title="Required Files" placement="left">
-                  <span>
-                    <IconWarning />
-                  </span>
-                </Tooltip>
-              </div>
-            }
-            placement="right"
-            width="320px"
-            closable={false}
-            onClose={() => {
-              setDetailsShow(false);
-            }}
-            visible={detailsShow}
-            className="active-claims__step_drawer">
-            <div className="step-actions">
-              {introductionStep.documents.map((item) => {
-                return (
-                  <div
-                    className="row"
-                    key={`introduction-document-${item.id}`}
-                    style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                    <AdminUploadFile
-                      file={item}
-                      removeButton={true}
-                      onAction={onAction}
-                      onRed={(red) => {
-                        //introductionStep, setIntroductionStep
-                        const res = { ...introductionStep };
-                        res.documents.map((row) => {
-                          if (row.id === item.id) row.red = red;
-                          return row;
-                        });
-                        setIntroductionStep(res);
-                        //item.red = red;
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="step-status">
-              <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-                <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-                <span className="step-status--bar-parcent">{status}%</span>
-                <span className="step-status--bar-detail">
-                  {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
-                </span>
-              </div>
-            </div>
-          </Drawer>
         </>
       )}
     </section>
