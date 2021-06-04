@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Skeleton, Input, Form, Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Skeleton, Input, Form, Button, Modal } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 
 import { postProfileData, fetchUserCompanies } from '../../core/services';
 import { getClient, getClientCompanies, getClientActions } from '../../core/adminServices';
 
-import { IconEditPencil, IconWarning, IconAdd } from '../../components/icons';
+import { IconEditPencil, IconWarning, IconAdd, CloseIconModal } from '../../components/icons';
 import './style.scss';
 import actions from '../../core/actions';
 import { bindActionCreators } from 'redux';
@@ -23,12 +23,14 @@ const ProfilePage = () => {
   const [profileFormLoader, setProfileFormLoader] = useState(false);
   const [companiesList, setCompaniesList] = useState(null);
   const [clientLogList, setClientLogList] = useState(null);
-
   const [isClientActionLog, setIsClientActionLog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profileForm] = Form.useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { setIsBlur } = bindActionCreators(actions, dispatch);
+  const isBlur = useSelector((state) => state.modal.isBlur);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -267,7 +269,12 @@ const ProfilePage = () => {
           )}
         </div>
         <div className="btns_actions">
-          <Button type="button" className="delete_client">
+          <Button
+            type="button"
+            className="delete_client"
+            onClick={() => {
+              setIsBlur(true);
+            }}>
             Delete Client
           </Button>
           <Button type="primary" className="action_logs" onClick={onActionLog} loading={loading}>
@@ -296,6 +303,36 @@ const ProfilePage = () => {
             ))}
         </ul>
       </div>
+      <Modal
+        title="Basic Modal"
+        className="delete-client__modal"
+        visible={isBlur}
+        width={700}
+        onCancel={() => {
+          setIsBlur(false);
+        }}
+        footer={false}
+        title={false}
+        closeIcon={<CloseIconModal />}>
+        <h2>
+          Are you sure you want to <br />
+          delete the company and the claim?
+        </h2>
+        <div className="delete-client__modal_description">
+          You are trying to delete the company which has the Active claim. If you delete the company — the claim will be
+          deleted along with it.
+        </div>
+        <div className="delete-client__modal_actions">
+          <Button
+            type="button"
+            onClick={() => {
+              setIsBlur(false);
+            }}>
+            Back
+          </Button>
+          <Button type="primary">Delete</Button>
+        </div>
+      </Modal>
       <AdminClientActionLog
         visible={isClientActionLog}
         list={clientLogList}

@@ -42,9 +42,7 @@ const ActiveClaimsPage = (props) => {
 
             {userData.email_verified_at ? (
               !activeClaimData.estimated_benefit_start && !activeClaimData.estimated_benefit_end ? (
-                <div className="active-claims__verify-message">
-                  Just put 'TBC' in the box, and we will then manually add it in the admin panel
-                </div>
+                <div className="active-claims__verify-message">TBC</div>
               ) : (
                 <ActiveClaimsCards activeClaimData={activeClaimData} />
               )

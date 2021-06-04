@@ -10,9 +10,10 @@
       box-shadow: -18px 2px 68px -7px rgba(34, 60, 80, 0.03);
       width: 480px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: flex-start;
       flex-direction: column;
+      padding-top: 60px;
       .container_info {
         margin: 10px 0px 10px 80px;
         h2 {
