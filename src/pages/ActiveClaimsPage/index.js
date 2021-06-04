@@ -39,12 +39,19 @@ const ActiveClaimsPage = (props) => {
                 </time>
               )}
             </div>
-            {!activeClaimData.estimated_benefit_start && !activeClaimData.estimated_benefit_end ? (
-              <div className="active-claims__verify-message">
-                Just put 'TBC' in the box, and we will then manually add it in the admin panel
-              </div>
+
+            {userData.email_verified_at ? (
+              !activeClaimData.estimated_benefit_start && !activeClaimData.estimated_benefit_end ? (
+                <div className="active-claims__verify-message">
+                  Just put 'TBC' in the box, and we will then manually add it in the admin panel
+                </div>
+              ) : (
+                <ActiveClaimsCards activeClaimData={activeClaimData} />
+              )
             ) : (
-              <ActiveClaimsCards activeClaimData={activeClaimData} />
+              <div>
+                Welcome! <b>Verify your email</b> to see approximate benefits
+              </div>
             )}
           </>
         )}
