@@ -1,10 +1,24 @@
 .table_wrapper {
+  .ant-table {
+    .ant-table-tbody > tr > td {
+      padding: 13px 16px;
+    }
+  }
+  .clients_admin_skeletons {
+    margin-top: 90px;
+  }
+  .ant-table-content {
+    table {
+      .ant-empty.ant-empty-normal {
+        min-height: 45vh;
+        line-height: 45vh;
+      }
+    }
+  }
   padding: 20px 24px;
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td,
   .ant-table tfoot > tr > th,
   .ant-table tfoot > tr > td {
-    padding: 10px 10px !important;
+    padding: 12.5px 10px !important;
     white-space: nowrap;
   }
   #basic {
@@ -66,6 +80,17 @@
   }
   .ant-table-wrapper {
     .ant-table-tbody {
+      .ant-table-cell {
+        .active_claim_id,
+        .active_client_name {
+          margin-bottom: 0px !important;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 15.5px;
+          color: #305ff5;
+        }
+      }
       tr {
         .ant-table-cell.ant-table-column-sort {
           background-color: transparent !important;
@@ -88,26 +113,28 @@
           white-space: nowrap;
         }
       }
-      .ant-table-cell {
-        font-family: Roboto !important;
-        font-style: normal !important;
-        font-weight: 500 !important;
-        font-size: 14px !important;
-        color: #3c4252 !important;
-        padding-left: 30px !important;
-        background: rgba(192, 196, 203, 0.2);
+      tr {
+        th {
+          padding-left: 16px;
+        }
       }
     }
 
     .ant-table-row.ant-table-row-level-0 {
       .ant-table-cell {
-        vertical-align: text-top !important;
-        padding-left: 30px !important;
+        max-width: 300px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        //padding-left: 30px !important;
       }
       &:nth-child(even) {
         background: rgba(238, 242, 246, 0.85) !important;
       }
     }
+  }
+  .pagination_clients {
+    margin-top: 40px;
     .ant-pagination-options {
       position: relative;
       &:before {
@@ -138,7 +165,8 @@
         }
       }
     }
-    .ant-pagination.ant-table-pagination.ant-table-pagination-center {
+    .ant-pagination {
+      text-align: center !important;
       .ant-pagination-item {
         border: 1.7px solid #305ff5 !important;
         border-radius: 4px;

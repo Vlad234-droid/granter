@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 import './style.scss';
 import { UpVector } from '../../../components/icons';
 import BenefitModal from './BenefitModal';
-
+import actions from '../../../core/actions';
+import { useDispatch } from 'react-redux';
 import { LoadingOutlined } from '@ant-design/icons';
+import { bindActionCreators } from 'redux';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
@@ -13,11 +15,18 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
   const state = useSelector((state) => state.registration);
   const [isModalBenefit, setIsModalBenefit] = useState(false);
   const { showEstimate } = useSelector((state) => state.registration);
+  const dispatch = useDispatch();
+
+  const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);
     }
+
+    return () => {
+      setIsModalBenefit(() => false);
+    };
   }, [showEstimate]);
 
   const checkorForRenderBenefitModal = useCallback(() => {
@@ -90,7 +99,12 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
         </Row>
       </div>
       <div className="welcome__comfirm_submit">
-        <Button type="primary" onClick={goNextStep}>
+        <Button
+          type="primary"
+          onClick={() => {
+            goNextStep();
+            registrationChangeEstimate(null);
+          }}>
           Confirm
         </Button>
         <Button type="text" onClick={goPrevStep}>

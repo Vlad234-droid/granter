@@ -6,6 +6,9 @@ import { UpVector } from '../../../components/icons';
 import BenefitModal from './BenefitModal';
 import { addNewCompany } from '../../../core/services';
 import { LoadingOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import actions from '../../../core/actions';
+import { bindActionCreators } from 'redux';
 
 import './style.scss';
 
@@ -17,11 +20,19 @@ const Сonfirm = ({ goPrevStep, maxPrice, minPrice }) => {
   let history = useHistory();
   const [isModalBenefit, setIsModalBenefit] = useState(null);
   const { showEstimate } = useSelector((state) => state.registration);
+  const dispatch = useDispatch();
+  const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
+
+  console.log('showEstimate', showEstimate);
 
   useEffect(() => {
     if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);
     }
+
+    return () => {
+      setIsModalBenefit(() => false);
+    };
   }, [showEstimate]);
 
   const addCompany = () => {
@@ -42,6 +53,7 @@ const Сonfirm = ({ goPrevStep, maxPrice, minPrice }) => {
       });
       history.push('/profile/');
     });
+    registrationChangeEstimate(null);
   };
 
   const checkorForRenderBenefitModal = useCallback(() => {
