@@ -1,28 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Row, Col, Card } from 'antd';
+import { Button, Row, Col, Card, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import './style.scss';
 import { UpVector } from '../../../components/icons';
 import BenefitModal from './BenefitModal';
 
-const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
-  const state = useSelector((state) => state.registration);
-  const [isModalBenefit, setIsModalBenefit] = useState(null);
+import { LoadingOutlined } from '@ant-design/icons';
 
-  console.log(indexStep);
+const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
+
+const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
+  const state = useSelector((state) => state.registration);
+  const [isModalBenefit, setIsModalBenefit] = useState(false);
+  const { showEstimate } = useSelector((state) => state.registration);
 
   useEffect(() => {
-    if (indexStep === 1) {
+    if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);
     }
-  }, [indexStep]);
+  }, [showEstimate]);
 
   const checkorForRenderBenefitModal = useCallback(() => {
-    if (indexStep === 1) {
+    if (showEstimate === 'benefit') {
       return (
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
-          <h2>£2,000 - £5,000 </h2>
+          <h2>{`£${minPrice} - £${maxPrice}`}</h2>
           <div className="block_info_img">
             <h5>YoY Change:</h5>
             <UpVector />
@@ -30,10 +33,24 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
           </div>
         </div>
       );
-    } else if (indexStep === 3) {
-      return <BenefitModal isModalBenefit={isModalBenefit} setIsModalBenefit={setIsModalBenefit} />;
+    } else if (showEstimate === 'estimate') {
+      return (
+        <BenefitModal
+          goNextStep={goNextStep}
+          state={state}
+          isModalBenefit={isModalBenefit}
+          setIsModalBenefit={setIsModalBenefit}
+        />
+      );
     }
-  }, [indexStep, isModalBenefit, setIsModalBenefit]);
+  }, [isModalBenefit, setIsModalBenefit, showEstimate]);
+
+  if (state.showEstimate === null)
+    return (
+      <div className="upload-loading">
+        <Spin indicator={antIcon} />
+      </div>
+    );
 
   return (
     <div className={`welcome__comfirm ${isModalBenefit ? '' : 'isBenefitModal'}`}>
@@ -42,7 +59,8 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
         Thank you for signing up to work with Granter or your next R&D tax credit claim. We are excited to be working
         with you in the future.
       </div>
-      {checkorForRenderBenefitModal()}
+
+      {showEstimate !== null && checkorForRenderBenefitModal()}
 
       <div className="welcome__comfirm_info">
         <Row gutter={24}>
@@ -60,7 +78,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, indexStep }) => {
           </Col>
           <Col span={8}>
             <Card>
-              {state.industry.length > 0 &&
+              {state.industry?.length > 0 &&
                 state.industry.map((item, index) => (
                   <p key={`ind-${index}`}>
                     {item.sic_code} - {item.display_value}

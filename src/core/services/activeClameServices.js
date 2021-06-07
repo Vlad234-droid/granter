@@ -32,7 +32,7 @@ const getActiveClaimData = (dispatch, companyId) => {
               description: json.message,
               icon: <IconWarning />,
             });
-            throw new Error(json);
+            throw new Error(resp);
           });
         }
       })
@@ -338,10 +338,11 @@ const editProject = (claimId, projectId, form) => {
   });
 };
 
-const addDocumentToProject = (claimId, projectId, file) => {
+const addDocumentToProject = (claimId, projectId, file, is_main) => {
   const token = lockr.get('auth-key');
   const formData = new FormData();
   formData.append('document', file);
+  if (is_main) formData.append('is_main', is_main);
 
   return new Promise((resolve, reject) => {
     fetch(`${REACT_APP_API_URL}/projects/add/document/${claimId}/${projectId}`, {

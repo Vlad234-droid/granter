@@ -6,7 +6,7 @@ export const readNoti = async (compId) => {
   const token = lockr.get('auth-key');
 
   try {
-    await fetch(`${REACT_APP_API_URL}/core/notification/set-read/${compId}`, {
+    const readNoti = await fetch(`${REACT_APP_API_URL}/core/notification/set-read/${compId}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -14,6 +14,8 @@ export const readNoti = async (compId) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    const res = await readNoti.json();
+    if (res.success) return res;
   } catch (error) {
     throw new Error(error);
   }

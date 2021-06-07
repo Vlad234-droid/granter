@@ -28,6 +28,7 @@ const RegistrationForm = ({ goNextStep }) => {
       name: state.name,
       number: state.number,
       email: value.email,
+      phone: value.phone,
       industry_ids: industryIds,
       password: value.password,
       staffing_costs: state.staffing_costs,
@@ -100,6 +101,20 @@ const RegistrationForm = ({ goNextStep }) => {
           ]}>
           <Input placeholder="Enter the email" />
         </Form.Item>
+        <Form.Item
+          label="Your Phone Number"
+          name="phone"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Phone!',
+            },
+          ]}>
+          <Input placeholder="Enter the phone" />
+        </Form.Item>
+        <div className="password-label">
+          Please <b>create a secure password</b> to protect your account
+        </div>
         <div className={`password-controle ${passwordError ? 'error' : ''}`}>
           <button
             className="password-controle--show"

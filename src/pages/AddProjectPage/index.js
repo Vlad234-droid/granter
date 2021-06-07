@@ -1,19 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'antd';
-
 import Layout from '../../components/LayoutDashboard/Layout';
 import Steps from './Steps';
 import Сonfirm from './Сonfirm';
-
 import arrowLeft from '../../assets/img/arrow-left.svg';
-
 import './style.scss';
 
 const AddProjectPage = () => {
-  const [indexStep, setIndexStep] = useState(null);
-
   const slider = useRef();
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
   return (
     <Layout isLogged={false} className="dashboard">
       <div className="add-project">
@@ -26,9 +23,6 @@ const AddProjectPage = () => {
         <div className="add-project__wrapper">
           <h2>Add new company with 3 little steps</h2>
           <Carousel
-            beforeChange={(prevIndex, newIndex) => {
-              setIndexStep(() => newIndex);
-            }}
             ref={slider}
             swipe={false}
             dots={false}
@@ -37,6 +31,8 @@ const AddProjectPage = () => {
             className="hello-page__steps_slider">
             <div>
               <Steps
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
                 goNextStep={() => {
                   slider.current.next();
                 }}
@@ -44,7 +40,8 @@ const AddProjectPage = () => {
             </div>
             <div>
               <Сonfirm
-                indexStep={indexStep}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
                 goNextStep={() => {
                   slider.current.next();
                 }}

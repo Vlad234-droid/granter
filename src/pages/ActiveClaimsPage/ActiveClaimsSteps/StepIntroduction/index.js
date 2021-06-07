@@ -19,7 +19,7 @@ const StepIntroduction = () => {
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
-  const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+  const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -34,6 +34,7 @@ const StepIntroduction = () => {
     if (activeClaimId) {
       setIntroductionStep(null);
       getIntroductionClaimStep(activeClaimId).then((data) => {
+        console.log('this data', data);
         const res = { ...data };
         res.documents = data.documents.map((item) => {
           item.red = false;
@@ -64,6 +65,7 @@ const StepIntroduction = () => {
       <h2
         onClick={() => {
           setDetailsShow(true);
+          blurActiveSteps();
         }}>
         <p>
           1<i>/</i>5 Introduction
@@ -87,12 +89,25 @@ const StepIntroduction = () => {
             {introductionStep.call_date === null && (
               <>
                 <button
-                  className="step-status--call-schedule"
+                  className={`step-status--call-schedule ${
+                    introductionStep.documents.filter((item) => item.status === 1).length === 3 ? 'disabled' : ''
+                  }`}
                   onClick={() => {
+                    if (introductionStep.documents.filter((item) => item.status === 1).length === 3) return;
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
                   <img src={iconCalendar} alt="" />
                   <span>Schedule a call</span>
+                  {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
+                    <Tooltip
+                      title="Please, upload documents 
+                    to be able to schedule this call. 
+                    Or contact our support">
+                      <span className="warning">
+                        <IconWarning />
+                      </span>
+                    </Tooltip>
+                  )}
                 </button>
                 <CommonModalShadule
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
@@ -136,7 +151,14 @@ const StepIntroduction = () => {
           <Drawer
             title={
               <div className="ant-drawer-title-wripper">
-                <img src={arrowLeft} alt={arrowLeft} />
+                <img
+                  src={arrowLeft}
+                  alt={arrowLeft}
+                  onClick={() => {
+                    setDetailsShow(() => false);
+                    blurActiveSteps();
+                  }}
+                />
                 <p>
                   1<i>/</i>5 Introduction
                 </p>
@@ -152,6 +174,7 @@ const StepIntroduction = () => {
             closable={false}
             onClose={() => {
               setDetailsShow(false);
+              blurActiveSteps();
             }}
             visible={detailsShow}
             className="active-claims__step_drawer">

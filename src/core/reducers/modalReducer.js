@@ -1,14 +1,23 @@
 export const initialState = {
+  isBlur: false,
   visibleModal: false,
   isVisibleNotifications: false,
   isVisibleSubMenu: [],
   isVisibleModalDelete: false,
   isVisibleModalDeleteDocs: false,
   isVisibleBlurSheduleCall: false,
+  isVisibleActiveTechnical: false,
+  isVisibleActiveSteps: false,
+  isVisibleProjectPage: false,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case 'SET_IS_BLUR':
+      return {
+        ...state,
+        isBlur: payload,
+      };
     case 'SHOW_MODAL':
       return {
         ...state,
@@ -73,6 +82,26 @@ export const modalReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isVisibleBlurSheduleCall: false,
+      };
+    case 'SHOW_BLUR_ACTIVE_TECHNICALS':
+      return {
+        ...state,
+        isVisibleActiveTechnical: true,
+      };
+    case 'CLOSE_BLUR_ACTIVE_TECHNICALS':
+      return {
+        ...state,
+        isVisibleActiveTechnical: false,
+      };
+    case 'BLUR_ACTIVE_STEPS':
+      return {
+        ...state,
+        isVisibleActiveSteps: !state.isVisibleActiveSteps,
+      };
+    case 'BLUR_ACTIVE_PR_PAGE':
+      return {
+        ...state,
+        isVisibleProjectPage: !state.isVisibleProjectPage,
       };
     default:
       return {

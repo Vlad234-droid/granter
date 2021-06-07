@@ -9,7 +9,7 @@ import './style.scss';
 
 const { Step } = Steps;
 
-const WelcomeSteps = ({ goNextStep }) => {
+const WelcomeSteps = ({ goNextStep, setMaxPrice, setMinPrice }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const slider = useRef();
 
@@ -70,6 +70,8 @@ const WelcomeSteps = ({ goNextStep }) => {
           <div>
             {currentStep === 2 && (
               <WelcomeStep3
+                setMaxPrice={setMaxPrice}
+                setMinPrice={setMinPrice}
                 goNextStep={() => {
                   goNextStep();
                 }}

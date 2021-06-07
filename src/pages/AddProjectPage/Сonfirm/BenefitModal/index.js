@@ -1,8 +1,9 @@
 import React from 'react';
 import { Modal, Form, Input, Button, Col } from 'antd';
 import './style.scss';
+import { setUserToUnregister } from '../../../../core/services/setUserToUnregister';
 
-const BenefitModal = ({ modalPrice, setModalPice }) => {
+const BenefitModal = ({ state, isModalBenefit, setIsModalBenefit }) => {
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -12,15 +13,26 @@ const BenefitModal = ({ modalPrice, setModalPice }) => {
     },
   };
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    setModalPice((prev) => !prev);
+    const { name, number, industry, materials_costs, staffing_costs, subcontracting_costs, software_costs } = state;
+    const updatedList = {
+      ...values,
+      name,
+      number,
+      industry,
+      materials_costs,
+      staffing_costs,
+      subcontracting_costs,
+      software_costs,
+    };
+    setUserToUnregister(updatedList);
+    setIsModalBenefit(() => false);
   };
   return (
     <Modal
-      visible={modalPrice}
+      visible={isModalBenefit}
       closable={false}
       onCancel={() => {
-        console.log('HEllo');
+        setIsModalBenefit(() => false);
       }}
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}

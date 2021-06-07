@@ -38,6 +38,7 @@ const onlyAuthorisedAllowed = () => {
 
 const initialState = {
   isloggedIn: onlyAuthorisedAllowed(),
+  isAdmin: false,
   data: null,
   companies: null,
   currentCompany: null,
@@ -110,9 +111,16 @@ const userReducer = (state = initialState, action) => {
         currentCompany: action.payload,
       };
 
+    case 'SET_USER_IS_ADMIN':
+      return {
+        ...state,
+        isAdmin: true,
+      };
+
     case 'USER-LOG-OUT':
       return {
         isloggedIn: false,
+        isAdmin: false,
         data: null,
         companies: null,
         currentCompany: null,

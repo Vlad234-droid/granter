@@ -31,6 +31,12 @@ const registrationSetAllIndustries = (data) => {
     payload: data,
   };
 };
+const registrationChangeEstimate = (payload) => {
+  return {
+    type: 'REGISTRATION_CHANGE_ESTIMATE',
+    payload,
+  };
+};
 
 export {
   registrationFetchRequested,
@@ -38,4 +44,5 @@ export {
   registrationFetchError,
   registrationUpdateState,
   registrationSetAllIndustries,
+  registrationChangeEstimate,
 };

@@ -44,6 +44,9 @@ const DocumentsPage = () => {
           // } else if (extension === '.xls' || extension === '.xlsx') {
           //   item.extension = 'xls';
           // }
+          if (step === 'technical' && item.project) {
+            item.status = item.project.status;
+          }
           item.checked = false;
           return item;
         });
@@ -54,8 +57,6 @@ const DocumentsPage = () => {
   }, [companyId, step]);
 
   const onFilterChange = (changedValues, filters) => {
-    console.log(filters);
-
     let result = fileList.filter((file) => {
       // if (filters.extension.length || filters.claim_id.length || filters.status.length) {
       if (filters.extension.length || filters.status.length) {
@@ -95,8 +96,6 @@ const DocumentsPage = () => {
       }
     });
     setFilterList(result);
-
-    console.log(result.length);
   };
 
   const onFileSelect = (e, id) => {
@@ -116,7 +115,6 @@ const DocumentsPage = () => {
     const list = filterList.filter((item) => item.checked);
     const stage = list[0].stage;
     getDownloadList(list, stage).then((data) => {
-      console.log(data.zip);
       window.open(data.zip);
     });
   };
@@ -153,7 +151,6 @@ const DocumentsPage = () => {
       result.sort((a, b) => (new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1));
     }
     setFilterList(result);
-    console.log(mode);
   };
 
   return (

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Badge, Drawer } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getNotificationsForUser } from '../../core/services/getNotificationsForUser';
 import { IconNotificationsLength, IconNotificationsEmpty } from '../icons';
 import './style.scss';
@@ -17,6 +17,7 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     if (company) {
@@ -35,17 +36,21 @@ const HeaderNotification = () => {
       return;
     } else if (notiData.length) {
       let count = notiData.filter((item) => item.status === 2).length;
-      setCount(count);
+      setCount(() => count);
     }
-
     return () => setCount(() => '');
-  }, [notiData, dispatch]);
+  }, [notiData]);
 
   const showDrawer = () => {
-    readNoti(company.id);
-    getNotificationsForUser(dispatch, company.id).then((data) => {
-      setNotiData(() => data);
-    });
+    if (!!count) {
+      readNoti(company.id).then((data) => {
+        if (data.success) {
+          getNotificationsForUser(dispatch, company.id).then((data) => {
+            setNotiData(() => data);
+          });
+        }
+      });
+    }
 
     if (!notiData.length) {
       dispatch(closeModalNotifications());
@@ -94,6 +99,15 @@ const HeaderNotification = () => {
     return convertDate(date);
   };
 
+  const checkForLinkTo = useCallback((item) => {
+    if (item.project_id === null) {
+      return `/document/${item.claim_id}/${item.document_id}/`;
+    }
+    if (item.document_id === null) {
+      return `/project/${item.claim_id}/${item.project_id}`;
+    }
+  }, []);
+
   return (
     <div className="header__notification">
       <button onClick={showDrawer}>
@@ -139,9 +153,9 @@ const HeaderNotification = () => {
                     </div>
                     <div className="details_container">
                       <div className="item_li">{item.title}</div>
-                      {item.title !== 'Document was removed' ? (
+                      {item.claim_id !== null ? (
                         <Link
-                          to={`/document/${item.claim_id}/${item.document_id}/`}
+                          to={() => checkForLinkTo(item)}
                           className="check_doc"
                           onClick={() => dispatch(closeModalNotifications())}>
                           Check document

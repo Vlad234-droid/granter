@@ -50,6 +50,27 @@ const closeBlurSheduleCall = () => ({
   type: 'CLOSE_BLUR_SHEDULE_CALL',
 });
 
+const showBlurActiveTechnicals = (payload) => ({
+  type: 'SHOW_BLUR_ACTIVE_TECHNICALS',
+  payload,
+});
+
+const closeBlurActiveTechnicals = () => ({
+  type: 'CLOSE_BLUR_ACTIVE_TECHNICALS',
+});
+
+const blurActiveSteps = () => ({
+  type: 'BLUR_ACTIVE_STEPS',
+});
+const blurActivePrPage = () => ({
+  type: 'BLUR_ACTIVE_PR_PAGE',
+});
+
+const setIsBlur = (status) => ({
+  type: 'SET_IS_BLUR',
+  payload: status,
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -63,4 +84,9 @@ export {
   closeModalDeleteDocs,
   showBlurSheduleCall,
   closeBlurSheduleCall,
+  showBlurActiveTechnicals,
+  closeBlurActiveTechnicals,
+  blurActiveSteps,
+  blurActivePrPage,
+  setIsBlur,
 };

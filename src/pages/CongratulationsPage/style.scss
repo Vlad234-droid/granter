@@ -1,0 +1,89 @@
+.dashboard {
+  .congrat_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 90px;
+    h2 {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 40px;
+      text-align: center;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #3c4252;
+      margin-bottom: 80px;
+    }
+
+    .cards_wrapper {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .card {
+        position: relative;
+        width: 300px;
+        height: 152px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 12px 0px 12px;
+        .circle {
+          position: absolute;
+          top: -36px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          background-color: white;
+        }
+        h3 {
+          margin-top: 15px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 36px;
+          text-align: center;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+          color: #ffffff;
+          margin-bottom: 0px;
+        }
+        p {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          text-align: center;
+          color: #ffffff;
+          opacity: 0.8;
+          margin-bottom: 0px;
+        }
+      }
+      .card1 {
+        background: radial-gradient(100% 225% at 100% 96.5%, #b18af8 0%, rgba(177, 138, 248, 0.3) 100%);
+      }
+      .card2 {
+        background: radial-gradient(100% 244.14% at 100% 100%, #f9a648 0%, rgba(249, 166, 72, 0.3) 100%);
+      }
+      .card3 {
+        background: radial-gradient(100% 247.41% at 0% 0%, rgba(48, 95, 245, 0.3) 0%, #305ff5 100%);
+      }
+    }
+    .email_block {
+      margin-top: 56px;
+      #name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        #name_email {
+          min-width: 320px !important;
+        }
+      }
+    }
+  }
+}

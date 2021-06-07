@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Drawer } from 'antd';
+import { Skeleton, Drawer, Tooltip } from 'antd';
+import { IconWarning } from '../../../../components/icons';
 import { getFinancialClaimStep } from '../../../../core/services';
 import UploadFile from '../../../../components/UploadFile';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
@@ -18,7 +19,7 @@ const StepFinancial = () => {
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
-  const { showBlurSheduleCall, closeBlurSheduleCall } = bindActionCreators(actions, dispatch);
+  const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -45,21 +46,17 @@ const StepFinancial = () => {
           );
           setStatus(status);
         })
-        .catch((error) => {
-          console.log('error', error);
-        });
+        .catch((error) => {});
     }
   }, [activeClaimId]);
 
   const onAction = (file) => {
-    console.log(file);
     const res = { ...financialStep };
     res.documents = financialStep.documents.map((item) => {
       if (item.id === file.id) item = file;
       return item;
     });
     setFinancialStep(res);
-    console.log(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
   };
@@ -69,6 +66,7 @@ const StepFinancial = () => {
       <h2
         onClick={() => {
           setDetailsShow(true);
+          blurActiveSteps();
         }}>
         2<i>/</i>5 Financial
       </h2>
@@ -86,26 +84,35 @@ const StepFinancial = () => {
             {financialStep.call_date === null && (
               <>
                 <button
-                  className="step-status--call-schedule"
+                  className={`step-status--call-schedule ${
+                    financialStep.documents.filter((item) => item.status === 1).length === 4 ? 'disabled' : ''
+                  }`}
                   onClick={() => {
+                    if (financialStep.documents.filter((item) => item.status === 1).length === 4) return;
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
-                  <img src={iconCalendar} alt="iconCalendar" />
+                  <img src={iconCalendar} alt="" />
                   <span>Schedule a call</span>
+                  {financialStep.documents.filter((item) => item.status === 1).length === 4 && (
+                    <Tooltip
+                      title="Please, upload documents 
+                    to be able to schedule this call. 
+                    Or contact our support">
+                      <span className="warning">
+                        <IconWarning />
+                      </span>
+                    </Tooltip>
+                  )}
                 </button>
                 <CommonModalShadule
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
-                    <li>1. Financial call often takes about 1 hour.</li>
+                    <li>1. Introduction often takes about one hour.</li>
                     <li>
-                      2. We want to assist you in accurately analysing project expenditure that occurred within the
-                      relevant period(s).
+                      2. We want to understand the type of work you have undertaken during the relevant period(s).
                     </li>
-                    <li>
-                      3. We will do our due diligence and benchmark your claim in order to maximise the robustness of
-                      submission.
-                    </li>
+                    <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
                   </ul>
                 </CommonModalShadule>
               </>
@@ -139,7 +146,14 @@ const StepFinancial = () => {
           <Drawer
             title={
               <div className="ant-drawer-title-wripper">
-                <img src={arrowLeft} />
+                <img
+                  src={arrowLeft}
+                  alt={'ArrowLeft'}
+                  onClick={() => {
+                    setDetailsShow(() => false);
+                    blurActiveSteps();
+                  }}
+                />
                 <p>
                   2<i>/</i>5 Financial
                 </p>
@@ -150,6 +164,7 @@ const StepFinancial = () => {
             closable={false}
             onClose={() => {
               setDetailsShow(false);
+              blurActiveSteps();
             }}
             visible={detailsShow}
             className="active-claims__step_drawer">

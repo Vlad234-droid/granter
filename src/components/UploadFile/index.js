@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import lockr from 'lockr';
 import { Tooltip, Upload, Dropdown, Button, Spin } from 'antd';
@@ -11,6 +11,10 @@ import iconUndo from '../../assets/img/icon-undo.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconComment from '../../assets/img/icon-comment.svg';
 
+import PDFSVG from '../../assets/img/PDF.svg';
+import XLSXSVG from '../../assets/img/XLSX.svg';
+import DOCSSVG from '../../assets/img/DOCS.svg';
+
 import { IconDeleteFile } from '../icons';
 
 import './style.scss';
@@ -21,8 +25,15 @@ const { REACT_APP_API_URL } = process.env;
 
 const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+
+  useEffect(() => {
+    if (!file.extension && file.url) {
+      setExtension(file.url.match(/\.[0-9a-z]+$/i)[0]);
+    }
+  }, []);
 
   const customRequest = (e) => {
     setLoading(true);
@@ -64,6 +75,23 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
     return status;
   };
 
+  const checkForExt = (extension) => {
+    switch (extension) {
+      case '.doc':
+        return DOCSSVG;
+      case '.docx':
+        return DOCSSVG;
+      case '.pdf':
+        return PDFSVG;
+      case '.xls':
+        return XLSXSVG;
+      case '.xlsx':
+        return XLSXSVG;
+      default:
+        return extension;
+    }
+  };
+
   if (file.status > 1 && file.is_skipped < 1)
     return (
       <div className={`step-file ${loading ? 'loading' : ''}`}>
@@ -71,7 +99,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
           <Spin />
         </div>
         <div className="step-file--title">
-          <img src={iconPdf} alt="" />
+          <img src={checkForExt(extension)} alt="" />
           <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
           {removeButton &&
             (!file.has_unresolved_comments ? (

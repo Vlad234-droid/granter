@@ -7,16 +7,26 @@ import { useSelector } from 'react-redux';
 import './style.scss';
 
 const LayoutBoard = ({ children, className }) => {
-  const { visibleModal, isVisibleModalDeleteDocs, isVisibleNotifications, isVisibleBlurSheduleCall } = useSelector(
-    (state) => state.modal,
-  );
+  const {
+    visibleModal,
+    isVisibleModalDeleteDocs,
+    isVisibleNotifications,
+    isVisibleBlurSheduleCall,
+    isVisibleActiveTechnical,
+    isVisibleActiveSteps,
+  } = useSelector((state) => state.modal);
 
   return (
     <div
       className={`app-dashboard ${className}`}
       style={{
         filter:
-          visibleModal || isVisibleNotifications || isVisibleModalDeleteDocs || isVisibleBlurSheduleCall
+          visibleModal ||
+          isVisibleNotifications ||
+          isVisibleModalDeleteDocs ||
+          isVisibleBlurSheduleCall ||
+          isVisibleActiveTechnical ||
+          isVisibleActiveSteps
             ? 'blur(3px)'
             : 'blur(0px)',
       }}>

@@ -10,7 +10,8 @@ import './style.scss';
 
 const WelcomePage = (props) => {
   const slider = useRef();
-  const [indexStep, setIndexStep] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
 
   return (
     <Layout isLogged={false} className="hello-page" mode="registration">
@@ -21,12 +22,11 @@ const WelcomePage = (props) => {
           dots={false}
           easing="ease-in-out"
           effect="fade"
-          beforeChange={(prevIndex, newIndex) => {
-            setIndexStep(() => newIndex);
-          }}
           className="hello-page__steps_slider">
           <div>
             <WelcomeSteps
+              setMinPrice={setMinPrice}
+              setMaxPrice={setMaxPrice}
               goNextStep={() => {
                 slider.current.next();
               }}
@@ -34,7 +34,8 @@ const WelcomePage = (props) => {
           </div>
           <div>
             <WelcomeСonfirm
-              indexStep={indexStep}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
               goNextStep={() => {
                 slider.current.next();
               }}

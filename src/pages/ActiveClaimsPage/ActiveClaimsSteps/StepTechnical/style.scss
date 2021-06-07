@@ -89,8 +89,48 @@
   .technical__modal_actions {
     margin-top: 40px;
     text-align: center;
-    .ant-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > * {
       margin: 0 12px;
     }
+    .ant-upload {
+      padding: 0 !important;
+      border: none;
+      margin: 0;
+    }
+    .ant-btn-button {
+      padding: 0 14px;
+      margin: 0 !important;
+      img {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.drawer-technical-dragger {
+  margin: 16px 16px 16px 48px;
+}
+
+.technical__add-project_button {
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border: 1px dashed #305ff5 !important;
+  border-radius: 10px;
+  padding: 8px !important;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 114.9%;
+  color: #3c4252;
+  margin-bottom: 24px;
+  img {
+    margin-right: 8px;
   }
 }

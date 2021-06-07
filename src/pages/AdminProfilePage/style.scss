@@ -1,0 +1,204 @@
+.admin_dashboard_wrapper {
+  .back_to {
+    height: 72px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 35px;
+    button {
+      cursor: pointer;
+    }
+    .text_btn {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      align-items: center;
+      color: #3c4252;
+      padding: 5px 5px 5px 10px;
+      margin-bottom: 3px;
+    }
+  }
+  .flex_table_btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
+  }
+  .btns_actions {
+    padding: 80px 0px 0px 0px;
+    width: 450px;
+    .action_logs {
+      margin-left: 25px;
+    }
+  }
+  .profile__general {
+    padding: 32px 32px 24px 32px;
+    background-color: #fff;
+    padding-left: 115px;
+
+    .profile__general_title {
+      display: flex;
+      justify-content: space-between;
+      width: 640px;
+      height: 32px;
+      h2 {
+        button {
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+        }
+      }
+      .ant-btn {
+        height: 32px;
+      }
+    }
+    .profile__general_table {
+      margin: 16px 0 0 0;
+      padding: 0;
+      list-style: none;
+      width: 640px;
+      li {
+        display: flex;
+        padding: 9px 16px 10px 16px;
+        align-items: center;
+        &:nth-child(odd) {
+          background: rgba(238, 242, 246, 0.85);
+        }
+        .ant-row {
+          margin-bottom: 0;
+        }
+        .label {
+          width: 180px;
+          flex-shrink: 0;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 150%;
+          color: #7f8896;
+        }
+        .details {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 150%;
+          color: #3c4252;
+          input {
+            width: 320px;
+          }
+          .ant-select {
+            width: 200px;
+          }
+          .alert {
+            display: inline-flex;
+            align-items: center;
+            .icon-warning {
+              margin-right: 8px;
+              .icon-fill {
+                fill: #f65747;
+              }
+            }
+            span {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 150%;
+              color: #f65747;
+            }
+            a {
+              font-family: Poppins;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 14px;
+              color: #305ff5;
+              margin-left: 24px;
+            }
+          }
+          p {
+            margin: 14px 0 0 0;
+          }
+        }
+      }
+    }
+    .profile__general_actions {
+      margin-top: 32px;
+      text-align: right;
+      width: 640px;
+      .ant-btn {
+        width: 106px;
+        margin-left: 16px;
+      }
+    }
+  }
+  .profile__companies {
+    padding: 32px;
+    padding-left: 115px;
+    .profile__companies_list {
+      margin: 24px 0 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      li {
+        margin-right: 16px;
+        margin-bottom: 16px;
+      }
+    }
+  }
+  h2 {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    color: #3c4252;
+    display: flex;
+    align-items: center;
+    a {
+      width: 22px;
+      height: 22px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  }
+}
+
+.delete-client__modal {
+  .ant-modal-body {
+    text-align: center;
+    h2 {
+      margin-bottom: 24px;
+    }
+    .delete-client__modal_description {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 150%;
+      color: #3c4252;
+      width: 70%;
+      margin: auto;
+    }
+    .delete-client__modal_actions {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      button {
+        margin: 0 12px;
+        &.ant-btn-primary {
+          background-color: #f65747;
+          border-color: #f65747;
+          &:hover {
+            box-shadow: 0px 4px 12px rgba(245, 48, 48, 0.5);
+          }
+        }
+      }
+    }
+  }
+}

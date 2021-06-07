@@ -39,12 +39,17 @@ const ActiveClaimsPage = (props) => {
                 </time>
               )}
             </div>
-            {!userData?.email_verified_at ? (
-              <div className="active-claims__verify-message">
-                Welcome! Verify your email to see approximate benefits
-              </div>
+
+            {userData.email_verified_at ? (
+              !activeClaimData.estimated_benefit_start && !activeClaimData.estimated_benefit_end ? (
+                <div className="active-claims__verify-message">TBC</div>
+              ) : (
+                <ActiveClaimsCards activeClaimData={activeClaimData} />
+              )
             ) : (
-              <ActiveClaimsCards activeClaimData={activeClaimData} />
+              <div>
+                Welcome! <b>Verify your email</b> to see approximate benefits
+              </div>
             )}
           </>
         )}
