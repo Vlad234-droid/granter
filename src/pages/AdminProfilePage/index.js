@@ -25,6 +25,8 @@ const ProfilePage = () => {
   const [clientLogList, setClientLogList] = useState(null);
   const [isClientActionLog, setIsClientActionLog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [removeClientModal, setRemoveClientModal] = useState(false);
+  const [removeComanyModal, setRemoveComanyModal] = useState(false);
   const [profileForm] = Form.useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -273,6 +275,7 @@ const ProfilePage = () => {
             type="button"
             className="delete_client"
             onClick={() => {
+              setRemoveClientModal(true);
               setIsBlur(true);
             }}>
             Delete Client
@@ -299,6 +302,10 @@ const ProfilePage = () => {
                 companies={companiesList}
                 updateCompany={updateCompany}
                 setCompaniesList={setCompaniesList}
+                setModal={(status) => {
+                  setRemoveComanyModal(status);
+                  setIsBlur(status);
+                }}
               />
             ))}
         </ul>
@@ -306,10 +313,42 @@ const ProfilePage = () => {
       <Modal
         title="Basic Modal"
         className="delete-client__modal"
-        visible={isBlur}
+        visible={removeClientModal}
         width={700}
         onCancel={() => {
           setIsBlur(false);
+          setRemoveClientModal(false);
+        }}
+        footer={false}
+        title={false}
+        closeIcon={<CloseIconModal />}>
+        <h2>
+          Are you sure you want to <br />
+          delete client?
+        </h2>
+        <div className="delete-client__modal_description">
+          You are trying to delete the client. If you delete the client — the claim will be deleted along with it.
+        </div>
+        <div className="delete-client__modal_actions">
+          <Button
+            type="button"
+            onClick={() => {
+              setIsBlur(false);
+              setRemoveClientModal(false);
+            }}>
+            Back
+          </Button>
+          <Button type="primary">Delete</Button>
+        </div>
+      </Modal>
+      <Modal
+        title="Basic Modal"
+        className="delete-client__modal"
+        visible={removeComanyModal}
+        width={700}
+        onCancel={() => {
+          setIsBlur(false);
+          setRemoveComanyModal(false);
         }}
         footer={false}
         title={false}
@@ -327,6 +366,7 @@ const ProfilePage = () => {
             type="button"
             onClick={() => {
               setIsBlur(false);
+              setRemoveComanyModal(false);
             }}>
             Back
           </Button>

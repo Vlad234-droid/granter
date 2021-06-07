@@ -11,7 +11,7 @@ import './style.scss';
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
 const { Dragger } = Upload;
-const Company = ({ companies, company, updateCompany }) => {
+const Company = ({ companies, company, updateCompany, setModal }) => {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -114,25 +114,14 @@ const Company = ({ companies, company, updateCompany }) => {
                   <IconEditPencil />
                 </button>
                 {companies.length !== 1 && (
-                  <>
-                    <Dropdown
-                      overlay={menu}
-                      placement="bottomRight"
-                      trigger="click"
-                      visible={isDropDownDelete}
-                      onVisibleChange={() => {
-                        if (isDropDownDelete) setIsDropDownDelete((prev) => !prev);
-                      }}
-                      getPopupContainer={() => document.getElementById('btn_del')}>
-                      <button
-                        onClick={() => {
-                          setIsDropDownDelete((prev) => !prev);
-                        }}
-                        className="profile__btn_delete">
-                        <DeleteCompanySVG />
-                      </button>
-                    </Dropdown>
-                  </>
+                  <button
+                    onClick={() => {
+                      setModal(true);
+                      //setIsDropDownDelete((prev) => !prev);
+                    }}
+                    className="profile__btn_delete">
+                    <DeleteCompanySVG />
+                  </button>
                 )}
               </>
             )}

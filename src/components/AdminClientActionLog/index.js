@@ -15,26 +15,12 @@ import './style.scss';
 
 const AdminClientActionLog = ({ visible, list, name, onClose }) => {
   const company = useSelector((state) => state.user.currentCompany);
-  const { isVisibleNotifications } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-  const [notiData, setNotiData] = useState([]);
-  const [count, setCount] = useState('');
-  const history = useHistory();
   const { setIsBlur } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     setIsBlur(visible);
   }, [visible]);
-
-  useEffect(() => {
-    if (notiData === undefined) {
-      return;
-    } else if (notiData.length) {
-      let count = notiData.filter((item) => item.status === 2).length;
-      setCount(() => count);
-    }
-    return () => setCount(() => '');
-  }, [notiData]);
 
   // const showDrawer = () => {
   //   if (!!count) {
@@ -119,7 +105,7 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
         closeIcon={<CloseIconModal />}
         closable={true}>
         <ul className="list_of_notif">
-          {notiData === undefined ? (
+          {list === undefined ? (
             ''
           ) : (
             <>
