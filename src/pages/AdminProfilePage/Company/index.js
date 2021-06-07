@@ -11,7 +11,7 @@ import './style.scss';
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
 const { Dragger } = Upload;
-const Company = ({ companies, company, updateCompany }) => {
+const Company = ({ companies, company, updateCompany, setModal }) => {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -116,7 +116,8 @@ const Company = ({ companies, company, updateCompany }) => {
                 {companies.length !== 1 && (
                   <button
                     onClick={() => {
-                      setIsDropDownDelete((prev) => !prev);
+                      setModal(true);
+                      //setIsDropDownDelete((prev) => !prev);
                     }}
                     className="profile__btn_delete">
                     <DeleteCompanySVG />

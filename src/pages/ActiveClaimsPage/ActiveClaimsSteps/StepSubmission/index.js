@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
+
+import IconInfo from '../../../../assets/img/icon-Info-orange.svg';
 
 import './style.scss';
 
@@ -7,7 +9,16 @@ const StepSubmission = () => {
   return (
     <section className="active-claims__steps_step submission">
       <h2>
-        5<i>/</i>5 Submission
+        <p>
+          5<i>/</i>5 Submission
+        </p>
+        <Tooltip
+          placement="topRight"
+          title="You don’t have to upload files for this stage. The Gratner team will do it for you when all the previous stages will be approved">
+          <span>
+            <img src={IconInfo} alt="" />
+          </span>
+        </Tooltip>
       </h2>
       <div className="step-actions">
         <div className="step-report-empty">Final submission instructions</div>

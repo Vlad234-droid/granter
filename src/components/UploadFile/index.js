@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import lockr from 'lockr';
 import { Tooltip, Upload, Dropdown, Button, Spin } from 'antd';
@@ -25,8 +25,15 @@ const { REACT_APP_API_URL } = process.env;
 
 const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+
+  useEffect(() => {
+    if (!file.extension && file.url) {
+      setExtension(file.url.match(/\.[0-9a-z]+$/i)[0]);
+    }
+  }, []);
 
   const customRequest = (e) => {
     setLoading(true);
@@ -70,15 +77,15 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
 
   const checkForExt = (extension) => {
     switch (extension) {
-      case 'doc':
+      case '.doc':
         return DOCSSVG;
-      case 'docx':
+      case '.docx':
         return DOCSSVG;
-      case 'pdf':
+      case '.pdf':
         return PDFSVG;
-      case 'xls':
+      case '.xls':
         return XLSXSVG;
-      case 'xlsx':
+      case '.xlsx':
         return XLSXSVG;
       default:
         return extension;
@@ -92,7 +99,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
           <Spin />
         </div>
         <div className="step-file--title">
-          <img src={checkForExt(file.extension)} alt="" />
+          <img src={checkForExt(extension)} alt="" />
           <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
           {removeButton &&
             (!file.has_unresolved_comments ? (
