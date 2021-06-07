@@ -61,13 +61,7 @@ const dataColumns = [
     render: (text) => <a>{text}</a>,
     disabled: true,
   },
-  {
-    title: 'Company',
-    dataIndex: 'company',
-    key: 'company',
-    sorter: {},
-    disabled: true,
-  },
+
   {
     title: 'Active claim',
     dataIndex: 'activeClaim',

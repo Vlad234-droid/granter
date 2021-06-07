@@ -15,14 +15,14 @@ import './style.scss';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { approveDocument } from '../../core/adminServices/claimServices';
+import { AdminArrow } from '../../components/icons';
 
 const { Dragger } = Upload;
 
-const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
+const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, checkForAllStatus }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  console.log('filefile', file);
 
   const customRequest = (e) => {
     setLoading(true);
@@ -139,28 +139,51 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction }) =>
         </div>
         <div className="step-file--status admin">
           <Dropdown
+            overlayClassName="admin_drop_approved"
             trigger="click"
             overlay={
               <Menu>
-                <Menu.Item>
-                  <span
-                    onClick={() =>
-                      approveDocument(file.id, 3).then((data) => {
-                        // setLoading(() => true);
-                        // if (data.success) {
-                        //   setLoading(() => false);
-                        // }
-                        console.log('data:', data);
-                      })
-                    }>
-                    Approve
-                  </span>
-                </Menu.Item>
+                {file.status === 2 && (
+                  <Menu.Item>
+                    <div
+                      className="status approved"
+                      onClick={() => {
+                        checkForAllStatus();
+                        approveDocument(file.id, 3).then((data) => {
+                          // setLoading(() => true);
+                          // if (data.success) {
+                          //   setLoading(() => false);
+                          // }
+                          //console.log('data:', data);
+                        });
+                      }}>
+                      <b>Approve</b>
+                    </div>
+                  </Menu.Item>
+                )}
+                {file.status === 3 && (
+                  <Menu.Item>
+                    <div
+                      className="status on_review"
+                      onClick={() =>
+                        approveDocument(file.id, 3).then((data) => {
+                          // setLoading(() => true);
+                          // if (data.success) {
+                          //   setLoading(() => false);
+                          // }
+                          //console.log('data:', data);
+                        })
+                      }>
+                      <b>On Review</b>
+                    </div>
+                  </Menu.Item>
+                )}
               </Menu>
             }
             placement="bottomCenter">
-            <div style={{ cursor: 'pointer' }} className={`status ${statusName(file.status).class}`}>
+            <div style={{ cursor: 'pointer' }} id="status" className={`status ${statusName(file.status).class}`}>
               {statusName(file.status).name}
+              <AdminArrow />
             </div>
           </Dropdown>
           <div className="comments">

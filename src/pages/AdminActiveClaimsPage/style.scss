@@ -32,12 +32,12 @@
       }
     }
   }
-  .active-claims {
+  .active-claims.admin {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 0px 0px 22px 56px;
-    width: 1200px;
+    padding: 0px 56px 22px 56px;
+    width: 1400px;
 
     .active-claims__title {
       font-family: Poppins;

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tooltip, Skeleton, Drawer } from 'antd';
-import { getIntroductionClaimStep, approveIntroduction } from '../../../../core/adminServices/claimServices';
+import { getIntroductionClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
 import AdminUploadFile from '../../../../components/AdminUploadFile';
 import { IconWarning } from '../../../../components/icons';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
@@ -60,6 +60,10 @@ const StepIntroduction = () => {
     setStatus(status);
   };
 
+  const checkForAllStatus = () => {
+    if (!introductionStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 1);
+  };
+
   return (
     <section className="active-claims__steps_step introduction">
       <h2
@@ -86,6 +90,7 @@ const StepIntroduction = () => {
                 key={`introduction-document-${item.id}`}
                 style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
                 <AdminUploadFile
+                  checkForAllStatus={checkForAllStatus}
                   removeButton={true}
                   key={`introduction-document-${item.id}`}
                   file={item}
@@ -94,7 +99,6 @@ const StepIntroduction = () => {
                     //introductionStep, setIntroductionStep
                     const res = { ...introductionStep };
                     res.documents.map((row) => {
-                      console.log('row.red', row.red);
                       if (row.id === item.id) row.red = red;
                       return row;
                     });
