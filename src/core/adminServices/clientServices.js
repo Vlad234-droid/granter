@@ -39,6 +39,32 @@ const postResource = async (url, dataBody) => {
   return body;
 };
 
+const getAllClients = async (page) => {
+  const body = new FormData();
+  body.append('page', page);
+  try {
+    const data = await postResource(`admin/clients`, page);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const postClientCompanyEdits = async (companyId, form) => {
+  console.log('form', form);
+  const body = new FormData();
+  for (let i in form) {
+    body.append(i, form[i]);
+  }
+
+  try {
+    const data = await postResource(`admin/company/edit/${companyId}`, body);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
 const getClient = async (clientID) => {
   try {
     const data = await getResource(`admin/client/${clientID}`);
@@ -66,19 +92,4 @@ const getClientActions = async (clientID) => {
   }
 };
 
-const postClientCompanyEdits = async (companyId, form) => {
-  console.log('form', form);
-  const body = new FormData();
-  for (let i in form) {
-    body.append(i, form[i]);
-  }
-
-  try {
-    const data = await postResource(`admin/company/edit/${companyId}`, body);
-    return data.data;
-  } catch (err) {
-    return null;
-  }
-};
-
-export { getClient, getClientCompanies, getClientActions, postClientCompanyEdits };
+export { getClient, getClientCompanies, getClientActions, postClientCompanyEdits, getAllClients };

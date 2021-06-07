@@ -1,5 +1,12 @@
 .table_wrapper {
   padding: 20px 24px;
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td,
+  .ant-table tfoot > tr > th,
+  .ant-table tfoot > tr > td {
+    padding: 10px 10px !important;
+    white-space: nowrap;
+  }
   #basic {
     .ant-checkbox-wrapper {
       padding: 5px 0px;

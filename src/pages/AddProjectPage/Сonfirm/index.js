@@ -50,11 +50,6 @@ const Сonfirm = ({ goPrevStep, maxPrice, minPrice }) => {
         <div className="wrapper_total_benefit">
           <p>Estimated total claim benefit</p>
           <h2>{`£${minPrice} - £${maxPrice}`}</h2>
-          <div className="block_info_img">
-            <h5>YoY Change:</h5>
-            <UpVector />
-            <h6>13%</h6>
-          </div>
         </div>
       );
     } else if (showEstimate === 'estimate') {

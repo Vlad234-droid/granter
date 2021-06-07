@@ -97,6 +97,30 @@ const AdminSettings = () => {
         </div>
 
         <Form name="name" layout="vertical" form={form} requiredMark={true} onFinish={onFinishName}>
+          {/* <Form.Item
+            name="name"
+            rules={[
+              {
+                type: 'text',
+                required: true,
+                message: 'Type first name',
+              },
+            ]}>
+            <Input placeholder="Type first name" />
+          </Form.Item>
+
+          <Form.Item
+            name="phone"
+            rules={[
+              {
+                pattern: /^(\+)(\d+)$/,
+                required: true,
+                message: 'Phone number must start with +, allowed characters is 0-9',
+              },
+            ]}>
+            <Input placeholder="Type phone" style={{ width: '90%', margin: '10px auto 0px auto' }} />
+          </Form.Item> */}
+
           <Form.Item
             name="email"
             rules={[

@@ -4,53 +4,54 @@ import './style.scss';
 import { ColumnVisibilitySVG } from '../../components/icons';
 import LayOutAdmin from '../../components/LayOutAdmin';
 import { Menu, Dropdown, Checkbox } from 'antd';
-import { searchService } from '../../core/adminServices/getAllClients';
+import { getAllClients } from '../../core/adminServices/clientServices';
+import { forEach } from 'underscore';
 
-const dataSource = [
-  {
-    key: '1',
-    name: 'Vlad',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: (
-      <div className="wrapper_progress">
-        <div>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-        </div>
-        <div>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-        </div>
-      </div>
-    ),
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '2',
-    name: 'Sergey',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: (
-      <div className="wrapper_progress">
-        <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
-        <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
-      </div>
-    ),
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-];
+// const dataSource = [
+//   {
+//     key: '1',
+//     name: 'Vlad',
+//     age: 32,
+//     address: '10 Downing Street',
+//     company: 'Angle',
+//     activeClaim: 'link',
+//     yearend: '5/19/20',
+//     dueDate: '5/19/20',
+//     perStages: (
+//       <div className="wrapper_progress">
+//         <div>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//         </div>
+//         <div>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//         </div>
+//       </div>
+//     ),
+//     value: '£100,000',
+//     dateCompleted: '5/19/20',
+//   },
+//   {
+//     key: '2',
+//     name: 'Sergey',
+//     age: 32,
+//     address: '10 Downing Street',
+//     company: 'Angle',
+//     activeClaim: 'link',
+//     yearend: '5/19/20',
+//     dueDate: '5/19/20',
+//     perStages: (
+//       <div className="wrapper_progress">
+//         <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
+//         <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
+//       </div>
+//     ),
+//     value: '£100,000',
+//     dateCompleted: '5/19/20',
+//   },
+// ];
 
 const dataColumns = [
   {
@@ -102,7 +103,7 @@ const dataColumns = [
 
 const AdminClientsPage = () => {
   const [visible, setVisible] = useState(false);
-  const [clients, setClients] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
   const [columns, setColumns] = useState([
     {
       title: 'Company',
@@ -160,8 +161,8 @@ const AdminClientsPage = () => {
 
   const defaultCheckedList = useMemo(
     () => [
-      { title: 'Client name', disabled: true, dataIndex: 'name' },
       { title: 'Company', disabled: true, dataIndex: 'company' },
+      { title: 'Client name', disabled: true, dataIndex: 'name' },
       { title: 'Active claim', disabled: true, dataIndex: 'activeClaim' },
       { title: 'Yearend', disabled: false, dataIndex: 'yearend' },
       { title: 'Due date', disabled: false, dataIndex: 'dueDate' },
@@ -184,12 +185,31 @@ const AdminClientsPage = () => {
   const onVisibleChange = (flag) => {
     setVisible(() => flag);
   };
+  const getActiveStage = () => {
+    return 'hello';
+  };
 
   useEffect(() => {
-    searchService().then((data) => setClients(() => data));
+    getAllClients().then((data) => {
+      console.log(data);
+      const newData = [];
+      data.forEach((item) => {
+        newData.push({
+          key: item.id,
+          company: item.company,
+          activeClaim: <h3 data-key={item.active_claim_id}>link</h3>,
+          yearend: item.yearend,
+          dueDate: item.dueDate,
+          perStages: getActiveStage(),
+          value: `£${item.project_value}`,
+          dateCompleted: item.date_completed,
+        });
+      });
+      setDataSource(() => newData);
+    });
   }, []);
 
-  console.log('clients', clients);
+  console.log('dataSource', dataSource);
 
   return (
     <LayOutAdmin>
@@ -246,8 +266,8 @@ const AdminClientsPage = () => {
           columns={columns}
           onChange={onChange}
           pagination={{
-            defaultPageSize: 5,
-            pageSize: 5,
+            defaultPageSize: 10,
+            pageSize: 10,
             position: ['bottomCenter'],
             showQuickJumper: true,
             showSizeChanger: false,
