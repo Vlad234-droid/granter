@@ -58,6 +58,7 @@ const routes = () => {
         <PrivateAdminRoute exact path="/admin/active-claim/:id" component={AdminActiveClaimsPage} />
         <PrivateRoute exact path="/admin/settings" component={AdminSettings} />
         <PrivateRoute exact path="/admin/add-client" component={AdminAddClient} />
+        <PrivateRoute exact path="/admin/add-company" component={AdminAddClient} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

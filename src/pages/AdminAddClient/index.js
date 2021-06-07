@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Carousel } from 'antd';
 import Steps from './Steps';
 import Сonfirm from './Confirm/index';
@@ -9,6 +9,9 @@ import LayOutAdmin from '../../components/LayOutAdmin';
 const AdminAddClient = () => {
   const [indexStep, setIndexStep] = useState(null);
   const slider = useRef();
+  const params = useParams();
+
+  console.log('params', params);
 
   return (
     <LayOutAdmin>
