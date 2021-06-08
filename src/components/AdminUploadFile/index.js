@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip, Upload, Button, Spin, Dropdown, Menu } from 'antd';
-import { setSkipFile, uploadFile, deleteFile } from '../../core/services';
+import { deleteDocumentFromClaim, uploadDocumentToClaim, setSkipFile } from '../../core/adminServices';
+
 import iconUpload from '../../assets/img/icon-upload.svg';
 import iconUploadRed from '../../assets/img/icon-upload-red.svg';
 import iconSkip from '../../assets/img/icon-skip.svg';
@@ -26,7 +27,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
 
   const customRequest = (e) => {
     setLoading(true);
-    uploadFile(id, file.id, e.file).then((data) => {
+    uploadDocumentToClaim(id, file.id, e.file).then((data) => {
       onAction(data.document);
       setLoading(false);
     });
@@ -36,9 +37,13 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
   const onDelete = () => {
     setLoading(true);
     setOnRemoveDropdown(false);
-    deleteFile(id, file.id).then((data) => {
+    deleteDocumentFromClaim(id, file.id).then((data) => {
+      if (data) {
+        onAction(data.document);
+      } else {
+        onRed(false);
+      }
       setLoading(false);
-      onAction(data.document);
     });
   };
 
@@ -86,56 +91,49 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
   // if uploaded
   if (file.status > 1 && file.is_skipped < 1)
     return (
-      <div className={`step-file ${loading ? 'loading' : ''}`}>
+      <div className={`step-file admin ${loading ? 'loading' : ''}`}>
         <div className="step-file-loading">
           <Spin />
         </div>
-        <div className={`step-file--title admin ${file.name === 'Full company accounts' ? 'intro' : ''}`}>
+        <div className={`step-file--title`}>
           <img src={checkForExt(file.original_name)} alt={file.original_name} />
-          <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
-          {removeButton &&
-            (!file.has_unresolved_comments ? (
-              <Dropdown
-                placement="bottomRight"
-                trigger="click"
-                visible={onRemoveDropdown}
-                onVisibleChange={(visible) => {
-                  if (!visible) setOnRemoveDropdown(false);
-                  onRed(visible);
-                }}
-                overlay={
-                  <div className="step-file--title-dropdown">
-                    <div className="dropdown-title">Are you sure you want to delete this Document?</div>
-                    <div className="dropdown-actions">
-                      <Button
-                        type="button"
-                        onClick={(e) => {
-                          setOnRemoveDropdown(false);
-                          onRed(false);
-                        }}>
-                        Back
-                      </Button>
-                      <Button type="primary" onClick={onDelete} loading={loading}>
-                        Delete
-                      </Button>
-                    </div>
+          <Link to={`/admin/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
+          {removeButton && (
+            <Dropdown
+              placement="bottomRight"
+              trigger="click"
+              visible={onRemoveDropdown}
+              onVisibleChange={(visible) => {
+                if (!visible) setOnRemoveDropdown(false);
+                onRed(visible);
+              }}
+              overlay={
+                <div className="step-file--title-dropdown">
+                  <div className="dropdown-title">Are you sure you want to delete this Document?</div>
+                  <div className="dropdown-actions">
+                    <Button
+                      type="button"
+                      onClick={(e) => {
+                        setOnRemoveDropdown(false);
+                        onRed(false);
+                      }}>
+                      Back
+                    </Button>
+                    <Button type="primary" onClick={onDelete} loading={loading}>
+                      Delete
+                    </Button>
                   </div>
-                }>
-                <button
-                  className="step-file--remove-button admin"
-                  onClick={() => {
-                    setOnRemoveDropdown(true);
-                  }}>
-                  <IconDeleteFile />
-                </button>
-              </Dropdown>
-            ) : (
-              <Tooltip placement="left" title="This file cannot be deleted because it contains unresolved comment">
-                <button className="step-file--remove" disabled>
-                  <IconDeleteFile />
-                </button>
-              </Tooltip>
-            ))}
+                </div>
+              }>
+              <button
+                className="step-file--remove-button admin"
+                onClick={() => {
+                  setOnRemoveDropdown(true);
+                }}>
+                <IconDeleteFile />
+              </button>
+            </Dropdown>
+          )}
         </div>
         <div className="step-file--status admin">
           <Dropdown
@@ -148,13 +146,19 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                     <div
                       className="status approved"
                       onClick={() => {
-                        checkForAllStatus();
+                        setLoading(() => true);
                         approveDocument(file.id, 3).then((data) => {
-                          // setLoading(() => true);
-                          // if (data.success) {
-                          //   setLoading(() => false);
-                          // }
-                          //console.log('data:', data);
+                          if (data.success) {
+                            checkForAllStatus();
+                            const file = {
+                              ...data.data.document,
+                              status: Number(data.data.document.status),
+                            };
+                            onAction(file);
+                            console.log(file);
+
+                            setLoading(() => false);
+                          }
                         });
                       }}>
                       <b>Approve</b>
@@ -165,15 +169,21 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                   <Menu.Item>
                     <div
                       className="status on_review"
-                      onClick={() =>
-                        approveDocument(file.id, 3).then((data) => {
-                          // setLoading(() => true);
-                          // if (data.success) {
-                          //   setLoading(() => false);
-                          // }
-                          //console.log('data:', data);
-                        })
-                      }>
+                      onClick={() => {
+                        setLoading(() => true);
+                        approveDocument(file.id, 2).then((data) => {
+                          if (data.success) {
+                            checkForAllStatus();
+                            const file = {
+                              ...data.data.document,
+                              status: Number(data.data.document.status),
+                            };
+                            console.log(file);
+                            onAction(file);
+                            setLoading(() => false);
+                          }
+                        });
+                      }}>
                       <b>On Review</b>
                     </div>
                   </Menu.Item>
@@ -196,7 +206,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
 
   return (
     // if not upload
-    <Tooltip placement="rightTop" title={file.is_skipped > 0 ? '' : 'Upload PDF, XLSX or DOCX'}>
+    <Tooltip placement="topRight" title={file.is_skipped > 0 ? '' : 'Upload PDF, XLSX or DOCX'}>
       <Dragger
         name="file"
         customRequest={customRequest}

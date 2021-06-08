@@ -85,7 +85,7 @@ const StepFinancial = () => {
           <div className="step-actions">
             {financialStep.documents.map((item) => (
               <div
-                className="row"
+                className="row admin"
                 key={`introduction-document-${item.id}`}
                 style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
                 <AdminUploadFile

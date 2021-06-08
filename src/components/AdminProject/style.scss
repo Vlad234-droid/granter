@@ -15,7 +15,7 @@
     border: 1px dashed #c0c4cb;
   }
   .ant-upload-btn {
-    padding: 8px 8px 10px 8px;
+    padding: 8px 8px 10px 12px;
     display: block;
     .ant-upload-drag-container {
       .upload-loading {
@@ -41,7 +41,7 @@
         color: #3c4252;
         text-align: left;
         img {
-          margin-right: 8px;
+          margin-right: 12px;
         }
       }
       .upload-skip {
@@ -125,6 +125,7 @@
 }
 
 .step-project {
+  margin-left: 10px;
   .step-file--title {
     img {
       width: 20px;
@@ -209,45 +210,49 @@
 }
 
 .wrapper_tech_rev.admin {
-  margin-top: 4px;
-  margin-left: 0px;
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .status {
-    margin-left: 15px;
-    display: flex;
-    align-items: center;
-    width: 108px;
-    height: 24px;
-    border-radius: 4px;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 15px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    .adminArrow {
-      margin-top: 2px;
-      margin-left: 5px;
-    }
-    &.review {
-      background: rgba(249, 166, 72, 0.2) url('../../assets/img/icon-review.svg') no-repeat 8px center;
-      color: #f9a648;
-      padding-left: 28px;
-    }
-    &.approved {
-      background: rgba(16, 172, 132, 0.2) url('../../assets/img/icon-approved.svg') no-repeat 8px center;
-      color: #10ac84;
-      padding-left: 28px;
-    }
-  }
 }
 
+// .wrapper_tech_rev.admin {
+//   margin-top: 4px;
+//   margin-left: 0px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   position: relative;
+//   .status {
+//     margin-left: 15px;
+//     display: flex;
+//     align-items: center;
+//     width: 108px;
+//     height: 24px;
+//     border-radius: 4px;
+//     font-family: Poppins;
+//     font-style: normal;
+//     font-weight: 600;
+//     font-size: 10px;
+//     line-height: 15px;
+//     text-transform: uppercase;
+//     white-space: nowrap;
+//     .adminArrow {
+//       margin-top: 2px;
+//       margin-left: 5px;
+//     }
+//     &.review {
+//       background: rgba(249, 166, 72, 0.2) url('../../assets/img/icon-review.svg') no-repeat 8px center;
+//       color: #f9a648;
+//       padding-left: 28px;
+//     }
+//     &.approved {
+//       background: rgba(16, 172, 132, 0.2) url('../../assets/img/icon-approved.svg') no-repeat 8px center;
+//       color: #10ac84;
+//       padding-left: 28px;
+//     }
+//   }
+// }
+
 .ant-dropdown.admin_drop_approved_adminPR {
-  left: 651px !important;
-  min-width: 108px !important;
   ul {
     padding: 0px;
     li {

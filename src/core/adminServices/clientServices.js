@@ -39,6 +39,36 @@ const postResource = async (url, dataBody) => {
   return body;
 };
 
+const getAllClients = async (page, sort_by, sort_dir) => {
+  const body = new FormData();
+  body.append('page', page);
+  if (sort_by !== undefined && sort_dir !== undefined) {
+    body.append('sort_by', sort_by);
+    body.append('sort_dir', sort_dir.slice(0, -3));
+  }
+  try {
+    const data = await postResource(`admin/clients`, body);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const postClientCompanyEdits = async (companyId, form) => {
+  console.log('form', form);
+  const body = new FormData();
+  for (let i in form) {
+    body.append(i, form[i]);
+  }
+
+  try {
+    const data = await postResource(`admin/company/edit/${companyId}`, body);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
 const getClient = async (clientID) => {
   try {
     const data = await getResource(`admin/client/${clientID}`);
@@ -66,19 +96,4 @@ const getClientActions = async (clientID) => {
   }
 };
 
-const postClientCompanyEdits = async (companyId, form) => {
-  console.log('form', form);
-  const body = new FormData();
-  for (let i in form) {
-    body.append(i, form[i]);
-  }
-
-  try {
-    const data = await postResource(`admin/company/edit/${companyId}`, body);
-    return data.data;
-  } catch (err) {
-    return null;
-  }
-};
-
-export { getClient, getClientCompanies, getClientActions, postClientCompanyEdits };
+export { getClient, getClientCompanies, getClientActions, postClientCompanyEdits, getAllClients };

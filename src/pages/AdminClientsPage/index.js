@@ -1,62 +1,69 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Table, Form } from 'antd';
 import './style.scss';
 import { ColumnVisibilitySVG } from '../../components/icons';
 import LayOutAdmin from '../../components/LayOutAdmin';
-import { Menu, Dropdown, Checkbox } from 'antd';
-import { searchService } from '../../core/adminServices/getAllClients';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Vlad',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: (
-      <div className="wrapper_progress">
-        <div>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-        </div>
-        <div>
-          <p>3% 1/5 Introduction</p>
-          <p>3% 1/5 Introduction</p>
-        </div>
-      </div>
-    ),
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-  {
-    key: '2',
-    name: 'Sergey',
-    age: 32,
-    address: '10 Downing Street',
-    company: 'Angle',
-    activeClaim: 'link',
-    yearend: '5/19/20',
-    dueDate: '5/19/20',
-    perStages: (
-      <div className="wrapper_progress">
-        <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
-        <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
-      </div>
-    ),
-    value: '£100,000',
-    dateCompleted: '5/19/20',
-  },
-];
+import { Menu, Dropdown, Checkbox, Pagination, Skeleton } from 'antd';
+import { getAllClients } from '../../core/adminServices/clientServices';
+import { Link } from 'react-router-dom';
+// const dataSource = [
+//   {
+//     key: '1',
+//     name: 'Vlad',
+//     age: 32,
+//     address: '10 Downing Street',
+//     company: 'Angle',
+//     activeClaim: 'link',
+//     yearend: '5/19/20',
+//     dueDate: '5/19/20',
+//     perStages: (
+//       <div className="wrapper_progress">
+//         <div>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//         </div>
+//         <div>
+//           <p>3% 1/5 Introduction</p>
+//           <p>3% 1/5 Introduction</p>
+//         </div>
+//       </div>
+//     ),
+//     value: '£100,000',
+//     dateCompleted: '5/19/20',
+//   },
+//   {
+//     key: '2',
+//     name: 'Sergey',
+//     age: 32,
+//     address: '10 Downing Street',
+//     company: 'Angle',
+//     activeClaim: 'link',
+//     yearend: '5/19/20',
+//     dueDate: '5/19/20',
+//     perStages: (
+//       <div className="wrapper_progress">
+//         <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
+//         <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
+//       </div>
+//     ),
+//     value: '£100,000',
+//     dateCompleted: '5/19/20',
+//   },
+// ];
 
 const dataColumns = [
   {
+    title: 'Company',
+    dataIndex: 'company',
+    key: 'company',
+    sorter: {},
+    disabled: true,
+  },
+  {
     title: 'Client name',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'client_name',
+    key: 'client_name',
     sorter: {},
     render: (text) => <a>{text}</a>,
     disabled: true,
@@ -64,21 +71,21 @@ const dataColumns = [
 
   {
     title: 'Active claim',
-    dataIndex: 'activeClaim',
-    key: 'activeClaim',
+    dataIndex: 'active_claim_id',
+    key: 'active_claim_id',
     render: (text) => <a>{text}</a>,
     disabled: true,
   },
   {
     title: 'Yearend',
-    dataIndex: 'yearend',
-    key: 'yearend',
+    dataIndex: 'yearned',
+    key: 'yearned',
     sorter: {},
   },
   {
     title: 'Due date',
-    dataIndex: 'dueDate',
-    key: 'dueDate',
+    dataIndex: 'due_date',
+    key: 'due_date',
     sorter: {},
   },
   {
@@ -88,21 +95,27 @@ const dataColumns = [
   },
   {
     title: 'Projected value',
-    dataIndex: 'value',
-    key: 'value',
+    dataIndex: 'project_value',
+    key: 'project_value',
     sorter: {},
   },
   {
     title: 'Date completed',
-    dataIndex: 'dateCompleted',
-    key: 'dateCompleted',
+    dataIndex: 'date_completed',
+    key: 'date_completed',
     sorter: {},
   },
 ];
 
 const AdminClientsPage = () => {
   const [visible, setVisible] = useState(false);
-  const [clients, setClients] = useState([]);
+  const [dataSource, setDataSource] = useState(null);
+  const [tableLoading, setTableLoading] = useState(false);
+  const [totalCountPages, setTotalCountPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(0);
+  const [sorterType, setSorterType] = useState('');
+  const [currentColumnKey, setCurrentColumnKey] = useState('');
   const [columns, setColumns] = useState([
     {
       title: 'Company',
@@ -113,29 +126,30 @@ const AdminClientsPage = () => {
     },
     {
       title: 'Client name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'client_name',
+      key: 'client_name',
       sorter: {},
       render: (text) => <a>{text}</a>,
       disabled: true,
+      sorter: {},
     },
     {
       title: 'Active claim',
-      dataIndex: 'activeClaim',
-      key: 'activeClaim',
+      dataIndex: 'active_claim_id',
+      key: 'active_claim_id',
       sorter: {},
       disabled: true,
     },
     {
       title: 'Yearend',
-      dataIndex: 'yearend',
-      key: 'yearend',
+      dataIndex: 'yearned',
+      key: 'yearned',
       sorter: {},
     },
     {
       title: 'Due date',
-      dataIndex: 'dueDate',
-      key: 'dueDate',
+      dataIndex: 'due_date',
+      key: 'due_date',
       sorter: {},
     },
     {
@@ -146,34 +160,54 @@ const AdminClientsPage = () => {
     },
     {
       title: 'Projected value',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'project_value',
+      key: 'project_value',
       sorter: {},
     },
     {
       title: 'Date completed',
-      dataIndex: 'dateCompleted',
-      key: 'dateCompleted',
+      dataIndex: 'date_completed',
+      key: 'date_completed',
       sorter: {},
     },
   ]);
 
   const defaultCheckedList = useMemo(
     () => [
-      { title: 'Client name', disabled: true, dataIndex: 'name' },
       { title: 'Company', disabled: true, dataIndex: 'company' },
-      { title: 'Active claim', disabled: true, dataIndex: 'activeClaim' },
-      { title: 'Yearend', disabled: false, dataIndex: 'yearend' },
-      { title: 'Due date', disabled: false, dataIndex: 'dueDate' },
+      { title: 'Client name', disabled: true, dataIndex: 'client_name' },
+      { title: 'Active claim', disabled: true, dataIndex: 'active_claim_id' },
+      { title: 'Yearend', disabled: false, dataIndex: 'yearned' },
+      { title: 'Due date', disabled: false, dataIndex: 'due_date' },
       { title: 'Progress % of stages', disabled: false, dataIndex: 'perStages' },
-      { title: 'Projected value', disabled: false, dataIndex: 'value' },
-      { title: 'Date completed', disabled: false, dataIndex: 'dateCompleted' },
+      { title: 'Projected value', disabled: false, dataIndex: 'project_value' },
+      { title: 'Date completed', disabled: false, dataIndex: 'date_completed' },
     ],
     [],
   );
 
+  useEffect(() => {
+    setTableLoading(() => true);
+    getAllClients(currentPage).then((data) => {
+      console.log('data', data);
+      setPageInfo(data);
+    });
+  }, []);
+
   const onChange = (pagination, filters, sorter, extra) => {
-    //console.log('params', pagination, filters, sorter, extra);
+    setTableLoading(() => true);
+    setSorterType(() => sorter.order);
+    setCurrentColumnKey(() => sorter.columnKey);
+    if (sorter.order === undefined)
+      return getAllClients(currentPage).then((data) => {
+        setPageInfo(data);
+        setSorterType(() => '');
+        setCurrentColumnKey(() => '');
+      });
+
+    getAllClients(currentPage, sorter.columnKey, sorter.order).then((data) => {
+      setPageInfo(data);
+    });
   };
 
   const onFilterChange = (changedValues, filters) => {
@@ -185,74 +219,149 @@ const AdminClientsPage = () => {
     setVisible(() => flag);
   };
 
-  useEffect(() => {
-    searchService().then((data) => setClients(() => data));
-  }, []);
+  const onChangeSizePage = (page) => {
+    if (currentColumnKey !== '' && sorterType !== '') {
+      setCurrentPage(() => page);
+      setTableLoading(() => true);
 
-  console.log('clients', clients);
+      return getAllClients(page, currentColumnKey, sorterType).then((data) => {
+        setPageInfo(data);
+      });
+    }
+    setCurrentPage(() => page);
+    setTableLoading(() => true);
+    getAllClients(page).then((data) => {
+      setPageInfo(data);
+    });
+  };
+
+  const setPageInfo = useCallback(
+    (data) => {
+      const { companies, total_count, per_page } = data;
+      console.log(data);
+      setTotalCountPages(() => total_count);
+      setPerPage(() => per_page);
+      const newData = [];
+      companies.forEach((item) => {
+        newData.push({
+          key: item.id,
+          client_name: (
+            <h3 className="active_client_name">
+              <Link to={`/admin/client/${item.client_id}`}>
+                {item.client_name === null ? 'Go to profile' : item.client_name}
+              </Link>
+            </h3>
+          ),
+          company: item.company,
+          active_claim_id: (
+            <h3 className="active_claim_id">
+              <Link to={`/admin/active-claim/${item.active_claim_id}`}>link</Link>
+            </h3>
+          ),
+          yearned: item.yearned,
+          due_date: item.due_date,
+          perStages: getActiveStage(item.progress),
+          project_value: checkForValue(item.project_value),
+          date_completed: item.date_completed,
+        });
+      });
+      setDataSource(() => newData);
+      setTableLoading(() => false);
+    },
+    [dataSource],
+  );
+  const getActiveStage = (progressComp) => {
+    let approvedClaims = 0;
+    Object.values(progressComp).forEach((step) => {
+      if (step.in_done) approvedClaims++;
+    });
+    return `${approvedClaims} / ${Object.keys(progressComp).length} Approved`;
+  };
+
+  const checkForValue = (value) => {
+    if (value === null) return '£ 0';
+    return `£ ${value}`;
+  };
 
   return (
     <LayOutAdmin>
       <div className="table_wrapper">
-        <div className="dropdown_filter" id="drop_down_filter">
-          <button className="btn_filter">
-            <ColumnVisibilitySVG />
-            <Dropdown
-              visible={visible}
-              onVisibleChange={onVisibleChange}
-              trigger={['click']}
-              arrow={false}
-              getPopupContainer={() => document.getElementById('drop_down_filter')}
-              overlay={
-                <Menu>
-                  <Menu.Item>
-                    <Form
-                      initialValues={{
-                        checkedProp: [
-                          'name',
-                          'company',
-                          'activeClaim',
-                          'yearend',
-                          'dueDate',
-                          'perStages',
-                          'value',
-                          'dateCompleted',
-                        ],
-                      }}
-                      name="basic"
-                      className="clients__filter_form"
-                      onValuesChange={onFilterChange}>
-                      <Form.Item name="checkedProp">
-                        <Checkbox.Group>
-                          {defaultCheckedList.map(({ title, disabled, dataIndex }) => (
-                            <Checkbox key={dataIndex} value={dataIndex} disabled={disabled}>
-                              {title}
-                            </Checkbox>
-                          ))}
-                        </Checkbox.Group>
-                      </Form.Item>
-                    </Form>
-                  </Menu.Item>
-                </Menu>
-              }
-              placement="bottomRight"
-              arrow>
-              <h3>Show/Hide Columns</h3>
-            </Dropdown>
-          </button>
-        </div>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          onChange={onChange}
-          pagination={{
-            defaultPageSize: 5,
-            pageSize: 5,
-            position: ['bottomCenter'],
-            showQuickJumper: true,
-            showSizeChanger: false,
-          }}
-        />
+        {dataSource === null ? (
+          <div className="clients_admin_skeletons">
+            <Skeleton active />
+            <Skeleton active />
+            <Skeleton active />
+            <Skeleton active />
+          </div>
+        ) : (
+          <>
+            <div className="dropdown_filter" id="drop_down_filter">
+              <button className="btn_filter">
+                <ColumnVisibilitySVG />
+                <Dropdown
+                  visible={visible}
+                  onVisibleChange={onVisibleChange}
+                  trigger={['click']}
+                  arrow={false}
+                  getPopupContainer={() => document.getElementById('drop_down_filter')}
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <Form
+                          initialValues={{
+                            checkedProp: [
+                              'company',
+                              'client_name',
+                              'active_claim_id',
+                              'yearned',
+                              'due_date',
+                              'perStages',
+                              'project_value',
+                              'date_completed',
+                            ],
+                          }}
+                          name="basic"
+                          className="clients__filter_form"
+                          onValuesChange={onFilterChange}>
+                          <Form.Item name="checkedProp">
+                            <Checkbox.Group>
+                              {defaultCheckedList.map(({ title, disabled, dataIndex }) => (
+                                <Checkbox key={dataIndex} value={dataIndex} disabled={disabled}>
+                                  {title}
+                                </Checkbox>
+                              ))}
+                            </Checkbox.Group>
+                          </Form.Item>
+                        </Form>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  placement="bottomRight"
+                  arrow>
+                  <h3>Show/Hide Columns</h3>
+                </Dropdown>
+              </button>
+            </div>
+            <Table
+              loading={tableLoading}
+              dataSource={dataSource}
+              columns={columns}
+              onChange={onChange}
+              pagination={false}
+            />
+            <div className="pagination_clients">
+              <Pagination
+                showSizeChanger={false}
+                pageSize={perPage}
+                total={totalCountPages - perPage}
+                current={currentPage}
+                showQuickJumper
+                showLessItems={false}
+                onChange={onChangeSizePage}
+              />
+            </div>
+          </>
+        )}
       </div>
     </LayOutAdmin>
   );
