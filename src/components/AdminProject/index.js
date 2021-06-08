@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import lockr from 'lockr';
 import { Collapse, Upload, Dropdown, Button, Spin, Menu } from 'antd';
 import { removeProject } from '../../core/services';
@@ -26,10 +26,8 @@ const { REACT_APP_API_URL } = process.env;
 const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllStatus }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const history = useHistory();
-
-  console.log(removeButton);
+  const { id: activeClaimId } = useParams();
 
   const onDelete = () => {
     setLoading(true);

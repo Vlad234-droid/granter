@@ -22,6 +22,7 @@ import AdminActiveClaimsPage from '../../pages/AdminActiveClaimsPage';
 import AdminClientsPage from '../../pages/AdminClientsPage';
 import AdminSettings from '../../pages/AdminSettings';
 import AdminAddClient from '../../pages/AdminAddClient';
+import AdminDocumentPage from '../../pages/AdminDocumentPage';
 import CongratulationsPage from '../../pages/CongratulationsPage';
 
 //TODO Lazy
@@ -56,9 +57,10 @@ const routes = () => {
         <PrivateRoute exact path="/admin/clients" component={AdminClientsPage} />
         <PrivateAdminRoute exact path="/admin/client/:id" component={AdminProfilePage} />
         <PrivateAdminRoute exact path="/admin/active-claim/:id" component={AdminActiveClaimsPage} />
+        <PrivateAdminRoute exact path="/admin/document/:climeId/:id/" component={AdminDocumentPage} />
         <PrivateRoute exact path="/admin/settings" component={AdminSettings} />
-        <PrivateRoute exact path="/admin/add-client" component={AdminAddClient} />
-        <PrivateRoute exact path="/admin/add-company" component={AdminAddClient} />
+        <PrivateRoute exact path="/admin/:add-client" component={AdminAddClient} />
+        <PrivateRoute exact path="/admin/:add-company" component={AdminAddClient} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

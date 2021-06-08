@@ -15,7 +15,7 @@
     border: 1px dashed #c0c4cb;
   }
   .ant-upload-btn {
-    padding: 8px 8px 10px 8px;
+    padding: 8px 8px 10px 12px;
     display: block;
     .ant-upload-drag-container {
       .upload-loading {
@@ -159,4 +159,9 @@
       }
     }
   }
+}
+
+.step-file.admin {
+  padding-left: 12px;
+  padding-right: 4px;
 }
