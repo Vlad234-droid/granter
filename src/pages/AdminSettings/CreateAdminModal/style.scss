@@ -1,0 +1,67 @@
+.modal_createAdmin {
+  .ant-modal-body {
+    padding: 20px 70px 0px 70px !important;
+    #admin_create {
+      .ant-row {
+        margin-bottom: 12px;
+        .ant-col {
+          padding: 0px;
+          label {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            color: #3c4252;
+            height: 27px;
+            &:before {
+              content: '';
+            }
+          }
+        }
+      }
+      .submit__create_modal_admin {
+        .ant-form-item-control-input {
+          width: 56%;
+          margin: 5px auto 0px auto;
+          .ant-form-item-control-input-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+          }
+        }
+        display: flex !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+      }
+      .ant-row.upload_photo_admin {
+        margin-top: 33px;
+        .upload_photo {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          color: #3c4252;
+        }
+        .upload_only {
+          margin-left: 20px;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #c0c4cb;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  h2 {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #3c4252;
+    margin-top: 15px;
+  }
+}

@@ -3,6 +3,7 @@ import { Modal, Button } from 'antd';
 import './style.scss';
 import { NoFoundDocSVG } from '../../components/icons/index';
 import { CloseIconModal } from '../../components/icons/index';
+
 import { useHistory } from 'react-router-dom';
 
 const NoFoundDoc = () => {
