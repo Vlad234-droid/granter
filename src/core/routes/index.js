@@ -54,7 +54,7 @@ const routes = () => {
         <PrivateRoute exact path="/create-password/" component={CreatePasswordPage} />
         <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
         <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
-        <PrivateRoute exact path="/admin/clients" component={AdminClientsPage} />
+        <PrivateAdminRoute exact path="/admin/clients" component={AdminClientsPage} />
         <PrivateAdminRoute exact path="/admin/client/:id" component={AdminProfilePage} />
         <PrivateAdminRoute exact path="/admin/active-claim/:id" component={AdminActiveClaimsPage} />
         <PrivateAdminRoute exact path="/admin/document/:climeId/:id/" component={AdminDocumentPage} />

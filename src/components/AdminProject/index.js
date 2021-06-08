@@ -112,10 +112,11 @@ const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllS
           </Dropdown>
         )}
       </div>
-      <div className="wrapper_tech_rev admin">
+      <div className="wrapper_tech_rev admin" id={`wrapper_tech_rev-${file.id}`}>
         <Dropdown
           overlayClassName="admin_drop_approved_adminPR"
           trigger="click"
+          getPopupContainer={() => document.querySelector(`#wrapper_tech_rev-${file.id}`)}
           overlay={
             <Menu>
               {file.status === 2 && (
