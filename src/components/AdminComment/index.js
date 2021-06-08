@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Checkbox, Input, Collapse, Dropdown, Button, Skeleton } from 'antd';
+
+import { approveComment } from '../../core/adminServices';
 
 import Reply from './Reply';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
@@ -10,15 +12,27 @@ import './style.scss';
 
 const { Panel } = Collapse;
 
-const Comment = ({ comment, onCommentDelete, onAddReply }) => {
+const AdminComment = ({ comment, onCommentDelete, onAddReply }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [status, setStatus] = useState(null);
+
   const [replyForm, setReplyForm] = useState(false);
   const [replyLoader, setReplyLoader] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setStatus(comment.status > 1 ? true : false);
+  }, []);
+
   const onDelete = () => {
     setLoading(true);
     onCommentDelete(comment.id);
+  };
+
+  const onAprove = (e) => {
+    if (comment.status > 1) return;
+    approveComment(comment.id);
+    setStatus(true);
   };
 
   const convertDate = (date) => {
@@ -82,7 +96,7 @@ const Comment = ({ comment, onCommentDelete, onAddReply }) => {
             }}>
             <IconReply />
           </button>
-          <Checkbox checked={comment.status > 1 ? true : false} className="reply-checkbox" />
+          <Checkbox checked={status} className="reply-checkbox" onChange={onAprove} />
         </div>
         <div
           className="comment--message"
@@ -134,4 +148,4 @@ const Comment = ({ comment, onCommentDelete, onAddReply }) => {
   );
 };
 
-export default Comment;
+export default AdminComment;

@@ -1,0 +1,172 @@
+.document-details {
+  display: flex;
+  height: 100vh;
+  min-height: 800px;
+  .document-details__viewer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .document-details__header {
+      height: 60px;
+      border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+      display: flex;
+      align-items: center;
+      padding: 0 24px 0 32px;
+      .header--back {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3c4252;
+        margin-right: auto;
+        img {
+          margin-right: 8px;
+        }
+      }
+      .header--download {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 114.9%;
+        color: #305ff5;
+        margin-right: 40px;
+        img {
+          margin-right: 8px;
+        }
+      }
+      .header--upload {
+        width: 218px;
+        height: 40px;
+        background: #ffffff;
+        border: 1px dashed #305ff5;
+        box-sizing: border-box;
+        border-radius: 10px;
+        position: relative;
+        &.ant-upload-disabled {
+          opacity: 0.4;
+        }
+        .loading {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(255, 255, 255, 0.7);
+          border-radius: 10px;
+          .ant-spin {
+            height: 20px;
+          }
+        }
+        .ant-upload-btn {
+          padding: 0;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 114.9%;
+          color: #305ff5;
+          margin-right: 40px;
+          img {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    .document-wrapper {
+      flex-grow: 1;
+      padding: 16px 0;
+      .document-viewer {
+        width: 95%;
+        height: 100%;
+        margin: auto;
+      }
+    }
+  }
+  .document-details__comments {
+    width: 360px;
+    flex-shrink: 0;
+    background: url('../../assets/img/bg-comments.png') repeat;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    .ant-skeleton {
+      margin: auto 16px;
+      width: auto;
+    }
+    .document-details__comments_header {
+      height: 60px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      .header--title {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3c4252;
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        .icon-comment {
+          margin-right: 8px;
+        }
+      }
+      .ant-select {
+        width: 88px;
+      }
+    }
+    .document-details__comments_list {
+      padding: 16px 24px 100px 24px;
+      overflow: auto;
+      height: 100%;
+      .new-comment {
+        background: #f7f7fa;
+        border-radius: 10px;
+        padding: 16px;
+        label {
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #3c4252;
+          margin-bottom: 8px;
+          display: block;
+        }
+        .ant-input {
+          height: 140px;
+        }
+        .ant-skeleton {
+          margin: 0;
+          width: 100%;
+        }
+      }
+    }
+    .document-details__comments_new {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 96px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(235, 239, 243, 0) 0%, #eff3f7 80.67%);
+      .ant-btn {
+        &:disabled {
+          background-color: #7f8896;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}

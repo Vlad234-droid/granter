@@ -1,3 +1,4 @@
+import React from 'react';
 import lockr from 'lockr';
 import { notification } from 'antd';
 
@@ -31,6 +32,22 @@ const postResource = async (url, dataBody) => {
       Authorization: `Bearer ${token}`,
     },
     body: dataBody,
+  });
+  if (!res.ok) {
+    throw new Error();
+  }
+  const body = await res.json();
+  return body;
+};
+
+const deleteResource = async (url) => {
+  const token = lockr.get('auth-key');
+  const res = await fetch(`${REACT_APP_API_URL}/${url}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   });
   if (!res.ok) {
     throw new Error();
@@ -92,6 +109,31 @@ const approveStep = async (claimId, stepNumber) => {
   }
 };
 
+const uploadDocumentToClaim = async (claimId, documentId, file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const appDoc = await postResource(`admin/documents/upload/${claimId}/${documentId}`, formData);
+    return appDoc.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const deleteDocumentFromClaim = async (claimId, documentId) => {
+  try {
+    const appDoc = await deleteResource(`admin/documents/delete/${claimId}/${documentId}`);
+    return appDoc.data;
+  } catch (err) {
+    notification.error({
+      className: 'error-message',
+      description: 'Document has unresolved comments',
+      icon: <IconWarning />,
+    });
+    return null;
+  }
+};
+
 export {
   getClaim,
   getIntroductionClaimStep,
@@ -99,4 +141,6 @@ export {
   getTechnicalClaimStep,
   approveDocument,
   approveStep,
+  deleteDocumentFromClaim,
+  uploadDocumentToClaim,
 };

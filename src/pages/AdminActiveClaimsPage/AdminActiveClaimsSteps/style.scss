@@ -287,12 +287,11 @@
     }
     .step-file--status.admin {
       margin-top: 4px;
-      margin-left: 40px;
+      margin-left: 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       .status {
-        margin-left: 15px;
         display: flex;
         align-items: center;
         width: 108px;
@@ -363,6 +362,15 @@
     line-height: 114.9%;
     color: #3c4252;
     margin-bottom: 8px;
+  }
+  .row.admin {
+    transition: background 400ms ease;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 8px;
+    .step-file.admin {
+      margin-bottom: 8px;
+    }
   }
 }
 

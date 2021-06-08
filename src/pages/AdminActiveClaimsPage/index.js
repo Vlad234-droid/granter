@@ -50,6 +50,7 @@ const AdminActiveClaimsPage = (props) => {
           Welcome! Verify your email to see approximate benefits
         </div>
         <ActiveClaimsCards /> */}
+          {activeClaimData && <AdminActiveClaimsCards activeClaimData={activeClaimData} />}
           <AdminActiveClaimsSteps />
         </div>
       </div>

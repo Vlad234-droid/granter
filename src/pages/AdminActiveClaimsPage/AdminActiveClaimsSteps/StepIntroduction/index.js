@@ -52,7 +52,11 @@ const StepIntroduction = () => {
   const onAction = (file) => {
     const res = { ...introductionStep };
     res.documents = introductionStep.documents.map((item) => {
-      if (item.id === file.id) item = file;
+      if (item.id === file.id) {
+        const clone = { ...file };
+        if (!clone.comments_count) clone.comments_count = item.comments_count;
+        item = clone;
+      }
       return item;
     });
     setIntroductionStep(res);
