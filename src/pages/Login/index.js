@@ -42,6 +42,10 @@ const LoginPage = (props) => {
             </Button>
           </Form.Item>
         </Form>
+        <div className="wrapper_forget">
+          <span>Forgot your password?</span>
+          <span onClick={() => history.push('/reset-password/')}>Reset a password</span>
+        </div>
       </div>
     </Layout>
   );
