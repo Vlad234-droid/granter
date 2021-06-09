@@ -1,5 +1,38 @@
 .login-page {
   .login-page__wrapper {
+    .wrapper_forget {
+      span {
+        &:first-child {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13.5px;
+          opacity: 0.9;
+          display: inline-block;
+          margin-right: 5px;
+        }
+        &:last-child {
+          position: relative;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13.5px;
+          opacity: 0.9;
+          color: #396bfe;
+          display: inline-block;
+          cursor: pointer;
+          &:before {
+            content: '';
+            position: absolute;
+            top: 88%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #396bfe;
+          }
+        }
+      }
+    }
     text-align: center;
     padding-top: 56px;
     .login--form {

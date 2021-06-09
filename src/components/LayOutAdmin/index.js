@@ -53,16 +53,16 @@ const LayOutAdmin = ({ children }) => {
                 </li>
               ))}
             </ul>
-            <div className="search">
+            {/* <div className="search">
               <HeaderSearchAdmin />
-            </div>
+            </div> */}
           </div>
 
           <div className="wrapper_btn_Noti">
             <div className="btn">
-              <Button type="button" htmlType="submit">
+              <Link to="/admin/settings" className="ant-btn ant-btn-button">
                 Add Client
-              </Button>
+              </Link>
             </div>
             <div className="noti">
               <AdminHeaderNotifications />

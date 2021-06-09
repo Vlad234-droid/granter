@@ -23,6 +23,8 @@ import AdminClientsPage from '../../pages/AdminClientsPage';
 import AdminSettings from '../../pages/AdminSettings';
 import AdminAddClient from '../../pages/AdminAddClient';
 import AdminDocumentPage from '../../pages/AdminDocumentPage';
+import AdminProjectsPage from '../../pages/AdminProjectsPage';
+
 import CongratulationsPage from '../../pages/CongratulationsPage';
 
 //TODO Lazy
@@ -50,17 +52,19 @@ const routes = () => {
         <PrivateRoute exact path="/project/:climeId/" component={ProjectsPage} />
         <PrivateRoute exact path="/profile/" component={ProfilePage} />
         <PrivateRoute exact path="/profile/change-password/" component={ChangePasswordPage} />
-        <PrivateRoute exact path="/reset-password/" component={ResetPasswordPage} />
-        <PrivateRoute exact path="/create-password/" component={CreatePasswordPage} />
+        <Route exact path="/reset-password/" component={ResetPasswordPage} />
+        <Route exact path="/create-password/" component={CreatePasswordPage} />
         <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
         <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
         <PrivateAdminRoute exact path="/admin/clients" component={AdminClientsPage} />
         <PrivateAdminRoute exact path="/admin/client/:id" component={AdminProfilePage} />
         <PrivateAdminRoute exact path="/admin/active-claim/:id" component={AdminActiveClaimsPage} />
         <PrivateAdminRoute exact path="/admin/document/:climeId/:id/" component={AdminDocumentPage} />
-        <PrivateRoute exact path="/admin/settings" component={AdminSettings} />
-        <PrivateRoute exact path="/admin/:add-client" component={AdminAddClient} />
-        <PrivateRoute exact path="/admin/:add-company" component={AdminAddClient} />
+        <PrivateAdminRoute exact path="/admin/project/:climeId/:id" component={AdminProjectsPage} />
+        <PrivateAdminRoute exact path="/admin/project/:climeId/" component={AdminProjectsPage} />
+        <PrivateAdminRoute exact path="/admin/settings" component={AdminSettings} />
+        <PrivateAdminRoute exact path="/admin/:add-client" component={AdminAddClient} />
+        <PrivateAdminRoute exact path="/admin/:add-company" component={AdminAddClient} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>
