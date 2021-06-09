@@ -5,7 +5,7 @@ import Routes from './core/routes';
 import store from './store.js';
 import './index.scss';
 import { Provider } from 'react-redux';
-
+import Plug from './components/Plug';
 //import reportWebVitals from "./reportWebVitals";
 
 //const actions = bindActionCreators();
@@ -14,6 +14,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router basename="/">
       <Routes />
+      <Plug />
     </Router>
   </Provider>,
   document.getElementById('root'),

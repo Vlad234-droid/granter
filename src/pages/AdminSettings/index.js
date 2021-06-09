@@ -6,22 +6,32 @@ import { Form, Button, Skeleton } from 'antd';
 import { Table } from 'antd';
 import { DeleteAdminSVG } from '../../components/icons';
 import CreateAdminModal from './CreateAdminModal';
-import { getAllAdmins, deleteAdmin } from '../../core/adminServices/settingsServices';
+import { getAllAdmins } from '../../core/adminServices/settingsServices';
+import DeleteAdminModal from './DeleteAdminModal';
+import actions from '../../core/actions';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AdminSettings = () => {
   const [tableLoading, setTableLoading] = useState(false);
   const [dataTable, setDataTable] = useState(null);
   const [isCreateAdminModal, setIsCreateAdminModal] = useState(false);
+  const [isDeleteAdminModal, setIsDeleteAdminModal] = useState(false);
+  const [filteredListAdmins, setFilteredListAdmins] = useState([]);
+  const [recordId, setRecordId] = useState('');
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const { setIsBlur, userLogOut } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     getAllAdmins().then((data) => {
-      console.log(data);
+      console.log('data', data);
       if (data !== null) {
         const { admins } = data;
         const updatedInfo = admins.map((item) => ({
           name: item.name,
           avatar: item.profile?.avatar,
+          phone: item.profile?.phone,
           email: item.email,
           key: item.email,
           id: item.id,
@@ -35,11 +45,10 @@ const AdminSettings = () => {
 
   const deleteHandler = (record, dataTable) => {
     const filteredData = dataTable.filter((item) => item.key !== record.key);
-    deleteAdmin(record.id).then((data) => {
-      if (data.success) {
-        setDataTable(() => filteredData);
-      }
-    });
+    setFilteredListAdmins(() => filteredData);
+    setRecordId(() => record.id);
+    setIsDeleteAdminModal(() => true);
+    setIsBlur(true);
   };
 
   const onFinishName = (value) => {
@@ -79,12 +88,16 @@ const AdminSettings = () => {
       dataIndex: 'email',
     },
     {
+      title: 'Phone',
+      dataIndex: 'phone',
+    },
+    {
       title: 'Action',
       dataIndex: 'delete',
       align: 'right',
       render: (_, record) => {
         return (
-          <button onClick={() => deleteHandler(record, dataTable)}>
+          <button onClick={() => deleteHandler(record, dataTable)} style={{ padding: '2px', cursor: 'pointer' }}>
             <DeleteAdminSVG />
           </button>
         );
@@ -106,7 +119,7 @@ const AdminSettings = () => {
               <div className="title">
                 <h2>Admins</h2>
               </div>
-              <button className="block_log">
+              <button className="block_log" onClick={userLogOut}>
                 <LogOutSVG />
                 <h3>Log out</h3>
               </button>
@@ -123,6 +136,16 @@ const AdminSettings = () => {
               setIsCreateAdminModal={setIsCreateAdminModal}
             />
 
+            <DeleteAdminModal
+              setFilteredListAdmins={setFilteredListAdmins}
+              setRecordId={setRecordId}
+              recordId={recordId}
+              filteredListAdmins={filteredListAdmins}
+              setDataTable={setDataTable}
+              isDeleteAdminModal={isDeleteAdminModal}
+              setIsDeleteAdminModal={setIsDeleteAdminModal}
+            />
+
             <Table
               tableLoading={tableLoading}
               className="table_admins"
@@ -134,7 +157,7 @@ const AdminSettings = () => {
                 pageSize: 5,
                 position: ['bottomCenter'],
                 showQuickJumper: true,
-                showQuickJumper: { goButton: 'Page:' }, // problem
+                showQuickJumper: { goButton: 'Page:' },
                 showSizeChanger: false,
               }}
             />

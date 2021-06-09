@@ -32,8 +32,6 @@ const StepTechnical = () => {
   const history = useHistory();
   const { blurActiveSteps } = bindActionCreators(actions, dispatch);
 
-  console.log('activeClaimId', activeClaimId);
-
   useEffect(() => {
     if (activeClaimId) {
       setTechnicalStep(null);

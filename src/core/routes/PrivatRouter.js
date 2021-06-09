@@ -17,11 +17,22 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     fetchUserData(dispatch);
   }
 
+  // const checkForDocSign = () => {
+  //   if (!userData.profile?.id_status) {
+  //     return;
+  //   }
+  //   return;
+  // };
+
   const CurrentComponent = isloggedIn ? (
     !userData ? (
       <LoadingPage />
     ) : !isAdmin ? (
-      <Component />
+      !userData.profile?.id_status ? (
+        <Redirect to="/docSign" />
+      ) : (
+        <Component />
+      )
     ) : (
       <Redirect to="/admin/clients" />
     )
@@ -29,6 +40,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Redirect to="/sign-in/" />
   );
 
+  //if(!userData) return <LoadingPage />
   return <Route {...rest} render={(props) => CurrentComponent} />;
 };
 
