@@ -1,5 +1,10 @@
 .admin_dashboard_wrapper {
   .settings_page {
+    .ant-skeleton.ant-skeleton-active {
+      &:first-child {
+        margin-top: 250px;
+      }
+    }
     width: 95%;
     margin: 24px auto 0px auto;
     background: #ffffff;
@@ -53,18 +58,41 @@
       }
     }
     .table_admins {
+      thead {
+        tr {
+          .ant-table-cell.except_avatar {
+            padding: 0px;
+            width: 20px;
+          }
+        }
+        tr {
+          .ant-table-cell.except_admin_name {
+            .ant-table-column-sorters {
+              padding-left: 0px;
+            }
+          }
+        }
+      }
+      tbody {
+        tr {
+          .ant-table-cell.except_avatar {
+            padding-right: 0px;
+          }
+        }
+      }
+      h4 {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        color: #3c4252;
+        margin-bottom: 0px;
+        margin-left: 16px;
+      }
       .wrapper_img_name {
         display: flex;
         align-items: center;
-        h4 {
-          font-family: Poppins;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 14px;
-          color: #3c4252;
-          margin-bottom: 0px;
-          margin-left: 16px;
-        }
+
         img {
           width: 40px;
           height: 40px;
