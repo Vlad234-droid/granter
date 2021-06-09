@@ -119,7 +119,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your estimated completion!',
+                      message: 'Please input your estimated claim completion!',
                     },
                   ]}>
                   <Input type="number" suffix="days" />
@@ -144,7 +144,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your estimated completion!',
+                      message: 'Please input your project benefit payment!',
                     },
                   ]}>
                   <Input type="number" suffix="days" />

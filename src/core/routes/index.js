@@ -22,6 +22,7 @@ import AdminActiveClaimsPage from '../../pages/AdminActiveClaimsPage';
 import AdminClientsPage from '../../pages/AdminClientsPage';
 import AdminSettings from '../../pages/AdminSettings';
 import AdminAddClient from '../../pages/AdminAddClient';
+import AdminAddComany from '../../pages/AdminAddComany';
 import AdminDocumentPage from '../../pages/AdminDocumentPage';
 import AdminProjectsPage from '../../pages/AdminProjectsPage';
 
@@ -63,8 +64,8 @@ const routes = () => {
         <PrivateAdminRoute exact path="/admin/project/:climeId/:id" component={AdminProjectsPage} />
         <PrivateAdminRoute exact path="/admin/project/:climeId/" component={AdminProjectsPage} />
         <PrivateAdminRoute exact path="/admin/settings" component={AdminSettings} />
-        <PrivateAdminRoute exact path="/admin/:add-client" component={AdminAddClient} />
-        <PrivateAdminRoute exact path="/admin/:add-company" component={AdminAddClient} />
+        <PrivateAdminRoute exact path="/admin/add-client" component={AdminAddClient} />
+        <PrivateAdminRoute exact path="/admin/add-company/:clientId" component={AdminAddComany} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

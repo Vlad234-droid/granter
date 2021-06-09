@@ -8,7 +8,7 @@ import HeaderNotification from '../../headerNotification';
 const Header = () => {
   return (
     <header>
-      <HeaderSearch />
+      {/* <HeaderSearch /> */}
       <HeaderCompanies />
       <HeaderNotification />
     </header>

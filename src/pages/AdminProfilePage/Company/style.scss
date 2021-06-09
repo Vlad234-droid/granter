@@ -38,6 +38,9 @@
             align-items: center;
             font-feature-settings: 'pnum' on, 'lnum' on;
             color: #305ff5;
+            a {
+              color: currentColor;
+            }
           }
         }
       }

@@ -1,11 +1,42 @@
-import React from 'react';
-import { Tooltip } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Skeleton, Tooltip } from 'antd';
+import { useSelector } from 'react-redux';
+import UploadFile from '../../../../components/UploadFile';
 
-import IconInfo from '../../../../assets/img/icon-Info-orange.svg';
+import { getDeliverablesClaimStep } from '../../../../core/services';
+import IconInfo from '../../../../assets/img/icon-info.svg';
 
 import './style.scss';
 
 const StepDeliverables = () => {
+  const [deliverablesStep, setDeliverablesStep] = useState(null);
+  const [status, setStatus] = useState(0);
+  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+
+  useEffect(() => {
+    if (activeClaimId) {
+      setDeliverablesStep(null);
+      getDeliverablesClaimStep(activeClaimId).then((data) => {
+        setDeliverablesStep(data);
+        const status = Math.round(
+          (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
+        );
+        setStatus(status);
+      });
+    }
+  }, [activeClaimId]);
+
+  const onAction = (file) => {
+    const res = { ...deliverablesStep };
+    res.documents = deliverablesStep.documents.map((item) => {
+      if (item.id === file.id) item = file;
+      return item;
+    });
+    setDeliverablesStep(res);
+    const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
+    setStatus(status);
+  };
+
   return (
     <section className="active-claims__steps_step deliverables">
       <h2>
@@ -18,17 +49,34 @@ const StepDeliverables = () => {
           </span>
         </Tooltip>
       </h2>
-      <div className="step-actions">
-        <div className="step-report-empty">Technical report narrative</div>
-        <div className="step-report-empty">Financial analysis</div>
-      </div>
-      <div className="step-status">
-        <div className="step-status--bar waiting">
-          <span className="step-status--bar-fill" style={{ width: '0%' }} />
-          <span className="step-status--bar-parcent">0%</span>
-          <span className="step-status--bar-detail">Waiting</span>
-        </div>
-      </div>
+      {!deliverablesStep ? (
+        <Skeleton active />
+      ) : (
+        <>
+          <div className="step-actions">
+            {deliverablesStep.documents.map((item) =>
+              item.url ? (
+                <UploadFile key={`deliverables-document-${item.id}`} file={item} onAction={onAction} />
+              ) : (
+                <div className="step-report-empty" key={`deliverables-document-${item.id}`}>
+                  {item.name}
+                </div>
+              ),
+            )}
+            {/* <div className="step-report-empty">Technical report narrative</div>
+            <div className="step-report-empty">Financial analysis</div> */}
+          </div>
+          <div className="step-status">
+            <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
+              <span className="step-status--bar-fill" style={{ width: status + '%' }} />
+              <span className="step-status--bar-parcent">{status}%</span>
+              <span className="step-status--bar-detail">
+                {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
+              </span>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 };

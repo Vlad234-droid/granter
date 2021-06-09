@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Skeleton, Input, Form, Button, Modal } from 'antd';
+import { Skeleton, Input, Form, Button, Modal, notification } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 
 import { postProfileData, fetchUserCompanies } from '../../core/services';
-import { getClient, getClientCompanies, getClientActions } from '../../core/adminServices';
+import {
+  getClient,
+  getClientCompanies,
+  getClientActions,
+  postEditClient,
+  deleteClient,
+  deleteComany,
+} from '../../core/adminServices';
 
 import { IconEditPencil, IconWarning, IconAdd, CloseIconModal } from '../../components/icons';
 import './style.scss';
@@ -25,8 +32,10 @@ const ProfilePage = () => {
   const [clientLogList, setClientLogList] = useState(null);
   const [isClientActionLog, setIsClientActionLog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [appriveIdloading, setAppriveIdloading] = useState(false);
   const [removeClientModal, setRemoveClientModal] = useState(false);
   const [removeComanyModal, setRemoveComanyModal] = useState(false);
+  const [removeComanyId, setRemoveComanyId] = useState(false);
   const [profileForm] = Form.useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -40,11 +49,12 @@ const ProfilePage = () => {
       .then((data) => {
         setUserData(data);
         profileForm.setFieldsValue({
-          name: data.profile.name,
-          team_role: data.profile.team_role,
-          address: data.profile.address,
-          enable_notifications: data.profile.enable_notifications,
-          phone: data.profile.phone,
+          name: data.profile?.name,
+          team_role: data.profile?.team_role,
+          address: data.profile?.address,
+          enable_notifications: data.profile?.enable_notifications,
+          phone: data.profile?.phone,
+          id_status: data.profile?.id_status,
         });
       })
       .catch((err) => {
@@ -71,10 +81,11 @@ const ProfilePage = () => {
 
   const onSave = (form) => {
     setProfileFormLoader(true);
-    postProfileData(form).then((data) => {
+    postEditClient(userData.id, form).then((data) => {
       setUserData(data);
       setProfileFormLoader(false);
       setEditModeGeneral(false);
+      setAppriveIdloading(false);
     });
   };
 
@@ -97,6 +108,37 @@ const ProfilePage = () => {
     } else {
       setIsClientActionLog(true);
     }
+  };
+
+  const onDeleteCompany = () => {
+    setLoading(true);
+    deleteComany(removeComanyId, id).then((data) => {
+      const res = companiesList.filter((item) => item.id !== removeComanyId);
+      setCompaniesList(res);
+      setIsBlur(false);
+      setRemoveComanyModal(false);
+      setLoading(false);
+      setRemoveComanyId(null);
+    });
+  };
+
+  const onDeleteClient = () => {
+    setLoading(true);
+    deleteClient(id).then((data) => {
+      notification.success({
+        description: 'Client was deleted successfully',
+      });
+      setIsBlur(false);
+      history.push('/admin/clients');
+    });
+  };
+
+  const onAppruveId = () => {
+    profileForm.setFieldsValue({
+      id_status: 1,
+    });
+    profileForm.submit();
+    setAppriveIdloading(true);
   };
 
   return (
@@ -145,7 +187,7 @@ const ProfilePage = () => {
                   <div className="label">Full Name</div>
                   <div className="details">
                     {!editModeGeneral ? (
-                      <span>{userData.profile.name}</span>
+                      <span>{userData.profile?.name}</span>
                     ) : (
                       <Form.Item
                         name="name"
@@ -165,8 +207,8 @@ const ProfilePage = () => {
                   <div className="details">
                     {!editModeGeneral ? (
                       <>
-                        {userData.profile.team_role ? (
-                          <span>{userData.profile.team_role}</span>
+                        {userData.profile?.team_role ? (
+                          <span>{userData.profile?.team_role}</span>
                         ) : (
                           <div className="alert">
                             <IconWarning />
@@ -200,7 +242,7 @@ const ProfilePage = () => {
                   <div className="label">Registered Address</div>
                   <div className="details">
                     {!editModeGeneral ? (
-                      <span>{userData.profile.address}</span>
+                      <span>{userData.profile?.address}</span>
                     ) : (
                       <Form.Item
                         name="address"
@@ -216,6 +258,27 @@ const ProfilePage = () => {
                   </div>
                 </li>
                 <li>
+                  <div className="label">ID Verification status</div>
+                  <div className="details">
+                    {userData.profile?.id_status === 0 ? (
+                      <div className="alert">
+                        <IconWarning />
+                        <span>Not Verified</span>
+                        <Button type="primary" onClick={onAppruveId} loading={appriveIdloading}>
+                          Verify
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="success">
+                        <span>Verified</span>
+                      </div>
+                    )}
+                  </div>
+                  <Form.Item name="id_status" hidden>
+                    <Input />
+                  </Form.Item>
+                </li>
+                <li>
                   <div className="label">Your Email</div>
                   <div className="details">
                     <span>{userData.email}</span>
@@ -225,7 +288,7 @@ const ProfilePage = () => {
                   <div className="label">Your Phone Number</div>
                   <div className="details">
                     {!editModeGeneral ? (
-                      <span>{userData.profile.phone}</span>
+                      <span>{userData.profile?.phone}</span>
                     ) : (
                       <Form.Item
                         name="phone"
@@ -289,7 +352,7 @@ const ProfilePage = () => {
       <div className="profile__companies">
         <h2>
           <span>My Companies</span>
-          <Link to="/profile/add-project/">
+          <Link to={`/admin/add-company/${id}`}>
             <IconAdd />
           </Link>
         </h2>
@@ -302,7 +365,8 @@ const ProfilePage = () => {
                 companies={companiesList}
                 updateCompany={updateCompany}
                 setCompaniesList={setCompaniesList}
-                setModal={(status) => {
+                setModal={(status, id) => {
+                  if (id) setRemoveComanyId(id);
                   setRemoveComanyModal(status);
                   setIsBlur(status);
                 }}
@@ -338,7 +402,9 @@ const ProfilePage = () => {
             }}>
             Back
           </Button>
-          <Button type="primary">Delete</Button>
+          <Button type="primary" loading={loading} onClick={onDeleteClient}>
+            Delete
+          </Button>
         </div>
       </Modal>
       <Modal
@@ -370,13 +436,15 @@ const ProfilePage = () => {
             }}>
             Back
           </Button>
-          <Button type="primary">Delete</Button>
+          <Button type="primary" loading={loading} onClick={onDeleteCompany}>
+            Delete
+          </Button>
         </div>
       </Modal>
       <AdminClientActionLog
         visible={isClientActionLog}
         list={clientLogList}
-        name={userData?.profile.name}
+        name={userData?.profile?.name}
         onClose={() => {
           setIsClientActionLog(false);
         }}

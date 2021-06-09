@@ -38,7 +38,10 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const customRequest = (e) => {
     setLoading(true);
     uploadFile(activeClaimId, file.id, e.file).then((data) => {
-      onAction(data.document);
+      const res = data.document;
+      res.extension = res.extension || res.url.match(/\.[0-9a-z]+$/i)[0];
+      res.comments_count = res.comments_count || 0;
+      onAction(res);
       setLoading(false);
     });
     e.onSuccess('ok');
