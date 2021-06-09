@@ -62,24 +62,22 @@
           align-items: center;
           &.up {
             &::before {
-              content: "";
+              content: '';
               display: inline-block;
               width: 6px;
               height: 4px;
               margin-right: 5px;
-              background: url("../../../assets/img/statistics-up.svg") no-repeat
-                center / cover;
+              background: url('../../../assets/img/statistics-up.svg') no-repeat center / cover;
             }
           }
           &.down {
             &::before {
-              content: "";
+              content: '';
               display: inline-block;
               width: 6px;
               height: 4px;
               margin-right: 5px;
-              background: url("../../../assets/img/statistics-down.svg")
-                no-repeat center / cover;
+              background: url('../../../assets/img/statistics-down.svg') no-repeat center / cover;
             }
           }
         }
@@ -89,6 +87,18 @@
         align-items: center;
         margin: auto;
         .ant-progress {
+          &.ant-progress-status-success {
+            .ant-progress-text {
+              font-size: 22px;
+            }
+            svg.ant-progress-circle {
+              .ant-progress-circle-path {
+                stroke-width: 10px;
+                stroke-linecap: butt;
+                stroke: #10ac84;
+              }
+            }
+          }
           .ant-progress-text {
             font-family: Poppins;
             font-style: normal;
@@ -105,6 +115,7 @@
             .ant-progress-circle-path {
               stroke-width: 10px;
               stroke-linecap: butt;
+              stroke: #f9a648;
             }
           }
         }

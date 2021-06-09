@@ -3,10 +3,11 @@ import { Tooltip, Upload, Spin, Form, Input, Dropdown, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { IconEditPencil, DeleteCompanySVG } from '../../../components/icons';
 import iconUpload from '../../../assets/img/icon-upload.svg';
-import { postCompanyData, postCompanyLogo } from '../../../core/services';
-import { postClientCompanyEdits } from '../../../core/adminServices';
+import { postCompanyData } from '../../../core/services';
+import { postClientCompanyEdits, postCompanyLogo } from '../../../core/adminServices';
 
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
@@ -51,7 +52,11 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
 
   const onSave = (form) => {
     setLoader(true);
-    postClientCompanyEdits(company.id, form);
+    postClientCompanyEdits(company.id, form).then((data) => {
+      setLoader(false);
+      setEditMode(false);
+      updateCompany(data);
+    });
     // postCompanyData(company.id, form).then((data) => {
     //   setLoader(false);
     //   setEditMode(false);
@@ -116,7 +121,7 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
                 {companies.length !== 1 && (
                   <button
                     onClick={() => {
-                      setModal(true);
+                      setModal(true, company.id);
                       //setIsDropDownDelete((prev) => !prev);
                     }}
                     className="profile__btn_delete">
@@ -388,9 +393,11 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
                 {company.claims
                   .filter((item) => item.status == 1)
                   .map((item) => (
-                    <li key={`claim-${item.id}`}>{`${item.title}${
-                      item.start_date && item.end_date ? ` ${item.start_date} - ${item.start_date}` : ``
-                    }`}</li>
+                    <li key={`claim-${item.id}`}>
+                      <Link to={`/admin/active-claim/${item.id}`}>{`${item.title}${
+                        item.start_date && item.end_date ? ` ${item.start_date} - ${item.start_date}` : ``
+                      }`}</Link>
+                    </li>
                   ))}
               </ul>
             </>

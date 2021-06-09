@@ -166,6 +166,19 @@ const editClaimCards = async (claimId, form) => {
   }
 };
 
+const editClaimData = async (claimId, form) => {
+  const formData = new FormData();
+  for (let i in form) {
+    formData.append(i, form[i]);
+  }
+  try {
+    const appDoc = await postResource(`admin/claim/edit/dates/${claimId}`, formData);
+    return appDoc.data;
+  } catch (err) {
+    return null;
+  }
+};
+
 export {
   getClaim,
   getIntroductionClaimStep,
@@ -178,4 +191,5 @@ export {
   uploadDocumentToClaim,
   getSubmissionClaimStep,
   editClaimCards,
+  editClaimData,
 };

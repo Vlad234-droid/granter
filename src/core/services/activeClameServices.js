@@ -148,6 +148,74 @@ const getTechnicalClaimStep = (claimId) => {
   });
 };
 
+const getDeliverablesClaimStep = (claimId) => {
+  const token = lockr.get('auth-key');
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/claims/stage/deliverables/${claimId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const getSubmissionClaimStep = (claimId) => {
+  const token = lockr.get('auth-key');
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/claims/stage/submissions/${claimId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 const setSkipFile = (claimId, fileId) => {
   const token = lockr.get('auth-key');
   return new Promise((resolve, reject) => {
@@ -451,6 +519,8 @@ export {
   getIntroductionClaimStep,
   getFinancialClaimStep,
   getTechnicalClaimStep,
+  getDeliverablesClaimStep,
+  getSubmissionClaimStep,
   setSkipFile,
   deleteFile,
   uploadFile,

@@ -108,6 +108,19 @@
               line-height: 150%;
               color: #f65747;
             }
+            button {
+              font-family: Poppins;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 14px;
+              color: #fff;
+              margin-left: 24px;
+              height: 40px;
+              span {
+                color: #fff;
+              }
+            }
             a {
               font-family: Poppins;
               font-style: normal;
@@ -117,6 +130,14 @@
               color: #305ff5;
               margin-left: 24px;
             }
+          }
+          .success {
+            color: #10ac84;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
           }
           p {
             margin: 14px 0 0 0;

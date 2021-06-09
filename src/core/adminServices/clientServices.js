@@ -39,6 +39,22 @@ const postResource = async (url, dataBody) => {
   return body;
 };
 
+const deleteResource = async (url) => {
+  const token = lockr.get('auth-key');
+  const res = await fetch(`${REACT_APP_API_URL}/${url}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error();
+  }
+  const body = await res.json();
+  return body;
+};
+
 const getAllClients = async (page, sort_by, sort_dir) => {
   const body = new FormData();
   body.append('page', page);
@@ -96,4 +112,76 @@ const getClientActions = async (clientID) => {
   }
 };
 
-export { getClient, getClientCompanies, getClientActions, postClientCompanyEdits, getAllClients };
+const postEditClient = async (clientID, form) => {
+  const formData = new FormData();
+  for (let i in form) {
+    formData.append(i, form[i]);
+  }
+  try {
+    const data = await postResource(`admin/client/edit/${clientID}`, formData);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const deleteClient = async (clientID) => {
+  try {
+    const data = await deleteResource(`admin/client/${clientID}`);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const postCompanyLogo = async (companyId, logo) => {
+  const formData = new FormData();
+  formData.append('logo', logo);
+  try {
+    const data = await postResource(`admin/company/upload-logo/${companyId}`, formData);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const deleteComany = async (companyId, clientId) => {
+  try {
+    const data = await deleteResource(`admin/company/delete/${companyId}/${clientId}`);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const addNewCompany = async (clientId, company) => {
+  const formData = new FormData();
+  for (let i in company) {
+    if (i === 'industry_ids') {
+      company[i].forEach((el, n) => {
+        formData.append('industry_ids[' + n + ']', el.id);
+      });
+    } else {
+      formData.append(i, company[i]);
+    }
+  }
+  try {
+    const data = await postResource(`admin/company/add/${clientId}`, formData);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+export {
+  getClient,
+  getClientCompanies,
+  getClientActions,
+  postClientCompanyEdits,
+  getAllClients,
+  postEditClient,
+  deleteClient,
+  postCompanyLogo,
+  deleteComany,
+  addNewCompany,
+};

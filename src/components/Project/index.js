@@ -13,6 +13,10 @@ import iconFileS from '../../assets/img/icon-file-s.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconFile from '../../assets/img/icon-file-s.svg';
 
+import PDFSVG from '../../assets/img/PDF.svg';
+import XLSXSVG from '../../assets/img/XLSX.svg';
+import DOCSSVG from '../../assets/img/DOCS.svg';
+
 import { IconDeleteFile } from '../icons';
 
 import './style.scss';
@@ -58,6 +62,23 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
         break;
     }
     return status;
+  };
+
+  const checkForExt = (extension) => {
+    switch (extension) {
+      case '.doc':
+        return DOCSSVG;
+      case '.docx':
+        return DOCSSVG;
+      case '.pdf':
+        return PDFSVG;
+      case '.xls':
+        return XLSXSVG;
+      case '.xlsx':
+        return XLSXSVG;
+      default:
+        return extension;
+    }
   };
 
   const onEditProject = () => {
@@ -121,7 +142,7 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
             {file.documents.map((item) => (
               <div key={`sub-${item.id}`} className="step-sub">
                 <div className="step-sub__title">
-                  <img src={iconPdf} alt="project" />
+                  <img src={checkForExt(item.url.match(/\.[0-9a-z]+$/i)[0])} alt="project" />
                   <span>{item.name}</span>
                 </div>
                 {/* <div className="step-file--status">

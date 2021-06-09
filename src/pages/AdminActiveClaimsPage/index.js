@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Skeleton } from 'antd';
+import { Skeleton, Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AdminActiveClaimsCards from './AdminActiveClaimsCards';
@@ -12,6 +12,7 @@ import { getClaim } from '../../core/adminServices';
 import { AdminBackToTablesSVG } from '../../components/icons';
 
 import './style.scss';
+import AdminActiveClaimsDates from './AdminActiveClaimsDates';
 
 const AdminActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);
@@ -64,6 +65,9 @@ const AdminActiveClaimsPage = (props) => {
             <AdminActiveClaimsCards activeClaimData={activeClaimData} onEdit={onActiveClaimDataEdit} />
           ) : (
             <Skeleton active className="cards-skeleton" />
+          )}
+          {activeClaimData?.start_date && activeClaimData?.end_date && (
+            <AdminActiveClaimsDates activeClaimData={activeClaimData} />
           )}
           <AdminActiveClaimsSteps />
         </div>

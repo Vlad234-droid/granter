@@ -125,9 +125,11 @@
 }
 
 .step-project {
+  padding-left: 0 !important;
+  margin-left: 2px !important;
   .step-file--title {
     img {
-      width: 20px;
+      width: 24px !important;
     }
     .ant-btn-link {
       height: auto;
@@ -166,6 +168,7 @@
         line-height: 114.9%;
         color: #305ff5;
         padding: 0 20px 0 32px;
+        margin-left: 3px;
         .ant-collapse-arrow {
           width: 10px;
           height: 6px;

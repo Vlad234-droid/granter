@@ -37,7 +37,6 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
                 type="circle"
                 percent={activeClaimData.estimated_total_claim_benefit_percentage * 100}
                 width={72}
-                strokeColor="#F9A648"
               />
               <div className="clime-progress--info">
                 <span>Days since start</span>
