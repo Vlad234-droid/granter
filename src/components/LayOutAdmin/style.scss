@@ -1,13 +1,24 @@
 .admin_wrapper {
-  min-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 70px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: auto;
   .admin_header {
     min-height: 70px;
-
     background: #f7f7fa;
     padding: 0px 27px 0px 64px;
     display: flex;
     border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
     .wrapper_links_S {
       width: 70%;
       display: flex;
@@ -92,6 +103,13 @@
         flex-grow: 1;
         text-align: end;
       }
+    }
+  }
+  .wrapper_content {
+    flex-grow: 1;
+    overflow: auto;
+    .admin_dashboard_wrapper {
+      min-width: 1200px;
     }
   }
 }

@@ -91,6 +91,24 @@ const getTechnicalClaimStep = async (claimId) => {
   }
 };
 
+const getDeliverablesClaimStep = async (claimId) => {
+  try {
+    const intro = await getResource(`admin/claim/stage/deliverables/${claimId}`);
+    return intro.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const getSubmissionClaimStep = async (claimId) => {
+  try {
+    const intro = await getResource(`admin/claim/stage/submissions/${claimId}`);
+    return intro.data;
+  } catch (err) {
+    return null;
+  }
+};
+
 const approveDocument = async (documentId, status) => {
   try {
     const appDoc = await postResource(`admin/claim/approve/document/${documentId}/${status}`);
@@ -134,13 +152,30 @@ const deleteDocumentFromClaim = async (claimId, documentId) => {
   }
 };
 
+const editClaimCards = async (claimId, form) => {
+  const formData = new FormData();
+  for (let i in form) {
+    formData.append(i, form[i]);
+  }
+
+  try {
+    const appDoc = await postResource(`admin/claim/edit/cards/${claimId}`, formData);
+    return appDoc.data;
+  } catch (err) {
+    return null;
+  }
+};
+
 export {
   getClaim,
   getIntroductionClaimStep,
   getFinancialClaimStep,
   getTechnicalClaimStep,
+  getDeliverablesClaimStep,
   approveDocument,
   approveStep,
   deleteDocumentFromClaim,
   uploadDocumentToClaim,
+  getSubmissionClaimStep,
+  editClaimCards,
 };

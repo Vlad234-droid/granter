@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
 import { LoadingOutlined } from '@ant-design/icons';
-import { setNewProject, removeProject } from '../../../../core/services';
+import { removeProject } from '../../../../core/services';
+import { setNewProject } from '../../../../core/adminServices';
+
 import { getTechnicalClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
+
 import AdminProject from '../../../../components/AdminProject';
 import CommonModalShadule from '../CommonModalShadule';
+
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
-import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
@@ -48,6 +51,10 @@ const StepTechnical = () => {
         setTechnicalStep(result);
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
         addProjectsDetails(result.documents);
+        const status = Math.round(
+          (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
+        );
+        setStatus(status);
       });
     }
   }, [id]);
@@ -58,16 +65,13 @@ const StepTechnical = () => {
       main_document: e.file,
     };
     setNewProject(id, form).then((data) => {
-      // setLoading(false);
-      // setModalVisible(true);
-      // setNewProjectId(data.id);
       const { addProjectsDetails } = bindActionCreators(actions, dispatch);
       const res = { ...technicalStep };
       res.documents.push(data);
       addProjectsDetails(res.documents);
       // setTechnicalStep(res);
       setTimeout(() => {
-        history.push(`/project/${id}/${data.id}`);
+        history.push(`/admin/project/${id}/${data.id}`);
         blurActiveSteps();
       }, 150);
     });
@@ -78,13 +82,27 @@ const StepTechnical = () => {
     history.push(`/project/${id}/${newProjectId}`);
   };
 
-  const onAction = (id) => {
+  const onDelete = (id) => {
     const res = { ...technicalStep };
     res.documents = technicalStep.documents.filter((item) => item.id !== id);
     setTechnicalStep(res);
     const status = res.documents.filter((item) => item.status === 3).length
       ? Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100)
       : 0;
+    setStatus(status);
+  };
+
+  const onChangeStatus = (project) => {
+    console.log('onChangeStatus', technicalStep);
+    const res = { ...technicalStep };
+    res.documents = technicalStep.documents.map((item) => {
+      if (item.id === project.id) {
+        item.status = project.status;
+      }
+      return item;
+    });
+    setTechnicalStep(res);
+    const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
   };
 
@@ -147,6 +165,8 @@ const StepTechnical = () => {
                     removeButton={true}
                     key={`technical-project-${item.id}`}
                     file={item}
+                    onDelete={onDelete}
+                    onChangeStatus={onChangeStatus}
                     index={technicalStep.documents.length > 1 ? index + 1 : null}
                     onRed={(red) => {
                       //introductionStep, setIntroductionStep
@@ -212,10 +232,14 @@ const StepTechnical = () => {
               <span>Call is completed</span>
             </div> */}
 
-              <div className="step-status--bar waiting">
-                <span className="step-status--bar-fill" style={{ width: '0%' }} />
-                <span className="step-status--bar-parcent">0%</span>
-                <span className="step-status--bar-detail">Waiting</span>
+              <div className="step-status">
+                <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
+                  <span className="step-status--bar-fill" style={{ width: status + '%' }} />
+                  <span className="step-status--bar-parcent">{status}%</span>
+                  <span className="step-status--bar-detail">
+                    {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -256,7 +280,7 @@ const StepTechnical = () => {
           <Button
             type="primary"
             onClick={() => {
-              history.push(`/project/${id}`);
+              history.push(`/admin/project/${id}`);
               setModalVisible(false);
               blurActiveSteps();
             }}>
@@ -264,92 +288,6 @@ const StepTechnical = () => {
           </Button>
         </div>
       </Modal>
-
-      <Drawer
-        title={
-          <div className="ant-drawer-title-wripper">
-            <img
-              src={arrowLeft}
-              alt={arrowLeft}
-              onClick={() => {
-                setDetailsShow(() => false);
-                blurActiveSteps();
-              }}
-            />
-            <p>
-              3<i>/</i>5 Technical
-            </p>
-            <Tooltip title="Required Files" placement="left">
-              <span>
-                <IconWarning />
-              </span>
-            </Tooltip>
-          </div>
-        }
-        placement="right"
-        width="320px"
-        closable={false}
-        onClose={() => {
-          setDetailsShow(false);
-          blurActiveSteps();
-        }}
-        visible={detailsShow}
-        className="active-claims__step_drawer">
-        <div className="drawer-technical-dragger">
-          <button>
-            <div className="upload-title">
-              <img src={iconAddProject} alt="" />
-              <span>Add a Project</span>
-            </div>
-          </button>
-          {/* <Dragger
-            name="file"
-            customRequest={customRequest}
-            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            className={`upload-file ${loading ? 'loading' : ''}`}
-            showUploadList={false}>
-            <div className="upload-loading">
-              <Spin indicator={antIcon} />
-            </div>
-          </Dragger> */}
-        </div>
-        <div className="step-actions">
-          {technicalStep?.documents.map((item, index) => {
-            return (
-              <div
-                className="row"
-                key={`introduction-document-${item.id}`}
-                style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
-                <AdminProject
-                  file={item}
-                  removeButton={true}
-                  onAction={onAction}
-                  index={technicalStep.documents.length > 1 ? index + 1 : null}
-                  onRed={(red) => {
-                    //introductionStep, setIntroductionStep
-                    const res = { ...technicalStep };
-                    res.documents.map((row) => {
-                      if (row.id === item.id) row.red = red;
-                      return row;
-                    });
-                    setTechnicalStep(res);
-                    //item.red = red;
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div className="step-status">
-          <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-            <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-            <span className="step-status--bar-parcent">{status}%</span>
-            <span className="step-status--bar-detail">
-              {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
-            </span>
-          </div>
-        </div>
-      </Drawer>
     </>
   );
 };

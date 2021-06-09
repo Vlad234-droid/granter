@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import lockr from 'lockr';
 import { Collapse, Upload, Dropdown, Button, Spin, Menu } from 'antd';
-import { removeProject } from '../../core/services';
 
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
 import iconUpload from '../../assets/img/icon-upload.svg';
@@ -12,7 +11,7 @@ import iconSkip from '../../assets/img/icon-skip.svg';
 import iconFileS from '../../assets/img/icon-file-s.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconFile from '../../assets/img/icon-file-s.svg';
-import { approveDocument } from '../../core/adminServices/claimServices';
+import { approveProject, removeProject } from '../../core/adminServices';
 
 import { IconDeleteFile, AdminArrow } from '../icons';
 import './style.scss';
@@ -23,18 +22,18 @@ const { Panel } = Collapse;
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;
 
-const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllStatus }) => {
+const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, index, checkForAllStatus }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { id: activeClaimId } = useParams();
 
-  const onDelete = () => {
+  const onDeleteProject = () => {
     setLoading(true);
     setOnRemoveDropdown(false);
     removeProject(activeClaimId, file.id).then((data) => {
       setLoading(false);
-      onAction(file.id);
+      onDelete(file.id);
     });
   };
 
@@ -61,7 +60,7 @@ const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllS
   };
 
   const onEditProject = () => {
-    history.push(`/project/${activeClaimId}/${file.id}`);
+    history.push(`/admin/project/${activeClaimId}/${file.id}`);
     // const { addProjectDetails } = bindActionCreators(actions, dispatch);
   };
 
@@ -96,7 +95,7 @@ const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllS
                     }}>
                     Back
                   </Button>
-                  <Button type="primary" onClick={onDelete} loading={loading}>
+                  <Button type="primary" onClick={onDeleteProject} loading={loading}>
                     Delete
                   </Button>
                 </div>
@@ -124,13 +123,17 @@ const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllS
                   <div
                     className="status approved"
                     onClick={() => {
-                      checkForAllStatus();
-                      approveDocument(file.id, 3).then((data) => {
-                        // setLoading(() => true);
-                        // if (data.success) {
-                        //   setLoading(() => false);
-                        // }
-                        //console.log('data:', data);
+                      setLoading(() => true);
+                      approveProject(file.id, 3).then((data) => {
+                        if (data) {
+                          checkForAllStatus();
+                          const file = {
+                            ...data.project,
+                            status: Number(data.project.status),
+                          };
+                          onChangeStatus(file);
+                          setLoading(() => false);
+                        }
                       });
                     }}>
                     <b>Approve</b>
@@ -141,15 +144,20 @@ const AdminProject = ({ file, removeButton, onRed, onAction, index, checkForAllS
                 <Menu.Item>
                   <div
                     className="status on_review"
-                    onClick={() =>
-                      approveDocument(file.id, 3).then((data) => {
-                        // setLoading(() => true);
-                        // if (data.success) {
-                        //   setLoading(() => false);
-                        // }
-                        //console.log('data:', data);
-                      })
-                    }>
+                    onClick={() => {
+                      setLoading(() => true);
+                      approveProject(file.id, 2).then((data) => {
+                        if (data) {
+                          checkForAllStatus();
+                          const file = {
+                            ...data.project,
+                            status: Number(data.project.status),
+                          };
+                          onChangeStatus(file);
+                          setLoading(() => false);
+                        }
+                      });
+                    }}>
                     <b>On Review</b>
                   </div>
                 </Menu.Item>

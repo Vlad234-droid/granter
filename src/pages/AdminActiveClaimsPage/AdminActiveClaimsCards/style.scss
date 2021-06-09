@@ -1,5 +1,22 @@
 .active-claims__cards {
   margin-bottom: 24px;
+  .active-claims__cards_edit {
+    cursor: pointer;
+    .icon-edit-pencil {
+      width: 12px;
+      height: 12px;
+      margin-right: 12px;
+    }
+    align-items: center;
+    height: 24px;
+    margin-bottom: 16px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    color: #3c4252;
+  }
   .ant-card {
     height: 100%;
     border: none;
@@ -126,6 +143,39 @@
           }
         }
       }
+    }
+  }
+}
+.active-claims__cards_form {
+  .ant-input-affix-wrapper {
+    display: flex;
+    .ant-input-prefix,
+    .ant-input-suffix {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 36px;
+      color: #3c4252;
+    }
+  }
+  .ant-input {
+    height: 48px;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 36px;
+    color: #3c4252;
+  }
+  .active-claims__cards_form-actions {
+    display: flex;
+    margin-top: 16px;
+    align-items: center;
+    .ant-btn {
+      min-width: 106px;
+    }
+    .ant-form-item {
+      margin-bottom: 0;
+      margin-left: 16px;
     }
   }
 }

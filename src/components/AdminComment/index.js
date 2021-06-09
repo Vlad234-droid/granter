@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox, Input, Collapse, Dropdown, Button, Skeleton } from 'antd';
 
-import { approveComment } from '../../core/adminServices';
+import { approveComment, unApproveComment } from '../../core/adminServices';
 
 import Reply from './Reply';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
@@ -30,9 +30,12 @@ const AdminComment = ({ comment, onCommentDelete, onAddReply }) => {
   };
 
   const onAprove = (e) => {
-    if (comment.status > 1) return;
-    approveComment(comment.id);
-    setStatus(true);
+    if (e.target.checked) {
+      approveComment(comment.id);
+    } else {
+      unApproveComment(comment.id);
+    }
+    setStatus(e.target.checked);
   };
 
   const convertDate = (date) => {

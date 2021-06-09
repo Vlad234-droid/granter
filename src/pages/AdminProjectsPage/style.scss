@@ -1,0 +1,188 @@
+.projects {
+  height: 100vh;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  header {
+    background-color: #e8eef2;
+    .projects__header_wrapper {
+      width: 730px;
+      height: 60px;
+      border-bottom: 1px solid rgba(192, 196, 203, 0.5);
+      display: flex;
+      align-items: center;
+      padding: 0 24px 0 32px;
+      background-color: #f7f7fa;
+    }
+    .header--back {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #3c4252;
+      margin-right: auto;
+      padding: 0;
+      img {
+        margin-right: 8px;
+      }
+    }
+  }
+  .projects__wrapper {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    .ant-row.ant-form-item.hidden {
+      margin: 0;
+      height: 0;
+    }
+    .projects-list {
+      display: flex;
+      background: linear-gradient(90deg, rgba(247, 247, 250, 1) 730px, rgba(232, 238, 242, 1) 660px);
+      flex-grow: 1;
+      .ant-skeleton {
+        width: 730px;
+        .ant-skeleton-content {
+          padding: 32px;
+        }
+      }
+      .ant-form {
+        display: flex;
+        flex-direction: column;
+        .ant-space {
+          align-items: inherit;
+          .ant-space-item {
+            display: flex;
+          }
+        }
+        .project__form_submit-external {
+          padding: 8px 40px 56px 30px;
+          display: flex;
+          .ant-row {
+            margin-bottom: 0;
+          }
+          .ant-btn {
+            margin-right: 24px;
+          }
+        }
+      }
+    }
+
+    .projects__viewer {
+      background-color: #e8eef2;
+      flex-grow: 1;
+      padding: 0 32px 0 16px;
+      width: 100%;
+      display: flex;
+      padding-bottom: 60px;
+      .projects__viewer_document {
+        width: 100%;
+        .document-viewer {
+          width: 100%;
+          height: 100%;
+          iframe {
+            position: relative;
+            z-index: 1;
+            transform: translate3d(0, 0, 0);
+          }
+        }
+        .projects__viewer_dragger {
+          padding: 0;
+          background-color: transparent;
+          border-color: #c0c4cb;
+          .ant-upload-drag-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            color: #7f8896;
+            text-align: center;
+            img {
+              filter: grayscale(1);
+              opacity: 0.4;
+              width: 48px;
+              margin-bottom: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.goback__modal {
+  h2 {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .technical__modal_file {
+    text-align: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 114.9%;
+    color: #3c4252;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+  }
+  .technical__modal_description {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: #3c4252;
+    margin: 24px auto 0 auto;
+    width: 480px;
+    p {
+      margin-bottom: 1em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .technical__modal_actions {
+    margin-top: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > * {
+      margin: 0 12px;
+    }
+    .ant-btn-button {
+      padding: 0 14px;
+      margin: 0 !important;
+      img {
+        margin-right: 8px;
+      }
+    }
+    .ant-btn-primary {
+      background-color: #f65747 !important;
+      border-color: #f65747;
+      color: #fff;
+      &:hover {
+        box-shadow: 0px 4px 12px rgba(245, 48, 48, 0.5);
+      }
+    }
+  }
+}
