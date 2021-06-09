@@ -98,42 +98,49 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
         <div className={`step-file--title`}>
           <img src={checkForExt(file.original_name)} alt={file.original_name} />
           <Link to={`/admin/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
-          {removeButton && (
-            <Dropdown
-              placement="bottomRight"
-              trigger="click"
-              visible={onRemoveDropdown}
-              onVisibleChange={(visible) => {
-                if (!visible) setOnRemoveDropdown(false);
-                onRed(visible);
-              }}
-              overlay={
-                <div className="step-file--title-dropdown">
-                  <div className="dropdown-title">Are you sure you want to delete this Document?</div>
-                  <div className="dropdown-actions">
-                    <Button
-                      type="button"
-                      onClick={(e) => {
-                        setOnRemoveDropdown(false);
-                        onRed(false);
-                      }}>
-                      Back
-                    </Button>
-                    <Button type="primary" onClick={onDelete} loading={loading}>
-                      Delete
-                    </Button>
+          {removeButton &&
+            (!file.has_unresolved_comments ? (
+              <Dropdown
+                placement="bottomRight"
+                trigger="click"
+                visible={onRemoveDropdown}
+                onVisibleChange={(visible) => {
+                  if (!visible) setOnRemoveDropdown(false);
+                  onRed(visible);
+                }}
+                overlay={
+                  <div className="step-file--title-dropdown">
+                    <div className="dropdown-title">Are you sure you want to delete this Document?</div>
+                    <div className="dropdown-actions">
+                      <Button
+                        type="button"
+                        onClick={(e) => {
+                          setOnRemoveDropdown(false);
+                          onRed(false);
+                        }}>
+                        Back
+                      </Button>
+                      <Button type="primary" onClick={onDelete} loading={loading}>
+                        Delete
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }>
-              <button
-                className="step-file--remove-button admin"
-                onClick={() => {
-                  setOnRemoveDropdown(true);
-                }}>
-                <IconDeleteFile />
-              </button>
-            </Dropdown>
-          )}
+                }>
+                <button
+                  className="step-file--remove-button"
+                  onClick={() => {
+                    setOnRemoveDropdown(true);
+                  }}>
+                  <IconDeleteFile />
+                </button>
+              </Dropdown>
+            ) : (
+              <Tooltip placement="left" title="This file cannot be deleted because it contains unresolved comment">
+                <button className="step-file--remove" disabled>
+                  <IconDeleteFile />
+                </button>
+              </Tooltip>
+            ))}
         </div>
         <div className="step-file--status admin">
           <Dropdown
@@ -218,7 +225,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
         </div>
         <div className="upload-title">
           <img src={iconUpload} alt="" />
-          <span>{file.slug}</span>
+          <span>{file.name}</span>
         </div>
         {skipButton && (
           <button

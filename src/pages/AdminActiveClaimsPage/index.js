@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import AdminActiveClaimsCards from './AdminActiveClaimsCards';
 import AdminActiveClaimsSteps from './AdminActiveClaimsSteps';
 import LayOutAdmin from '../../components/LayOutAdmin';
@@ -18,12 +19,20 @@ const AdminActiveClaimsPage = (props) => {
   const user = useSelector((state) => state.user.currentCompany);
   const userData = useSelector((state) => state.user.data);
   const history = useHistory();
+  const { id } = useParams();
 
   useEffect(() => {
-    getClaim(329).then((data) => {
+    getClaim(id).then((data) => {
       setActiveClaimData(() => data);
     });
   }, []);
+
+  const onActiveClaimDataEdit = () => {
+    setActiveClaimData(null);
+    getClaim(id).then((data) => {
+      setActiveClaimData(() => data);
+    });
+  };
 
   return (
     <LayOutAdmin>
@@ -31,12 +40,13 @@ const AdminActiveClaimsPage = (props) => {
         <div className="back_to">
           <button
             onClick={() => {
-              history.push('/admin/clients');
+              // history.push('/admin/clients');
+              history.goBack();
             }}>
             <div>
               <AdminBackToTablesSVG />
             </div>
-            <div className="text_btn">Back to all Michael Cormac Newell</div>
+            <div className="text_btn">Back</div>
           </button>
         </div>
         <div className="active-claims admin">
@@ -50,7 +60,11 @@ const AdminActiveClaimsPage = (props) => {
           Welcome! Verify your email to see approximate benefits
         </div>
         <ActiveClaimsCards /> */}
-          {activeClaimData && <AdminActiveClaimsCards activeClaimData={activeClaimData} />}
+          {activeClaimData ? (
+            <AdminActiveClaimsCards activeClaimData={activeClaimData} onEdit={onActiveClaimDataEdit} />
+          ) : (
+            <Skeleton active className="cards-skeleton" />
+          )}
           <AdminActiveClaimsSteps />
         </div>
       </div>

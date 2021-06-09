@@ -55,65 +55,77 @@ const deleteResource = async (url) => {
   return body;
 };
 
-const getDocument = async (claimId, documentId) => {
-  try {
-    const data = await getResource(`admin/documents/comments/${claimId}/${documentId}`);
-    return data.data;
-  } catch (err) {
-    return null;
-  }
-};
-
-const approveComment = async (commentId) => {
-  try {
-    const data = await postResource(`admin/documents/comment/approve/${commentId}`);
-    return data.data;
-  } catch (err) {
-    return null;
-  }
-};
-
-const unApproveComment = async (commentId) => {
-  try {
-    const data = await postResource(`admin/documents/comment/unapprove/${commentId}`);
-    return data.data;
-  } catch (err) {
-    return null;
-  }
-};
-
-const postNewComment = async (claimId, id, text, is_reply, comment_id) => {
+const setNewProject = async (claimId, form) => {
   const formData = new FormData();
-  formData.append('text', text);
-  formData.append('page', 1);
-  if (is_reply) {
-    formData.append('is_reply', is_reply);
-    formData.append('comment_id', comment_id);
+  for (let i in form) {
+    if (i === 'documents') {
+      form[i].forEach((doc, index) => {
+        formData.append(`${i}[${index}]`, doc);
+      });
+    } else {
+      if (form[i]) formData.append(i, form[i]);
+    }
   }
   try {
-    const data = await postResource(`admin/documents/comment/${claimId}/${id}`, formData);
+    const data = await postResource(`admin/project/add/${claimId}`, formData);
     return data.data;
   } catch (err) {
     return null;
   }
 };
 
-const removeComment = async (claimId, documentId, commentId) => {
+const addDocumentToProject = async (claimId, projectId, file, is_main) => {
+  const formData = new FormData();
+  formData.append('document', file);
+  if (is_main) formData.append('is_main', is_main);
+
   try {
-    const data = await deleteResource(`admin/documents/comments/${claimId}/${documentId}/${commentId}`);
+    const data = await postResource(`admin/project/add/document/${claimId}/${projectId}`, formData);
     return data.data;
   } catch (err) {
     return null;
   }
 };
 
-const setSkipFile = async (claimId, documentId) => {
+const editProject = async (claimId, projectId, form) => {
+  const formData = new FormData();
+  for (let i in form) {
+    if (form[i]) formData.append(i, form[i]);
+  }
+
   try {
-    const data = await postResource(`admin/documents/skip/${claimId}/${documentId}`);
+    const data = await postResource(`admin/project/edit/${claimId}/${projectId}`, formData);
     return data.data;
   } catch (err) {
     return null;
   }
 };
 
-export { getDocument, approveComment, postNewComment, removeComment, setSkipFile, unApproveComment };
+const removeDocumentFromProject = async (claimId, projectId, documentId) => {
+  try {
+    const data = await deleteResource(`admin/project/delete/document/${claimId}/${projectId}/${documentId}`);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const removeProject = async (claimId, projectId) => {
+  try {
+    const data = await deleteResource(`admin/project/delete/${claimId}/${projectId}`);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+const approveProject = async (projectId, status) => {
+  try {
+    const data = await postResource(`admin/claim/approve/project/${projectId}/${status}`);
+    return data.data;
+  } catch (err) {
+    return null;
+  }
+};
+
+export { setNewProject, addDocumentToProject, editProject, removeDocumentFromProject, removeProject, approveProject };
