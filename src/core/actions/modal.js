@@ -71,6 +71,11 @@ const setIsBlur = (status) => ({
   payload: status,
 });
 
+const setCurrentPageGLOBAL = (payload) => ({
+  type: 'SET_CURRENT_PAGE',
+  payload,
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -89,4 +94,5 @@ export {
   blurActiveSteps,
   blurActivePrPage,
   setIsBlur,
+  setCurrentPageGLOBAL,
 };

@@ -9,6 +9,7 @@ export const initialState = {
   isVisibleActiveTechnical: false,
   isVisibleActiveSteps: false,
   isVisibleProjectPage: false,
+  pageAdminClientsGLOBAL: null,
 };
 
 export const modalReducer = (state = initialState, { type, payload }) => {
@@ -103,6 +104,16 @@ export const modalReducer = (state = initialState, { type, payload }) => {
         ...state,
         isVisibleProjectPage: !state.isVisibleProjectPage,
       };
+    case 'SET_CURRENT_PAGE':
+      return {
+        ...state,
+        pageAdminClientsGLOBAL: payload,
+      };
+    case 'USER-LOG-OUT':
+      return {
+        pageAdminClientsGLOBAL: null,
+      };
+
     default:
       return {
         ...state,
