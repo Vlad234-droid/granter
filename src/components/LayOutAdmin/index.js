@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import './style.scss';
 
-const LayOutAdmin = ({ children }) => {
+const LayOutAdmin = ({ children, className }) => {
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { pathname } = location;
@@ -40,7 +40,7 @@ const LayOutAdmin = ({ children }) => {
   return (
     <>
       <div
-        className="admin_wrapper"
+        className={`admin_wrapper ${className}`}
         style={{
           filter: isBlur ? 'blur(3px)' : 'blur(0px)',
         }}>
@@ -60,7 +60,7 @@ const LayOutAdmin = ({ children }) => {
 
           <div className="wrapper_btn_Noti">
             <div className="btn">
-              <Link to="/admin/settings" className="ant-btn ant-btn-button">
+              <Link to="/admin/add-client" className="ant-btn ant-btn-button">
                 Add Client
               </Link>
             </div>

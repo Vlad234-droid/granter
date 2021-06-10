@@ -1,41 +1,85 @@
-import React from 'react';
-import { Button, Tooltip } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Skeleton, Tooltip, Button } from 'antd';
+import { useSelector } from 'react-redux';
+import UploadFile from '../../../../components/UploadFile';
 
-import IconInfo from '../../../../assets/img/icon-Info-orange.svg';
+import { getSubmissionClaimStep } from '../../../../core/services';
+import IconInfo from '../../../../assets/img/icon-info.svg';
 
 import './style.scss';
 
 const StepSubmission = () => {
+  const [submissionStep, setSubmissionStep] = useState(null);
+  const [status, setStatus] = useState(0);
+  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+
+  useEffect(() => {
+    if (activeClaimId) {
+      setSubmissionStep(null);
+      getSubmissionClaimStep(activeClaimId).then((data) => {
+        setSubmissionStep(data);
+        const status = Math.round(
+          (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
+        );
+        setStatus(status);
+      });
+    }
+  }, [activeClaimId]);
+
+  const onAction = (file) => {
+    const res = { ...submissionStep };
+    res.documents = submissionStep.documents.map((item) => {
+      if (item.id === file.id) item = file;
+      return item;
+    });
+    setSubmissionStep(res);
+    const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
+    setStatus(status);
+  };
+
   return (
-    <section className="active-claims__steps_step submission">
+    <section className="active-claims__steps_step deliverables">
       <h2>
         <p>
           5<i>/</i>5 Submission
         </p>
-        <Tooltip
-          placement="topRight"
-          title="You don’t have to upload files for this stage. The Gratner team will do it for you when all the previous stages will be approved">
+        <Tooltip title="You don’t have to upload files for this stage. The Gratner team will do it for you when all the previous stages will be approved">
           <span>
             <img src={IconInfo} alt="" />
           </span>
         </Tooltip>
       </h2>
-      <div className="step-actions">
-        <div className="step-report-empty">Final submission instructions</div>
-        <div className="step-report-empty">Amended tax computations</div>
-        <div className="step-report-empty">CT600</div>
-        <div className="step-report-empty">Final report</div>
-      </div>
-      <div className="step-status">
-        <Button type="primary" disabled className="step-status--approve">
-          Approve
-        </Button>
-        <div className="step-status--bar waiting">
-          <span className="step-status--bar-fill" style={{ width: '0%' }} />
-          <span className="step-status--bar-parcent">0%</span>
-          <span className="step-status--bar-detail">Waiting</span>
-        </div>
-      </div>
+      {!submissionStep ? (
+        <Skeleton active />
+      ) : (
+        <>
+          <div className="step-actions">
+            {submissionStep.documents.map((item) =>
+              item.url ? (
+                <UploadFile key={`submission-document-${item.id}`} file={item} onAction={onAction} />
+              ) : (
+                <div className="step-report-empty" key={`submission-document-${item.id}`}>
+                  {item.name}
+                </div>
+              ),
+            )}
+            {/* <div className="step-report-empty">Technical report narrative</div>
+            <div className="step-report-empty">Financial analysis</div> */}
+          </div>
+          <div className="step-status">
+            <Button type="primary" disabled className="step-status--approve">
+              Approve
+            </Button>
+            <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
+              <span className="step-status--bar-fill" style={{ width: status + '%' }} />
+              <span className="step-status--bar-parcent">{status}%</span>
+              <span className="step-status--bar-detail">
+                {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
+              </span>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 };

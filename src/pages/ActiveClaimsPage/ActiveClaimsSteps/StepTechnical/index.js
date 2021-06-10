@@ -46,6 +46,10 @@ const StepTechnical = () => {
         setTechnicalStep(result);
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
         addProjectsDetails(result.documents);
+        const status = Math.round(
+          (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
+        );
+        setStatus(status);
       });
     }
   }, [activeClaimId]);
@@ -189,10 +193,14 @@ const StepTechnical = () => {
               <span>Call is completed</span>
             </div> */}
 
-              <div className="step-status--bar waiting">
-                <span className="step-status--bar-fill" style={{ width: '0%' }} />
-                <span className="step-status--bar-parcent">0%</span>
-                <span className="step-status--bar-detail">Waiting</span>
+              <div className="step-status">
+                <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
+                  <span className="step-status--bar-fill" style={{ width: status + '%' }} />
+                  <span className="step-status--bar-parcent">{status}%</span>
+                  <span className="step-status--bar-detail">
+                    {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

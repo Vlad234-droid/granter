@@ -21,8 +21,6 @@ const Company = ({ company, updateCompany, setCompaniesList }) => {
   const [isDropDownDelete, setIsDropDownDelete] = useState(false);
   const [loaderDelBtn, setLoaderDelBtn] = useState(false);
 
-  console.log('companies', companies);
-
   useEffect(() => {
     let cleanupFunction = false;
 

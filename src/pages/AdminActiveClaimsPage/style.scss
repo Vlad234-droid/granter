@@ -10,6 +10,60 @@
 //}
 .wrapper_content {
   min-height: 100vh;
+  .admin-claims__dates {
+    margin-bottom: 16px;
+    .admin-claims__dates_info {
+      display: flex;
+      align-items: center;
+      span {
+        margin-right: 8px;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 1;
+        color: #3c4252;
+      }
+      button {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        position: relative;
+        top: -1px;
+      }
+    }
+    .active-claims__dates_form {
+      display: flex;
+      align-items: center;
+      .devider {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 1;
+        color: #3c4252;
+        margin: 0 4px;
+      }
+      .ant-form-item {
+        margin: 0;
+        .ant-input {
+          font-weight: bold;
+        }
+        .ant-form-item-explain {
+          display: none;
+        }
+      }
+      .active-claims__dates_form-actions {
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+        button {
+          margin-right: 16px;
+          min-width: 106px;
+        }
+      }
+    }
+  }
   .wrapper_admin_claims {
     .back_to {
       height: 72px;
