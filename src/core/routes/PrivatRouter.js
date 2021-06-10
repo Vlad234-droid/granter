@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -22,7 +21,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       <LoadingPage />
     ) : !isAdmin ? (
       !userData.profile?.id_status ? (
-        <Redirect to="/docSign" />
+        //<Redirect to="/docSign" />
+        <Component />
       ) : (
         <Component />
       )

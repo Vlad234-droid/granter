@@ -8,14 +8,11 @@ import { useLocation } from 'react-router-dom';
 import headerLogo from '../../../assets/img/header-logo.svg';
 import { Skeleton } from 'antd';
 import { bindActionCreators } from 'redux';
-
 import { IconPhone, IconMail } from '../../icons';
 import { showModalAction, closeModalAction } from '../../../core/actions/modal';
 import actions from '../../../core/actions';
-import { useHistory } from 'react-router-dom';
 import { logOut } from '../../../core/services/logOut';
 import { LogOutSVG } from '../../../components/icons';
-
 import './style.scss';
 import { activeItems, subMenuItems } from './config';
 
@@ -30,7 +27,6 @@ const Aside = () => {
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
   const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
   const [addSubClass, setAddSubClass] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     switch (true) {
@@ -100,7 +96,6 @@ const Aside = () => {
 
   const exit = () => {
     logOut(dispatch);
-    history.push('/sign-in');
   };
   return (
     <aside className="nav-left">

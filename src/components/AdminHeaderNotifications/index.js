@@ -10,21 +10,22 @@ import { CloseIconModal } from '../icons/index';
 import { IconCompany } from '../icons';
 import { Tooltip } from 'antd';
 import { readNoti } from '../../core/services/readNotiServices';
+import { getNotificationsForAdmin, readAdminNoti } from '../../core/adminServices/notificationsServices';
 
 const HeaderNotification = () => {
   const company = useSelector((state) => state.user.currentCompany);
   const { isVisibleNotifications } = useSelector((state) => state.modal);
+  const [modalNoti, setModalNoti] = useState(false);
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
 
   useEffect(() => {
-    if (company) {
-      const { id } = company;
-      getNotificationsForUser(dispatch, id).then((data) => {
-        setNotiData(() => data);
-      });
-    }
+    getNotificationsForAdmin().then((data) => {
+      console.log(data);
+      setNotiData(() => data);
+    });
+
     return () => {
       setNotiData(() => []);
     };
@@ -41,36 +42,37 @@ const HeaderNotification = () => {
   }, [notiData, dispatch]);
 
   const showDrawer = () => {
-    readNoti(company.id).then((data) => {
+    readAdminNoti().then((data) => {
       if (data.success) {
-        getNotificationsForUser(dispatch, company.id).then((data) => {
+        getNotificationsForAdmin().then((data) => {
           setNotiData(() => data);
         });
       }
     });
 
     if (!notiData.length) {
-      dispatch(closeModalNotifications());
+      setModalNoti(() => false);
     } else {
-      dispatch(showModalNotifications());
+      setModalNoti(() => true);
     }
   };
 
   const onClose = () => {
-    dispatch(closeModalNotifications());
+    setModalNoti(() => false);
   };
 
   const getTitle = () => {
     return (
       <>
-        {company && (
+        {/* {company && (
           <>
             <div className="header__company_icon blue">
               <IconCompany />
             </div>
             <div className="header__company_name">{company.name}</div>
           </>
-        )}
+        )} */}
+        <div>helo</div>
       </>
     );
   };
@@ -121,9 +123,8 @@ const HeaderNotification = () => {
         title={getTitle()}
         className="header__notification_drawer"
         placement="right"
-        closable={false}
         onClose={onClose}
-        visible={isVisibleNotifications}
+        visible={modalNoti}
         width={508}
         closeIcon={<CloseIconModal />}
         closable={true}>
