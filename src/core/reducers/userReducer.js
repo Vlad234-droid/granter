@@ -46,6 +46,7 @@ const initialState = {
   loader: false,
   error: null,
   success: false,
+  prevRout: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -128,6 +129,12 @@ const userReducer = (state = initialState, action) => {
         loader: false,
         error: null,
         success: false,
+      };
+
+    case 'SET_PREV_ROUT':
+      return {
+        ...state,
+        prevRout: action.payload,
       };
 
     default:

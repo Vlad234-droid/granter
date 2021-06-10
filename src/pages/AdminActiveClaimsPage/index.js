@@ -17,8 +17,7 @@ import AdminActiveClaimsDates from './AdminActiveClaimsDates';
 const AdminActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.currentCompany);
-  const userData = useSelector((state) => state.user.data);
+  const prevRout = useSelector((state) => state.user.prevRout);
   const history = useHistory();
   const { id } = useParams();
 
@@ -42,7 +41,11 @@ const AdminActiveClaimsPage = (props) => {
           <button
             onClick={() => {
               // history.push('/admin/clients');
-              history.goBack();
+              if (prevRout.includes('admin/clients') || prevRout.includes('admin/client/')) {
+                history.goBack();
+              } else {
+                history.push('/admin/clients');
+              }
             }}>
             <div>
               <AdminBackToTablesSVG />
@@ -66,9 +69,7 @@ const AdminActiveClaimsPage = (props) => {
           ) : (
             <Skeleton active className="cards-skeleton" />
           )}
-          {activeClaimData?.start_date && activeClaimData?.end_date && (
-            <AdminActiveClaimsDates activeClaimData={activeClaimData} />
-          )}
+          {activeClaimData && <AdminActiveClaimsDates activeClaimData={activeClaimData} />}
           <AdminActiveClaimsSteps />
         </div>
       </div>

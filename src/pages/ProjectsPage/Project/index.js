@@ -4,6 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import { IconDeleteFile } from '../../../components/icons';
 import { removeProject, addDocumentToProject, removeDocumentFromProject } from '../../../core/services';
+import ProjectFileListItem from '../../../components/ProjectFileListItem';
 
 import iconSelectArrow from '../../../assets/img/iceon-select-arrow.svg';
 import iconUpload from '../../../assets/img/icon-upload.svg';
@@ -291,34 +292,6 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
           <Form.Item hidden name="id">
             <Input />
           </Form.Item>
-          {/* <div className="project__form_submit">
-            {length === 1 ? (
-              <>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    add();
-                  }}>
-                  Add One More Project
-                </Button>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Add Project to Dashboard
-                  </Button>
-                </Form.Item>
-              </>
-            ) : (
-              <Button
-                type="button"
-                className="remove-project"
-                loading={loaderOnRemove}
-                onClick={() => {
-                  onDeleteProject(field.name);
-                }}>
-                Remove
-              </Button>
-            )}
-          </div> */}
         </div>
       </div>
       {!isRemoved && (
@@ -336,6 +309,9 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
+                itemRender={(originNode, file, currFileList) => (
+                  <ProjectFileListItem originNode={originNode} file={file} fileList={currFileList} />
+                )}
                 showUploadList={{
                   showDownloadIcon: false,
                   showRemoveIcon: true,

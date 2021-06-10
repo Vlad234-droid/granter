@@ -87,7 +87,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
               <div className="clime-progress">
                 <Progress
                   type="circle"
-                  percent={activeClaimData.estimated_total_claim_benefit_percentage * 100}
+                  percent={Math.round(activeClaimData.estimated_total_claim_benefit_percentage * 100)}
                   width={72}
                   strokeColor="#F9A648"
                 />
