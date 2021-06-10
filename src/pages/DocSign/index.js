@@ -1,8 +1,11 @@
 import React from 'react';
 import Layout from '../../components/LayoutGuest/Layout';
 import './style.scss';
+import { useSelector } from 'react-redux';
 
 const DocSign = () => {
+  const { manager } = useSelector((state) => state.user.data);
+  console.log('test', manager);
   return (
     <Layout isLogged={false} className="hello-page" mode="registration">
       <div className="wrapper_doc">
@@ -13,16 +16,16 @@ const DocSign = () => {
           <br /> We will want a schedule a call button here.
         </p>
         <p className="manager_info">
-          Contact our Manager <strong>John Smith</strong>
+          Contact our Manager <strong>{manager.name}</strong>
         </p>
         <div className="wrapper_blocks">
           <div className="block_email">
             <span>Email:</span>
-            <span>JohnSmith@gmail.com</span>
+            <span>{manager.email}</span>
           </div>
           <div className="block_phone">
             <span>Phone:</span>
-            <span>47809485980</span>
+            <span>{manager.phone}</span>
           </div>
         </div>
       </div>

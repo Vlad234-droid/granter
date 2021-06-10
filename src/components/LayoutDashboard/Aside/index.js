@@ -23,6 +23,7 @@ const Aside = () => {
   const dispatch = useDispatch();
   const { visibleModal } = useSelector((state) => state.modal);
   const { currentCompany } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
   const [currentMenu, setCurrentMenu] = useState([]);
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
   const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
@@ -195,7 +196,7 @@ const Aside = () => {
             }}>
             Ask a Question
           </Button>
-          <ModalAsk visibleModal={visibleModal} handleCancel={closeModalAction} />
+          <ModalAsk manager_id={id} visibleModal={visibleModal} handleCancel={closeModalAction} />
           {/* <ModalFeedBack
             visibleModal={visibleModal}
             handleCancel={closeModalAction}

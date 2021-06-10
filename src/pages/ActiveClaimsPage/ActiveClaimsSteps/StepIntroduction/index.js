@@ -34,7 +34,6 @@ const StepIntroduction = () => {
     if (activeClaimId) {
       setIntroductionStep(null);
       getIntroductionClaimStep(activeClaimId).then((data) => {
-        console.log('this data', data);
         const res = { ...data };
         res.documents = data.documents.map((item) => {
           item.red = false;

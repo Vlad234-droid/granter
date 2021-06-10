@@ -21,9 +21,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       <LoadingPage />
     ) : !isAdmin ? (
       !userData.profile?.id_status ? (
-        //<Redirect to="/docSign" />
-        <Component />
+        <Redirect to="/docSign" />
       ) : (
+        //<Component />
         <Component />
       )
     ) : (

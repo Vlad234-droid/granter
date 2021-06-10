@@ -4,11 +4,14 @@ import AskPhoto from '../../../../assets/img/ask-photo.png';
 import { Form, Radio, Button, Modal, Input } from 'antd';
 import { CloseIconModal } from '../../../icons/index';
 import { useDispatch } from 'react-redux';
+import { askAQuestion } from '../../../../core/services/askAQuestion';
 
 const { TextArea } = Input;
 
-const ModalAsk = ({ visibleModal, handleCancel }) => {
+const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
   const [askSelection, setAskSelection] = useState(null);
+  const [form] = Form.useForm();
+
   const dispatch = useDispatch();
   const formItemLayout = {
     labelCol: {
@@ -18,8 +21,17 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
       span: 14,
     },
   };
-  const onFinish = (values) => {
-    //console.log('Received values of form: ', values);
+  const onFinish = ({ text, phone }) => {
+    askAQuestion(manager_id, text, phone === undefined ? 0 : 1).then((data) => {
+      if (data.ok) {
+        form.setFieldsValue({
+          phone: '',
+          text: '',
+          options: '',
+        });
+        dispatch(handleCancel());
+      }
+    });
   };
   const onAskSelectionChange = useCallback(
     (e) => {
@@ -35,6 +47,7 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
           name="phone"
           rules={[
             {
+              required: true,
               pattern: /^(\+)(\d+)$/,
               message: 'Phone number must start with +, allowed characters is 0-9',
             },
@@ -60,6 +73,7 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
       <Form
         {...formItemLayout}
         name="askForm"
+        form={form}
         onFinish={onFinish}
         // form={askFrom}
       >
@@ -85,7 +99,14 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
           </Form.Item>
           <div className="checkBox">
             <h3>Receive answer by:</h3>
-            <Form.Item>
+            <Form.Item
+              name="options"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select one option.',
+                },
+              ]}>
               <Radio.Group onChange={onAskSelectionChange}>
                 <Radio value="email" name="email">
                   Email

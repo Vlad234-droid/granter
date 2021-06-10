@@ -96,6 +96,7 @@ const AdminSettings = () => {
       title: 'Action',
       dataIndex: 'delete',
       align: 'right',
+      className: 'deleteBtn',
       render: (_, record) => {
         return (
           <button onClick={() => deleteHandler(record, dataTable)} style={{ padding: '2px', cursor: 'pointer' }}>

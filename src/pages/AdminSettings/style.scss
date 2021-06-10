@@ -78,6 +78,15 @@
           .ant-table-cell.except_avatar {
             padding-right: 0px;
           }
+          .ant-table-cell.deleteBtn {
+            text-align: center !important;
+            padding: 18px;
+          }
+          .ant-table-cell {
+            button {
+              padding: 9px;
+            }
+          }
         }
       }
       h4 {

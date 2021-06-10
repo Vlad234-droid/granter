@@ -77,7 +77,6 @@ const AdminClientsPage = () => {
   const dispatch = useDispatch();
   const { pageAdminClientsGLOBAL } = useSelector((state) => state.modal);
   const { setCurrentPageGLOBAL } = bindActionCreators(actions, dispatch);
-  console.log('pageAdminClientsGLOBAL', pageAdminClientsGLOBAL);
 
   const [columns, setColumns] = useState([
     {
