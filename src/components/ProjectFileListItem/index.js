@@ -6,11 +6,10 @@ import DOCSSVG from '../../assets/img/DOCS.svg';
 
 import './style.scss';
 
-const ProjectFileListItem = ({ originNode, file, fileList }) => {
+const ProjectFileListItem = ({ originNode, file, fileList, actions }) => {
   const [extension, setExtension] = useState(null);
-  console.log('originNode', originNode);
-  console.log('file', file);
-  console.log('fileList', fileList);
+  // console.log('originNode', originNode);
+  // console.log('file', file);
 
   useEffect(() => {
     if (!file.extension && file.url) {

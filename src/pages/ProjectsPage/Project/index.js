@@ -309,9 +309,18 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
-                itemRender={(originNode, file, currFileList) => (
-                  <ProjectFileListItem originNode={originNode} file={file} fileList={currFileList} />
-                )}
+                itemRender={(actions, originNode, file, currFileList) => {
+                  console.log('actions', actions);
+
+                  return (
+                    <ProjectFileListItem
+                      originNode={originNode}
+                      file={file}
+                      fileList={currFileList}
+                      // actions={actions}
+                    />
+                  );
+                }}
                 showUploadList={{
                   showDownloadIcon: false,
                   showRemoveIcon: true,
