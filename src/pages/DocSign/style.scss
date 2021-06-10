@@ -1,0 +1,82 @@
+.wrapper_doc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  h2 {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #3c4252;
+    margin-bottom: 30px;
+  }
+  .manager_info {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #3c4252;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+  .text {
+    width: 49%;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .wrapper_blocks {
+    margin-right: 2.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    .block_email {
+      margin-bottom: 10px;
+      span {
+        &:first-child {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          color: #3c4252;
+          opacity: 0.9;
+          margin-right: 22px;
+        }
+        &:last-child {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          text-decoration-line: underline;
+          color: #305ff5;
+          opacity: 0.9;
+        }
+      }
+    }
+    .block_phone {
+      span {
+        &:first-child {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          color: #3c4252;
+          opacity: 0.9;
+          margin-right: 17px;
+        }
+        &:last-child {
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          color: #3c4252;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}

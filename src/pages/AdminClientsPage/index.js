@@ -6,51 +6,9 @@ import LayOutAdmin from '../../components/LayOutAdmin';
 import { Menu, Dropdown, Checkbox, Pagination, Skeleton } from 'antd';
 import { getAllClients } from '../../core/adminServices/clientServices';
 import { Link } from 'react-router-dom';
-// const dataSource = [
-//   {
-//     key: '1',
-//     name: 'Vlad',
-//     age: 32,
-//     address: '10 Downing Street',
-//     company: 'Angle',
-//     activeClaim: 'link',
-//     yearend: '5/19/20',
-//     dueDate: '5/19/20',
-//     perStages: (
-//       <div className="wrapper_progress">
-//         <div>
-//           <p>3% 1/5 Introduction</p>
-//           <p>3% 1/5 Introduction</p>
-//           <p>3% 1/5 Introduction</p>
-//         </div>
-//         <div>
-//           <p>3% 1/5 Introduction</p>
-//           <p>3% 1/5 Introduction</p>
-//         </div>
-//       </div>
-//     ),
-//     value: '£100,000',
-//     dateCompleted: '5/19/20',
-//   },
-//   {
-//     key: '2',
-//     name: 'Sergey',
-//     age: 32,
-//     address: '10 Downing Street',
-//     company: 'Angle',
-//     activeClaim: 'link',
-//     yearend: '5/19/20',
-//     dueDate: '5/19/20',
-//     perStages: (
-//       <div className="wrapper_progress">
-//         <div>3% 1/5 Introduction 3% 1/5 Introduction 3% 1/5 Introduction</div>
-//         <div>3% 1/5 Introduction 3% 1/5 Introduction</div>
-//       </div>
-//     ),
-//     value: '£100,000',
-//     dateCompleted: '5/19/20',
-//   },
-// ];
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import actions from '../../core/actions';
 
 const dataColumns = [
   {
@@ -116,6 +74,11 @@ const AdminClientsPage = () => {
   const [perPage, setPerPage] = useState(0);
   const [sorterType, setSorterType] = useState('');
   const [currentColumnKey, setCurrentColumnKey] = useState('');
+  const dispatch = useDispatch();
+  const { pageAdminClientsGLOBAL } = useSelector((state) => state.modal);
+  const { setCurrentPageGLOBAL } = bindActionCreators(actions, dispatch);
+  console.log('pageAdminClients', pageAdminClientsGLOBAL);
+
   const [columns, setColumns] = useState([
     {
       title: 'Company',
@@ -129,7 +92,6 @@ const AdminClientsPage = () => {
       dataIndex: 'client_name',
       key: 'client_name',
       sorter: {},
-      render: (text) => <a>{text}</a>,
       disabled: true,
       sorter: {},
     },
@@ -187,9 +149,11 @@ const AdminClientsPage = () => {
   );
 
   useEffect(() => {
+    if (pageAdminClientsGLOBAL !== null) {
+      setCurrentPage(() => pageAdminClientsGLOBAL);
+    }
     setTableLoading(() => true);
     getAllClients(currentPage).then((data) => {
-      console.log('data', data);
       setPageInfo(data);
     });
   }, []);
@@ -223,6 +187,7 @@ const AdminClientsPage = () => {
     if (currentColumnKey !== '' && sorterType !== '') {
       setCurrentPage(() => page);
       setTableLoading(() => true);
+      setCurrentPageGLOBAL(page);
 
       return getAllClients(page, currentColumnKey, sorterType).then((data) => {
         setPageInfo(data);
@@ -230,6 +195,7 @@ const AdminClientsPage = () => {
     }
     setCurrentPage(() => page);
     setTableLoading(() => true);
+    setCurrentPageGLOBAL(page);
     getAllClients(page).then((data) => {
       setPageInfo(data);
     });
@@ -238,7 +204,6 @@ const AdminClientsPage = () => {
   const setPageInfo = useCallback(
     (data) => {
       const { companies, total_count, per_page } = data;
-      console.log(data);
       setTotalCountPages(() => total_count);
       setPerPage(() => per_page);
       const newData = [];

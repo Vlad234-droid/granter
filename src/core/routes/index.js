@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import PrivateRoute from './PrivatRouter';
 import PrivateAdminRoute from './PrivatAdminRouter';
 import CoreRouter from './CoreRouter';
-
 import WelcomePage from '../../pages/WelcomePage';
 import LoginPage from '../../pages/Login';
 import ActiveClaimsPage from '../../pages/ActiveClaimsPage';
@@ -25,7 +24,7 @@ import AdminAddClient from '../../pages/AdminAddClient';
 import AdminAddComany from '../../pages/AdminAddComany';
 import AdminDocumentPage from '../../pages/AdminDocumentPage';
 import AdminProjectsPage from '../../pages/AdminProjectsPage';
-
+import DocSign from '../../pages/DocSign';
 import CongratulationsPage from '../../pages/CongratulationsPage';
 
 //TODO Lazy
@@ -42,6 +41,7 @@ const routes = () => {
     <React.Suspense fallback="">
       <CoreRouter>
         <Route exact path="/" component={WelcomePage} />
+        <Route exact path="/docSign" component={DocSign} />
         <Route exact path="/welcome/" component={WelcomePage} />
         <Route exact path="/sign-in/" component={LoginPage} />
         <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
