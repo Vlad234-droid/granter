@@ -41,9 +41,9 @@ const routes = () => {
     <React.Suspense fallback="">
       <CoreRouter>
         <Route exact path="/" component={WelcomePage} />
-        <Route exact path="/docSign" component={DocSign} />
         <Route exact path="/welcome/" component={WelcomePage} />
         <Route exact path="/sign-in/" component={LoginPage} />
+        <PrivateRoute exact path="/docSign" component={DocSign} />
         <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
         <PrivateRoute exact path="/active-claims/congratulations" component={CongratulationsPage} />
         <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />

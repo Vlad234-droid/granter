@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../../components/LayoutGuest/Layout';
 import './style.scss';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const DocSign = () => {
-  const { manager } = useSelector((state) => state.user.data);
-  console.log('test', manager);
+  const { id_status } = useSelector((state) => state.user?.data?.profile);
+  const history = useHistory();
+  useEffect(() => {
+    if (!!id_status) {
+      history.push('/active-claims');
+    }
+  }, []);
+
+  const { manager } = useSelector((state) => state?.user?.data);
+
   return (
     <Layout isLogged={false} className="hello-page" mode="registration">
       <div className="wrapper_doc">

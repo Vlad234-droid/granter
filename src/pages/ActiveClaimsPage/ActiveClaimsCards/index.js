@@ -4,8 +4,6 @@ import { Row, Col, Card, Progress } from 'antd';
 import './style.scss';
 
 const ActiveClaimsCards = ({ activeClaimData }) => {
-  console.log('activeClaimData', activeClaimData);
-
   const convertDate = (date, days) => {
     function convertDate(inputFormat) {
       function pad(s) {

@@ -35,12 +35,9 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Im here');
     const { userCompaniesLoaded } = bindActionCreators(actions, dispatch);
     userCompaniesLoaded(companiesList);
   }, [companiesList]);
-
-  console.log('companiesList', companiesList);
 
   const onSave = (form) => {
     setProfileFormLoader(true);
