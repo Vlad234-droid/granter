@@ -27,7 +27,7 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
         form.setFieldsValue({
           phone: '',
           text: '',
-          options: '',
+          options: 'email',
         });
         dispatch(handleCancel());
       }
@@ -75,8 +75,9 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
         name="askForm"
         form={form}
         onFinish={onFinish}
-        // form={askFrom}
-      >
+        initialValues={{
+          options: 'email',
+        }}>
         <div className="wrapper-info">
           <div className="info-img-text-info">
             <img src={AskPhoto} alt="Logo Photo" />
@@ -99,19 +100,14 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
           </Form.Item>
           <div className="checkBox">
             <h3>Receive answer by:</h3>
-            <Form.Item
-              name="options"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select one option.',
-                },
-              ]}>
+            <Form.Item name="options">
               <Radio.Group onChange={onAskSelectionChange}>
                 <Radio value="email" name="email">
                   Email
                 </Radio>
-                <Radio value="phone">Phone</Radio>
+                <Radio value="phone" name="phone">
+                  Phone
+                </Radio>
               </Radio.Group>
             </Form.Item>
           </div>
@@ -119,13 +115,14 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
         </div>
         <div className="wrapper-btn-modal">
           <Button
+            style={{ width: '89px' }}
             type="button"
             onClick={() => {
               dispatch(handleCancel());
             }}>
             Back
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button style={{ width: '89px' }} type="primary" htmlType="submit">
             Ask
           </Button>
         </div>

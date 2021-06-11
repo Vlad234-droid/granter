@@ -110,6 +110,10 @@ const ProfilePage = () => {
                             required: true,
                             message: 'Please input your name!',
                           },
+                          {
+                            max: 255,
+                            message: 'Еhe permissible meaning of the symbols is 255',
+                          },
                         ]}>
                         <Input />
                       </Form.Item>

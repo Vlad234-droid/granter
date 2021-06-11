@@ -23,7 +23,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       !userData.profile?.id_status ? (
         <Redirect to="/docSign" />
       ) : (
-        //<Component />
         <Component />
       )
     ) : (

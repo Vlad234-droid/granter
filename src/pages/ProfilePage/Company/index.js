@@ -201,7 +201,7 @@ const Company = ({ company, updateCompany, setCompaniesList }) => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input Revenue!',
+                      message: 'Please input UTR!',
                     },
                   ]}>
                   <Input />
@@ -220,7 +220,7 @@ const Company = ({ company, updateCompany, setCompaniesList }) => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input Revenue!',
+                      message: 'Please input SME or RDEC!',
                     },
                   ]}>
                   <Input />

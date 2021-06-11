@@ -128,6 +128,9 @@
     padding: 0px;
     li {
       padding: 0px;
+      span {
+        width: 100%;
+      }
       .status {
         display: flex;
         align-items: center;
