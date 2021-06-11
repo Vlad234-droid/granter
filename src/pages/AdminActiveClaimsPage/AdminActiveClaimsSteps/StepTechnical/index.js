@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Tooltip, Skeleton, Upload, Spin, Modal, Button, Drawer } from 'antd';
 import actions from '../../../../core/actions';
 import { LoadingOutlined } from '@ant-design/icons';
-import { removeProject } from '../../../../core/services';
-import { setNewProject } from '../../../../core/adminServices';
+import { setNewProject, removeProject } from '../../../../core/adminServices';
 
 import { getTechnicalClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
 

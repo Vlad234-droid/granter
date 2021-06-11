@@ -81,6 +81,8 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
   };
 
   const onRemoveDocument = (file) => {
+    console.log('file', file);
+
     const id = form.getFieldsValue().id;
     if (id) {
       removeDocumentFromProject(file.claim_id, file.project_id, file.id);
@@ -309,23 +311,10 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
-                itemRender={(actions, originNode, file, currFileList) => {
-                  console.log('actions', actions);
-
-                  return (
-                    <ProjectFileListItem
-                      originNode={originNode}
-                      file={file}
-                      fileList={currFileList}
-                      // actions={actions}
-                    />
-                  );
-                }}
-                showUploadList={{
-                  showDownloadIcon: false,
-                  showRemoveIcon: true,
-                  removeIcon: <IconDeleteFile />,
-                }}
+                itemRender={(originNode, file, currFileList, actions) => (
+                  <ProjectFileListItem originNode={originNode} file={file} fileList={currFileList} actions={actions} />
+                )}
+                showUploadList={true}
                 onRemove={onRemoveDocument}
                 accept="application/pdf, application/msword,
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,

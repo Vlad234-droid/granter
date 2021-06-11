@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { IconDeleteFile } from '../../../components/icons';
 import { addDocumentToProject, removeDocumentFromProject, removeProject } from '../../../core/adminServices';
 
+import ProjectFileListItem from '../../../components/ProjectFileListItem';
 import iconSelectArrow from '../../../assets/img/iceon-select-arrow.svg';
 import iconUpload from '../../../assets/img/icon-upload.svg';
 import iconPdf from '../../../assets/img/icon-pdf.svg';
@@ -336,11 +337,10 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
-                showUploadList={{
-                  showDownloadIcon: false,
-                  showRemoveIcon: true,
-                  removeIcon: <IconDeleteFile />,
-                }}
+                itemRender={(originNode, file, currFileList, actions) => (
+                  <ProjectFileListItem originNode={originNode} file={file} fileList={currFileList} actions={actions} />
+                )}
+                showUploadList={true}
                 onRemove={onRemoveDocument}
                 accept="application/pdf, application/msword,
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,
