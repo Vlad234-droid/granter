@@ -18,8 +18,12 @@ const StepIntroduction = () => {
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const activeClaimIdStatus = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
-  const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps } = bindActionCreators(actions, dispatch);
+  const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps, setStepStatus } = bindActionCreators(
+    actions,
+    dispatch,
+  );
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -43,6 +47,12 @@ const StepIntroduction = () => {
         const status = Math.round(
           (res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100,
         );
+        if (status === 100) {
+          setStepStatus({
+            name: 'introduction',
+            status: true,
+          });
+        }
         setStatus(status);
       });
     }

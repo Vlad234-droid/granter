@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton, Tooltip, Button } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { useHistory } from 'react-router-dom';
+
+import actions from '../../../../core/actions';
 import UploadFile from '../../../../components/UploadFile';
 
-import { getSubmissionClaimStep } from '../../../../core/services';
+import { getSubmissionClaimStep, setApproveClime } from '../../../../core/services';
 import IconInfo from '../../../../assets/img/icon-info.svg';
 
 import './style.scss';
@@ -11,7 +15,31 @@ import './style.scss';
 const StepSubmission = () => {
   const [submissionStep, setSubmissionStep] = useState(null);
   const [status, setStatus] = useState(0);
+  const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const activeClaimIdStatus = useSelector((state) => state.claims.activeClaimStatus);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { setStepStatus, setFinalReport } = bindActionCreators(actions, dispatch);
+
+  const activeClaimIdDone = () => {
+    console.log(
+      'activeClaimIdDone',
+      activeClaimIdStatus.introduction &&
+        activeClaimIdStatus.financial &&
+        activeClaimIdStatus.technical &&
+        activeClaimIdStatus.deliverables &&
+        activeClaimIdStatus.submission,
+    );
+
+    return (
+      activeClaimIdStatus.introduction &&
+      activeClaimIdStatus.financial &&
+      activeClaimIdStatus.technical &&
+      activeClaimIdStatus.deliverables &&
+      activeClaimIdStatus.submission
+    );
+  };
 
   useEffect(() => {
     if (activeClaimId) {
@@ -21,6 +49,12 @@ const StepSubmission = () => {
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
         );
+        if (status === 100) {
+          setStepStatus({
+            name: 'submission',
+            status: true,
+          });
+        }
         setStatus(status);
       });
     }
@@ -35,6 +69,24 @@ const StepSubmission = () => {
     setSubmissionStep(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
+  };
+
+  const approveClaim = () => {
+    if (!activeClaimIdDone) return;
+    setLoading(true);
+    setApproveClime(activeClaimId)
+      .then((data) => {
+        const res = {
+          ...data,
+          claimId: activeClaimId,
+        };
+        setFinalReport(res);
+        history.push('/active-claims/congratulations');
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -67,7 +119,12 @@ const StepSubmission = () => {
             <div className="step-report-empty">Financial analysis</div> */}
           </div>
           <div className="step-status">
-            <Button type="primary" disabled className="step-status--approve">
+            <Button
+              type="primary"
+              loading={loading}
+              disabled={!activeClaimIdDone()}
+              className="step-status--approve"
+              onClick={approveClaim}>
               Approve
             </Button>
             <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>

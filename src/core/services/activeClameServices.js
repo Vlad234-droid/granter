@@ -514,6 +514,80 @@ const removeDocumentFromProject = (claimId, projectId, documentId) => {
   });
 };
 
+const setApproveClime = (claimid) => {
+  const token = lockr.get('auth-key');
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/claims/approve/${claimid}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json.message);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const sendApproveReport = (claimid, form) => {
+  const token = lockr.get('auth-key');
+
+  const formData = new FormData();
+  for (let i in form) {
+    formData.append(i, form[i]);
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(`${REACT_APP_API_URL}/claims/send-to-accountant/${claimid}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          return resp.json().then((json) => {
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json.message);
+          });
+        }
+      })
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export {
   getActiveClaimData,
   getIntroductionClaimStep,
@@ -529,4 +603,6 @@ export {
   editProject,
   addDocumentToProject,
   removeDocumentFromProject,
+  setApproveClime,
+  sendApproveReport,
 };
