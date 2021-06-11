@@ -41,7 +41,7 @@ const AdminActiveClaimsPage = (props) => {
           <button
             onClick={() => {
               // history.push('/admin/clients');
-              if (prevRout.includes('admin/clients') || prevRout.includes('admin/client/')) {
+              if (prevRout && (prevRout.includes('admin/clients') || prevRout.includes('admin/client/'))) {
                 history.goBack();
               } else {
                 history.push('/admin/clients');

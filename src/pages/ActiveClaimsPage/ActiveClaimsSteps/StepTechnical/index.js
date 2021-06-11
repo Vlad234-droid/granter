@@ -30,7 +30,7 @@ const StepTechnical = () => {
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { blurActiveSteps } = bindActionCreators(actions, dispatch);
+  const { blurActiveSteps, setStepStatus } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -49,6 +49,12 @@ const StepTechnical = () => {
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
         );
+        if (status === 100) {
+          setStepStatus({
+            name: 'technical',
+            status: true,
+          });
+        }
         setStatus(status);
       });
     }

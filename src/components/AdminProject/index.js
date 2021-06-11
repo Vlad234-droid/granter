@@ -166,7 +166,10 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
           }
           placement="bottomCenter">
           <div className="step-file--status admin">
-            <div style={{ cursor: 'pointer' }} className={`status ${statusName(file.status).class}`}>
+            <div
+              style={{ cursor: 'pointer', position: 'relative' }}
+              id={`project_id_${file.id}`}
+              className={`status ${statusName(file.status).class}`}>
               {statusName(file.status).name}
               <AdminArrow />
             </div>
