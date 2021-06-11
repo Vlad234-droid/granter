@@ -7,7 +7,6 @@ import { config } from './config';
 const CongratulationsPage = () => {
   const [form] = Form.useForm();
   const onFinishName = (value) => {
-    console.log(value);
     form.resetFields();
   };
 

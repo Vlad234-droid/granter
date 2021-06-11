@@ -55,6 +55,10 @@ const fetchLogin = (dispatch, loginData, history) => {
             history.push('/active-claims/');
             resolve(data.data);
           }
+          if (!data.profile?.id_status) {
+            history.push('/docSign');
+            resolve(data.data);
+          }
         });
       })
       .catch(() => {
