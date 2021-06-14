@@ -22,13 +22,14 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
     },
   };
   const onFinish = ({ text, phone }) => {
-    askAQuestion(manager_id, text, phone === undefined ? 0 : 1).then((data) => {
+    askAQuestion(manager_id, text, phone === undefined ? 0 : phone).then((data) => {
       if (data.ok) {
         form.setFieldsValue({
           phone: '',
           text: '',
           options: 'email',
         });
+        setAskSelection(() => null);
         dispatch(handleCancel());
       }
     });
