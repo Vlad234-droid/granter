@@ -25,6 +25,7 @@ import AdminAddComany from '../../pages/AdminAddComany';
 import AdminDocumentPage from '../../pages/AdminDocumentPage';
 import AdminProjectsPage from '../../pages/AdminProjectsPage';
 import DocSign from '../../pages/DocSign';
+import CompletedClaimsPage from '../../pages/CompletedClaimsPage';
 import CongratulationsPage from '../../pages/CongratulationsPage';
 
 //TODO Lazy
@@ -41,12 +42,13 @@ const routes = () => {
     <React.Suspense fallback="">
       <CoreRouter>
         <Route exact path="/" component={WelcomePage} />
-        <Route exact path="/docSign" component={DocSign} />
         <Route exact path="/welcome/" component={WelcomePage} />
         <Route exact path="/sign-in/" component={LoginPage} />
+        <PrivateRoute exact path="/docSign" component={DocSign} />
         <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
         <PrivateRoute exact path="/active-claims/congratulations" component={CongratulationsPage} />
         <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
+        <PrivateRoute exact path="/completed-claims/" component={CompletedClaimsPage} />
         <PrivateRoute exact path="/document/:climeId/:id/" component={DocumentPage} />
         <PrivateRoute exact path="/document/notFound/" component={NoFoundDoc} />
         <PrivateRoute exact path="/project/:climeId/:id" component={ProjectsPage} />

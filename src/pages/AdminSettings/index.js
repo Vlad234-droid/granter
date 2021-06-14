@@ -10,7 +10,8 @@ import { getAllAdmins } from '../../core/adminServices/settingsServices';
 import DeleteAdminModal from './DeleteAdminModal';
 import actions from '../../core/actions';
 import { bindActionCreators } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../core/services/logOut';
 
 const AdminSettings = () => {
   const [tableLoading, setTableLoading] = useState(false);
@@ -21,7 +22,7 @@ const AdminSettings = () => {
   const [recordId, setRecordId] = useState('');
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { setIsBlur, userLogOut } = bindActionCreators(actions, dispatch);
+  const { setIsBlur } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     getAllAdmins().then((data) => {
@@ -95,6 +96,7 @@ const AdminSettings = () => {
       title: 'Action',
       dataIndex: 'delete',
       align: 'right',
+      className: 'deleteBtn',
       render: (_, record) => {
         return (
           <button onClick={() => deleteHandler(record, dataTable)} style={{ padding: '2px', cursor: 'pointer' }}>
@@ -119,7 +121,7 @@ const AdminSettings = () => {
               <div className="title">
                 <h2>Admins</h2>
               </div>
-              <button className="block_log" onClick={userLogOut}>
+              <button className="block_log" onClick={() => logOut(dispatch)}>
                 <LogOutSVG />
                 <h3>Log out</h3>
               </button>

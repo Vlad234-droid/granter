@@ -66,7 +66,7 @@ const Reply = ({ reply, onReplyDelete }) => {
             <IconDeleteFile />
           </button>
         </Dropdown>
-        <Checkbox className="reply-checkbox" />
+        {/* <Checkbox className="reply-checkbox" /> */}
       </div>
       <div
         className="comment--message"

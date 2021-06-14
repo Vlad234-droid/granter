@@ -71,7 +71,6 @@ const getAllClients = async (page, sort_by, sort_dir) => {
 };
 
 const postClientCompanyEdits = async (companyId, form) => {
-  console.log('form', form);
   const body = new FormData();
   for (let i in form) {
     body.append(i, form[i]);

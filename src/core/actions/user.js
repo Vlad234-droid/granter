@@ -59,6 +59,13 @@ const setUserIsAdmin = () => {
   };
 };
 
+const setPrevRout = (rout) => {
+  return {
+    type: 'SET_PREV_ROUT',
+    payload: rout,
+  };
+};
+
 export {
   loginRequested,
   loginLoaded,
@@ -69,4 +76,5 @@ export {
   setUserCurrentCompany,
   userLogOut,
   setUserIsAdmin,
+  setPrevRout,
 };

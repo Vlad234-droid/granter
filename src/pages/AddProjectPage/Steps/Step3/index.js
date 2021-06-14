@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../../../core/actions';
 
+import { firstRow, secondRow } from './config';
+
 import './style.scss';
 
 const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
@@ -60,60 +62,22 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
           // onFinishFailed={onFinishFailed}
         >
           <Row gutter={56}>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate internal staffing costs per year?"
-                name="staffing_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate internal staffing costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate consumed materials costs per year?"
-                name="materials_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate consumed materials costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
+            {firstRow.map((item) => (
+              <Col key={item.name} className="gutter-row" span={12}>
+                <Form.Item label={item.label} name={item.name} rules={item.rules}>
+                  <Input placeholder={item.placeholder} type={item.type} suffix={item.suffix} />
+                </Form.Item>
+              </Col>
+            ))}
           </Row>
           <Row gutter={56}>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate subcontracting costs per year?"
-                name="subcontracting_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate subcontracting costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate software costs per year?"
-                name="software_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate software costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
+            {secondRow.map((item) => (
+              <Col key={item.name} className="gutter-row" span={12}>
+                <Form.Item label={item.label} name={item.name} rules={item.rules}>
+                  <Input placeholder={item.placeholder} type={item.type} suffix={item.suffix} />
+                </Form.Item>
+              </Col>
+            ))}
           </Row>
 
           <Form.Item className="control-submit">

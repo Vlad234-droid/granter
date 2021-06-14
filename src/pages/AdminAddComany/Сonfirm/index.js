@@ -53,7 +53,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
       history.push(`/admin/client/${clientId}`);
     });
 
-    //registrationChangeEstimate(null);
+    registrationChangeEstimate(null);
   };
 
   const checkorForRenderBenefitModal = useCallback(() => {

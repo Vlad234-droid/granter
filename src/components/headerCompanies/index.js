@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserCompanies } from '../../core/services';
 import lockr from 'lockr';
 
-import { Dropdown, Menu } from 'antd';
+import { Dropdown, Menu, Tooltip } from 'antd';
 import { IconCompany } from '../icons';
 
 import actions from '../../core/actions';
@@ -51,10 +51,12 @@ const HeaderCompanies = () => {
                 onClick={() => {
                   companyChange(item.id);
                 }}>
-                <div className="header__company_icon yellow">
-                  <IconCompany />
-                </div>
-                <div className="header__company_name">{item.name}</div>
+                <Tooltip title={item.name} placement="left">
+                  <div className="header__company_icon yellow">
+                    <IconCompany />
+                  </div>
+                  <div className="header__company_name">{item.name}</div>
+                </Tooltip>
               </Menu.Item>
             );
           }

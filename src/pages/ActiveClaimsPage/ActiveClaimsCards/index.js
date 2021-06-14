@@ -4,8 +4,6 @@ import { Row, Col, Card, Progress } from 'antd';
 import './style.scss';
 
 const ActiveClaimsCards = ({ activeClaimData }) => {
-  console.log('activeClaimData', activeClaimData);
-
   const convertDate = (date, days) => {
     function convertDate(inputFormat) {
       function pad(s) {
@@ -35,7 +33,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
             <div className="clime-progress">
               <Progress
                 type="circle"
-                percent={activeClaimData.estimated_total_claim_benefit_percentage * 100}
+                percent={Math.round(activeClaimData.estimated_total_claim_benefit_percentage * 100)}
                 width={72}
               />
               <div className="clime-progress--info">

@@ -33,7 +33,7 @@ const LoginPage = (props) => {
           <Form.Item
             label="What is your password?"
             name="password"
-            rules={[{ required: true, message: 'Please input your company name!' }]}>
+            rules={[{ required: true, message: 'Please input your password!' }]}>
             <Input type="password" placeholder="Enter the password" />
           </Form.Item>
           <Form.Item className="login--submit">

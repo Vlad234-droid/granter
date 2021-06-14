@@ -35,12 +35,9 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Im here');
     const { userCompaniesLoaded } = bindActionCreators(actions, dispatch);
     userCompaniesLoaded(companiesList);
   }, [companiesList]);
-
-  console.log('companiesList', companiesList);
 
   const onSave = (form) => {
     setProfileFormLoader(true);
@@ -109,6 +106,10 @@ const ProfilePage = () => {
                           {
                             required: true,
                             message: 'Please input your name!',
+                          },
+                          {
+                            max: 255,
+                            message: 'Еhe permissible meaning of the symbols is 255',
                           },
                         ]}>
                         <Input />

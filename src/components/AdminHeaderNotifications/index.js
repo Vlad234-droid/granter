@@ -10,21 +10,26 @@ import { CloseIconModal } from '../icons/index';
 import { IconCompany } from '../icons';
 import { Tooltip } from 'antd';
 import { readNoti } from '../../core/services/readNotiServices';
+import { getNotificationsForAdmin, readAdminNoti } from '../../core/adminServices/notificationsServices';
+import { bindActionCreators } from 'redux';
+import actions from '../../core/actions';
 
 const HeaderNotification = () => {
   const company = useSelector((state) => state.user.currentCompany);
-  const { isVisibleNotifications } = useSelector((state) => state.modal);
+  const [modalNoti, setModalNoti] = useState(false);
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
+  console.log(count);
+
+  const { setIsBlur } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
-    if (company) {
-      const { id } = company;
-      getNotificationsForUser(dispatch, id).then((data) => {
-        setNotiData(() => data);
-      });
-    }
+    getNotificationsForAdmin().then((data) => {
+      console.log('getNotificationsForAdmin', data);
+      setNotiData(() => data);
+    });
+
     return () => {
       setNotiData(() => []);
     };
@@ -34,45 +39,36 @@ const HeaderNotification = () => {
     if (notiData === undefined) {
       return;
     } else if (notiData.length) {
-      let count = notiData.filter((item) => item.status === 2).length;
-      setCount(() => count);
+      setCount(() => notiData.filter((item) => item.status === 2).length);
     }
     return () => setCount(() => '');
   }, [notiData, dispatch]);
 
   const showDrawer = () => {
-    readNoti(company.id).then((data) => {
+    readAdminNoti().then((data) => {
       if (data.success) {
-        getNotificationsForUser(dispatch, company.id).then((data) => {
+        getNotificationsForAdmin().then((data) => {
           setNotiData(() => data);
         });
       }
     });
 
     if (!notiData.length) {
-      dispatch(closeModalNotifications());
+      setModalNoti(() => false);
+      setIsBlur(false);
     } else {
-      dispatch(showModalNotifications());
+      setModalNoti(() => true);
+      setIsBlur(true);
     }
   };
 
   const onClose = () => {
-    dispatch(closeModalNotifications());
+    setModalNoti(() => false);
+    setIsBlur(false);
   };
 
   const getTitle = () => {
-    return (
-      <>
-        {company && (
-          <>
-            <div className="header__company_icon blue">
-              <IconCompany />
-            </div>
-            <div className="header__company_name">{company.name}</div>
-          </>
-        )}
-      </>
-    );
+    return <div className="header__company_name">Admin Notifications</div>;
   };
   const convertDate = (date) => {
     function convertDate(inputFormat) {
@@ -121,11 +117,14 @@ const HeaderNotification = () => {
         title={getTitle()}
         className="header__notification_drawer"
         placement="right"
-        closable={false}
         onClose={onClose}
-        visible={isVisibleNotifications}
+        visible={modalNoti}
         width={508}
-        closeIcon={<CloseIconModal />}
+        closeIcon={
+          <div className="custom_close_admin">
+            <CloseIconModal />
+          </div>
+        }
         closable={true}>
         <ul className="list_of_notif">
           {notiData === undefined ? (
@@ -143,9 +142,16 @@ const HeaderNotification = () => {
                       <div className="item_li">{item.title}</div>
                       {item.title !== 'Document was removed' ? (
                         <Link
-                          to={`/document/${item.claim_id}/${item.document_id}/`}
+                          to={
+                            item.document_id === null
+                              ? `/admin/project/${item.claim_id}/${item.project_id}/`
+                              : `/admin/document/${item.claim_id}/${item.document_id}/`
+                          }
                           className="check_doc"
-                          onClick={() => dispatch(closeModalNotifications())}>
+                          onClick={() => {
+                            setModalNoti(() => false);
+                            setIsBlur(false);
+                          }}>
                           Check document
                         </Link>
                       ) : (

@@ -315,6 +315,7 @@ a.ant-btn {
     font-size: 14px;
     line-height: 114.9%;
     color: #3c4252;
+    text-align: left;
     &.ant-select-item-option-active {
       background: rgba(48, 95, 245, 0.2);
     }
@@ -539,5 +540,13 @@ button:not(.ant-btn) {
     img {
       margin-right: 3px;
     }
+  }
+}
+
+.ant-drawer-header {
+  .custom_close_admin {
+    position: absolute;
+    top: -9px;
+    left: 0px;
   }
 }

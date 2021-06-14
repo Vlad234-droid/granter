@@ -4,11 +4,14 @@ import AskPhoto from '../../../../assets/img/ask-photo.png';
 import { Form, Radio, Button, Modal, Input } from 'antd';
 import { CloseIconModal } from '../../../icons/index';
 import { useDispatch } from 'react-redux';
+import { askAQuestion } from '../../../../core/services/askAQuestion';
 
 const { TextArea } = Input;
 
-const ModalAsk = ({ visibleModal, handleCancel }) => {
+const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
   const [askSelection, setAskSelection] = useState(null);
+  const [form] = Form.useForm();
+
   const dispatch = useDispatch();
   const formItemLayout = {
     labelCol: {
@@ -18,8 +21,18 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
       span: 14,
     },
   };
-  const onFinish = (values) => {
-    //console.log('Received values of form: ', values);
+  const onFinish = ({ text, phone }) => {
+    askAQuestion(manager_id, text, phone === undefined ? 0 : phone).then((data) => {
+      if (data.ok) {
+        form.setFieldsValue({
+          phone: '',
+          text: '',
+          options: 'email',
+        });
+        setAskSelection(() => null);
+        dispatch(handleCancel());
+      }
+    });
   };
   const onAskSelectionChange = useCallback(
     (e) => {
@@ -35,6 +48,7 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
           name="phone"
           rules={[
             {
+              required: true,
               pattern: /^(\+)(\d+)$/,
               message: 'Phone number must start with +, allowed characters is 0-9',
             },
@@ -60,9 +74,11 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
       <Form
         {...formItemLayout}
         name="askForm"
+        form={form}
         onFinish={onFinish}
-        // form={askFrom}
-      >
+        initialValues={{
+          options: 'email',
+        }}>
         <div className="wrapper-info">
           <div className="info-img-text-info">
             <img src={AskPhoto} alt="Logo Photo" />
@@ -85,12 +101,14 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
           </Form.Item>
           <div className="checkBox">
             <h3>Receive answer by:</h3>
-            <Form.Item>
+            <Form.Item name="options">
               <Radio.Group onChange={onAskSelectionChange}>
                 <Radio value="email" name="email">
                   Email
                 </Radio>
-                <Radio value="phone">Phone</Radio>
+                <Radio value="phone" name="phone">
+                  Phone
+                </Radio>
               </Radio.Group>
             </Form.Item>
           </div>
@@ -98,13 +116,14 @@ const ModalAsk = ({ visibleModal, handleCancel }) => {
         </div>
         <div className="wrapper-btn-modal">
           <Button
+            style={{ width: '89px' }}
             type="button"
             onClick={() => {
               dispatch(handleCancel());
             }}>
             Back
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button style={{ width: '89px' }} type="primary" htmlType="submit">
             Ask
           </Button>
         </div>

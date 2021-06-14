@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton, Tooltip } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import UploadFile from '../../../../components/UploadFile';
 
+import actions from '../../../../core/actions';
 import { getDeliverablesClaimStep } from '../../../../core/services';
 import IconInfo from '../../../../assets/img/icon-info.svg';
 
@@ -12,6 +14,8 @@ const StepDeliverables = () => {
   const [deliverablesStep, setDeliverablesStep] = useState(null);
   const [status, setStatus] = useState(0);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const dispatch = useDispatch();
+  const { setStepStatus } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -21,6 +25,12 @@ const StepDeliverables = () => {
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
         );
+        if (status === 100) {
+          setStepStatus({
+            name: 'deliverables',
+            status: true,
+          });
+        }
         setStatus(status);
       });
     }
