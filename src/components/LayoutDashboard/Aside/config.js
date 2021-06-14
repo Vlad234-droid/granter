@@ -13,7 +13,7 @@ export const activeItems = [
   },
   {
     key: 'completed',
-    to: '/',
+    to: '/completed-claims/',
     text: 'Completed',
     className: '',
   },

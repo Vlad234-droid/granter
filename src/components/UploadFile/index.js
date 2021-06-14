@@ -30,10 +30,10 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
 
   useEffect(() => {
-    if (!file.extension && file.url) {
+    if (file.url) {
       setExtension(file.url.match(/\.[0-9a-z]+$/i)[0]);
     }
-  }, []);
+  }, [file]);
 
   const customRequest = (e) => {
     setLoading(true);
