@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tooltip, Upload, Button, Spin, Dropdown, Menu } from 'antd';
+import { Tooltip, Upload, Button, Spin, Dropdown, Menu, notification } from 'antd';
 import { deleteDocumentFromClaim, uploadDocumentToClaim, setSkipFile } from '../../core/adminServices';
 
 import iconUpload from '../../assets/img/icon-upload.svg';
@@ -16,7 +16,7 @@ import './style.scss';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { approveDocument } from '../../core/adminServices/claimServices';
-import { AdminArrow } from '../../components/icons';
+import { AdminArrow, IconWarning } from '../../components/icons';
 
 const { Dragger } = Upload;
 
@@ -27,9 +27,18 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
 
   const customRequest = (e) => {
     setLoading(true);
+    console.log();
+
     uploadDocumentToClaim(id, file.id, e.file).then((data) => {
       onAction(data.document);
       setLoading(false);
+      if (file.slug === 'final-report') {
+        notification.warning({
+          description:
+            'Please, don’t forget to change the estimated benefit to the final number. We will show this number to the client as soon as (s)he approved the claim.',
+          duration: 0,
+        });
+      }
     });
     e.onSuccess('ok');
   };
@@ -145,6 +154,8 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
         <div className="step-file--status admin">
           <Dropdown
             overlayClassName="admin_drop_approved"
+            className="admin_drop_status"
+            getPopupContainer={() => document.querySelector(`#dociment_id_${file.id}`)}
             trigger="click"
             overlay={
               <Menu>
@@ -198,7 +209,10 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
               </Menu>
             }
             placement="bottomCenter">
-            <div style={{ cursor: 'pointer' }} id="status" className={`status ${statusName(file.status).class}`}>
+            <div
+              style={{ cursor: 'pointer', position: 'relative' }}
+              id={`dociment_id_${file.id}`}
+              className={`status ${statusName(file.status).class}`}>
               {statusName(file.status).name}
               <AdminArrow />
             </div>

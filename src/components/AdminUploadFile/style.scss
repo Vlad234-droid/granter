@@ -148,7 +148,6 @@
         &.approved {
           background: rgba(16, 172, 132, 0.2) url('../../assets/img/icon-approved.svg') no-repeat 8px center;
           b {
-            padding-left: 30px;
             color: #10ac84;
           }
         }
@@ -167,4 +166,6 @@
 .step-file.admin {
   padding-left: 12px;
   padding-right: 4px;
+}
+.admin_drop_status {
 }

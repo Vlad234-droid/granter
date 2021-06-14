@@ -84,6 +84,18 @@
           min-width: 320px !important;
         }
       }
+      .email_block-text {
+        max-width: 600px;
+        margin: auto;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 150%;
+        text-align: center;
+        color: #3c4252;
+        opacity: 0.9;
+      }
     }
   }
 }
