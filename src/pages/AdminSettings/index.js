@@ -26,7 +26,6 @@ const AdminSettings = () => {
 
   useEffect(() => {
     getAllAdmins().then((data) => {
-      console.log('data', data);
       if (data !== null) {
         const { admins } = data;
         const updatedInfo = admins.map((item) => ({
@@ -54,9 +53,6 @@ const AdminSettings = () => {
 
   const onFinishName = (value) => {
     form.resetFields();
-  };
-  const onChange = (pagination, filters, sorter, extra) => {
-    //console.log('params', pagination, filters, sorter, extra);
   };
 
   const columns = [
@@ -153,7 +149,7 @@ const AdminSettings = () => {
               className="table_admins"
               dataSource={dataTable}
               columns={columns}
-              onChange={onChange}
+              // onChange={onChange}
               pagination={{
                 defaultPageSize: 5,
                 pageSize: 5,

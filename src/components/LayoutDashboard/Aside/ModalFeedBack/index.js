@@ -18,9 +18,6 @@ const ModalFeedBack = ({ visibleModal, handleCancel, currentCompany, checkForAva
       span: 14,
     },
   };
-  const onFinish = (values) => {
-    //console.log('Received values of form: ', values);
-  };
 
   return (
     <Modal
@@ -35,7 +32,7 @@ const ModalFeedBack = ({ visibleModal, handleCancel, currentCompany, checkForAva
       <Form
         {...formItemLayout}
         name="askForm"
-        onFinish={onFinish}
+        // onFinish={onFinish}
         // form={askFrom}
       >
         <div className="wrapper-info">

@@ -20,11 +20,13 @@ const getfutureClaimData = (companyId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -41,7 +43,7 @@ const getfutureClaimData = (companyId) => {
 const getCompletedClaimData = (companyId) => {
   const token = lockr.get('auth-key');
   return new Promise((resolve, reject) => {
-    fetch(`${REACT_APP_API_URL}/claims/future/${companyId}`, {
+    fetch(`${REACT_APP_API_URL}/claims/completed/${companyId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,11 +56,13 @@ const getCompletedClaimData = (companyId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }

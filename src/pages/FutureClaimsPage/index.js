@@ -14,7 +14,6 @@ const FutureClaimsPage = () => {
   useEffect(() => {
     if (user) {
       getfutureClaimData(user.id).then((data) => {
-        console.log('getfutureClaimData', data);
         setFutureClaimData(data);
       });
     }
@@ -32,15 +31,15 @@ const FutureClaimsPage = () => {
                 <div className="future-claim--title">{item.title}</div>
                 <div className="future-claim--row">
                   <span>R&D Tax Relief Claim</span>
-                  <b>01/01/2018</b>
+                  <b>{item.start_date}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Estimated completion</span>
-                  <b>01/01/2018</b>
+                  <b>{item.end_date}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Estimated benefit</span>
-                  <b>£ 20 000</b>
+                  <b>£ {item.estimated_benefit}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Consultant fee</span>

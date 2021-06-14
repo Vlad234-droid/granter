@@ -2,17 +2,10 @@ import React, { useState } from 'react';
 import './style.scss';
 import { Button, Modal } from 'antd';
 import { CloseIconModal } from '../../../../components/icons/index';
-import { useDispatch } from 'react-redux';
 import { TimePicker } from 'antd';
 import { SuffixShedulleCallIcon } from '../../../../components/icons/index';
 
 const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall }) => {
-  const [askSelection, setAskSelection] = useState(null);
-  const dispatch = useDispatch();
-  const onChange = (time, timeString) => {
-    //console.log(time, timeString);
-  };
-
   return (
     <Modal
       visible={isVisibleModalSheduleCall}
@@ -32,7 +25,7 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
           <TimePicker
             use12Hours
             format="HH:mm"
-            onChange={onChange}
+            // onChange={onChange}
             placeholder="Today,  8:00AM"
             style={{ width: '180px', height: '40px' }}
             className="shedule_time_picker"

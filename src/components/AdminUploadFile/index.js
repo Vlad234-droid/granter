@@ -27,8 +27,6 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
 
   const customRequest = (e) => {
     setLoading(true);
-    console.log();
-
     uploadDocumentToClaim(id, file.id, e.file).then((data) => {
       onAction(data.document);
       setLoading(false);
@@ -173,8 +171,6 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                               status: Number(data.data.document.status),
                             };
                             onAction(file);
-                            console.log(file);
-
                             setLoading(() => false);
                           }
                         });
@@ -196,7 +192,6 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                               ...data.data.document,
                               status: Number(data.data.document.status),
                             };
-                            console.log(file);
                             onAction(file);
                             setLoading(() => false);
                           }

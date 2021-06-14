@@ -22,7 +22,7 @@ const HeaderNotification = () => {
   useEffect(() => {
     if (company) {
       const { id } = company;
-      getNotificationsForUser(dispatch, id).then((data) => {
+      getNotificationsForUser(dispatch, id, history).then((data) => {
         setNotiData(() => data);
       });
     }

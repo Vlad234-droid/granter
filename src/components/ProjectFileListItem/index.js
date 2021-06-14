@@ -9,7 +9,6 @@ import './style.scss';
 
 const ProjectFileListItem = ({ originNode, file, fileList, actions }) => {
   const [extension, setExtension] = useState(null);
-  console.log('actions', file);
 
   useEffect(() => {
     if (!file.extension) {

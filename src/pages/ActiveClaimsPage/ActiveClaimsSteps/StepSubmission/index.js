@@ -23,15 +23,6 @@ const StepSubmission = () => {
   const { setStepStatus, setFinalReport } = bindActionCreators(actions, dispatch);
 
   const activeClaimIdDone = () => {
-    console.log(
-      'activeClaimIdDone',
-      activeClaimIdStatus.introduction &&
-        activeClaimIdStatus.financial &&
-        activeClaimIdStatus.technical &&
-        activeClaimIdStatus.deliverables &&
-        activeClaimIdStatus.submission,
-    );
-
     return (
       activeClaimIdStatus.introduction &&
       activeClaimIdStatus.financial &&

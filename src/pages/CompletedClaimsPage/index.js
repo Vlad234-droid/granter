@@ -3,19 +3,18 @@ import { useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
 
 import Layout from '../../components/LayoutDashboard/Layout';
-import { getfutureClaimData } from '../../core/services';
+import { getCompletedClaimData } from '../../core/services';
 
 import './style.scss';
 
-const FutureClaimsPage = () => {
-  const [futureClaimData, setFutureClaimData] = useState(null);
+const CompletedClaimsPage = () => {
+  const [completedClaimsData, setCompletedClaimsData] = useState(null);
   const user = useSelector((state) => state.user.currentCompany);
 
   useEffect(() => {
     if (user) {
-      getfutureClaimData(user.id).then((data) => {
-        console.log('getfutureClaimData', data);
-        setFutureClaimData(data);
+      getCompletedClaimData(user.id).then((data) => {
+        setCompletedClaimsData(data);
       });
     }
   }, [user]);
@@ -23,24 +22,24 @@ const FutureClaimsPage = () => {
   return (
     <Layout isLogged={false} className="dashboard">
       <div className="future-claims">
-        {!futureClaimData ? (
+        {!completedClaimsData ? (
           <Skeleton active />
         ) : (
           <ul className="future-claims__list">
-            {futureClaimData.map((item) => (
+            {completedClaimsData.map((item) => (
               <li key={`claim-${item.id}`} className="future-claim">
                 <div className="future-claim--title">{item.title}</div>
                 <div className="future-claim--row">
                   <span>R&D Tax Relief Claim</span>
-                  <b>01/01/2018</b>
+                  <b>{item.start_date}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Estimated completion</span>
-                  <b>01/01/2018</b>
+                  <b>{item.end_date}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Estimated benefit</span>
-                  <b>£ 20 000</b>
+                  <b>£ {item.estimated_benefit}</b>
                 </div>
                 <div className="future-claim--row">
                   <span>Consultant fee</span>
@@ -55,4 +54,4 @@ const FutureClaimsPage = () => {
   );
 };
 
-export default FutureClaimsPage;
+export default CompletedClaimsPage;

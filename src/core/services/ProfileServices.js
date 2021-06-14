@@ -20,11 +20,13 @@ const fetchProfileData = () => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -58,11 +60,13 @@ const postProfileData = (user) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -96,11 +100,13 @@ const postCompanyData = (companyId, companyData) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -132,11 +138,13 @@ const postCompanyLogo = (companyId, logo) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -174,11 +182,13 @@ const addNewCompany = (company) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -210,11 +220,13 @@ const fetchChacngePassword = (company) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -245,11 +257,13 @@ const fetchResetPassword = (email) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }

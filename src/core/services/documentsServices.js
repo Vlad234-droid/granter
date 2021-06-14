@@ -22,11 +22,13 @@ const getDocumentComments = (claimId, id) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -60,11 +62,13 @@ const postNewVersionDocument = (claimId, id, file) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -103,11 +107,13 @@ const postNewComment = (claimId, id, text, is_reply, comment_id) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -137,11 +143,13 @@ const removeComment = (claimId, documentId, commentId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -172,11 +180,13 @@ const getDocumentsManagerList = (step, companyId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -213,11 +223,13 @@ const getDownloadList = (list, stage) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }

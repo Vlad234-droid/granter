@@ -8,14 +8,11 @@ import ProjectFileListItem from '../../../components/ProjectFileListItem';
 
 import iconSelectArrow from '../../../assets/img/iceon-select-arrow.svg';
 import iconUpload from '../../../assets/img/icon-upload.svg';
-import iconPdf from '../../../assets/img/icon-pdf.svg';
 import iconFile from '../../../assets/img/icon-file-s.svg';
 
 import './style.scss';
-import reactDomTestUtilsProductionMin from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 const { Option } = Select;
-const { Dragger } = Upload;
 
 const Project = ({ form, project, onRemove, isRemoved }) => {
   const [status, setStatus] = useState(null);
@@ -81,8 +78,6 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
   };
 
   const onRemoveDocument = (file) => {
-    console.log('file', file);
-
     const id = form.getFieldsValue().id;
     if (id) {
       removeDocumentFromProject(file.claim_id, file.project_id, file.id);

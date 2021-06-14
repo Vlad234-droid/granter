@@ -92,7 +92,6 @@ const StepTechnical = () => {
   };
 
   const onChangeStatus = (project) => {
-    console.log('onChangeStatus', technicalStep);
     const res = { ...technicalStep };
     res.documents = technicalStep.documents.map((item) => {
       if (item.id === project.id) {
