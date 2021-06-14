@@ -1,12 +1,20 @@
 import lockr from 'lockr';
 const { REACT_APP_API_URL } = process.env;
 
-export const askAQuestion = async (manager_id, text, is_phone) => {
+export const askAQuestion = async (manager_id, text, phone) => {
   const token = lockr.get('auth-key');
-  const formData = new FormData();
-  formData.append('manager_id', manager_id);
-  formData.append('text', text);
-  formData.append('is_phone', is_phone);
+  const body = {
+    manager_id,
+    text,
+  };
+
+  if (!!phone) {
+    body.phone = phone;
+    body.is_phone = 1;
+  } else {
+    body.is_phone = 0;
+  }
+
   try {
     const res = await fetch(`${REACT_APP_API_URL}/claims/help-mail`, {
       method: 'POST',
@@ -15,7 +23,7 @@ export const askAQuestion = async (manager_id, text, is_phone) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: formData,
+      body: JSON.stringify(body),
     });
     const resData = await res.json();
     if (resData.success) return res;
