@@ -21,16 +21,9 @@ const options = [
 ];
 
 const HeaderSearch = () => {
-  useEffect(() => {
-    //searchService('').then((data) => console.log('data from search', data));
-  }, []);
   return (
     <div className="header__search">
-      <AutoComplete
-        dropdownClassName="header__search-dropdown"
-        options={options}
-        //onSelect={(options) => console.log('selected', options)}
-      >
+      <AutoComplete dropdownClassName="header__search-dropdown" options={options}>
         <Input size="large" placeholder="Type to search for documents or claims..." />
       </AutoComplete>
     </div>

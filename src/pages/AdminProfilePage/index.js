@@ -57,9 +57,7 @@ const ProfilePage = () => {
           id_status: data.profile?.id_status,
         });
       })
-      .catch((err) => {
-        console.log('UserError', err);
-      });
+      .catch((err) => {});
     getClientCompanies(id).then((data) => {
       setCompaniesList(data);
     });

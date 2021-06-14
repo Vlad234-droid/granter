@@ -3,15 +3,10 @@ import actions from '../actions';
 import lockr from 'lockr';
 import { bindActionCreators } from 'redux';
 import { notification } from 'antd';
-
 import { fetchUserData } from './userServices';
-import store from '../../store';
-
 import { IconWarning } from '../../components/icons';
 
 const { REACT_APP_API_URL } = process.env;
-
-const { dispatch } = store;
 
 const fetchLogin = (dispatch, loginData, history) => {
   const { loginLoaded, setUserIsAdmin } = bindActionCreators(actions, dispatch);
@@ -30,11 +25,13 @@ const fetchLogin = (dispatch, loginData, history) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }

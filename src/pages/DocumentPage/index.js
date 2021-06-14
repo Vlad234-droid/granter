@@ -97,7 +97,6 @@ const DocumentPage = () => {
   };
 
   const isCommentsApproved = () => {
-    console.log('commentsList', commentsList);
     return commentsList.filter((item) => item.status === 1).length > 0;
     //return true;
   };

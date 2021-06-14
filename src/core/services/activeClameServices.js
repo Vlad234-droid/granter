@@ -27,11 +27,13 @@ const getActiveClaimData = (dispatch, companyId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(resp);
           });
         }
@@ -62,11 +64,13 @@ const getIntroductionClaimStep = (claimId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -96,11 +100,13 @@ const getFinancialClaimStep = (claimId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -130,11 +136,13 @@ const getTechnicalClaimStep = (claimId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -164,11 +172,13 @@ const getDeliverablesClaimStep = (claimId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -198,11 +208,13 @@ const getSubmissionClaimStep = (claimId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -232,11 +244,13 @@ const setSkipFile = (claimId, fileId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -268,11 +282,13 @@ const uploadFile = (claimId, fileId, file) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -302,11 +318,13 @@ const deleteFile = (claimId, fileId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -348,11 +366,13 @@ const setNewProject = (claimId, form) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -388,11 +408,13 @@ const editProject = (claimId, projectId, form) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -426,11 +448,13 @@ const addDocumentToProject = (claimId, projectId, file, is_main) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -462,11 +486,13 @@ const removeProject = (claimId, projectId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -496,11 +522,13 @@ const removeDocumentFromProject = (claimId, projectId, documentId) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -530,11 +558,13 @@ const setApproveClime = (claimid) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json.message);
           });
         }
@@ -570,11 +600,13 @@ const sendApproveReport = (claimid, form) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json.message);
           });
         }

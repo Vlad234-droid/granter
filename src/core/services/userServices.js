@@ -27,11 +27,13 @@ const fetchUserData = (dispatch) => {
         } else {
           return resp.json().then((json) => {
             loginError(json.message);
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }
@@ -64,11 +66,13 @@ const fetchUserCompanies = (dispatch) => {
         } else {
           return resp.json().then((json) => {
             loginError(json.message);
-            notification.error({
-              className: 'error-message',
-              description: json.message,
-              icon: <IconWarning />,
-            });
+            if (resp.status !== 401) {
+              notification.error({
+                className: 'error-message',
+                description: json.message,
+                icon: <IconWarning />,
+              });
+            }
             throw new Error(json);
           });
         }

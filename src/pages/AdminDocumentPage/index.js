@@ -94,15 +94,11 @@ const AdminDocumentPage = () => {
   const onCommentDelete = (commentId) => {
     removeComment(climeId, id, commentId).then((data) => {
       setCommentsList(data.comments);
-      // setLoading(false);
-      // onAction(data.document);
     });
   };
 
   const isCommentsApproved = () => {
-    console.log('commentsList', commentsList);
     return commentsList.filter((item) => item.status === 1).length > 0;
-    //return true;
   };
 
   return (

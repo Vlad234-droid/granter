@@ -21,9 +21,6 @@ const options = [
 ];
 
 const HeaderSearch = () => {
-  useEffect(() => {
-    //searchService('').then((data) => console.log('data from search', data));
-  }, []);
   return (
     <div className="header__search">
       <AutoComplete

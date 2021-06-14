@@ -46,21 +46,17 @@ const StepFinancial = () => {
           );
           setStatus(status);
         })
-        .catch((error) => {
-          console.log('error', error);
-        });
+        .catch((error) => {});
     }
   }, [id]);
 
   const onAction = (file) => {
-    console.log(file);
     const res = { ...financialStep };
     res.documents = financialStep.documents.map((item) => {
       if (item.id === file.id) item = file;
       return item;
     });
     setFinancialStep(res);
-    console.log(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
   };
