@@ -146,17 +146,22 @@ const AdminClientsPage = () => {
   );
 
   useEffect(() => {
+    let cleanupFunction = false;
+
     if (pageAdminClientsGLOBAL !== null) {
       setCurrentPage(() => pageAdminClientsGLOBAL);
       setTableLoading(() => true);
       getAllClients(pageAdminClientsGLOBAL).then((data) => {
-        setPageInfo(data);
+        if (!cleanupFunction) setPageInfo(data);
       });
       return;
     }
     getAllClients(currentPage).then((data) => {
-      setPageInfo(data);
+      if (!cleanupFunction) setPageInfo(data);
     });
+    return () => {
+      cleanupFunction = true;
+    };
   }, [pageAdminClientsGLOBAL]);
 
   const onChange = (pagination, filters, sorter, extra) => {

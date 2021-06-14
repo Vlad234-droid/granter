@@ -24,22 +24,28 @@ const HeaderNotification = () => {
   const { setIsBlur } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
+    let cleanupFunction = false;
     getNotificationsForAdmin().then((data) => {
-      setNotiData(() => data);
+      if (!cleanupFunction) setNotiData(() => data);
     });
 
     return () => {
       setNotiData(() => []);
+      cleanupFunction = true;
     };
   }, [company]);
 
   useEffect(() => {
+    let cleanupFunction = false;
     if (notiData === undefined) {
       return;
     } else if (notiData.length) {
-      setCount(() => notiData.filter((item) => item.status === 2).length);
+      if (!cleanupFunction) setCount(() => notiData.filter((item) => item.status === 2).length);
     }
-    return () => setCount(() => '');
+    return () => {
+      cleanupFunction = true;
+      setCount(() => '');
+    };
   }, [notiData, dispatch]);
 
   const showDrawer = () => {
