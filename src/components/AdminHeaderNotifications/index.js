@@ -20,13 +20,11 @@ const HeaderNotification = () => {
   const dispatch = useDispatch();
   const [notiData, setNotiData] = useState([]);
   const [count, setCount] = useState('');
-  console.log(count);
 
   const { setIsBlur } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     getNotificationsForAdmin().then((data) => {
-      console.log('getNotificationsForAdmin', data);
       setNotiData(() => data);
     });
 

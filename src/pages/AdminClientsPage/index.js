@@ -10,61 +10,6 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../core/actions';
 
-const dataColumns = [
-  {
-    title: 'Company',
-    dataIndex: 'company',
-    key: 'company',
-    sorter: {},
-    disabled: true,
-  },
-  {
-    title: 'Client name',
-    dataIndex: 'client_name',
-    key: 'client_name',
-    sorter: {},
-    render: (text) => <a>{text}</a>,
-    disabled: true,
-  },
-
-  {
-    title: 'Active claim',
-    dataIndex: 'active_claim_id',
-    key: 'active_claim_id',
-    render: (text) => <a>{text}</a>,
-    disabled: true,
-  },
-  {
-    title: 'Yearend',
-    dataIndex: 'yearned',
-    key: 'yearned',
-    sorter: {},
-  },
-  {
-    title: 'Due date',
-    dataIndex: 'due_date',
-    key: 'due_date',
-    sorter: {},
-  },
-  {
-    title: 'Progress % of stages',
-    dataIndex: 'perStages',
-    key: 'perStages',
-  },
-  {
-    title: 'Projected value',
-    dataIndex: 'project_value',
-    key: 'project_value',
-    sorter: {},
-  },
-  {
-    title: 'Date completed',
-    dataIndex: 'date_completed',
-    key: 'date_completed',
-    sorter: {},
-  },
-];
-
 const AdminClientsPage = () => {
   const [visible, setVisible] = useState(false);
   const [dataSource, setDataSource] = useState(null);
@@ -77,7 +22,60 @@ const AdminClientsPage = () => {
   const dispatch = useDispatch();
   const { pageAdminClientsGLOBAL } = useSelector((state) => state.modal);
   const { setCurrentPageGLOBAL } = bindActionCreators(actions, dispatch);
-
+  const dataColumns = useMemo(
+    () => [
+      {
+        title: 'Company',
+        dataIndex: 'company',
+        key: 'company',
+        sorter: {},
+        disabled: true,
+      },
+      {
+        title: 'Client name',
+        dataIndex: 'client_name',
+        key: 'client_name',
+        sorter: {},
+        disabled: true,
+      },
+      {
+        title: 'Active claim',
+        dataIndex: 'active_claim_id',
+        key: 'active_claim_id',
+        disabled: true,
+      },
+      {
+        title: 'Yearend',
+        dataIndex: 'yearned',
+        key: 'yearned',
+        sorter: {},
+      },
+      {
+        title: 'Due date',
+        dataIndex: 'due_date',
+        key: 'due_date',
+        sorter: {},
+      },
+      {
+        title: 'Progress % of stages',
+        dataIndex: 'perStages',
+        key: 'perStages',
+      },
+      {
+        title: 'Projected value',
+        dataIndex: 'project_value',
+        key: 'project_value',
+        sorter: {},
+      },
+      {
+        title: 'Date completed',
+        dataIndex: 'date_completed',
+        key: 'date_completed',
+        sorter: {},
+      },
+    ],
+    [],
+  );
   const [columns, setColumns] = useState([
     {
       title: 'Company',
@@ -274,7 +272,7 @@ const AdminClientsPage = () => {
                   getPopupContainer={() => document.getElementById('drop_down_filter')}
                   overlay={
                     <Menu>
-                      <Menu.Item>
+                      <Menu.Item key="menu_item_drop">
                         <Form
                           initialValues={{
                             checkedProp: [
