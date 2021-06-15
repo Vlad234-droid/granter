@@ -175,11 +175,12 @@ const StepTechnical = () => {
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">
-                      <li>1. Introduction often takes about one hour.</li>
+                      <li>1. Technical call often takes about one hour.</li>
                       <li>
-                        2. We want to understand the type of work you have undertaken during the relevant period(s).
+                        2. We want to understand the detail behind the type of work you have undertaken during the
+                        relevant period(s).
                       </li>
-                      <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                      <li>3. We can also briefly discuss the financial process</li>
                     </ul>
                   </CommonModalShadule>
                 </>

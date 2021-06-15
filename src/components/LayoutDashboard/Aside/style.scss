@@ -17,6 +17,26 @@
     line-height: 30px;
     color: #3c4252;
     margin-bottom: 8px;
+    span {
+      span {
+        position: absolute;
+        top: 12px;
+        padding: 2px;
+        right: 33px;
+        background-color: #305ff5;
+        border-radius: 2.5px;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 7px;
+        position: relative;
+        color: white;
+        letter-spacing: 1px;
+        padding-left: 3.5px;
+        padding-right: 3.5px;
+        text-transform: uppercase;
+      }
+    }
     a {
       color: currentColor;
     }
