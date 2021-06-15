@@ -117,11 +117,18 @@ const StepFinancial = () => {
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
-                    <li>1. Introduction often takes about one hour.</li>
                     <li>
-                      2. We want to understand the type of work you have undertaken during the relevant period(s).
+                      1. Financial call often takes about 1 hour. 3. We will do our due diligence and benchmark your
+                      claim in order to maximise the robustness of submission.
                     </li>
-                    <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                    <li>
+                      2. We want to assist you in accurately analysing project expenditure that occurred within the
+                      relevant period(s).
+                    </li>
+                    <li>
+                      3. We will do our due diligence and benchmark your claim in order to maximise the robustness of
+                      submission.
+                    </li>
                   </ul>
                 </CommonModalShadule>
               </>

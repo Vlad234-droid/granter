@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './style.scss';
 import { Button, Modal } from 'antd';
 import { CloseIconModal } from '../../../../components/icons/index';
 import { useDispatch } from 'react-redux';
-import { TimePicker } from 'antd';
-import { SuffixShedulleCallIcon } from '../../../../components/icons/index';
+import { SheduleDone } from '../../../../components/icons/index';
 
 const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall }) => {
   const [askSelection, setAskSelection] = useState(null);
   const dispatch = useDispatch();
+  const [test, setTest] = useState(true);
   const onChange = (time, timeString) => {
     //console.log(time, timeString);
+  };
+
+  const refCopy = useRef();
+
+  const handleCopy = (ref) => {
+    ref.current.select();
+    ref.current.focus();
+    document.execCommand('copy');
+    setTest((prev) => !prev);
   };
 
   return (
@@ -21,25 +30,26 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
       }}
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
-      width={700}
+      width={750}
       closeIcon={<CloseIconModal />}
       wrapClassName="shedule_modal">
       <div>
         <h2>Schedule a Call</h2>
         <div>{children}</div>
-        <div className="wrapper_text_timePicker">
-          <b>Select the time slot which suits you</b>
-          <TimePicker
-            use12Hours
-            format="HH:mm"
-            onChange={onChange}
-            placeholder="Today,  8:00AM"
-            style={{ width: '180px', height: '40px' }}
-            className="shedule_time_picker"
-            suffixIcon={<SuffixShedulleCallIcon />}
-
-            //hideDisabledOptions={hideDisabledOptions}
-          />
+        <div className="block_copy_info">
+          <h3>We are going to redirect you to hubspot to schedule the call.</h3>
+          <h3>Please, copy this code and go there to schedule this call. </h3>
+          <div className="done_info">
+            {!test && (
+              <div className="done">
+                <SheduleDone />
+              </div>
+            )}
+            <h3>
+              <input ref={refCopy} value="valueTest" type="text" className="copy_input" readOnly />
+              <span onClick={() => handleCopy(refCopy)}>Click here</span> to copy the link
+            </h3>
+          </div>
         </div>
         <div className="sheduleModal__block_btn">
           <Button
@@ -47,10 +57,10 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
             onClick={() => {
               setIsVisibleModalSheduleCall((prev) => !prev);
             }}>
-            Back
+            Cancel
           </Button>
-          <Button type="primary" htmlType="submit">
-            Ask
+          <Button type="primary" htmlType="submit" disabled={test}>
+            Schedule a call
           </Button>
         </div>
       </div>
