@@ -54,7 +54,7 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
     <div className="hello-page__step">
       <div className="step--grid">
         <Form
-          layout="vertical"
+          layout="horizontal"
           requiredMark={false}
           onFinish={onFinishName}
           // onFinishFailed={onFinishFailed}

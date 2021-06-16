@@ -1,4 +1,5 @@
 import lockr from 'lockr';
+import { notification } from 'antd';
 const { REACT_APP_API_URL } = process.env;
 
 export const hubspotService = async (link) => {
@@ -17,8 +18,9 @@ export const hubspotService = async (link) => {
       body: JSON.stringify(body),
     });
     const resData = await res.json();
-    console.log('resData', resData);
-    if (resData.success) return res;
+    if (resData.success) {
+      return res;
+    }
   } catch (error) {
     throw new Error(error);
   }

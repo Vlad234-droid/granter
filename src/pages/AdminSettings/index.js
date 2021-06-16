@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import LayOutAdmin from '../../components/LayOutAdmin';
 import './style.scss';
 import { LogOutSVG } from '../../components/icons';
-import { Form, Button, Skeleton } from 'antd';
+import { Form, Button, Skeleton, Input, Row, Col } from 'antd';
 import { Table } from 'antd';
 import { DeleteAdminSVG } from '../../components/icons';
 import CreateAdminModal from './CreateAdminModal';
@@ -12,6 +12,7 @@ import actions from '../../core/actions';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../core/services/logOut';
+import { hubspotService } from '../../core/services';
 
 const AdminSettings = () => {
   const [tableLoading, setTableLoading] = useState(false);
@@ -49,10 +50,6 @@ const AdminSettings = () => {
     setRecordId(() => record.id);
     setIsDeleteAdminModal(() => true);
     setIsBlur(true);
-  };
-
-  const onFinishName = (value) => {
-    form.resetFields();
   };
 
   const columns = [
@@ -103,6 +100,32 @@ const AdminSettings = () => {
     },
   ];
 
+  const onFinish = ({ name }) => {
+    hubspotService(name).then((data) => console.log(data));
+    form.resetFields();
+    //createNewAdmin(values.email, values.name, values.password, values.phone, values.avatar).then((data) => {
+    //  if (data.success) {
+    //    setTableLoading(() => true);
+    //    getAllAdmins().then((data) => {
+    //      if (data !== null) {
+    //        const { admins } = data;
+    //        const updatedInfo = admins.map((item) => ({
+    //          name: item.name,
+    //          avatar: item.profile?.avatar,
+    //          email: item.email,
+    //          key: item.email,
+    //        }));
+    //        setDataTable(() => updatedInfo);
+    //        setTableLoading(() => false);
+    //      }
+    //    });
+    //  }
+    //});
+    //form.resetFields();
+    //setIsCreateAdminModal(() => false);
+    //setEdit(() => false);
+  };
+
   return (
     <LayOutAdmin>
       <div className="settings_page">
@@ -151,14 +174,31 @@ const AdminSettings = () => {
               columns={columns}
               // onChange={onChange}
               pagination={{
-                defaultPageSize: 5,
-                pageSize: 5,
+                defaultPageSize: 3,
+                pageSize: 3,
                 position: ['bottomCenter'],
                 showQuickJumper: true,
                 showQuickJumper: { goButton: 'Page:' },
                 showSizeChanger: false,
               }}
             />
+            <div className="add_link">
+              <h2>Link to hubspot</h2>
+              <Form
+                form={form}
+                className="create_link_form"
+                layout="horizontal"
+                requiredMark={true}
+                onFinish={onFinish}>
+                <Form.Item name="name" span={50} className="input_link">
+                  <Input placeholder="https//:Link to hubspot" />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" className="save_link">
+                  Save
+                </Button>
+              </Form>
+            </div>
           </>
         )}
       </div>
