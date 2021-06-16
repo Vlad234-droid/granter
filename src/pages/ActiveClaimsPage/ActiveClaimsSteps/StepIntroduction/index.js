@@ -9,6 +9,7 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
+import md5 from 'md5';
 
 import './style.scss';
 
@@ -17,13 +18,22 @@ const StepIntroduction = () => {
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
   const [status, setStatus] = useState(0);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { activeClaimId } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
+
   const activeClaimIdStatus = useSelector((state) => state.user.activeClaimId);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps, setStepStatus } = bindActionCreators(
     actions,
     dispatch,
   );
+
+  const [md, setMd] = useState('');
+  useEffect(() => {
+    if (activeClaimId && id) {
+      setMd(() => md5(id, activeClaimId, 1));
+    }
+  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -69,6 +79,8 @@ const StepIntroduction = () => {
     setStatus(status);
   };
 
+  const sheduleCall = () => {};
+
   return (
     <section className="active-claims__steps_step introduction">
       <h2
@@ -106,7 +118,7 @@ const StepIntroduction = () => {
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
                   <img src={iconCalendar} alt="" />
-                  <span>Schedule a call</span>
+                  <span onClick={sheduleCall}>Schedule a call</span>
                   {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
                     <Tooltip
                       title="Please, upload documents 
@@ -119,6 +131,7 @@ const StepIntroduction = () => {
                   )}
                 </button>
                 <CommonModalShadule
+                  md={md}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">

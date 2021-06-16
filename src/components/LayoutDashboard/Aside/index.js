@@ -106,7 +106,9 @@ const Aside = () => {
       <div className="nav__logo">
         <Link to="/active-claims/">
           <img src={headerLogo} alt="logo" />
-          <span>Granter</span>
+          <span>
+            Granter <span>Beta</span>
+          </span>
         </Link>
       </div>
       <div className="nav__scroll">

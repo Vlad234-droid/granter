@@ -13,6 +13,7 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
+import md5 from 'md5';
 
 import './style.scss';
 
@@ -27,10 +28,18 @@ const StepTechnical = () => {
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { activeClaimId } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [md, setMd] = useState('');
   const { blurActiveSteps, setStepStatus } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (activeClaimId && id) {
+      setMd(() => md5(id, activeClaimId, 3));
+    }
+  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -172,14 +181,16 @@ const StepTechnical = () => {
                     )}
                   </button>
                   <CommonModalShadule
+                    md={md}
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">
-                      <li>1. Introduction often takes about one hour.</li>
+                      <li>1. Technical call often takes about one hour.</li>
                       <li>
-                        2. We want to understand the type of work you have undertaken during the relevant period(s).
+                        2. We want to understand the detail behind the type of work you have undertaken during the
+                        relevant period(s).
                       </li>
-                      <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                      <li>3. We can also briefly discuss the financial process</li>
                     </ul>
                   </CommonModalShadule>
                 </>

@@ -9,6 +9,7 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
+import md5 from 'md5';
 
 import './style.scss';
 
@@ -16,13 +17,21 @@ const StepFinancial = () => {
   const dispatch = useDispatch();
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
+  const [md, setMd] = useState('');
   const [status, setStatus] = useState(0);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { activeClaimId } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps, setStepStatus } = bindActionCreators(
     actions,
     dispatch,
   );
+
+  useEffect(() => {
+    if (activeClaimId && id) {
+      setMd(() => md5(id, activeClaimId, 2));
+    }
+  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -114,14 +123,22 @@ const StepFinancial = () => {
                   )}
                 </button>
                 <CommonModalShadule
+                  md={md}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
-                    <li>1. Introduction often takes about one hour.</li>
                     <li>
-                      2. We want to understand the type of work you have undertaken during the relevant period(s).
+                      1. Financial call often takes about 1 hour. 3. We will do our due diligence and benchmark your
+                      claim in order to maximise the robustness of submission.
                     </li>
-                    <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
+                    <li>
+                      2. We want to assist you in accurately analysing project expenditure that occurred within the
+                      relevant period(s).
+                    </li>
+                    <li>
+                      3. We will do our due diligence and benchmark your claim in order to maximise the robustness of
+                      submission.
+                    </li>
                   </ul>
                 </CommonModalShadule>
               </>
