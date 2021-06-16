@@ -118,7 +118,7 @@ const StepIntroduction = () => {
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
                   <img src={iconCalendar} alt="" />
-                  <span onClick={sheduleCall}>Schedule a call</span>
+                  <span>Schedule a call</span>
                   {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
                     <Tooltip
                       title="Please, upload documents 
