@@ -5,6 +5,8 @@ import { getIntroductionClaimStep } from '../../../../core/services';
 import UploadFile from '../../../../components/UploadFile';
 import { IconWarning } from '../../../../components/icons';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
+import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
+import iconApproved from '../../../../assets/img/icon-approved.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
@@ -81,6 +83,45 @@ const StepIntroduction = () => {
 
   const sheduleCall = () => {};
 
+  const sheduleCallDate = (date) => {
+    const isTodayCheck = (someDate) => {
+      const today = new Date();
+      someDate = new Date(someDate);
+      return (
+        someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+      );
+    };
+    function formatAMPM(someDate) {
+      someDate = new Date(someDate);
+      var hours = someDate.getHours();
+      var minutes = someDate.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    const isToday = isTodayCheck(date);
+    const isTommorow = isTodayCheck(tomorrow);
+    const time = formatAMPM(date);
+
+    if (isToday) {
+      return `Call today at ${time}`;
+    } else if (isTommorow) {
+      return `Call tommorow at ${time}`;
+    } else {
+      const numerDay = new Date(date);
+      const month = numerDay.toLocaleString('en-EN', { month: 'short' });
+      const day = numerDay.getDate() < 10 ? `0${numerDay.getDate()}` : numerDay.getDate();
+      return `Call on ${month} ${day} at ${time}`;
+    }
+  };
+
   return (
     <section className="active-claims__steps_step introduction">
       <h2
@@ -107,7 +148,7 @@ const StepIntroduction = () => {
             ))}
           </div>
           <div className="step-status">
-            {introductionStep.call_date === null && (
+            {introductionStep.call_date === null ? (
               <>
                 <button
                   className={`step-status--call-schedule ${
@@ -122,8 +163,8 @@ const StepIntroduction = () => {
                   {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
                     <Tooltip
                       title="Please, upload documents 
-                    to be able to schedule this call. 
-                    Or contact our support">
+                  to be able to schedule this call. 
+                  Or contact our support">
                       <span className="warning">
                         <IconWarning />
                       </span>
@@ -143,21 +184,20 @@ const StepIntroduction = () => {
                   </ul>
                 </CommonModalShadule>
               </>
+            ) : new Date().getTime() > introductionStep.call_date ? (
+              <div className="step-status--call-completed">
+                <img src={iconApproved} alt="" />
+                <span>Call is completed</span>
+              </div>
+            ) : (
+              <div className="step-status--call-reminder">
+                <div className="reminder-title">
+                  <img src={iconScheduled} alt="" />
+                  <span>{sheduleCallDate(introductionStep.call_date)}</span>
+                </div>
+                <div className="reminder-description">Check email for details</div>
+              </div>
             )}
-            {/* <div className='step-status--call-reminder'>
-              <div className='reminder-title'>
-                <img src={iconScheduled} alt='' />
-                <span>Call today at 8:00PM</span>
-              </div>
-              <div className='reminder-description'>
-                Check email for details
-              </div>
-            </div>
-
-            <div className='step-status--call-completed'>
-              <img src={iconApproved} alt='' />
-              <span>Call is completed</span>
-            </div> */}
 
             <div className="step-status">
               <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>

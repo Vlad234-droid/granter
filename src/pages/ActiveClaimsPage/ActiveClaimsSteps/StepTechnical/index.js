@@ -10,6 +10,8 @@ import Project from '../../../../components/Project';
 import CommonModalShadule from '../CommonModalShadule';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
+import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
+import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
@@ -105,6 +107,45 @@ const StepTechnical = () => {
     setStatus(status);
   };
 
+  const sheduleCallDate = (date) => {
+    const isTodayCheck = (someDate) => {
+      const today = new Date();
+      someDate = new Date(someDate);
+      return (
+        someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+      );
+    };
+    function formatAMPM(someDate) {
+      someDate = new Date(someDate);
+      var hours = someDate.getHours();
+      var minutes = someDate.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    const isToday = isTodayCheck(date);
+    const isTommorow = isTodayCheck(tomorrow);
+    const time = formatAMPM(date);
+
+    if (isToday) {
+      return `Call today at ${time}`;
+    } else if (isTommorow) {
+      return `Call tommorow at ${time}`;
+    } else {
+      const numerDay = new Date(date);
+      const month = numerDay.toLocaleString('en-EN', { month: 'short' });
+      const day = numerDay.getDate() < 10 ? `0${numerDay.getDate()}` : numerDay.getDate();
+      return `Call on ${month} ${day} at ${time}`;
+    }
+  };
+
   return (
     <>
       <section className="active-claims__steps_step technical">
@@ -159,7 +200,7 @@ const StepTechnical = () => {
               ))}
             </div>
             <div className="step-status">
-              {technicalStep.call_date === null && (
+              {technicalStep.call_date === null ? (
                 <>
                   <button
                     className={`step-status--call-schedule ${technicalStep.documents.length === 0 ? 'disabled' : ''}`}
@@ -172,8 +213,8 @@ const StepTechnical = () => {
                     {technicalStep.documents.length === 0 && (
                       <Tooltip
                         title="Please, upload documents 
-                      to be able to schedule this call. 
-                      Or contact our support">
+                  to be able to schedule this call. 
+                  Or contact our support">
                         <span className="warning">
                           <IconWarning />
                         </span>
@@ -185,15 +226,27 @@ const StepTechnical = () => {
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">
-                      <li>1. Technical call often takes about one hour.</li>
+                      <li>1. Introduction often takes about one hour.</li>
                       <li>
-                        2. We want to understand the detail behind the type of work you have undertaken during the
-                        relevant period(s).
+                        2. We want to understand the type of work you have undertaken during the relevant period(s).
                       </li>
-                      <li>3. We can also briefly discuss the financial process</li>
+                      <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
                     </ul>
                   </CommonModalShadule>
                 </>
+              ) : new Date().getTime() > technicalStep.call_date ? (
+                <div className="step-status--call-completed">
+                  <img src={iconApproved} alt="" />
+                  <span>Call is completed</span>
+                </div>
+              ) : (
+                <div className="step-status--call-reminder">
+                  <div className="reminder-title">
+                    <img src={iconScheduled} alt="" />
+                    <span>{sheduleCallDate(technicalStep.call_date)}</span>
+                  </div>
+                  <div className="reminder-description">Check email for details</div>
+                </div>
               )}
               {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
@@ -328,7 +381,7 @@ const StepTechnical = () => {
                   onAction={onAction}
                   index={technicalStep.documents.length > 1 ? index + 1 : null}
                   onRed={(red) => {
-                    //introductionStep, setIntroductionStep
+                    //technicalStep, settechnicalStep
                     const res = { ...technicalStep };
                     res.documents.map((row) => {
                       if (row.id === item.id) row.red = red;
