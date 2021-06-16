@@ -9,6 +9,7 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
+import md5 from 'md5';
 
 import './style.scss';
 
@@ -16,13 +17,21 @@ const StepFinancial = () => {
   const dispatch = useDispatch();
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
+  const [md, setMd] = useState('');
   const [status, setStatus] = useState(0);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { activeClaimId } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const { showBlurSheduleCall, closeBlurSheduleCall, blurActiveSteps, setStepStatus } = bindActionCreators(
     actions,
     dispatch,
   );
+
+  useEffect(() => {
+    if (activeClaimId && id) {
+      setMd(() => md5(id, activeClaimId, 2));
+    }
+  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -114,6 +123,7 @@ const StepFinancial = () => {
                   )}
                 </button>
                 <CommonModalShadule
+                  md={md}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">

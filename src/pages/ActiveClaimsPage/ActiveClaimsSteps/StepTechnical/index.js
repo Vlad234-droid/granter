@@ -13,6 +13,7 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
+import md5 from 'md5';
 
 import './style.scss';
 
@@ -27,10 +28,18 @@ const StepTechnical = () => {
   const [isVisibleModalSheduleCall, setIsVisibleModalSheduleCall] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
-  const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { activeClaimId } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user?.data);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [md, setMd] = useState('');
   const { blurActiveSteps, setStepStatus } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (activeClaimId && id) {
+      setMd(() => md5(id, activeClaimId, 3));
+    }
+  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -172,6 +181,7 @@ const StepTechnical = () => {
                     )}
                   </button>
                   <CommonModalShadule
+                    md={md}
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">

@@ -16,6 +16,15 @@
     }
   }
   .block_copy_info {
+    .md_input {
+      width: 320px;
+      margin-bottom: 24px;
+      box-shadow: none;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      border: 1px solid #c0c4cb;
+      color: #c0c4cb;
+    }
     width: 100%;
     background: rgba(48, 95, 245, 0.1);
     border-radius: 8px;
@@ -27,7 +36,7 @@
     & > h3 {
       &:nth-child(1) {
         margin-top: 22px;
-        margin-bottom: 7px;
+        margin-bottom: 1px;
       }
       &:nth-child(1),
       &:nth-child(2) {
@@ -45,7 +54,7 @@
       align-items: center;
       justify-content: center;
       margin-top: 5px;
-      margin-bottom: 23px;
+      margin-bottom: 16px;
       .done {
         margin-right: 8px;
       }

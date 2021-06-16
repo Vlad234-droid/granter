@@ -1,25 +1,32 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './style.scss';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Input } from 'antd';
 import { CloseIconModal } from '../../../../components/icons/index';
 import { useDispatch } from 'react-redux';
 import { SheduleDone } from '../../../../components/icons/index';
 
-const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall }) => {
+const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall, md }) => {
   const [askSelection, setAskSelection] = useState(null);
   const dispatch = useDispatch();
-  const [test, setTest] = useState(true);
-  const onChange = (time, timeString) => {
-    //console.log(time, timeString);
-  };
+  const [test, setTest] = useState(false);
 
   const refCopy = useRef();
 
   const handleCopy = (ref) => {
-    ref.current.select();
-    ref.current.focus();
+    try {
+      setTest(() => true);
+      ref.current.select();
+      ref.current.focus();
+      document.execCommand('copy');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFocus = (e) => {
+    setTest(() => true);
+    e.target.select();
     document.execCommand('copy');
-    setTest((prev) => !prev);
   };
 
   return (
@@ -27,6 +34,7 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
       visible={isVisibleModalSheduleCall}
       onCancel={() => {
         setIsVisibleModalSheduleCall((prev) => !prev);
+        setTest(() => false);
       }}
       cancelButtonProps={{ style: { display: 'none' } }}
       okButtonProps={{ style: { display: 'none' } }}
@@ -38,28 +46,31 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
         <div>{children}</div>
         <div className="block_copy_info">
           <h3>We are going to redirect you to hubspot to schedule the call.</h3>
-          <h3>Please, copy this code and go there to schedule this call. </h3>
+          <h3>Please, copy this code and PASTE IT on the Hubspot (client hash field).</h3>
           <div className="done_info">
-            {!test && (
+            {test && (
               <div className="done">
                 <SheduleDone />
               </div>
             )}
             <h3>
-              <input ref={refCopy} value="valueTest" type="text" className="copy_input" readOnly />
+              <input ref={refCopy} value={md} type="text" className="copy_input" readOnly />
               <span onClick={() => handleCopy(refCopy)}>Click here</span> to copy the link
             </h3>
           </div>
+
+          <Input type="text" name="mdI" value={md} readOnly className="md_input" onFocus={handleFocus} />
         </div>
         <div className="sheduleModal__block_btn">
           <Button
             type="button"
             onClick={() => {
               setIsVisibleModalSheduleCall((prev) => !prev);
+              setTest(() => false);
             }}>
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit" disabled={test}>
+          <Button type="primary" htmlType="submit" disabled={!test} onClick={() => {}}>
             Schedule a call
           </Button>
         </div>
