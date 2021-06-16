@@ -4,8 +4,9 @@ import { Button, Modal, Input } from 'antd';
 import { CloseIconModal } from '../../../../components/icons/index';
 import { useDispatch } from 'react-redux';
 import { SheduleDone } from '../../../../components/icons/index';
+import { Link } from 'react-router-dom';
 
-const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall, md }) => {
+const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleModalSheduleCall, md, link }) => {
   const [askSelection, setAskSelection] = useState(null);
   const dispatch = useDispatch();
   const [test, setTest] = useState(false);
@@ -70,7 +71,7 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
             }}>
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit" disabled={!test} onClick={() => {}}>
+          <Button type="primary" htmlType="submit" disabled={!test} href={link}>
             Schedule a call
           </Button>
         </div>

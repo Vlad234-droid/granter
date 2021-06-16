@@ -86,6 +86,23 @@
       }
     }
     .table_admins {
+      .ant-pagination-options {
+        position: relative;
+        &:before {
+          content: 'Page:';
+          position: absolute;
+          top: 4px;
+          left: 5px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #3c4252;
+        }
+        .ant-pagination-options-quick-jumper {
+          color: transparent;
+        }
+      }
       thead {
         tr {
           .ant-table-cell.except_avatar {

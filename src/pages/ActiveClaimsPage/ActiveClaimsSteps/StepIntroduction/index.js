@@ -15,7 +15,7 @@ import md5 from 'md5';
 
 import './style.scss';
 
-const StepIntroduction = () => {
+const StepIntroduction = ({ link }) => {
   const dispatch = useDispatch();
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
@@ -172,6 +172,7 @@ const StepIntroduction = () => {
                   )}
                 </button>
                 <CommonModalShadule
+                  link={link}
                   md={md}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>

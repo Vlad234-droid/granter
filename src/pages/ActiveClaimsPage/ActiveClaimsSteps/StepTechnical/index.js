@@ -22,7 +22,7 @@ import './style.scss';
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const StepTechnical = () => {
+const StepTechnical = ({ link }) => {
   const [technicalStep, setTechnicalStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -222,6 +222,7 @@ const StepTechnical = () => {
                     )}
                   </button>
                   <CommonModalShadule
+                    link={link}
                     md={md}
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>

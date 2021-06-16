@@ -15,11 +15,13 @@ const ActiveClaimsPage = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentCompany);
   const userData = useSelector((state) => state.user.data);
+  const [link, setLink] = useState('');
 
   useEffect(() => {
     if (user) {
       getActiveClaimData(dispatch, user.id).then((data) => {
         setActiveClaimData(data);
+        setLink(() => data.hubspot_link);
       });
     }
   }, [user]);
@@ -62,7 +64,7 @@ const ActiveClaimsPage = (props) => {
           Welcome! Verify your email to see approximate benefits
         </div>
         <ActiveClaimsCards /> */}
-        <ActiveClaimsSteps />
+        <ActiveClaimsSteps link={link} />
       </div>
     </Layout>
   );

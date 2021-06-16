@@ -178,7 +178,6 @@ const AdminSettings = () => {
                 pageSize: 3,
                 position: ['bottomCenter'],
                 showQuickJumper: true,
-                showQuickJumper: { goButton: 'Page:' },
                 showSizeChanger: false,
               }}
             />
