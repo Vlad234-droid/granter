@@ -1,5 +1,33 @@
 .admin_dashboard_wrapper {
+  .add_link {
+    h2 {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #3c4252;
+      margin-top: 80px;
+    }
+    .create_link_form {
+      .save_link {
+        margin-left: 12px;
+      }
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .input_link {
+        width: 477px;
+      }
+    }
+  }
   .settings_page {
+    .ant-table-thead > tr > th {
+      padding: 16px 16px;
+    }
+    .ant-table-tbody > tr > td {
+      padding: 1px 16px;
+    }
     .ant-skeleton.ant-skeleton-active {
       &:first-child {
         margin-top: 250px;
@@ -58,6 +86,23 @@
       }
     }
     .table_admins {
+      .ant-pagination-options {
+        position: relative;
+        &:before {
+          content: 'Page:';
+          position: absolute;
+          top: 4px;
+          left: 5px;
+          font-family: Poppins;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #3c4252;
+        }
+        .ant-pagination-options-quick-jumper {
+          color: transparent;
+        }
+      }
       thead {
         tr {
           .ant-table-cell.except_avatar {

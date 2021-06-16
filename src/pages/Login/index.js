@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Input } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Layout from '../../components/LayoutGuest/Layout';
-
 import { fetchLogin } from '../../core/services';
 
 import './style.scss';
@@ -12,6 +11,13 @@ const LoginPage = (props) => {
   const [loader, setLoader] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { isloggedIn, isAdmin } = useSelector((state) => state.user);
+  console.log('isAdmin', isAdmin);
+
+  useEffect(() => {
+    if (isloggedIn && !isAdmin) history.push('/active-claims');
+    if (isloggedIn && isAdmin) history.push('/admin/clients');
+  }, []);
   const onFinish = (values) => {
     setLoader(true);
     fetchLogin(dispatch, values, history).catch((error) => {
