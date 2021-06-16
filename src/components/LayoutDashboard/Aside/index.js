@@ -37,6 +37,9 @@ const Aside = () => {
       case location.pathname.includes('future-claims'):
         setCurrentMenu(() => ['future']);
         break;
+      case location.pathname.includes('completed-claims'):
+        setCurrentMenu(() => ['completed']);
+        break;
       case location.pathname.includes('profile'):
         setCurrentMenu(() => ['profile']);
         break;
