@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import DocSign from '../../pages/DocSign';
 import LoadingPage from '../../pages/LoadingPage';
 
 import { fetchUserData } from '../services/';
@@ -20,7 +20,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     !userData ? (
       <LoadingPage />
     ) : !isAdmin ? (
-      <Component />
+      userData.profile.id_status ? (
+        <Component />
+      ) : (
+        <DocSign />
+      )
     ) : (
       <Redirect to="/admin/clients" />
     )
@@ -45,12 +49,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   return <Route {...rest} render={(props) => CurrentComponent} />;
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     isloggedIn: state.user.isloggedIn,
-//     userData: state.user.data,
-//   };
-// };
 
 export default PrivateRoute;

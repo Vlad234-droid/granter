@@ -24,6 +24,7 @@ const LoginPage = (props) => {
       });
     }
   }, []);
+
   const onFinish = (values) => {
     setLoader(true);
     fetchLogin(dispatch, values, history).catch((error) => {
