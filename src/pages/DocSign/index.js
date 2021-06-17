@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/LayoutGuest/Layout';
 import './style.scss';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { fetchProfileData } from '../../core/services/ProfileServices';
 
 const DocSign = () => {
   const history = useHistory();
+  const { manager } = useSelector((state) => state?.user?.data);
 
   useEffect(() => {
     fetchProfileData().then((data) => {
@@ -15,8 +16,6 @@ const DocSign = () => {
       }
     });
   }, []);
-
-  const { manager } = useSelector((state) => state?.user?.data);
 
   return (
     <Layout isLogged={false} className="hello-page" mode="registration">
