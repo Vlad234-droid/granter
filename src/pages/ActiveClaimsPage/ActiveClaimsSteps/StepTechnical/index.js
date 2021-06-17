@@ -286,7 +286,7 @@ const StepTechnical = ({ link, activeClaimData }) => {
         <div className="technical__modal_description">
           <p>Upload project information using our online tool. </p>
           <p>
-            Alternatively, you can upload <br />a pdf or word document for your consultant to review.
+            Alternatively, you can upload <br />a pdf, word or xlsx document for your consultant to review.
           </p>
         </div>
         <div className="technical__modal_actions">

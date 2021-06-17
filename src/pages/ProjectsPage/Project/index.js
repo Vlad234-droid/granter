@@ -21,10 +21,17 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
   const [loading, setLoading] = useState(false);
   const { climeId } = useParams();
   const history = useHistory();
+  const [monthSelect, setMonthSelect] = useState(null);
+  const [yearSelect, setYearSelect] = useState(null);
+  const [disabledSelect, setDisabledSelect] = useState(true);
 
   useEffect(() => {
     if (project.status) setStatus(status);
   }, [project]);
+
+  useEffect(() => {
+    if (monthSelect !== null && yearSelect !== null) setDisabledSelect(() => false);
+  }, [monthSelect, yearSelect]);
 
   const customRequest = (e) => {
     const id = form.getFieldsValue().id;
@@ -193,6 +200,7 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                   },
                 ]}>
                 <Select
+                  onSelect={(key) => setMonthSelect(() => key)}
                   placeholder="Months"
                   suffixIcon={<img src={iconSelectArrow} alt="" />}
                   className="months-select">
@@ -219,7 +227,11 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                     message: false,
                   },
                 ]}>
-                <Select placeholder="Year" suffixIcon={<img src={iconSelectArrow} alt="" />} className="years-select">
+                <Select
+                  onSelect={(key) => setYearSelect(() => key)}
+                  placeholder="Year"
+                  suffixIcon={<img src={iconSelectArrow} alt="" />}
+                  className="years-select">
                   <Option value="2021">2021</Option>
                   <Option value="2020">2020</Option>
                   <Option value="2019">2019</Option>
@@ -240,6 +252,7 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                   },
                 ]}>
                 <Select
+                  disabled={disabledSelect}
                   placeholder="Months"
                   className="months-select"
                   suffixIcon={<img src={iconSelectArrow} alt="" />}>
@@ -266,7 +279,11 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                     message: false,
                   },
                 ]}>
-                <Select placeholder="Year" suffixIcon={<img src={iconSelectArrow} alt="" />} className="years-select">
+                <Select
+                  disabled={disabledSelect}
+                  placeholder="Year"
+                  suffixIcon={<img src={iconSelectArrow} alt="" />}
+                  className="years-select">
                   <Option value="2021">2021</Option>
                   <Option value="2020">2020</Option>
                   <Option value="2019">2019</Option>
