@@ -295,6 +295,13 @@ const ProfilePage = () => {
                             required: true,
                             message: 'Please input your Phone Number!',
                           },
+                        ]}
+                        rules={[
+                          {
+                            pattern: /^(\+)(\d+)$/,
+                            required: true,
+                            message: 'Phone number must start with +, allowed characters is 0-9',
+                          },
                         ]}>
                         <Input />
                       </Form.Item>

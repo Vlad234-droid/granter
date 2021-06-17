@@ -12,6 +12,8 @@ import { getTechnicalClaimStep, approveStep } from '../../../../core/adminServic
 import AdminProject from '../../../../components/AdminProject';
 import CommonModalShadule from '../CommonModalShadule';
 
+import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
+import iconApproved from '../../../../assets/img/icon-approved.svg';
 import { IconWarning, CloseIconModal } from '../../../../components/icons';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
@@ -23,7 +25,7 @@ import './style.scss';
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const StepTechnical = ({ refreshCards }) => {
+const StepTechnical = ({ link, activeClaimData, refreshCards }) => {
   const [technicalStep, setTechnicalStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -110,6 +112,45 @@ const StepTechnical = ({ refreshCards }) => {
     if (!technicalStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 3);
   };
 
+  const sheduleCallDate = (date) => {
+    const isTodayCheck = (someDate) => {
+      const today = new Date();
+      someDate = new Date(someDate);
+      return (
+        someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+      );
+    };
+    function formatAMPM(someDate) {
+      someDate = new Date(someDate);
+      var hours = someDate.getHours();
+      var minutes = someDate.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    const isToday = isTodayCheck(date);
+    const isTommorow = isTodayCheck(tomorrow);
+    const time = formatAMPM(date);
+
+    if (isToday) {
+      return `Call today at ${time}`;
+    } else if (isTommorow) {
+      return `Call tommorow at ${time}`;
+    } else {
+      const numerDay = new Date(date);
+      const month = numerDay.toLocaleString('en-EN', { month: 'short' });
+      const day = numerDay.getDate() < 10 ? `0${numerDay.getDate()}` : numerDay.getDate();
+      return `Call on ${month} ${day} at ${time}`;
+    }
+  };
+
   return (
     <>
       <section className="active-claims__steps_step technical">
@@ -183,7 +224,7 @@ const StepTechnical = ({ refreshCards }) => {
               ))}
             </div>
             <div className="step-status">
-              {technicalStep.call_date === null && (
+              {!activeClaimData?.call_date_stage3 ? (
                 <>
                   <button
                     className={`step-status--call-schedule ${technicalStep.documents.length === 0 ? 'disabled' : ''}`}
@@ -196,8 +237,8 @@ const StepTechnical = ({ refreshCards }) => {
                     {technicalStep.documents.length === 0 && (
                       <Tooltip
                         title="Please, upload documents 
-                      to be able to schedule this call. 
-                      Or contact our support">
+                  to be able to schedule this call. 
+                  Or contact our support">
                         <span className="warning">
                           <IconWarning />
                         </span>
@@ -205,6 +246,8 @@ const StepTechnical = ({ refreshCards }) => {
                     )}
                   </button>
                   <CommonModalShadule
+                    link={link}
+                    md={activeClaimData?.call_hash_3}
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">
@@ -216,6 +259,19 @@ const StepTechnical = ({ refreshCards }) => {
                     </ul>
                   </CommonModalShadule>
                 </>
+              ) : new Date().getTime() > activeClaimData?.call_date_stage3 ? (
+                <div className="step-status--call-completed">
+                  <img src={iconApproved} alt="" />
+                  <span>Call is completed</span>
+                </div>
+              ) : (
+                <div className="step-status--call-reminder">
+                  <div className="reminder-title">
+                    <img src={iconScheduled} alt="" />
+                    <span>{sheduleCallDate(activeClaimData?.call_date_stage3)}</span>
+                  </div>
+                  <div className="reminder-description">Check email for details</div>
+                </div>
               )}
               {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
@@ -262,7 +318,7 @@ const StepTechnical = ({ refreshCards }) => {
         <div className="technical__modal_description">
           <p>Upload project information using our online tool. </p>
           <p>
-            Alternatively, you can upload <br />a pdf or word document for your consultant to review.
+            Alternatively, you can upload <br />a pdf, word or xlsx document for your consultant to review.
           </p>
         </div>
         <div className="technical__modal_actions">

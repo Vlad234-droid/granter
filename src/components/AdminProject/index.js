@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import lockr from 'lockr';
-import { Collapse, Upload, Dropdown, Button, Spin, Menu } from 'antd';
-
+import { Collapse, Dropdown, Button, Spin, Menu } from 'antd';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
-import iconUpload from '../../assets/img/icon-upload.svg';
-import iconUploadRed from '../../assets/img/icon-upload-red.svg';
-import iconSkip from '../../assets/img/icon-skip.svg';
 import iconFileS from '../../assets/img/icon-file-s.svg';
-import iconPdf from '../../assets/img/icon-pdf.svg';
-import iconFile from '../../assets/img/icon-file-s.svg';
 import { approveProject, removeProject } from '../../core/adminServices';
-
 import { IconDeleteFile, AdminArrow } from '../icons';
 import './style.scss';
-import { Link } from 'react-router-dom';
+import PDFSVG from '../../assets/img/PDF.svg';
+import XLSXSVG from '../../assets/img/XLSX.svg';
+import DOCSSVG from '../../assets/img/DOCS.svg';
 
 const { Panel } = Collapse;
-
-const { Dragger } = Upload;
-const { REACT_APP_API_URL } = process.env;
 
 const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, index, checkForAllStatus }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
@@ -62,6 +52,23 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
   const onEditProject = () => {
     history.push(`/admin/project/${activeClaimId}/${file.id}`);
     // const { addProjectDetails } = bindActionCreators(actions, dispatch);
+  };
+
+  const checkForExt = (extension) => {
+    switch (extension) {
+      case '.doc':
+        return DOCSSVG;
+      case '.docx':
+        return DOCSSVG;
+      case '.pdf':
+        return PDFSVG;
+      case '.xls':
+        return XLSXSVG;
+      case '.xlsx':
+        return XLSXSVG;
+      default:
+        return extension;
+    }
   };
 
   return (
@@ -182,7 +189,7 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
             {file.documents.map((item) => (
               <div key={`sub-${item.id}`} className="step-sub">
                 <div className="step-sub__title">
-                  <img src={iconPdf} alt="project" />
+                  <img src={checkForExt(item.url.match(/\.[0-9a-z]+$/i)[0])} alt="project" />
                   <span>{item.name}</span>
                 </div>
                 {/* <div className="step-file--status">

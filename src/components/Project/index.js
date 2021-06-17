@@ -6,12 +6,7 @@ import { Collapse, Upload, Dropdown, Button, Spin } from 'antd';
 import { removeProject } from '../../core/services';
 
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
-import iconUpload from '../../assets/img/icon-upload.svg';
-import iconUploadRed from '../../assets/img/icon-upload-red.svg';
-import iconSkip from '../../assets/img/icon-skip.svg';
 import iconFileS from '../../assets/img/icon-file-s.svg';
-import iconPdf from '../../assets/img/icon-pdf.svg';
-import iconFile from '../../assets/img/icon-file-s.svg';
 
 import PDFSVG from '../../assets/img/PDF.svg';
 import XLSXSVG from '../../assets/img/XLSX.svg';
