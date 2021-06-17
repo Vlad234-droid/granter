@@ -132,7 +132,7 @@ const fetchCreatePassword = (form) => {
   }
 
   return new Promise((resolve, reject) => {
-    fetch(`${REACT_APP_API_URL}/password/reset-password`, {
+    fetch(`${REACT_APP_API_URL}/password/forgot`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

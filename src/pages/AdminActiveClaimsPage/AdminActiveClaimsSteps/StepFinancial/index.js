@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
-const StepFinancial = () => {
+const StepFinancial = ({ refreshCards }) => {
   const dispatch = useDispatch();
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
@@ -59,6 +59,7 @@ const StepFinancial = () => {
     setFinancialStep(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
+    refreshCards(true);
   };
 
   const checkForAllStatus = () => {

@@ -11,11 +11,10 @@ import arrowLeft from '../../../../assets/img/arrow-left.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
-import md5 from 'md5';
 
 import './style.scss';
 
-const StepIntroduction = ({ link }) => {
+const StepIntroduction = ({ link, activeClaimData }) => {
   const dispatch = useDispatch();
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
@@ -29,13 +28,6 @@ const StepIntroduction = ({ link }) => {
     actions,
     dispatch,
   );
-
-  const [md, setMd] = useState('');
-  useEffect(() => {
-    if (activeClaimId && id) {
-      setMd(() => md5(id, activeClaimId, 1));
-    }
-  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (isVisibleModalSheduleCall) {
@@ -148,7 +140,7 @@ const StepIntroduction = ({ link }) => {
             ))}
           </div>
           <div className="step-status">
-            {introductionStep.call_date === null ? (
+            {activeClaimData?.call_date_stage1 === null ? (
               <>
                 <button
                   className={`step-status--call-schedule ${
@@ -173,7 +165,7 @@ const StepIntroduction = ({ link }) => {
                 </button>
                 <CommonModalShadule
                   link={link}
-                  md={md}
+                  md={activeClaimData?.call_hash_1}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
@@ -185,7 +177,7 @@ const StepIntroduction = ({ link }) => {
                   </ul>
                 </CommonModalShadule>
               </>
-            ) : new Date().getTime() > introductionStep.call_date ? (
+            ) : new Date().getTime() > activeClaimData?.call_date_stage1 ? (
               <div className="step-status--call-completed">
                 <img src={iconApproved} alt="" />
                 <span>Call is completed</span>
@@ -194,7 +186,7 @@ const StepIntroduction = ({ link }) => {
               <div className="step-status--call-reminder">
                 <div className="reminder-title">
                   <img src={iconScheduled} alt="" />
-                  <span>{sheduleCallDate(introductionStep.call_date)}</span>
+                  <span>{sheduleCallDate(activeClaimData?.call_date_stage1)}</span>
                 </div>
                 <div className="reminder-description">Check email for details</div>
               </div>

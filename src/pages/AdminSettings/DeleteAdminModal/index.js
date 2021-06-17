@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, notification } from 'antd';
 import './style.scss';
 import { CloseIconModal } from '../../../components/icons';
 import { deleteAdmin } from '../../../core/adminServices/settingsServices';
@@ -27,6 +27,12 @@ const DeleteAdminModal = ({
         setFilteredListAdmins(() => []);
         setIsDeleteAdminModal(false);
         setIsBlur(false);
+        notification.success({
+          className: 'success-message',
+          description: 'Admin has been deleted successfully',
+          getContainer: () => document.getElementById('settings_page_Admin'),
+          duration: 3,
+        });
       }
     });
   };

@@ -128,7 +128,7 @@ const AdminSettings = () => {
 
   return (
     <LayOutAdmin>
-      <div className="settings_page">
+      <div className="settings_page" id="settings_page_Admin">
         {dataTable === null ? (
           <>
             <Skeleton active />

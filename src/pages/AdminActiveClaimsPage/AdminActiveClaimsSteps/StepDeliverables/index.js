@@ -8,7 +8,7 @@ import AdminUploadFile from '../../../../components/AdminUploadFile';
 
 import './style.scss';
 
-const StepDeliverables = () => {
+const StepDeliverables = ({ refreshCards }) => {
   const [deliverablesStep, setDeliverablesStep] = useState(null);
   const [status, setStatus] = useState(0);
   const { id } = useParams();
@@ -51,6 +51,7 @@ const StepDeliverables = () => {
     setDeliverablesStep(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
+    refreshCards(true);
   };
 
   const checkForAllStatus = () => {
@@ -94,8 +95,8 @@ const StepDeliverables = () => {
           </div>
           <div className="step-status">
             <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-              <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-              <span className="step-status--bar-parcent">{status}%</span>
+              <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+              <span className="step-status--bar-parcent">{status ? status : 0}%</span>
               <span className="step-status--bar-detail">
                 {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
               </span>

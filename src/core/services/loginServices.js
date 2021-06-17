@@ -25,14 +25,12 @@ const fetchLogin = (dispatch, loginData, history) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            if (resp.status !== 401) {
-              notification.error({
-                className: 'error-message',
-                description: json.message,
-                icon: <IconWarning />,
-              });
-            }
-            throw new Error(json);
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json.message);
           });
         }
       })
@@ -48,18 +46,17 @@ const fetchLogin = (dispatch, loginData, history) => {
             history.push('/admin/clients');
             resolve(data.data);
           }
-          if (data.role_id === 2) {
-            history.push('/active-claims/');
-            resolve(data.data);
-          }
-          if (!data.profile?.id_status) {
+          if (data.role_id === 2 && !data.profile?.id_status) {
             history.push('/docSign');
+            resolve(data.data);
+          } else if (data.role_id === 2 && data.profile?.id_status) {
+            history.push('/active-claims/');
             resolve(data.data);
           }
         });
       })
-      .catch(() => {
-        reject();
+      .catch((error) => {
+        reject(error);
       });
   });
 };

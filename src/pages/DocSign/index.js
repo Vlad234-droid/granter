@@ -3,14 +3,17 @@ import Layout from '../../components/LayoutGuest/Layout';
 import './style.scss';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { fetchProfileData } from '../../core/services/ProfileServices';
 
 const DocSign = () => {
-  const { id_status } = useSelector((state) => state.user?.data?.profile);
   const history = useHistory();
+
   useEffect(() => {
-    if (!!id_status) {
-      history.push('/active-claims');
-    }
+    fetchProfileData().then((data) => {
+      if (!!data?.profile?.id_status) {
+        history.push('/active-claims');
+      }
+    });
   }, []);
 
   const { manager } = useSelector((state) => state?.user?.data);
