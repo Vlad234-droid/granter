@@ -156,7 +156,7 @@ const StepIntroduction = ({ link, activeClaimData, refreshCards }) => {
             ))}
           </div>
           <div className="step-status">
-            {activeClaimData?.call_date_stage1 === null ? (
+            {!activeClaimData?.call_date_stage1 ? (
               <>
                 <button
                   className={`step-status--call-schedule ${

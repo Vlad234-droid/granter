@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Drawer } from 'antd';
+import { Skeleton, Tooltip } from 'antd';
 import { getFinancialClaimStep, approveStep } from '../../../../core/adminServices/claimServices';
 import AdminUploadFile from '../../../../components/AdminUploadFile';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
+import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
+import iconApproved from '../../../../assets/img/icon-approved.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
+import { IconWarning } from '../../../../components/icons';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
@@ -12,7 +15,7 @@ import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
-const StepFinancial = ({ refreshCards }) => {
+const StepFinancial = ({ link, refreshCards, activeClaimData }) => {
   const dispatch = useDispatch();
   const [financialStep, setFinancialStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
@@ -66,6 +69,45 @@ const StepFinancial = ({ refreshCards }) => {
     if (!financialStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 2);
   };
 
+  const sheduleCallDate = (date) => {
+    const isTodayCheck = (someDate) => {
+      const today = new Date();
+      someDate = new Date(someDate);
+      return (
+        someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+      );
+    };
+    function formatAMPM(someDate) {
+      someDate = new Date(someDate);
+      var hours = someDate.getHours();
+      var minutes = someDate.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    const isToday = isTodayCheck(date);
+    const isTommorow = isTodayCheck(tomorrow);
+    const time = formatAMPM(date);
+
+    if (isToday) {
+      return `Call today at ${time}`;
+    } else if (isTommorow) {
+      return `Call tommorow at ${time}`;
+    } else {
+      const numerDay = new Date(date);
+      const month = numerDay.toLocaleString('en-EN', { month: 'short' });
+      const day = numerDay.getDate() < 10 ? `0${numerDay.getDate()}` : numerDay.getDate();
+      return `Call on ${month} ${day} at ${time}`;
+    }
+  };
+
   return (
     <section className="active-claims__steps_step financial">
       <h2
@@ -105,32 +147,56 @@ const StepFinancial = ({ refreshCards }) => {
             ))}
           </div>
           <div className="step-status">
-            {financialStep.call_date === null && (
+            {!activeClaimData?.call_date_stage2 ? (
               <>
                 <button
-                  className="step-status--call-schedule"
+                  className={`step-status--call-schedule ${
+                    financialStep.documents.filter((item) => item.status === 1).length === 4 ? 'disabled' : ''
+                  }`}
                   onClick={() => {
+                    if (financialStep.documents.filter((item) => item.status === 1).length === 4) return;
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
-                  <img src={iconCalendar} alt="iconCalendar" />
+                  <img src={iconCalendar} alt="" />
                   <span>Schedule a call</span>
+                  {financialStep.documents.filter((item) => item.status === 1).length === 4 && (
+                    <Tooltip
+                      title="Please, upload documents 
+                  to be able to schedule this call. 
+                  Or contact our support">
+                      <span className="warning">
+                        <IconWarning />
+                      </span>
+                    </Tooltip>
+                  )}
                 </button>
                 <CommonModalShadule
+                  link={link}
+                  md={activeClaimData?.call_hash_2}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
-                    <li>1. Financial call often takes about 1 hour.</li>
+                    <li>1. Introduction often takes about one hour.</li>
                     <li>
-                      2. We want to assist you in accurately analysing project expenditure that occurred within the
-                      relevant period(s).
+                      2. We want to understand the type of work you have undertaken during the relevant period(s).
                     </li>
-                    <li>
-                      3. We will do our due diligence and benchmark your claim in order to maximise the robustness of
-                      submission.
-                    </li>
+                    <li>3. We will help you to gain the maximum value from our innovative client portal.</li>
                   </ul>
                 </CommonModalShadule>
               </>
+            ) : new Date().getTime() > activeClaimData?.call_date_stage2 ? (
+              <div className="step-status--call-completed">
+                <img src={iconApproved} alt="" />
+                <span>Call is completed</span>
+              </div>
+            ) : (
+              <div className="step-status--call-reminder">
+                <div className="reminder-title">
+                  <img src={iconScheduled} alt="" />
+                  <span>{sheduleCallDate(activeClaimData?.call_date_stage2)}</span>
+                </div>
+                <div className="reminder-description">Check email for details</div>
+              </div>
             )}
             {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>
