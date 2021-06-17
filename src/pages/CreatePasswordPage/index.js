@@ -7,7 +7,7 @@ import Layout from '../../components/LayoutGuest/Layout';
 
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { IconInfo } from '../../components/icons';
-
+import { fetchProfileData } from '../../core/services/ProfileServices';
 import { fetchCreatePassword } from '../../core/services';
 
 import './style.scss';
@@ -20,10 +20,16 @@ const CreatePasswordPage = (props) => {
   const [form] = Form.useForm();
   const location = useLocation();
   const history = useHistory();
-  const email = useSelector((state) => state.user.data?.email);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const token = location.search.split('?token=')[1];
+    fetchProfileData().then((data) => {
+      setEmail(() => data.email);
+    });
+  }, []);
+
+  useEffect(() => {
+    const token = location.search.split('?token=')[1].split('&email')[0];
     setToken(token);
   }, []);
 

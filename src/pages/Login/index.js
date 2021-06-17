@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Layout from '../../components/LayoutGuest/Layout';
 import { fetchLogin } from '../../core/services';
+import { fetchProfileData } from '../../core/services/ProfileServices';
 
 import './style.scss';
 
@@ -12,11 +13,16 @@ const LoginPage = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isloggedIn, isAdmin } = useSelector((state) => state.user);
-  console.log('isAdmin', isAdmin);
 
   useEffect(() => {
-    if (isloggedIn && !isAdmin) history.push('/active-claims');
-    if (isloggedIn && isAdmin) history.push('/admin/clients');
+    if (isloggedIn) {
+      fetchProfileData().then((data) => {
+        if (!!data?.profile?.id_status) {
+          if (!isAdmin && !!data?.profile?.id_status) history.push('/active-claims');
+          if (isAdmin) history.push('/admin/clients');
+        }
+      });
+    }
   }, []);
   const onFinish = (values) => {
     setLoader(true);

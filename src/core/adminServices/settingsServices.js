@@ -29,9 +29,6 @@ const postResource = async (url, dataBody) => {
     },
     body: dataBody,
   });
-  if (!res.ok) {
-    throw new Error();
-  }
   const body = await res.json();
   return body;
 };
@@ -47,7 +44,7 @@ export const createNewAdmin = async (email, name, password, phone, avatar) => {
     const newAdmin = await postResource(`admin/admin/create`, body);
     return newAdmin;
   } catch (error) {
-    return null;
+    return error;
   }
 };
 

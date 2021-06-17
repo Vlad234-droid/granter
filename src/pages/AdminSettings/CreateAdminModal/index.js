@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, notification } from 'antd';
 import './style.scss';
 import UploadPhoto from '../../../components/UploadPhoto';
 import { AdminCreateClose } from '../../../components/icons/index';
 import { createNewAdmin } from '../../../core/adminServices/settingsServices';
 import { getAllAdmins } from '../../../core/adminServices/settingsServices';
+import { IconWarning } from '../../../components/icons';
 
 const CreateAdminModal = ({ setTableLoading, setDataTable, isCreateAdminModal, setIsCreateAdminModal }) => {
   const [form] = Form.useForm();
   const [edit, setEdit] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
 
-  const onFinish = (values) => {
-    createNewAdmin(values.email, values.name, values.password, values.phone, values.avatar).then((data) => {
-      if (data.success) {
+  const onFinish = ({ email, name, password, phone, avatar }) => {
+    createNewAdmin(email, name, password, phone, avatar).then((data) => {
+      if (data?.success) {
         setTableLoading(() => true);
         getAllAdmins().then((data) => {
           if (data !== null) {
@@ -27,6 +28,14 @@ const CreateAdminModal = ({ setTableLoading, setDataTable, isCreateAdminModal, s
             setDataTable(() => updatedInfo);
             setTableLoading(() => false);
           }
+        });
+      } else {
+        notification.error({
+          className: 'error-message',
+          description: data.message,
+          icon: <IconWarning />,
+          getContainer: () => document.getElementById('settings_page_Admin'),
+          duration: 3,
         });
       }
     });

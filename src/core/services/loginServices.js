@@ -48,12 +48,11 @@ const fetchLogin = (dispatch, loginData, history) => {
             history.push('/admin/clients');
             resolve(data.data);
           }
-          if (data.role_id === 2) {
-            history.push('/active-claims/');
-            resolve(data.data);
-          }
-          if (!data.profile?.id_status) {
+          if (data.role_id === 2 && !data.profile?.id_status) {
             history.push('/docSign');
+            resolve(data.data);
+          } else if (data.role_id === 2 && data.profile?.id_status) {
+            history.push('/active-claims/');
             resolve(data.data);
           }
         });
