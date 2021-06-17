@@ -8,7 +8,7 @@ import AdminUploadFile from '../../../../components/AdminUploadFile';
 
 import './style.scss';
 
-const StepSubmission = () => {
+const StepSubmission = ({ refreshCards }) => {
   const [submissionStep, setSubmissionStep] = useState(null);
   const [status, setStatus] = useState(0);
   const { id } = useParams();
@@ -38,6 +38,7 @@ const StepSubmission = () => {
     setSubmissionStep(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
+    refreshCards(true);
   };
 
   const checkForAllStatus = () => {
@@ -47,7 +48,7 @@ const StepSubmission = () => {
   return (
     <section className="active-claims__steps_step admin-deliverables">
       <h2>
-        4<i>/</i>5 Deliverables
+        5<i>/</i>5 Submission
       </h2>
       {!submissionStep ? (
         <Skeleton active />
@@ -81,8 +82,8 @@ const StepSubmission = () => {
           </div>
           <div className="step-status">
             <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-              <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-              <span className="step-status--bar-parcent">{status}%</span>
+              <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+              <span className="step-status--bar-parcent">{status ? status : 0}%</span>
               <span className="step-status--bar-detail">
                 {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
               </span>

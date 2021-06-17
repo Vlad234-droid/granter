@@ -6,6 +6,8 @@ import AdminUploadFile from '../../../../components/AdminUploadFile';
 import { IconWarning } from '../../../../components/icons';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import arrowLeft from '../../../../assets/img/arrow-left.svg';
+import iconScheduled from '../../../../assets/img/icon-scheduled.svg';
+import iconApproved from '../../../../assets/img/icon-approved.svg';
 import actions from '../../../../core/actions';
 import { bindActionCreators } from 'redux';
 import CommonModalShadule from '../CommonModalShadule';
@@ -13,7 +15,7 @@ import { useParams } from 'react-router-dom';
 
 import './style.scss';
 
-const StepIntroduction = () => {
+const StepIntroduction = ({ link, activeClaimData, refreshCards }) => {
   const dispatch = useDispatch();
   const [introductionStep, setIntroductionStep] = useState(null);
   const [detailsShow, setDetailsShow] = useState(false);
@@ -57,6 +59,7 @@ const StepIntroduction = () => {
         if (!clone.comments_count) clone.comments_count = item.comments_count;
         item = clone;
       }
+      refreshCards(true);
       return item;
     });
     setIntroductionStep(res);
@@ -66,6 +69,45 @@ const StepIntroduction = () => {
 
   const checkForAllStatus = () => {
     if (!introductionStep?.documents.filter((item) => item.status !== 3).length) approveStep(id, 1);
+  };
+
+  const sheduleCallDate = (date) => {
+    const isTodayCheck = (someDate) => {
+      const today = new Date();
+      someDate = new Date(someDate);
+      return (
+        someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+      );
+    };
+    function formatAMPM(someDate) {
+      someDate = new Date(someDate);
+      var hours = someDate.getHours();
+      var minutes = someDate.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    const isToday = isTodayCheck(date);
+    const isTommorow = isTodayCheck(tomorrow);
+    const time = formatAMPM(date);
+
+    if (isToday) {
+      return `Call today at ${time}`;
+    } else if (isTommorow) {
+      return `Call tommorow at ${time}`;
+    } else {
+      const numerDay = new Date(date);
+      const month = numerDay.toLocaleString('en-EN', { month: 'short' });
+      const day = numerDay.getDate() < 10 ? `0${numerDay.getDate()}` : numerDay.getDate();
+      return `Call on ${month} ${day} at ${time}`;
+    }
   };
 
   return (
@@ -114,17 +156,32 @@ const StepIntroduction = () => {
             ))}
           </div>
           <div className="step-status">
-            {introductionStep.call_date === null && (
+            {activeClaimData?.call_date_stage1 === null ? (
               <>
                 <button
-                  className="step-status--call-schedule"
+                  className={`step-status--call-schedule ${
+                    introductionStep.documents.filter((item) => item.status === 1).length === 3 ? 'disabled' : ''
+                  }`}
                   onClick={() => {
+                    if (introductionStep.documents.filter((item) => item.status === 1).length === 3) return;
                     setIsVisibleModalSheduleCall((prev) => !prev);
                   }}>
                   <img src={iconCalendar} alt="" />
                   <span>Schedule a call</span>
+                  {introductionStep.documents.filter((item) => item.status === 1).length === 3 && (
+                    <Tooltip
+                      title="Please, upload documents 
+                  to be able to schedule this call. 
+                  Or contact our support">
+                      <span className="warning">
+                        <IconWarning />
+                      </span>
+                    </Tooltip>
+                  )}
                 </button>
                 <CommonModalShadule
+                  link={link}
+                  md={activeClaimData?.call_hash_1}
                   isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                   setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                   <ul className="list_shedule_intro">
@@ -136,6 +193,19 @@ const StepIntroduction = () => {
                   </ul>
                 </CommonModalShadule>
               </>
+            ) : new Date().getTime() > activeClaimData?.call_date_stage1 ? (
+              <div className="step-status--call-completed">
+                <img src={iconApproved} alt="" />
+                <span>Call is completed</span>
+              </div>
+            ) : (
+              <div className="step-status--call-reminder">
+                <div className="reminder-title">
+                  <img src={iconScheduled} alt="" />
+                  <span>{sheduleCallDate(activeClaimData?.call_date_stage1)}</span>
+                </div>
+                <div className="reminder-description">Check email for details</div>
+              </div>
             )}
             {/* <div className='step-status--call-reminder'>
               <div className='reminder-title'>

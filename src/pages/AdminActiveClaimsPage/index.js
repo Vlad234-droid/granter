@@ -19,16 +19,18 @@ const AdminActiveClaimsPage = (props) => {
   const dispatch = useDispatch();
   const prevRout = useSelector((state) => state.user.prevRout);
   const history = useHistory();
+  const [link, setLink] = useState('');
   const { id } = useParams();
 
   useEffect(() => {
     getClaim(id).then((data) => {
       setActiveClaimData(() => data);
+      setLink(() => data.hubspot_link);
     });
   }, []);
 
-  const onActiveClaimDataEdit = () => {
-    setActiveClaimData(null);
+  const onActiveClaimDataEdit = (refresh) => {
+    if (!refresh) setActiveClaimData(null);
     getClaim(id).then((data) => {
       setActiveClaimData(() => data);
     });
@@ -70,7 +72,7 @@ const AdminActiveClaimsPage = (props) => {
             <Skeleton active className="cards-skeleton" />
           )}
           {activeClaimData && <AdminActiveClaimsDates activeClaimData={activeClaimData} />}
-          <AdminActiveClaimsSteps />
+          <AdminActiveClaimsSteps link={link} activeClaimData={activeClaimData} refreshCards={onActiveClaimDataEdit} />
         </div>
       </div>
     </LayOutAdmin>

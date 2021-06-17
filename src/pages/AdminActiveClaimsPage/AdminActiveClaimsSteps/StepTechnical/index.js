@@ -23,7 +23,7 @@ import './style.scss';
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const StepTechnical = () => {
+const StepTechnical = ({ refreshCards }) => {
   const [technicalStep, setTechnicalStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -89,6 +89,7 @@ const StepTechnical = () => {
       ? Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100)
       : 0;
     setStatus(status);
+    refreshCards(true);
   };
 
   const onChangeStatus = (project) => {
@@ -102,6 +103,7 @@ const StepTechnical = () => {
     setTechnicalStep(res);
     const status = Math.round((res.documents.filter((item) => item.status === 3).length / res.documents.length) * 100);
     setStatus(status);
+    refreshCards(true);
   };
 
   const checkForAllStatus = () => {
@@ -232,8 +234,8 @@ const StepTechnical = () => {
 
               <div className="step-status">
                 <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-                  <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-                  <span className="step-status--bar-parcent">{status}%</span>
+                  <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+                  <span className="step-status--bar-parcent">{status ? status : 0}%</span>
                   <span className="step-status--bar-detail">
                     {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
                   </span>

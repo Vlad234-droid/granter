@@ -119,8 +119,8 @@ const StepSubmission = () => {
               Approve
             </Button>
             <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-              <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-              <span className="step-status--bar-parcent">{status}%</span>
+              <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+              <span className="step-status--bar-parcent">{status ? status : 0}%</span>
               <span className="step-status--bar-detail">
                 {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
               </span>
