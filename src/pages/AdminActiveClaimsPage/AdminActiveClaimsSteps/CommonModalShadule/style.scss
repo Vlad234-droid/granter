@@ -1,4 +1,7 @@
 .shedule_modal {
+  .ant-modal-body {
+    padding: 30px 126px 20px 126px;
+  }
   div {
     h2 {
       width: 100%;
@@ -12,31 +15,84 @@
       color: #3c4252;
     }
   }
-  .wrapper_text_timePicker {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    b {
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      color: #3c4252;
-      margin-bottom: 8px;
-      margin-top: 20px;
+  .block_copy_info {
+    .md_input {
+      width: 320px;
+      margin-bottom: 24px;
+      box-shadow: none;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      border: 1px solid #c0c4cb;
+      color: #c0c4cb;
     }
-    .shedule_time_picker {
-      background: #ffffff;
-      border: 1px solid #305ff5;
-      border-radius: 10px;
+    width: 100%;
+    background: rgba(48, 95, 245, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & > h3 {
+      &:nth-child(1) {
+        margin-top: 22px;
+        margin-bottom: 1px;
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        color: #3c4252;
+      }
+    }
+    .done_info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 5px;
+      margin-bottom: 16px;
+      .done {
+        margin-right: 8px;
+      }
+      h3 {
+        position: relative;
+        .copy_input {
+          width: 65px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1000;
+          opacity: 0;
+        }
+        span {
+          text-decoration-line: underline;
+          color: #305ff5;
+          cursor: pointer;
+        }
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+      }
     }
   }
+
   .sheduleModal__block_btn {
-    width: 45%;
+    width: 64% !important;
     margin: 30px auto 0px auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    .ant-btn-primary[disabled] {
+      background: #c0c4cb;
+      &:hover {
+        box-shadow: none;
+      }
+    }
   }
 }

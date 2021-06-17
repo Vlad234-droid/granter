@@ -64,7 +64,7 @@ const ActiveClaimsPage = (props) => {
           Welcome! Verify your email to see approximate benefits
         </div>
         <ActiveClaimsCards /> */}
-        <ActiveClaimsSteps link={link} />
+        <ActiveClaimsSteps link={link} activeClaimData={activeClaimData} />
       </div>
     </Layout>
   );

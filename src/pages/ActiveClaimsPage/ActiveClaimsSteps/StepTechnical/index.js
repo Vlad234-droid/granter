@@ -15,14 +15,13 @@ import iconApproved from '../../../../assets/img/icon-approved.svg';
 import iconCalendar from '../../../../assets/img/icon-calendar.svg';
 import iconFile from '../../../../assets/img/icon-file-b.svg';
 import iconAddProject from '../../../../assets/img/icon-add-project.svg';
-import md5 from 'md5';
 
 import './style.scss';
 
 const { Dragger } = Upload;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const StepTechnical = ({ link }) => {
+const StepTechnical = ({ link, activeClaimData }) => {
   const [technicalStep, setTechnicalStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -34,14 +33,7 @@ const StepTechnical = ({ link }) => {
   const { id } = useSelector((state) => state.user?.data);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [md, setMd] = useState('');
   const { blurActiveSteps, setStepStatus } = bindActionCreators(actions, dispatch);
-
-  useEffect(() => {
-    if (activeClaimId && id) {
-      setMd(() => md5(id, activeClaimId, 3));
-    }
-  }, [activeClaimId, id]);
 
   useEffect(() => {
     if (activeClaimId) {
@@ -200,7 +192,7 @@ const StepTechnical = ({ link }) => {
               ))}
             </div>
             <div className="step-status">
-              {technicalStep.call_date === null ? (
+              {activeClaimData?.call_date_stage3 === null ? (
                 <>
                   <button
                     className={`step-status--call-schedule ${technicalStep.documents.length === 0 ? 'disabled' : ''}`}
@@ -223,7 +215,7 @@ const StepTechnical = ({ link }) => {
                   </button>
                   <CommonModalShadule
                     link={link}
-                    md={md}
+                    md={activeClaimData?.call_hash_3}
                     isVisibleModalSheduleCall={isVisibleModalSheduleCall}
                     setIsVisibleModalSheduleCall={setIsVisibleModalSheduleCall}>
                     <ul className="list_shedule_intro">
@@ -235,7 +227,7 @@ const StepTechnical = ({ link }) => {
                     </ul>
                   </CommonModalShadule>
                 </>
-              ) : new Date().getTime() > technicalStep.call_date ? (
+              ) : new Date().getTime() > activeClaimData?.call_date_stage3 ? (
                 <div className="step-status--call-completed">
                   <img src={iconApproved} alt="" />
                   <span>Call is completed</span>
@@ -244,7 +236,7 @@ const StepTechnical = ({ link }) => {
                 <div className="step-status--call-reminder">
                   <div className="reminder-title">
                     <img src={iconScheduled} alt="" />
-                    <span>{sheduleCallDate(technicalStep.call_date)}</span>
+                    <span>{sheduleCallDate(activeClaimData?.call_date_stage3)}</span>
                   </div>
                   <div className="reminder-description">Check email for details</div>
                 </div>
@@ -266,8 +258,8 @@ const StepTechnical = ({ link }) => {
 
               <div className="step-status">
                 <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-                  <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-                  <span className="step-status--bar-parcent">{status}%</span>
+                  <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+                  <span className="step-status--bar-parcent">{status ? status : 0}%</span>
                   <span className="step-status--bar-detail">
                     {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
                   </span>
@@ -398,8 +390,8 @@ const StepTechnical = ({ link }) => {
         </div>
         <div className="step-status">
           <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
-            <span className="step-status--bar-fill" style={{ width: status + '%' }} />
-            <span className="step-status--bar-parcent">{status}%</span>
+            <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />
+            <span className="step-status--bar-parcent">{status ? status : 0}%</span>
             <span className="step-status--bar-detail">
               {status === 100 ? 'Finished' : status > 0 ? 'In Progress' : 'Waiting'}
             </span>

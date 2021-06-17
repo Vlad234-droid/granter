@@ -25,14 +25,12 @@ const fetchLogin = (dispatch, loginData, history) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            if (resp.status !== 401) {
-              notification.error({
-                className: 'error-message',
-                description: json.message,
-                icon: <IconWarning />,
-              });
-            }
-            throw new Error(json);
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
+            throw new Error(json.message);
           });
         }
       })
@@ -57,8 +55,8 @@ const fetchLogin = (dispatch, loginData, history) => {
           }
         });
       })
-      .catch(() => {
-        reject();
+      .catch((error) => {
+        reject(error);
       });
   });
 };

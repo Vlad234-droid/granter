@@ -8,12 +8,12 @@ import StepSubmission from './StepSubmission';
 
 import './style.scss';
 
-const ActiveClaimsSteps = ({ link }) => {
+const ActiveClaimsSteps = ({ link, activeClaimData }) => {
   return (
     <div className="active-claims__steps">
-      <StepIntroduction link={link} />
-      <StepFinancial link={link} />
-      <StepTechnical link={link} />
+      <StepIntroduction link={link} activeClaimData={activeClaimData} />
+      <StepFinancial link={link} activeClaimData={activeClaimData} />
+      <StepTechnical link={link} activeClaimData={activeClaimData} />
       <StepDeliverables />
       <StepSubmission />
     </div>

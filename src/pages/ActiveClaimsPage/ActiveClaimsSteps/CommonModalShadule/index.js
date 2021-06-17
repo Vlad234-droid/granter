@@ -71,9 +71,17 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
             }}>
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit" disabled={!test} href={link}>
+          <a
+            className="ant-btn ant-btn-primary"
+            disabled={!test}
+            href={link}
+            target="_blank"
+            onClick={() => {
+              setIsVisibleModalSheduleCall((prev) => !prev);
+              setTest(() => false);
+            }}>
             Schedule a call
-          </Button>
+          </a>
         </div>
       </div>
     </Modal>
