@@ -4,17 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, notification, Button, Modal, Skeleton, Upload } from 'antd';
 import { getTechnicalClaimStep, addDocumentToProject, setNewProject, editProject } from '../../core/adminServices';
-
 import actions from '../../core/actions';
 import { CloseIconModal } from '../../components/icons';
 import Project from './Project';
 import iconBack from '../../assets/img/arrow-left.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
-import iconDownload from '../../assets/img/icon-download.svg';
-import iconUpload from '../../assets/img/icon-upload-blue.svg';
-import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 import './style.scss';
 import DocumentViewer from '../../components/DocumentViewer';
+import { IconWarning } from '../../components/icons';
 
 const { Dragger } = Upload;
 
@@ -87,6 +84,15 @@ const AdminProjectsPage = () => {
         }`,
       );
     }
+    if (data.start_date > data.end_date)
+      return (
+        setLoader(() => false),
+        notification.error({
+          className: 'error-message',
+          description: 'Start Date can`t be bigger than End Date.',
+          icon: <IconWarning />,
+        })
+      );
     if (project.documents && !project.id) {
       const docs = [];
       project.documents.forEach((doc) => {
