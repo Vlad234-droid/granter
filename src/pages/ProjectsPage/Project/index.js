@@ -14,7 +14,7 @@ import './style.scss';
 
 const { Option } = Select;
 
-const Project = ({ form, project, onRemove, isRemoved }) => {
+const Project = ({ form, project, onRemove, isRemoved, errorOption, setErrorOption }) => {
   const [status, setStatus] = useState(null);
   const [isRed, setIsRed] = useState(false);
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
@@ -24,6 +24,8 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
   const [monthSelect, setMonthSelect] = useState(null);
   const [yearSelect, setYearSelect] = useState(null);
   const [disabledSelect, setDisabledSelect] = useState(true);
+
+  console.log(errorOption);
 
   useEffect(() => {
     if (project.status) setStatus(status);
@@ -203,7 +205,8 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                   onSelect={(key) => setMonthSelect(() => key)}
                   placeholder="Months"
                   suffixIcon={<img src={iconSelectArrow} alt="" />}
-                  className="months-select">
+                  className={`months-select ${errorOption ? 'errorOption' : ''}`}
+                  onFocus={() => setErrorOption(() => false)}>
                   <Option value={0}>January</Option>
                   <Option value={1}>February</Option>
                   <Option value={2}>March</Option>
@@ -231,7 +234,7 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                   onSelect={(key) => setYearSelect(() => key)}
                   placeholder="Year"
                   suffixIcon={<img src={iconSelectArrow} alt="" />}
-                  className="years-select">
+                  className={`years-selectS ${errorOption ? 'errorOption' : ''}`}>
                   <Option value="2021">2021</Option>
                   <Option value="2020">2020</Option>
                   <Option value="2019">2019</Option>
@@ -255,7 +258,8 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                   disabled={disabledSelect}
                   placeholder="Months"
                   className="months-select"
-                  suffixIcon={<img src={iconSelectArrow} alt="" />}>
+                  suffixIcon={<img src={iconSelectArrow} alt="" />}
+                  onFocus={() => setErrorOption(() => false)}>
                   <Option value={0}>January</Option>
                   <Option value={1}>February</Option>
                   <Option value={2}>March</Option>

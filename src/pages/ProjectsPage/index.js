@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, notification, Button, Modal, Skeleton, Upload } from 'antd';
@@ -9,9 +9,6 @@ import { CloseIconModal } from '../../components/icons';
 import Project from './Project';
 import iconBack from '../../assets/img/arrow-left.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
-import iconDownload from '../../assets/img/icon-download.svg';
-import iconUpload from '../../assets/img/icon-upload-blue.svg';
-import iconSelectArrow from '../../assets/img/iceon-select-arrow.svg';
 import './style.scss';
 import DocumentViewer from '../../components/DocumentViewer';
 import { IconWarning } from '../../components/icons';
@@ -21,6 +18,7 @@ const { Dragger } = Upload;
 const ProjectsPage = () => {
   const [currentProject, setCurrentProject] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [errorOption, setErrorOption] = useState(false);
   const [loader, setLoader] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
   const [formLength, setFormLength] = useState(1);
@@ -95,7 +93,8 @@ const ProjectsPage = () => {
           className: 'error-message',
           description: 'Start Date can`t be bigger than End Date.',
           icon: <IconWarning />,
-        })
+        }),
+        setErrorOption(() => true)
       );
 
     if (project.documents && !project.id) {
@@ -177,6 +176,8 @@ const ProjectsPage = () => {
           ) : (
             <Form name="dynamic_form_item" layout="vertical" form={form} requiredMark={false} onFinish={onFinish}>
               <Project
+                setErrorOption={setErrorOption}
+                errorOption={errorOption}
                 onRemove={() => {
                   setIsRemoved(true);
                   setCurrentProject({});
