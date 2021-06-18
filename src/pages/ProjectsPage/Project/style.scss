@@ -126,13 +126,15 @@
           .row-year {
             width: 40%;
           }
-          .months-select {
-            // width: 133px;
+          .months-select.errorOption {
+            .ant-select-selector {
+              border: 1px solid red;
+            }
           }
-          .years-select {
-            // width: 88px;
-            // flex-shrink: 0;
-            // margin-left: 16px;
+          .years-selectS.errorOption {
+            .ant-select-selector {
+              border: 1px solid red;
+            }
           }
         }
         .project__form_submit {
