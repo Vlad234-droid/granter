@@ -64,6 +64,7 @@ const getAllClients = async (page, sort_by, sort_dir) => {
   }
   try {
     const data = await postResource(`admin/clients`, body);
+    console.log('datafromser', data);
     return data.data;
   } catch (err) {
     return null;
