@@ -25,11 +25,11 @@ const LayOutAdmin = ({ children, className }) => {
       text: 'Clients',
       routeLi: 'clients',
     },
-    {
-      to: '/admin/calls',
-      text: 'Calls',
-      routeLi: 'calls',
-    },
+    // {
+    //   to: '/admin/calls',
+    //   text: 'Calls',
+    //   routeLi: 'calls',
+    // },
     {
       to: '/admin/settings',
       text: 'Settings',
