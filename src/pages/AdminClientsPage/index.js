@@ -324,12 +324,12 @@ const AdminClientsPage = () => {
               <Pagination
                 showSizeChanger={false}
                 pageSize={perPage}
-                total={totalCountPages - perPage}
+                total={totalCountPages}
                 current={currentPage}
                 showQuickJumper
                 showLessItems={false}
                 onChange={onChangeSizePage}
-                hideOnSinglePage={true}
+                hideOnSinglePage={totalCountPages <= perPage ? true : false}
               />
             </div>
           </>
