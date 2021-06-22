@@ -329,6 +329,7 @@ const AdminClientsPage = () => {
                 showQuickJumper
                 showLessItems={false}
                 onChange={onChangeSizePage}
+                hideOnSinglePage={true}
               />
             </div>
           </>
