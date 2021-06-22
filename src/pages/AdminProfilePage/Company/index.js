@@ -386,12 +386,12 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
       </div>
       <div className="block_claims">
         <div className="container_info">
-          {company.claims.filter((item) => item.status == 1).length > 0 && (
+          {company.claims.filter((item) => item.type == 1).length > 0 && (
             <>
               <h2>Active</h2>
               <ul>
                 {company.claims
-                  .filter((item) => item.status == 1)
+                  .filter((item) => item.type == 1)
                   .map((item) => (
                     <li key={`claim-${item.id}`}>
                       <Link to={`/admin/active-claim/${item.id}`}>{`${item.title}${
@@ -404,12 +404,12 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
           )}
         </div>
         <div className="container_info">
-          {company.claims.filter((item) => item.status == 2).length > 0 && (
+          {company.claims.filter((item) => item.type == 2).length > 0 && (
             <>
               <h2>Future</h2>
               <ul>
                 {company.claims
-                  .filter((item) => item.status == 2)
+                  .filter((item) => item.type == 2)
                   .map((item) => (
                     <li key={`claim-${item.id}`}>{`${item.title}${
                       item.start_date && item.end_date ? ` ${item.start_date} - ${item.start_date}` : ``
@@ -420,12 +420,12 @@ const Company = ({ companies, company, updateCompany, setModal }) => {
           )}
         </div>
         <div className="container_info">
-          {company.claims.filter((item) => item.status == 3).length > 0 && (
+          {company.claims.filter((item) => item.type == 3).length > 0 && (
             <>
               <h2>Completed</h2>
               <ul>
                 {company.claims
-                  .filter((item) => item.status == 3)
+                  .filter((item) => item.type == 3)
                   .map((item) => (
                     <li key={`claim-${item.id}`}>{`${item.title}${
                       item.start_date && item.end_date ? ` ${item.start_date} - ${item.start_date}` : ``
