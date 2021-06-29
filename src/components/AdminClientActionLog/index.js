@@ -82,10 +82,12 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
 
   const checkForLinkTo = useCallback((item) => {
     if (item.project_id === null) {
-      return `/document/${item.claim_id}/${item.document_id}/`;
+      setIsBlur(false);
+      return `/admin/document/${item.claim_id}/${item.document_id}/`;
     }
     if (item.document_id === null) {
-      return `/project/${item.claim_id}/${item.project_id}`;
+      setIsBlur(false);
+      return `/admin/project/${item.claim_id}/${item.project_id}`;
     }
   }, []);
 
