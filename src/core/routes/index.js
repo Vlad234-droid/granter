@@ -27,7 +27,7 @@ import AdminProjectsPage from '../../pages/AdminProjectsPage';
 import DocSign from '../../pages/DocSign';
 import CompletedClaimsPage from '../../pages/CompletedClaimsPage';
 import CongratulationsPage from '../../pages/CongratulationsPage';
-
+import NotFoundPrAdmin from '../../pages/NotFoundPrAdmin';
 //TODO Lazy
 function lazyWithPreload(factory) {
   const Component = React.lazy(factory);
@@ -68,6 +68,7 @@ const routes = () => {
         <PrivateAdminRoute exact path="/admin/settings" component={AdminSettings} />
         <PrivateAdminRoute exact path="/admin/add-client" component={AdminAddClient} />
         <PrivateAdminRoute exact path="/admin/add-company/:clientId" component={AdminAddComany} />
+        <PrivateAdminRoute exact path="/admin/notFound" component={NotFoundPrAdmin} />
 
         {/* <PrivateRoute exact path='/replies/' component={Login} /> */}
       </CoreRouter>

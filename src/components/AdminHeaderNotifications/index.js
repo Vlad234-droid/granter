@@ -144,7 +144,12 @@ const HeaderNotification = () => {
                     </div>
                     <div className="details_container">
                       <div className="item_li">{item.title}</div>
-                      {item.title !== 'Document was removed' ? (
+                      {item.document_id === null &&
+                      item.project_id === null &&
+                      item.company_id === null &&
+                      item.claim_id === null ? (
+                        ''
+                      ) : (
                         <Link
                           to={
                             item.document_id === null
@@ -158,8 +163,6 @@ const HeaderNotification = () => {
                           }}>
                           Check document
                         </Link>
-                      ) : (
-                        ''
                       )}
                     </div>
                   </li>

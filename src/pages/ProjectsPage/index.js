@@ -79,7 +79,6 @@ const ProjectsPage = () => {
     };
     if (project['start-months'] >= 0 && project['start-year'] && project['end-months'] >= 0 && project['end-year']) {
       data.start_date = Date.parse(`${project['start-months'] + 1}/01/${project['start-year']}`);
-      console.log(data.start_date);
       data.end_date = Date.parse(
         `${project['end-months'] + 1}/${getDaysInMonth(project['end-months'] + 1, project['end-year'])}/${
           project['end-year']

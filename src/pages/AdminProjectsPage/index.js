@@ -36,6 +36,7 @@ const AdminProjectsPage = () => {
       } else {
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
         getTechnicalClaimStep(climeId).then((data) => {
+          if (!data?.documents.length) return history.push('/admin/notFound');
           addProjectsDetails(data.documents);
           setCurrentProject(data.documents.filter((item) => item.id == id)[0]);
         });

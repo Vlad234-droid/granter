@@ -24,7 +24,7 @@ const Aside = () => {
   const { visibleModal } = useSelector((state) => state.modal);
   const { currentCompany } = useSelector((state) => state.user);
   const { id } = useSelector((state) => state.user?.data?.manager);
-  const { activeClaimId } = useSelector((state) => state.user);
+  const { activeClaimId } = useSelector((state) => state?.user);
   const [currentMenu, setCurrentMenu] = useState([]);
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
   const isVisibleSubMenu = useSelector((state) => state?.modal?.isVisibleSubMenu);
@@ -205,7 +205,7 @@ const Aside = () => {
             Ask a Question
           </Button>
           <ModalAsk
-            activeClaimId={activeClaimId}
+            claim_id={activeClaimId}
             manager_id={id}
             visibleModal={visibleModal}
             handleCancel={closeModalAction}

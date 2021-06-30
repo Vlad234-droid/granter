@@ -44,20 +44,6 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
   //   dispatch(closeModalNotifications());
   // };
 
-  const getTitle = () => {
-    return (
-      <>
-        {company && (
-          <>
-            <div className="header__company_icon blue">
-              <IconCompany />
-            </div>
-            <div className="header__company_name">{company.name}</div>
-          </>
-        )}
-      </>
-    );
-  };
   const convertDate = (date) => {
     function convertDate(inputFormat) {
       function pad(s) {
@@ -80,16 +66,19 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
     return convertDate(date);
   };
 
-  const checkForLinkTo = useCallback((item) => {
-    if (item.project_id === null) {
-      setIsBlur(false);
-      return `/admin/document/${item.claim_id}/${item.document_id}/`;
-    }
-    if (item.document_id === null) {
-      setIsBlur(false);
-      return `/admin/project/${item.claim_id}/${item.project_id}`;
-    }
-  }, []);
+  //const checkForLinkTo = useCallback(
+  //  (item) => {
+  //    if (item.project_id === null) {
+  //      setIsBlur(false);
+  //      return `/admin/document/${item.claim_id}/${item.document_id}/`;
+  //    }
+  //    if (item.document_id === null) {
+  //      setIsBlur(false);
+  //      return `/admin/project/${item.claim_id}/${item.project_id}`;
+  //    }
+  //  },
+  //  [list],
+  //);
 
   return (
     <div className="header__notification">
@@ -122,10 +111,13 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
                       <div className="item_li">{item.title}</div>
                       {item.claim_id !== null ? (
                         <Link
-                          to={() => checkForLinkTo(item)}
+                          to={`${
+                            item.project_id === null
+                              ? `/admin/document/${item.claim_id}/${item.document_id}/`
+                              : `${item.document_id === null && `/admin/project/${item.claim_id}/${item.project_id}`}`
+                          }`}
                           className="check_doc"
-                          //onClick={() => dispatch(closeModalNotifications())}
-                        >
+                          onClick={() => setIsBlur(false)}>
                           Check document
                         </Link>
                       ) : (

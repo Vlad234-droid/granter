@@ -21,7 +21,6 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
   const dispatch = useDispatch();
   const { clientId } = useParams();
   const history = useHistory();
-
   const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
