@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Skeleton, Tooltip, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,7 +20,7 @@ const StepSubmission = () => {
   const activeClaimIdStatus = useSelector((state) => state.claims.activeClaimStatus);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { setStepStatus, setFinalReport } = bindActionCreators(actions, dispatch);
+  const { setStepStatus, setFinalReport, setClaimsToFalse } = bindActionCreators(actions, dispatch);
 
   const activeClaimIdDone = () => {
     return (
@@ -36,6 +36,7 @@ const StepSubmission = () => {
     if (activeClaimId) {
       setSubmissionStep(null);
       getSubmissionClaimStep(activeClaimId).then((data) => {
+        console.log('data', data);
         setSubmissionStep(data);
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
@@ -65,6 +66,7 @@ const StepSubmission = () => {
   const approveClaim = () => {
     if (!activeClaimIdDone) return;
     setLoading(true);
+    setClaimsToFalse();
     setApproveClime(activeClaimId)
       .then((data) => {
         const res = {

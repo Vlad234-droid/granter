@@ -344,11 +344,14 @@ const StepTechnical = ({ link, activeClaimData }) => {
         visible={detailsShow}
         className="active-claims__step_drawer">
         <div className="drawer-technical-dragger">
-          <button>
-            <div className="upload-title">
-              <img src={iconAddProject} alt="" />
-              <span>Add a Project</span>
-            </div>
+          <button
+            className="technical__add-project_button"
+            onClick={() => {
+              setDetailsShow(false);
+              setModalVisible(true);
+            }}>
+            <img src={iconAddProject} alt="" />
+            <span>Add a Project</span>
           </button>
           {/* <Dragger
             name="file"

@@ -17,6 +17,7 @@ const ProfilePage = () => {
   const [companiesList, setCompaniesList] = useState(null);
   const [profileForm] = Form.useForm();
   const dispatch = useDispatch();
+  const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     fetchProfileData().then((data) => {
@@ -244,7 +245,7 @@ const ProfilePage = () => {
       <div className="profile__companies">
         <h2>
           <span>My Companies</span>
-          <Link to="/profile/add-project/">
+          <Link to="/profile/add-project/" onClick={() => registrationChangeEstimate(null)}>
             <IconAdd />
           </Link>
         </h2>

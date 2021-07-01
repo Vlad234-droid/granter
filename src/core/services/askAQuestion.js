@@ -1,10 +1,11 @@
 import lockr from 'lockr';
 const { REACT_APP_API_URL } = process.env;
 
-export const askAQuestion = async (manager_id, text, phone) => {
+export const askAQuestion = async (manager_id, claim_id, text, phone) => {
   const token = lockr.get('auth-key');
   const body = {
     manager_id,
+    claim_id,
     text,
   };
 

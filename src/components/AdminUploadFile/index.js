@@ -158,7 +158,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
             overlay={
               <Menu>
                 {file.status === 2 && (
-                  <Menu.Item>
+                  <Menu.Item key={file.status}>
                     <div
                       className="status approved"
                       onClick={() => {
@@ -180,7 +180,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                   </Menu.Item>
                 )}
                 {file.status === 3 && (
-                  <Menu.Item>
+                  <Menu.Item key={file.status}>
                     <div
                       className="status on_review"
                       onClick={() => {

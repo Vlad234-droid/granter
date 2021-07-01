@@ -39,7 +39,7 @@ const ProfilePage = () => {
   const [profileForm] = Form.useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { setIsBlur } = bindActionCreators(actions, dispatch);
+  const { setIsBlur, registrationChangeEstimate } = bindActionCreators(actions, dispatch);
   const isBlur = useSelector((state) => state.modal.isBlur);
 
   const history = useHistory();
@@ -357,7 +357,7 @@ const ProfilePage = () => {
       <div className="profile__companies">
         <h2>
           <span>My Companies</span>
-          <Link to={`/admin/add-company/${id}`}>
+          <Link to={`/admin/add-company/${id}`} onClick={() => registrationChangeEstimate(null)}>
             <IconAdd />
           </Link>
         </h2>

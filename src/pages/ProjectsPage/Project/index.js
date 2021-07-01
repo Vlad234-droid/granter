@@ -25,8 +25,6 @@ const Project = ({ form, project, onRemove, isRemoved, errorOption, setErrorOpti
   const [yearSelect, setYearSelect] = useState(null);
   const [disabledSelect, setDisabledSelect] = useState(true);
 
-  console.log(errorOption);
-
   useEffect(() => {
     if (project.status) setStatus(status);
   }, [project]);

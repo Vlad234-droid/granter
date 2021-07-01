@@ -1,0 +1,22 @@
+#full_back_admin {
+  min-height: 100vh !important;
+  background-color: white !important;
+  .wrapper_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    b {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      color: #3c4252;
+    }
+    .item {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}

@@ -23,13 +23,16 @@ const Aside = () => {
   const dispatch = useDispatch();
   const { visibleModal } = useSelector((state) => state.modal);
   const { currentCompany } = useSelector((state) => state.user);
-  const { id } = useSelector((state) => state.user?.data);
+  const { id } = useSelector((state) => state.user?.data?.manager);
+  const { activeClaimId } = useSelector((state) => state?.user);
   const [currentMenu, setCurrentMenu] = useState([]);
   const { showSubMenu, closeSubMenu } = bindActionCreators(actions, dispatch);
-  const { isVisibleSubMenu } = useSelector((state) => state.modal); // []
+  const isVisibleSubMenu = useSelector((state) => state?.modal?.isVisibleSubMenu);
   const [addSubClass, setAddSubClass] = useState(false);
 
   useEffect(() => {
+    if (isVisibleSubMenu === undefined) showSubMenu([]);
+
     switch (true) {
       case location.pathname.includes('active-claims'):
         setCurrentMenu(() => ['active']);
@@ -201,7 +204,12 @@ const Aside = () => {
             }}>
             Ask a Question
           </Button>
-          <ModalAsk manager_id={id} visibleModal={visibleModal} handleCancel={closeModalAction} />
+          <ModalAsk
+            claim_id={activeClaimId}
+            manager_id={id}
+            visibleModal={visibleModal}
+            handleCancel={closeModalAction}
+          />
           {/* <ModalFeedBack
             visibleModal={visibleModal}
             handleCancel={closeModalAction}

@@ -19,9 +19,7 @@ const CommonModalShadule = ({ children, isVisibleModalSheduleCall, setIsVisibleM
       ref.current.select();
       ref.current.focus();
       document.execCommand('copy');
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleFocus = (e) => {

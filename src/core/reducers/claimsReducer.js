@@ -25,6 +25,17 @@ export const claimsReducer = (state = initialState, { type, payload }) => {
         ...state,
         finalReport: payload,
       };
+    case 'SET_CLAIMS_TO_FALSE':
+      return {
+        ...state,
+        activeClaimStatus: {
+          introduction: false,
+          financial: false,
+          technical: false,
+          deliverables: false,
+          submission: false,
+        },
+      };
 
     default:
       return {

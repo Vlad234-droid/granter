@@ -8,4 +8,8 @@ const setFinalReport = (claim) => ({
   payload: claim,
 });
 
-export { setStepStatus, setFinalReport };
+const setClaimsToFalse = () => ({
+  type: 'SET_CLAIMS_TO_FALSE',
+});
+
+export { setStepStatus, setFinalReport, setClaimsToFalse };

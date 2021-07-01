@@ -8,7 +8,7 @@ import { askAQuestion } from '../../../../core/services/askAQuestion';
 
 const { TextArea } = Input;
 
-const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
+const ModalAsk = ({ claim_id, manager_id, visibleModal, handleCancel }) => {
   const [askSelection, setAskSelection] = useState(null);
   const [form] = Form.useForm();
 
@@ -22,7 +22,7 @@ const ModalAsk = ({ manager_id, visibleModal, handleCancel }) => {
     },
   };
   const onFinish = ({ text, phone }) => {
-    askAQuestion(manager_id, text, phone === undefined ? 0 : phone).then((data) => {
+    askAQuestion(manager_id, claim_id, text, phone === undefined ? 0 : phone).then((data) => {
       if (data.ok) {
         form.setFieldsValue({
           phone: '',

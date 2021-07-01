@@ -1,7 +1,7 @@
 .app-welcome {
-  background: url("../../../assets/img/bg-welcome-page.png") no-repeat center /
-    100% 100%;
+  background: url('../../../assets/img/bg-welcome-page.png') no-repeat center / 100% 100%;
   overflow: hidden;
+  object-fit: contain;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

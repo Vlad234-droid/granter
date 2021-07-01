@@ -14,8 +14,6 @@ const LoginPage = (props) => {
   const dispatch = useDispatch();
   const { isloggedIn, isAdmin } = useSelector((state) => state.user);
 
-  console.log(isloggedIn);
-
   useEffect(() => {
     if (isloggedIn) {
       fetchProfileData().then((data) => {
