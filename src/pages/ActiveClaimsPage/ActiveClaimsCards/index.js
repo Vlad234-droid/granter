@@ -29,7 +29,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Estimated total claim benefit">
+          <Card title="Total Progress">
             <div className="clime-progress">
               <Progress
                 type="circle"

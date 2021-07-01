@@ -17,12 +17,15 @@ const StepSubmission = () => {
   const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const { finalReport } = useSelector((state) => state.claims);
   const activeClaimIdStatus = useSelector((state) => state.claims.activeClaimStatus);
   const dispatch = useDispatch();
   const history = useHistory();
   const { setStepStatus, setFinalReport, setClaimsToFalse } = bindActionCreators(actions, dispatch);
+  console.log('this is finalReport after all documments are submitted', finalReport);
 
   const activeClaimIdDone = () => {
+    if (finalReport !== null) return true;
     return (
       activeClaimIdStatus.introduction &&
       activeClaimIdStatus.financial &&

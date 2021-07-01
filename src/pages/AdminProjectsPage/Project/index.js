@@ -347,7 +347,7 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
               <div className={`status ${statusName(project.status).class}`}>{statusName(project.status).name}</div>
             </div>
           )}
-          <div className="project__docs_list">
+          <div className="project__docs_list" style={{ cursor: 'pointer' }}>
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
@@ -359,8 +359,8 @@ const Project = ({ form, project, onRemove, isRemoved }) => {
                 accept="application/pdf, application/msword,
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,
             application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                <img src={iconUpload} alt="" />
-                <span>Add the Document</span>
+                <img src={iconUpload} alt="iconUpload" />
+                <span>Add a Document</span>
               </Upload>
             </Form.Item>
           </div>

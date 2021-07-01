@@ -33,7 +33,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
       if (file.slug === 'final-report') {
         notification.warning({
           description:
-            'Please, don’t forget to change the estimated benefit to the final number. We will show this number to the client as soon as (s)he approved the claim.',
+            'Please, don’t forget to change the estimated benefit to the final number. We will show this number to the client as soon as they approved the claim.',
           duration: 0,
         });
       }

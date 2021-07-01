@@ -114,7 +114,13 @@ const AdminClientActionLog = ({ visible, list, name, onClose }) => {
                           to={`${
                             item.project_id === null
                               ? `/admin/document/${item.claim_id}/${item.document_id}/`
-                              : `${item.document_id === null && `/admin/project/${item.claim_id}/${item.project_id}`}`
+                              : `${
+                                  item.document_id === null
+                                    ? `/admin/project/${item.claim_id}/${item.project_id}`
+                                    : item.project_id !== null &&
+                                      item.document_id !== null &&
+                                      `/admin/project/${item.claim_id}/${item.project_id}`
+                                }`
                           }`}
                           className="check_doc"
                           onClick={() => setIsBlur(false)}>

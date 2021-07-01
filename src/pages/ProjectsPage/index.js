@@ -222,7 +222,7 @@ const ProjectsPage = () => {
                   accept="application/pdf, application/msword,
               application/vnd.openxmlformats-officedocument.wordprocessingml.document,
               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                  <img src={iconPdf} alt="" />
+                  <img src={iconPdf} alt="iconPdf" />
                   <span>There are no documents yet</span>
                 </Dragger>
               )}

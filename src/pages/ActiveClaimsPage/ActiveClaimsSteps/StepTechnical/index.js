@@ -372,6 +372,7 @@ const StepTechnical = ({ link, activeClaimData }) => {
                 key={`introduction-document-${item.id}`}
                 style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
                 <Project
+                  detailsShow={detailsShow}
                   file={item}
                   removeButton={true}
                   onAction={onAction}

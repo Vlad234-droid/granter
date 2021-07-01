@@ -321,7 +321,7 @@ const Project = ({ form, project, onRemove, isRemoved, errorOption, setErrorOpti
               <div className={`status ${statusName(project.status).class}`}>{statusName(project.status).name}</div>
             </div>
           )}
-          <div className="project__docs_list">
+          <div className="project__docs_list" style={{ cursor: 'pointer' }}>
             <Form.Item name="documents" valuePropName="fileList" getValueFromEvent={normFile} className="documents">
               <Upload
                 customRequest={customRequest}
@@ -334,7 +334,7 @@ const Project = ({ form, project, onRemove, isRemoved, errorOption, setErrorOpti
             application/vnd.openxmlformats-officedocument.wordprocessingml.document,
             application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <img src={iconUpload} alt="" />
-                <span>Add the Document</span>
+                <span>Add a Document</span>
               </Upload>
             </Form.Item>
           </div>

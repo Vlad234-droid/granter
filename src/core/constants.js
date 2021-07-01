@@ -13,5 +13,6 @@ const app = {
 };
 
 export const validZero = /^[1-9][0-9]*$/;
+export const validWithZero = /^[0-9]+$/;
 
 export default app;

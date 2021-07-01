@@ -4,16 +4,16 @@ import { useHistory } from 'react-router-dom';
 import lockr from 'lockr';
 import { Collapse, Upload, Dropdown, Button, Spin } from 'antd';
 import { removeProject } from '../../core/services';
-
+import { bindActionCreators } from 'redux';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
 import iconFileS from '../../assets/img/icon-file-s.svg';
 
 import PDFSVG from '../../assets/img/PDF.svg';
 import XLSXSVG from '../../assets/img/XLSX.svg';
 import DOCSSVG from '../../assets/img/DOCS.svg';
-
+import actions from '../../core/actions';
 import { IconDeleteFile } from '../icons';
-
+import { useDispatch } from 'react-redux';
 import './style.scss';
 import { Link } from 'react-router-dom';
 
@@ -22,11 +22,13 @@ const { Panel } = Collapse;
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;
 
-const Project = ({ file, removeButton, onRed, onAction, index }) => {
+const Project = ({ detailsShow, file, removeButton, onRed, onAction, index }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   const onDelete = () => {
     setLoading(true);
@@ -77,6 +79,7 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
   };
 
   const onEditProject = () => {
+    if (detailsShow) blurActiveSteps();
     history.push(`/project/${activeClaimId}/${file.id}`);
     // const { addProjectDetails } = bindActionCreators(actions, dispatch);
   };
@@ -87,10 +90,10 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
         <Spin />
       </div>
       <div className="step-file--title">
-        <img src={iconFileS} alt="" />
-        <Button type="link" onClick={onEditProject}>
-          {file.title}
-        </Button>
+        <div onClick={onEditProject} style={{ cursor: 'pointer' }}>
+          <img src={iconFileS} alt="iconFileS" />
+          <Button type="link">{file.title}</Button>
+        </div>
         {removeButton && (
           <Dropdown
             placement="bottomRight"
