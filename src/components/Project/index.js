@@ -24,9 +24,14 @@ const { REACT_APP_API_URL } = process.env;
 
 const Project = ({ file, removeButton, onRed, onAction, index }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const history = useHistory();
+
+  useEffect(() => {
+    if (file.extension) setExtension(file.extension ? `.${file.extension}` : file.extension);
+  }, []);
 
   const onDelete = () => {
     setLoading(true);
@@ -87,7 +92,7 @@ const Project = ({ file, removeButton, onRed, onAction, index }) => {
         <Spin />
       </div>
       <div className="step-file--title">
-        <img src={iconFileS} alt="" />
+        <img src={extension ? checkForExt(extension) : iconFileS} className={extension ? 'extension' : ''} alt="" />
         <Button type="link" onClick={onEditProject}>
           {file.title}
         </Button>

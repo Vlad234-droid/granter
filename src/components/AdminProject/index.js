@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Collapse, Dropdown, Button, Spin, Menu } from 'antd';
 import arrow from '../../assets/img/icon-arrow-dropdown.svg';
@@ -15,8 +15,13 @@ const { Panel } = Collapse;
 const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, index, checkForAllStatus }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [extension, setExtension] = useState(null);
   const history = useHistory();
   const { id: activeClaimId } = useParams();
+
+  useEffect(() => {
+    if (file.extension) setExtension(file.extension ? `.${file.extension}` : file.extension);
+  }, []);
 
   const onDeleteProject = () => {
     setLoading(true);
@@ -77,7 +82,7 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
         <Spin />
       </div>
       <div className="step-file--title">
-        <img src={iconFileS} alt="" />
+        <img src={extension ? checkForExt(extension) : iconFileS} className={extension ? 'extension' : ''} alt="" />
         <Button type="link" onClick={onEditProject}>
           {file.title}
         </Button>

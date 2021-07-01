@@ -130,6 +130,11 @@
   .step-file--title {
     img {
       width: 24px !important;
+      margin-right: 6px !important;
+      &.extension {
+        width: 18px !important;
+        margin-right: 12px !important;
+      }
     }
     .ant-btn-link {
       height: auto;
@@ -143,6 +148,7 @@
   }
   .step-file--status {
     margin-top: 8px !important;
+    margin-left: 38px !important;
   }
   .ant-collapse {
     // border: none;

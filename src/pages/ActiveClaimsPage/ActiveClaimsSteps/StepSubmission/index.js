@@ -20,7 +20,10 @@ const StepSubmission = () => {
   const activeClaimIdStatus = useSelector((state) => state.claims.activeClaimStatus);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { setStepStatus, setFinalReport, setClaimsToFalse } = bindActionCreators(actions, dispatch);
+  const { setStepStatus, setFinalReport, setClaimsToFalse, setUserActiveClimeId } = bindActionCreators(
+    actions,
+    dispatch,
+  );
 
   const activeClaimIdDone = () => {
     return (
@@ -41,10 +44,17 @@ const StepSubmission = () => {
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,
         );
+        console.log('status', status);
+
         if (status === 100) {
           setStepStatus({
             name: 'submission',
             status: true,
+          });
+        } else {
+          setStepStatus({
+            name: 'submission',
+            status: false,
           });
         }
         setStatus(status);
@@ -67,6 +77,7 @@ const StepSubmission = () => {
     if (!activeClaimIdDone) return;
     setLoading(true);
     setClaimsToFalse();
+    setUserActiveClimeId(null);
     setApproveClime(activeClaimId)
       .then((data) => {
         const res = {
