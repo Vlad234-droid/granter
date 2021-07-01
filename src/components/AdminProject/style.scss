@@ -197,13 +197,17 @@
           text-overflow: ellipsis;
         }
         img {
-          margin-right: 8px;
-          width: 16px;
+          width: 24px !important;
+          margin-right: 6px !important;
+          &.extension {
+            width: 18px !important;
+            margin-right: 12px !important;
+          }
         }
       }
       .step-file--status {
-        margin-top: 8px;
-        margin-left: 22px;
+        margin-top: 8px !important;
+        margin-left: 38px !important;
       }
     }
   }

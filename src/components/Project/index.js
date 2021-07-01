@@ -24,11 +24,16 @@ const { REACT_APP_API_URL } = process.env;
 
 const Project = ({ detailsShow, file, removeButton, onRed, onAction, index }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
+  const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
   const history = useHistory();
   const dispatch = useDispatch();
   const { blurActiveSteps } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (file.extension) setExtension(file.extension ? `.${file.extension}` : file.extension);
+  }, []);
 
   const onDelete = () => {
     setLoading(true);
@@ -90,10 +95,10 @@ const Project = ({ detailsShow, file, removeButton, onRed, onAction, index }) =>
         <Spin />
       </div>
       <div className="step-file--title">
-        <div onClick={onEditProject} style={{ cursor: 'pointer' }}>
-          <img src={iconFileS} alt="iconFileS" />
-          <Button type="link">{file.title}</Button>
-        </div>
+        <img src={extension ? checkForExt(extension) : iconFileS} className={extension ? 'extension' : ''} alt="" />
+        <Button type="link" onClick={onEditProject}>
+          {file.title}
+        </Button>
         {removeButton && (
           <Dropdown
             placement="bottomRight"
