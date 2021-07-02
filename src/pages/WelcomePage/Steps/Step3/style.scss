@@ -1,4 +1,8 @@
-.hello-page__step {
+.hello-page__step.costs {
+  .costs--title {
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
   .step--grid {
     margin: auto;
     width: 700px;
@@ -9,7 +13,7 @@
             white-space: normal;
             text-align: left;
             line-height: 15px;
-            margin-bottom: 8px;
+            margin-bottom: 0px;
             overflow: visible;
             label {
               font-family: Roboto;

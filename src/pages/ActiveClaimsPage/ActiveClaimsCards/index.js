@@ -35,13 +35,14 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Claim Progress">
+          <Card title="Total Progress">
             <div className="clime-progress">
               <Progress
                 type="circle"
                 percent={Math.round(activeClaimData.estimated_total_claim_benefit_percentage * 100)}
                 width={72}
               />
+              {/* To set the status of the Progress, options: success exception normal active(line only) */}
               <div className="clime-progress--info">
                 <span>Days since start</span>
                 <b>

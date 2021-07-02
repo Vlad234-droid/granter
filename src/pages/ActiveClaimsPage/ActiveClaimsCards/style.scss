@@ -13,6 +13,7 @@
       text-align: center;
       color: #7f8896;
       border-bottom: none;
+      text-transform: uppercase;
     }
     .ant-card-body {
       padding: 10px 24px 24px 24px;
@@ -89,7 +90,13 @@
         .ant-progress {
           &.ant-progress-status-success {
             .ant-progress-text {
-              font-size: 22px;
+              &::before {
+                content: '100%';
+              }
+              .anticon-check {
+                display: none;
+              }
+              font-size: 16px;
             }
             svg.ant-progress-circle {
               .ant-progress-circle-path {
