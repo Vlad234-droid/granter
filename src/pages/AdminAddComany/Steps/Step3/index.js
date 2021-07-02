@@ -56,7 +56,8 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   };
 
   return (
-    <div className="hello-page__step">
+    <div className="hello-page__step costs">
+      <h3 className="costs--title">What are your approximate costs for the following?</h3>
       <div className="step--grid">
         <Form
           layout="vertical"

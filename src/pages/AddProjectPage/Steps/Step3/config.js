@@ -2,7 +2,7 @@ import { validZero, validWithZero } from '../../../../core/constants';
 
 export const firstRow = [
   {
-    label: 'What are your approximate internal staffing costs per year?',
+    label: 'Internal staffing costs',
     name: 'staffing_costs',
     // rules: [
     //   {
@@ -20,7 +20,7 @@ export const firstRow = [
     suffix: '£',
   },
   {
-    label: 'What are your approximate consumed materials costs per year?',
+    label: 'Subcontracting costs',
     name: 'materials_costs',
     // rules: [
     //   {
@@ -40,7 +40,7 @@ export const firstRow = [
 ];
 export const secondRow = [
   {
-    label: 'What are your approximate subcontracting costs per year?',
+    label: 'Consumable costs',
     name: 'subcontracting_costs',
     // rules: [
     //   {
@@ -50,7 +50,6 @@ export const secondRow = [
     //   {
     //     required: true,
     //     pattern: validWithZero,
-    //     message: 'Allow only numbers',
     //   },
     // ],
     placeholder: 'Enter the number',
@@ -58,7 +57,7 @@ export const secondRow = [
     suffix: '£',
   },
   {
-    label: 'What are your approximate software costs per year?',
+    label: 'Software costs',
     name: 'software_costs',
     // rules: [
     //   {
@@ -68,7 +67,6 @@ export const secondRow = [
     //   {
     //     required: true,
     //     pattern: validWithZero,
-    //     message: 'Allow only numbers',
     //   },
     // ],
     placeholder: 'Enter the number',
