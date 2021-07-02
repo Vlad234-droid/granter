@@ -38,7 +38,7 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
       case 2:
         status = {
           class: 'review',
-          name: 'On Review',
+          name: 'In Review',
         };
         break;
       case 3:
@@ -170,7 +170,7 @@ const AdminProject = ({ file, removeButton, onRed, onDelete, onChangeStatus, ind
                         }
                       });
                     }}>
-                    <b>On Review</b>
+                    <b>In Review</b>
                   </div>
                 </Menu.Item>
               )}

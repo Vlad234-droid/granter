@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Row, Col, Card, Progress } from 'antd';
-
 import './style.scss';
+import { useSelector } from 'react-redux';
 
 const ActiveClaimsCards = ({ activeClaimData }) => {
+  const { activeClaimStatus } = useSelector((state) => state.claims);
   const convertDate = (date, days) => {
     function convertDate(inputFormat) {
       function pad(s) {
@@ -17,11 +18,16 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
     return convertDate(newDate);
   };
 
+  const getTitle = useCallback(() => {
+    if (Object.values(activeClaimStatus).every((item) => item)) return 'Total claim benefit';
+    return 'Estimated total claim benefit';
+  }, [activeClaimStatus]);
+
   return (
     <div className="active-claims__cards">
       <Row gutter={16}>
         <Col span={6}>
-          <Card title="Estimated total claim benefit">
+          <Card title={getTitle()}>
             <div className="different">
               £{Number(activeClaimData.estimated_benefit_start).toFixed()} - £
               {Number(activeClaimData.estimated_benefit_end).toFixed()}
@@ -29,7 +35,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Total Progress">
+          <Card title="Claim Progress">
             <div className="clime-progress">
               <Progress
                 type="circle"
@@ -47,7 +53,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Project Claim Completion">
+          <Card title="Estimated Claim Submission">
             <div className="info">
               <b>
                 {activeClaimData.estimated_claim_completion}{' '}
@@ -58,7 +64,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Project Benefit Payment">
+          <Card title="Estimated Benefit Payment">
             <div className="info">
               <b>
                 {activeClaimData.estimated_completion} {activeClaimData.estimated_completion > 1 ? 'days' : 'day'}

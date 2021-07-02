@@ -97,7 +97,7 @@ const Project = ({ form, project, onRemove, isRemoved, errorOption, setErrorOpti
       case 2:
         status = {
           class: 'review',
-          name: 'On Review',
+          name: 'In Review',
         };
         break;
       case 3:

@@ -62,7 +62,7 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
       case 2:
         status = {
           class: 'review',
-          name: 'On Review',
+          name: 'In Review',
         };
         break;
       case 3:

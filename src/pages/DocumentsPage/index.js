@@ -258,7 +258,7 @@ const DocumentsPage = () => {
               <Form.Item name="status" valuePropName="checked">
                 <Checkbox.Group>
                   {/* <Checkbox value={1}>Waiting</Checkbox> */}
-                  <Checkbox value={2}>On Review</Checkbox>
+                  <Checkbox value={2}>In Review</Checkbox>
                   <Checkbox value={3}>Confirmed</Checkbox>
                 </Checkbox.Group>
               </Form.Item>

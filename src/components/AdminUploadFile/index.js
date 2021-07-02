@@ -60,7 +60,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
       case 2:
         status = {
           class: 'review',
-          name: 'On Review',
+          name: 'In Review',
         };
         break;
       case 3:
@@ -197,7 +197,7 @@ const AdminUploadFile = ({ skipButton, file, removeButton, onRed, onAction, chec
                           }
                         });
                       }}>
-                      <b>On Review</b>
+                      <b>In Review</b>
                     </div>
                   </Menu.Item>
                 )}

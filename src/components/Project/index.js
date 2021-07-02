@@ -50,7 +50,7 @@ const Project = ({ detailsShow, file, removeButton, onRed, onAction, index }) =>
       case 2:
         status = {
           class: 'review',
-          name: 'On Review',
+          name: 'In Review',
         };
         break;
       case 3:

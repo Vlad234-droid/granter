@@ -53,7 +53,7 @@ const StepDeliverables = () => {
         <p>
           4<i>/</i>5 Deliverables
         </p>
-        <Tooltip title="You don’t have to upload files for this stage. The Gratner team will do it for you when all the previous stages will be approved">
+        <Tooltip title="This stage will be enabled once all submission documents have been generated and uploaded by your consultant. Please review each document when possible and set each status to approve, this will activate the blue 'Approve' button to send the claim submission to your accountant.">
           <span>
             <img src={IconInfo} alt="" />
           </span>

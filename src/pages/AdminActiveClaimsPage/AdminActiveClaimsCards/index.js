@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Row, Col, Card, Progress, Input, Form, Button } from 'antd';
-
+import { useSelector } from 'react-redux';
 import { editClaimCards } from '../../../core/adminServices';
 import { IconEditPencil } from '../../../components/icons';
 
 import './style.scss';
 
 const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
+  const { activeClaimStatus } = useSelector((state) => state.claims);
+
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +33,11 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
       setEditMode(false);
     });
   };
+
+  const getTitle = useCallback(() => {
+    if (Object.values(activeClaimStatus).every((item) => item)) return 'Total claim benefit';
+    return 'Estimated total claim benefit';
+  }, [activeClaimStatus]);
 
   return (
     <Form
@@ -60,7 +67,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
         </button>
         <Row gutter={16}>
           <Col span={6}>
-            <Card title="Estimated total claim benefit">
+            <Card title={getTitle()}>
               {!editMode && (
                 <div className="different">
                   £{Number(activeClaimData.estimated_benefit_start).toFixed()} - £
@@ -83,7 +90,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
             </Card>
           </Col>
           <Col span={6}>
-            <Card title="Total Progress">
+            <Card title="Claim Progress">
               <div className="clime-progress">
                 <Progress
                   type="circle"
@@ -102,7 +109,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
             </Card>
           </Col>
           <Col span={6}>
-            <Card title="Project Claim Completion">
+            <Card title="Estimated Claim Submission">
               {!editMode && (
                 <div className="info">
                   <b>
@@ -128,7 +135,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
             </Card>
           </Col>
           <Col span={6}>
-            <Card title="Project Benefit Payment">
+            <Card title="Estimated Benefit Payment">
               {!editMode && (
                 <div className="info">
                   <b>

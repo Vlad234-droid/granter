@@ -130,7 +130,7 @@ const Company = ({ company, updateCompany, setCompaniesList }) => {
       <Form form={companyForm} onFinish={onSave}>
         <section className="profile__company_details">
           <div className="company--row">
-            <div className="label">Number</div>
+            <div className="label">Registered Number</div>
             <div className="details">
               {!editMode ? (
                 <span>{company.number}</span>
