@@ -145,11 +145,11 @@ const fetchCreatePassword = (form) => {
           return resp.json();
         } else {
           return resp.json().then((json) => {
-            // notification.error({
-            //   className: 'error-message',
-            //   description: json.message,
-            //   icon: <IconWarning />,
-            // });
+            notification.error({
+              className: 'error-message',
+              description: json.message,
+              icon: <IconWarning />,
+            });
             throw new Error(json);
           });
         }

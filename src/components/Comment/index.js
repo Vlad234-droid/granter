@@ -16,6 +16,8 @@ const Comment = ({ comment, onCommentDelete, onAddReply }) => {
   const [replyLoader, setReplyLoader] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  console.log('comment', comment);
+
   const onDelete = () => {
     setLoading(true);
     onCommentDelete(comment.id);

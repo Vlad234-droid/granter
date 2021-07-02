@@ -20,7 +20,10 @@ const StepSubmission = () => {
   const activeClaimIdStatus = useSelector((state) => state.claims.activeClaimStatus);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { setStepStatus, setFinalReport, setClaimsToFalse } = bindActionCreators(actions, dispatch);
+  const { setStepStatus, setFinalReport, setClaimsToFalse, setUserActiveClimeId } = bindActionCreators(
+    actions,
+    dispatch,
+  );
 
   const activeClaimIdDone = () => {
     return (
@@ -46,6 +49,11 @@ const StepSubmission = () => {
             name: 'submission',
             status: true,
           });
+        } else {
+          setStepStatus({
+            name: 'submission',
+            status: false,
+          });
         }
         setStatus(status);
       });
@@ -67,6 +75,7 @@ const StepSubmission = () => {
     if (!activeClaimIdDone) return;
     setLoading(true);
     setClaimsToFalse();
+    setUserActiveClimeId(null);
     setApproveClime(activeClaimId)
       .then((data) => {
         const res = {
@@ -118,7 +127,7 @@ const StepSubmission = () => {
               disabled={!activeClaimIdDone()}
               className="step-status--approve"
               onClick={approveClaim}>
-              Approve
+              Send to Accountant
             </Button>
             <div className={`step-status--bar ${status === 100 ? 'done' : status > 0 ? 'process' : 'waiting'}`}>
               <span className="step-status--bar-fill" style={{ width: (status ? status : 0) + '%' }} />

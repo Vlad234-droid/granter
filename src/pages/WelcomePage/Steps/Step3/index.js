@@ -40,6 +40,12 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   };
 
   const onFinishName = (values) => {
+    if (Object.values(values).every((item) => item === undefined)) {
+      registrationChangeEstimate('estimate');
+      goNextStep();
+      return;
+    }
+
     registrationUpdateState(values);
     if (checkForHighestPercent()) {
       setToBenefitPriceHandler(values);

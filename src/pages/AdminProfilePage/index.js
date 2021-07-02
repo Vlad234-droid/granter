@@ -201,7 +201,7 @@ const ProfilePage = () => {
                   </div>
                 </li>
                 <li>
-                  <div className="label">Team Role</div>
+                  <div className="label">Role</div>
                   <div className="details">
                     {!editModeGeneral ? (
                       <>
@@ -228,7 +228,7 @@ const ProfilePage = () => {
                         rules={[
                           {
                             required: true,
-                            message: 'Please input your Team Role!',
+                            message: 'Please input your Role!',
                           },
                         ]}>
                         <Input />

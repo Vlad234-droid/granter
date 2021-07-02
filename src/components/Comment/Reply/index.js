@@ -26,7 +26,7 @@ const Reply = ({ reply, onReplyDelete }) => {
   };
 
   return (
-    <div className={`comment__section ${onRemoveDropdown ? 'red' : ''}`}>
+    <div className={`comment__section reply ${onRemoveDropdown ? 'red' : ''}`}>
       <div className="comment--header">
         <div className="comment--author">
           <div className="comment--author-info">

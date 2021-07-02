@@ -2,6 +2,29 @@
   .step--grid {
     margin: auto;
     width: 700px;
+    .ant-row {
+      .ant-col {
+        .ant-row {
+          .ant-col {
+            white-space: normal;
+            text-align: left;
+            line-height: 15px;
+            margin-bottom: 8px;
+            overflow: visible;
+            label {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: 500;
+              font-size: 14px;
+              color: #3c4252;
+              &:after {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
   }
   .control-submit {
     .ant-btn {
