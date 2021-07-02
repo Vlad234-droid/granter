@@ -23,14 +23,10 @@ const CreatePasswordPage = (props) => {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    fetchProfileData().then((data) => {
-      setEmail(() => data.email);
-    });
-  }, []);
-
-  useEffect(() => {
     const token = location.search.split('?token=')[1].split('&email')[0];
+    const email = location.search.split('&email=')[1];
     setToken(token);
+    setEmail(email);
   }, []);
 
   const onFinishName = (value) => {
@@ -41,13 +37,17 @@ const CreatePasswordPage = (props) => {
       password_confirmation: value.password,
     };
     setLoader(true);
-    fetchCreatePassword(form).then((data) => {
-      notification.success({
-        description: 'Your password has been successfully changed',
+    fetchCreatePassword(form)
+      .then((data) => {
+        notification.success({
+          description: 'Your password has been successfully changed',
+        });
+        setLoader(false);
+        history.push('/sign-in/');
+      })
+      .catch(() => {
+        setLoader(false);
       });
-      setLoader(false);
-      history.push('/sign-in/');
-    });
   };
 
   const changeCallback = (score, password, isValid) => {

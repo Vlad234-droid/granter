@@ -79,9 +79,10 @@ const CreateAdminModal = ({ setTableLoading, setDataTable, isCreateAdminModal, s
           wrapperCol={{ span: 24 }}
           rules={[
             {
-              pattern: /^(\+)(\d+)$/,
+              // pattern: /^[0-9]*$/,
               required: true,
-              message: 'Phone number must start with +, allowed characters is 0-9',
+              message: 'Type  phone number',
+              // message: 'Phone number must start with +, allowed characters is 0-9',
             },
           ]}>
           <Input placeholder="Type phone" />
