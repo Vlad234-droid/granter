@@ -107,7 +107,12 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
           }}>
           Confirm
         </Button>
-        <Button type="text" onClick={goPrevStep}>
+        <Button
+          type="text"
+          onClick={() => {
+            registrationChangeEstimate(null);
+            goPrevStep();
+          }}>
           Back
         </Button>
       </div>
