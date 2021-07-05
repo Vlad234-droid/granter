@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import lockr from 'lockr';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip, Upload, Dropdown, Button, Spin } from 'antd';
 import { setSkipFile, uploadFile, deleteFile } from '../../core/services';
 
@@ -10,7 +9,7 @@ import iconSkip from '../../assets/img/icon-skip.svg';
 import iconUndo from '../../assets/img/icon-undo.svg';
 import iconPdf from '../../assets/img/icon-pdf.svg';
 import iconComment from '../../assets/img/icon-comment.svg';
-
+import actions from '../../core/actions';
 import PDFSVG from '../../assets/img/PDF.svg';
 import XLSXSVG from '../../assets/img/XLSX.svg';
 import DOCSSVG from '../../assets/img/DOCS.svg';
@@ -19,6 +18,7 @@ import { IconDeleteFile } from '../icons';
 
 import './style.scss';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;
@@ -28,6 +28,9 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
   const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
   const activeClaimId = useSelector((state) => state.user.activeClaimId);
+  const dispatch = useDispatch();
+
+  const { blurActiveSteps } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (file.url) {
@@ -102,8 +105,10 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
           <Spin />
         </div>
         <div className="step-file--title">
-          <img src={checkForExt(extension)} alt="" />
-          <Link to={`/document/${file.claim_id}/${file.id}/`}>{file.name}</Link>
+          <img src={checkForExt(extension)} alt="extension" />
+          <Link to={`/document/${file.claim_id}/${file.id}/`} onClick={blurActiveSteps}>
+            {file.name}
+          </Link>
           {removeButton &&
             (!file.has_unresolved_comments ? (
               <Dropdown
