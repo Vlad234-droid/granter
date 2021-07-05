@@ -31,7 +31,6 @@ const DocumentPage = () => {
   useEffect(() => {
     getDocumentComments(climeId, id)
       .then((data) => {
-        console.log('daat here ', data);
         setCommentsList(data.comments);
         setDocument(data.document);
       })
