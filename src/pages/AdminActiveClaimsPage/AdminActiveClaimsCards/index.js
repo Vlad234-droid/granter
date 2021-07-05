@@ -90,7 +90,7 @@ const AdminActiveClaimsCards = ({ activeClaimData, onEdit }) => {
             </Card>
           </Col>
           <Col span={6}>
-            <Card title="Claim Progress">
+            <Card title="Total claim progress">
               <div className="clime-progress">
                 <Progress
                   type="circle"
