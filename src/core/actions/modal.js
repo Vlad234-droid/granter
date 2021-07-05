@@ -76,6 +76,10 @@ const setCurrentPageGLOBAL = (payload) => ({
   payload,
 });
 
+const hardCloseBlurSteps = () => ({
+  type: 'HARD_CLOSE_BLUR_STEPS',
+});
+
 export {
   showModalAction,
   closeModalAction,
@@ -95,4 +99,5 @@ export {
   blurActivePrPage,
   setIsBlur,
   setCurrentPageGLOBAL,
+  hardCloseBlurSteps,
 };

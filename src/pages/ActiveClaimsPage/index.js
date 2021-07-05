@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Layout from '../../components/LayoutDashboard/Layout';
 import ActiveClaimsCards from './ActiveClaimsCards';
 import ActiveClaimsSteps from './ActiveClaimsSteps';
-
+import actions from '../../core/actions';
 import { getActiveClaimData } from '../../core/services';
-
 import './style.scss';
+import { bindActionCreators } from 'redux';
 
 const ActiveClaimsPage = (props) => {
   const [activeClaimData, setActiveClaimData] = useState(null);
@@ -16,7 +15,7 @@ const ActiveClaimsPage = (props) => {
   const user = useSelector((state) => state.user.currentCompany);
   const userData = useSelector((state) => state.user.data);
   const [link, setLink] = useState('');
-
+  const { hardCloseBlurSteps } = bindActionCreators(actions, dispatch);
   useEffect(() => {
     if (user) {
       getActiveClaimData(dispatch, user.id).then((data) => {
@@ -25,6 +24,9 @@ const ActiveClaimsPage = (props) => {
       });
     }
   }, [user]);
+  useEffect(() => {
+    hardCloseBlurSteps();
+  }, []);
 
   return (
     <Layout isLogged={false} className="dashboard">

@@ -241,6 +241,7 @@ const StepIntroduction = ({ link, activeClaimData }) => {
                     key={`introduction-document-${item.id}`}
                     style={item.red ? { background: 'rgba(246, 87, 71, 0.15)' } : {}}>
                     <UploadFile
+                      detailsShow={detailsShow}
                       file={item}
                       removeButton={true}
                       onAction={onAction}

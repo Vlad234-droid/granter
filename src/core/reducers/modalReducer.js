@@ -114,6 +114,12 @@ export const modalReducer = (state = initialState, { type, payload }) => {
         pageAdminClientsGLOBAL: null,
       };
 
+    case 'HARD_CLOSE_BLUR_STEPS':
+      return {
+        ...state,
+        isVisibleActiveSteps: false,
+      };
+
     default:
       return {
         ...state,
