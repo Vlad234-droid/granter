@@ -35,7 +35,7 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Total Progress">
+          <Card title="Total claim progress">
             <div className="clime-progress">
               <Progress
                 type="circle"
@@ -68,9 +68,15 @@ const ActiveClaimsCards = ({ activeClaimData }) => {
           <Card title="Estimated Benefit Payment">
             <div className="info">
               <b>
-                {activeClaimData.estimated_completion} {activeClaimData.estimated_completion > 1 ? 'days' : 'day'}
+                {activeClaimData.estimated_claim_completion + activeClaimData.estimated_completion}{' '}
+                {activeClaimData.estimated_claim_completion + activeClaimData.estimated_completion > 1 ? 'days' : 'day'}
               </b>
-              <span>{convertDate(activeClaimData.created_at, activeClaimData.estimated_completion)}</span>
+              <span>
+                {convertDate(
+                  activeClaimData.created_at,
+                  activeClaimData.estimated_claim_completion + activeClaimData.estimated_completion,
+                )}
+              </span>
             </div>
           </Card>
         </Col>
