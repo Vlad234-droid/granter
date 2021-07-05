@@ -39,7 +39,6 @@ const StepSubmission = () => {
     if (activeClaimId) {
       setSubmissionStep(null);
       getSubmissionClaimStep(activeClaimId).then((data) => {
-        console.log('data', data);
         setSubmissionStep(data);
         const status = Math.round(
           (data.documents.filter((item) => item.status === 3).length / data.documents.length) * 100,

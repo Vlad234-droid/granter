@@ -8,7 +8,7 @@ const { REACT_APP_API_URL } = process.env;
 
 export const logOut = async (dispatch) => {
   try {
-    const { userLogOut } = bindActionCreators(actions, dispatch);
+    const { userLogOut, registrationChangeEstimate } = bindActionCreators(actions, dispatch);
     const token = lockr.get('auth-key');
     const data = await fetch(`${REACT_APP_API_URL}/logout`, {
       method: 'POST',
@@ -18,7 +18,10 @@ export const logOut = async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (data.status === 200) userLogOut();
+    if (data.status === 200) {
+      registrationChangeEstimate(null);
+      userLogOut();
+    }
   } catch (error) {
     throw new Error(error);
   } finally {

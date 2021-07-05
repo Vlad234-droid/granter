@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../../../core/actions';
 import './style.scss';
+import { firstRow, secondRow } from './config';
 
 const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   const hight = useRef({
@@ -39,6 +40,22 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   };
 
   const onFinishName = (values) => {
+    if (
+      Object.values(values).every((item) => item === undefined) ||
+      Object.values(values).some((item) => item === undefined) ||
+      Object.values(values).every((item) => item === '') ||
+      Object.values(values).some((item) => item === '')
+    ) {
+      registrationUpdateState({
+        staffing_costs: 0,
+        materials_costs: 0,
+        subcontracting_costs: 0,
+        software_costs: 0,
+      });
+      registrationChangeEstimate('estimate');
+      goNextStep();
+      return;
+    }
     registrationUpdateState(values);
     if (checkForHighestPercent()) {
       setToBenefitPriceHandler(values);
@@ -50,7 +67,8 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   };
 
   return (
-    <div className="hello-page__step">
+    <div className="hello-page__step costs">
+      <h3 className="costs--title">What are your approximate costs for the following?</h3>
       <div className="step--grid">
         <Form
           layout="vertical"
@@ -59,60 +77,22 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
           // onFinishFailed={onFinishFailed}
         >
           <Row gutter={56}>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate internal staffing costs per year?"
-                name="staffing_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate internal staffing costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate consumed materials costs per year?"
-                name="materials_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate consumed materials costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
+            {firstRow.map((item) => (
+              <Col key={item.name} className="gutter-row" span={12}>
+                <Form.Item label={item.label} name={item.name} rules={item.rules}>
+                  <Input placeholder={item.placeholder} type={item.type} suffix={item.suffix} />
+                </Form.Item>
+              </Col>
+            ))}
           </Row>
           <Row gutter={56}>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate subcontracting costs per year?"
-                name="subcontracting_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate subcontracting costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={12}>
-              <Form.Item
-                label="What are your approximate software costs per year?"
-                name="software_costs"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select your approximate software costs!',
-                  },
-                ]}>
-                <Input placeholder="Enter the number" type="number" suffix="£" />
-              </Form.Item>
-            </Col>
+            {secondRow.map((item) => (
+              <Col key={item.name} className="gutter-row" span={12}>
+                <Form.Item label={item.label} name={item.name} rules={item.rules}>
+                  <Input placeholder={item.placeholder} type={item.type} suffix={item.suffix} />
+                </Form.Item>
+              </Col>
+            ))}
           </Row>
 
           <Form.Item className="control-submit">

@@ -4,38 +4,25 @@ import HeaderSearchAdmin from '../headerSearchAdmin';
 import AdminHeaderNotifications from '../AdminHeaderNotifications';
 import { Layout, Button } from 'antd';
 import { useSelector } from 'react-redux';
-
+import actions from '../../core/actions';
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { config } from './config';
+import { bindActionCreators } from 'redux';
 
 const LayOutAdmin = ({ children, className }) => {
   const [activeLink, setActiveLink] = useState('');
   const location = useLocation();
   const { pathname } = location;
   const isBlur = useSelector((state) => state.modal.isBlur);
+  const dispatch = useDispatch();
+  const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     setActiveLink(() => pathname.split('/')[2]);
 
     return () => setActiveLink(() => '');
   }, [pathname]);
-
-  const config = [
-    {
-      to: '/admin/clients',
-      text: 'Clients',
-      routeLi: 'clients',
-    },
-    // {
-    //   to: '/admin/calls',
-    //   text: 'Calls',
-    //   routeLi: 'calls',
-    // },
-    {
-      to: '/admin/settings',
-      text: 'Settings',
-      routeLi: 'settings',
-    },
-  ];
 
   return (
     <>
@@ -60,7 +47,12 @@ const LayOutAdmin = ({ children, className }) => {
 
           <div className="wrapper_btn_Noti">
             <div className="btn">
-              <Link to="/admin/add-client" className="ant-btn ant-btn-button">
+              <Link
+                to="/admin/add-client"
+                className="ant-btn ant-btn-button"
+                onClick={() => {
+                  registrationChangeEstimate(null);
+                }}>
                 Add Client
               </Link>
             </div>

@@ -18,7 +18,7 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
   const dispatch = useDispatch();
 
   const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
-
+  console.log('showEstimate', showEstimate);
   useEffect(() => {
     if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);
@@ -107,7 +107,12 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
           }}>
           Confirm
         </Button>
-        <Button type="text" onClick={goPrevStep}>
+        <Button
+          type="text"
+          onClick={() => {
+            registrationChangeEstimate(null);
+            goPrevStep();
+          }}>
           Back
         </Button>
       </div>

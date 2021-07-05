@@ -22,7 +22,6 @@ const Сonfirm = ({ goPrevStep, maxPrice, minPrice }) => {
   const { showEstimate } = useSelector((state) => state.registration);
   const dispatch = useDispatch();
   const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
-  console.log('showEstimate', showEstimate);
   useEffect(() => {
     if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);

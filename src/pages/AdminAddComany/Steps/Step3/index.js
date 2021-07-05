@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Form, Button, Input, Row, Col } from 'antd';
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   const dispatch = useDispatch();
   const { industry } = useSelector((state) => state?.registration);
   const { registrationUpdateState, registrationChangeEstimate } = bindActionCreators(actions, dispatch);
-
   const checkForHighestPercent = () => {
     const check = industry.map((item) => {
       if (item.percent >= 0) {
