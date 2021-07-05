@@ -14,7 +14,6 @@ const CompletedClaimsPage = () => {
   useEffect(() => {
     if (user) {
       getCompletedClaimData(user.id).then((data) => {
-        console.log('thi sis completes claims', data);
         setCompletedClaimsData(data);
       });
     }

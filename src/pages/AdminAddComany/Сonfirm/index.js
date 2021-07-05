@@ -22,7 +22,6 @@ const Сonfirm = ({ goNextStep, goPrevStep, maxPrice, minPrice }) => {
   const { clientId } = useParams();
   const history = useHistory();
   const { registrationChangeEstimate } = bindActionCreators(actions, dispatch);
-
   useEffect(() => {
     if (showEstimate === 'estimate') {
       setIsModalBenefit(() => true);

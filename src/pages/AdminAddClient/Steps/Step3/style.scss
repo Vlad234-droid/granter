@@ -1,4 +1,8 @@
-.hello-page__step {
+.hello-page__step.costs {
+  .costs--title {
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
   .step--grid {
     margin: auto;
     width: 700px;
