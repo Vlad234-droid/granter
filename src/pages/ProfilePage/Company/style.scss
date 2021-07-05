@@ -52,7 +52,7 @@
         line-height: 24px;
         color: #3c4252;
         margin-bottom: 0;
-        max-width: 100%;
+        max-width: calc(100% - 66px);
         span {
           white-space: nowrap;
           overflow: hidden;

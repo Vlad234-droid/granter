@@ -40,7 +40,18 @@ const WelcomeStep3 = ({ goNextStep, goPrevStep, setMinPrice, setMaxPrice }) => {
   };
 
   const onFinishName = (values) => {
-    if (Object.values(values).every((item) => item === undefined)) {
+    if (
+      Object.values(values).every((item) => item === undefined) ||
+      Object.values(values).some((item) => item === undefined) ||
+      Object.values(values).every((item) => item === '') ||
+      Object.values(values).some((item) => item === '')
+    ) {
+      registrationUpdateState({
+        staffing_costs: 0,
+        materials_costs: 0,
+        subcontracting_costs: 0,
+        software_costs: 0,
+      });
       registrationChangeEstimate('estimate');
       goNextStep();
       return;
