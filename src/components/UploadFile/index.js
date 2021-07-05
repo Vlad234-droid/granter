@@ -23,7 +23,7 @@ import { bindActionCreators } from 'redux';
 const { Dragger } = Upload;
 const { REACT_APP_API_URL } = process.env;
 
-const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
+const UploadFile = ({ detailsShow, skipButton, file, removeButton, onRed, onAction }) => {
   const [onRemoveDropdown, setOnRemoveDropdown] = useState(false);
   const [extension, setExtension] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -106,7 +106,11 @@ const UploadFile = ({ skipButton, file, removeButton, onRed, onAction }) => {
         </div>
         <div className="step-file--title">
           <img src={checkForExt(extension)} alt="extension" />
-          <Link to={`/document/${file.claim_id}/${file.id}/`} onClick={blurActiveSteps}>
+          <Link
+            to={`/document/${file.claim_id}/${file.id}/`}
+            onClick={() => {
+              if (detailsShow) blurActiveSteps();
+            }}>
             {file.name}
           </Link>
           {removeButton &&
