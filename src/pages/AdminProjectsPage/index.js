@@ -144,7 +144,7 @@ const AdminProjectsPage = () => {
   };
 
   const onBack = () => {
-    if (!isRemoved && (!currentProject.title?.length || !currentProject.start_date || !currentProject.end_date)) {
+    if (!isRemoved && (!currentProject?.title?.length || !currentProject.start_date || !currentProject.end_date)) {
       setModalVisible(true);
       blurActivePrPage();
     } else {
