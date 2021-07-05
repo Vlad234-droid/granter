@@ -48,9 +48,12 @@ const ModalAsk = ({ claim_id, manager_id, visibleModal, handleCancel }) => {
           name="phone"
           rules={[
             {
+              pattern: /^[0-9]*$/,
+              message: 'Allowed characters is 0-9',
+            },
+            {
               required: true,
-              pattern: /^(\+)(\d+)$/,
-              message: 'Phone number must start with +, allowed characters is 0-9',
+              message: 'Please input your Phone!',
             },
           ]}>
           <Input
