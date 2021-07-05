@@ -1,20 +1,19 @@
-//import { validZero, validWithZero } from '../../../../core/constants';
+import { validZero } from '../../../../core/constants';
 
 export const firstRow = [
   {
     label: 'Internal staffing costs',
     name: 'staffing_costs',
-    // rules: [
-    //   {
-    //     required: true,
-    //     message: 'Please select your approximate internal staffing costs!',
-    //   },
-    //   {
-    //     required: true,
-    //     pattern: validZero,
-    //     message: 'The minimum value is one',
-    //   },
-    // ],
+    rules: [
+      // {
+      //   required: true,
+      //   message: 'Please select your approximate internal staffing costs!',
+      // },
+      {
+        pattern: validZero,
+        message: 'The minimum value is one',
+      },
+    ],
     placeholder: 'Enter the number',
     type: 'number',
     suffix: '£',

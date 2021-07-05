@@ -32,12 +32,13 @@ const AdminProjectsPage = () => {
   useEffect(() => {
     if (id) {
       if (projectsList) {
+        if (!projectsList.filter((item) => item.id == id).length) return history.push('/admin/notFound');
         setCurrentProject(projectsList.filter((item) => item.id == id)[0]);
       } else {
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
         getTechnicalClaimStep(climeId).then((data) => {
-          if (!data?.documents.length) return history.push('/admin/notFound');
           addProjectsDetails(data.documents);
+          if (!data?.documents.filter((item) => item.id == id).length) return history.push('/admin/notFound');
           setCurrentProject(data.documents.filter((item) => item.id == id)[0]);
         });
       }
