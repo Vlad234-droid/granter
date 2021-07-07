@@ -8,6 +8,9 @@
     background: rgba(246, 87, 71, 0.15);
   }
   .comment__section {
+    .comment--message {
+      word-break: break-all;
+    }
     padding: 16px;
     border-radius: 10px;
     transition: background 300ms ease;

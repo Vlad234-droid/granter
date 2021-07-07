@@ -33,11 +33,13 @@ const ProjectsPage = () => {
   useEffect(() => {
     if (id) {
       if (projectsList) {
+        if (!projectsList.filter((item) => item.id == id).length) return history.push('/document/notFound');
         setCurrentProject(projectsList.filter((item) => item.id == id)[0]);
       } else {
         const { addProjectsDetails } = bindActionCreators(actions, dispatch);
         getTechnicalClaimStep(climeId).then((data) => {
           addProjectsDetails(data.documents);
+          if (!data?.documents.filter((item) => item.id == id).length) return history.push('/document/notFound');
           setCurrentProject(data.documents.filter((item) => item.id == id)[0]);
         });
       }

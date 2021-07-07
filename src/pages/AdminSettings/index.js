@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../core/services/logOut';
 import { hubspotService } from '../../core/services';
+import { Avatar } from '../../components/icons';
 
 const AdminSettings = () => {
   const [tableLoading, setTableLoading] = useState(false);
@@ -29,6 +30,7 @@ const AdminSettings = () => {
     getAllAdmins().then((data) => {
       if (data !== null) {
         const { admins } = data;
+        console.log('admis', admins);
         const updatedInfo = admins.map((item) => ({
           name: item.name,
           avatar: item.profile?.avatar,
@@ -57,11 +59,9 @@ const AdminSettings = () => {
       dataIndex: 'avatar',
       className: 'except_avatar',
       render: (text) => (
-        <>
-          <div className="wrapper_img_name">
-            <img src={text} alt="avatar" />
-          </div>
-        </>
+        <div className="wrapper_img_name">
+          <img src={text} alt="avatar" />
+        </div>
       ),
     },
     {

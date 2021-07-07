@@ -102,10 +102,11 @@ const AdminComment = ({ comment, onCommentDelete, onAddReply }) => {
           <Checkbox checked={status} className="reply-checkbox" onChange={onAprove} />
         </div>
         <div
+          style={{ whiteSpace: 'normal' }}
           className="comment--message"
           escape="false"
           dangerouslySetInnerHTML={{
-            __html: comment.text.replace(/(?:\r\n|\r|\n)/g, '<br>'),
+            __html: `${comment.text.replace(/(?:\r\n|\r|\n)/g, '<br>')}`,
           }}
         />
       </div>

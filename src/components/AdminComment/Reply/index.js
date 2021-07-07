@@ -71,7 +71,7 @@ const Reply = ({ reply, onReplyDelete }) => {
       <div
         className="comment--message"
         dangerouslySetInnerHTML={{
-          __html: reply.text.replace(/(?:\r\n|\r|\n)/g, '<br>'),
+          __html: `<p>${reply.text.replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>`,
         }}
       />
     </div>
