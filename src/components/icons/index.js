@@ -16,6 +16,27 @@ const IconInfo = () => {
   );
 };
 
+const Avatar = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none" fillRule="evenodd">
+        <g fill="#B2BECA">
+          <g>
+            <g>
+              <g>
+                <path
+                  d="M5.993 7.997c.736 0 1.428.187 2.031.516 1.32.72 2.215 2.12 2.215 3.73v1.309H0v-1.31c0-1.588.873-2.973 2.165-3.7.615-.347 1.324-.545 2.08-.545zM5.12 0c1.813 0 3.288 1.559 3.288 3.475 0 1.385-.77 2.583-1.883 3.14-.426.215-.903.334-1.405.334-.503 0-.98-.12-1.406-.334C2.602 6.058 1.83 4.86 1.83 3.475 1.83 1.559 3.306 0 5.12 0z"
+                  transform="translate(-726.000000, -512.000000) translate(706.000000, 500.000000) translate(20.000000, 12.000000) translate(7.000000, 5.000000)"
+                />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  );
+};
+
 const IconClose = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="icon-close">
@@ -604,4 +625,5 @@ export {
   EditPhotoAdmin,
   GranterLogo,
   DevicesOther,
+  Avatar,
 };
