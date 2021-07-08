@@ -99,14 +99,14 @@ const HeaderNotification = () => {
     return convertDate(date);
   };
 
-  const checkForLinkTo = useCallback((item) => {
-    if (item.project_id === null) {
-      return `/document/${item.claim_id}/${item.document_id}/`;
-    }
-    if (item.document_id === null) {
-      return `/project/${item.claim_id}/${item.project_id}`;
-    }
-  }, []);
+  // const checkForLinkTo = useCallback((item) => {
+  //   if (item.project_id === null) {
+  //     return `/document/${item.claim_id}/${item.document_id}/`;
+  //   }
+  //   if (item.document_id === null) {
+  //     return `/project/${item.claim_id}/${item.project_id}`;
+  //   }
+  // }, []);
 
   return (
     <div className="header__notification">
@@ -155,7 +155,17 @@ const HeaderNotification = () => {
                       <div className="item_li">{item.title}</div>
                       {item.claim_id !== null ? (
                         <Link
-                          to={() => checkForLinkTo(item)}
+                          to={`${
+                            item.project_id === null
+                              ? `/document/${item.claim_id}/${item.document_id}/`
+                              : `${
+                                  item.document_id === null
+                                    ? `/project/${item.claim_id}/${item.project_id}`
+                                    : item.project_id !== null &&
+                                      item.document_id !== null &&
+                                      `/project/${item.claim_id}/${item.project_id}`
+                                }`
+                          }`}
                           className="check_doc"
                           onClick={() => dispatch(closeModalNotifications())}>
                           Check document

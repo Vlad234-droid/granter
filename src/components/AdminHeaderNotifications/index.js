@@ -23,6 +23,8 @@ const HeaderNotification = () => {
 
   const { setIsBlur } = bindActionCreators(actions, dispatch);
 
+  console.log('notiData', notiData);
+
   useEffect(() => {
     let cleanupFunction = false;
     getNotificationsForAdmin().then((data) => {
@@ -151,11 +153,17 @@ const HeaderNotification = () => {
                         ''
                       ) : (
                         <Link
-                          to={
-                            item.document_id === null
-                              ? `/admin/project/${item.claim_id}/${item.project_id}/`
-                              : `/admin/document/${item.claim_id}/${item.document_id}/`
-                          }
+                          to={`${
+                            item.project_id === null
+                              ? `/admin/document/${item.claim_id}/${item.document_id}/`
+                              : `${
+                                  item.document_id === null
+                                    ? `/admin/project/${item.claim_id}/${item.project_id}`
+                                    : item.project_id !== null &&
+                                      item.document_id !== null &&
+                                      `/admin/project/${item.claim_id}/${item.project_id}`
+                                }`
+                          }`}
                           className="check_doc"
                           onClick={() => {
                             setModalNoti(() => false);
