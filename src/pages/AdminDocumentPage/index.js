@@ -32,6 +32,7 @@ const AdminDocumentPage = () => {
   useEffect(() => {
     getDocument(climeId, id)
       .then((data) => {
+        console.log('Data', data);
         setCommentsList(data.comments);
         setDocument(data.document);
       })
