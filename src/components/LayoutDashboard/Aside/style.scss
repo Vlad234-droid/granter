@@ -199,6 +199,12 @@
   .nav__help {
     margin-top: auto;
     padding-left: 24px;
+    .custom_elipses_span {
+      width: 170px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     .nav__help_title {
       font-family: Poppins;
       font-style: normal;

@@ -6,7 +6,7 @@ import ModalAsk from './ModalAsk/index';
 //import ModalFeedBack from './ModalFeedBack/index';
 import { useLocation } from 'react-router-dom';
 import headerLogo from '../../../assets/img/header-logo.svg';
-import { Skeleton } from 'antd';
+import { Skeleton, Tooltip } from 'antd';
 import { bindActionCreators } from 'redux';
 import { IconPhone, IconMail } from '../../icons';
 import { showModalAction, closeModalAction } from '../../../core/actions/modal';
@@ -168,12 +168,21 @@ const Aside = () => {
                   `${currentCompany.manager.email}`
                 }`}>
                 <IconMail />
-                <span>
-                  {currentCompany &&
+                <Tooltip
+                  placement="bottom"
+                  title={
+                    currentCompany &&
                     currentCompany.manager &&
                     currentCompany.manager?.email &&
-                    `${currentCompany.manager.email}`}
-                </span>
+                    `${currentCompany.manager.email}`
+                  }>
+                  <span className="custom_elipses_span">
+                    {currentCompany &&
+                      currentCompany.manager &&
+                      currentCompany.manager?.email &&
+                      `${currentCompany.manager.email}`}
+                  </span>
+                </Tooltip>
               </a>
             </>
           )}
