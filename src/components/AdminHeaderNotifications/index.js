@@ -23,8 +23,6 @@ const HeaderNotification = () => {
 
   const { setIsBlur } = bindActionCreators(actions, dispatch);
 
-  console.log('notiData', notiData);
-
   useEffect(() => {
     let cleanupFunction = false;
     getNotificationsForAdmin().then((data) => {
