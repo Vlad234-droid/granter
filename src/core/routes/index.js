@@ -45,6 +45,7 @@ const routes = () => {
         <Route exact path="/welcome/" component={WelcomePage} />
         <Route exact path="/sign-in/" component={LoginPage} />
         <PrivateRoute exact path="/docSign" component={DocSign} />
+        <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
         <PrivateRoute exact path="/active-claims/" component={ActiveClaimsPage} />
         <PrivateRoute exact path="/active-claims/congratulations" component={CongratulationsPage} />
         <PrivateRoute exact path="/future-claims/" component={FutureClaimsPage} />
@@ -58,7 +59,6 @@ const routes = () => {
         <Route exact path="/reset-password/" component={ResetPasswordPage} />
         <Route exact path="/create-password/" component={CreatePasswordPage} />
         <PrivateRoute exact path="/profile/add-project/" component={AddProjectPage} />
-        <PrivateRoute exact path="/documents/:step" component={DocumentsPage} />
         <PrivateAdminRoute exact path="/admin/clients" component={AdminClientsPage} />
         <PrivateAdminRoute exact path="/admin/client/:id" component={AdminProfilePage} />
         <PrivateAdminRoute exact path="/admin/active-claim/:id" component={AdminActiveClaimsPage} />
